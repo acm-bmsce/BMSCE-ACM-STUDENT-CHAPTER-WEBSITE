@@ -1,0 +1,166 @@
+/* src/index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  New Color Palette Definitions
+  These HSL values drive your Tailwind CSS custom colors.
+*/
+
+:root {
+  /* BACKGROUND */
+  --background: 0 0% 0%; /* Plain Black */
+
+  /* FOREGROUND (Default Text Color) */
+  --foreground: 180 100% 92.9%; /* #D6FFFF - Very Light Cyan */
+
+  /* CARD & POPOVER BACKGROUNDS (for components like cards) */
+  --card: 353 60% 40.6%; /* #A62639 - Deep Red/Maroon */
+  --card-foreground: 180 100% 92.9%; /* #D6FFFF */
+
+  --popover: 353 60% 40.6%; /* #A62639 */
+  --popover-foreground: 180 100% 92.9%; /* #D6FFFF */
+
+  /* PRIMARY (often used for main buttons, main highlights) */
+  --primary: 353 60% 40.6%; /* #A62639 */
+  --primary-foreground: 180 100% 92.9%; /* #D6FFFF (text on primary background) */
+
+  /* SECONDARY & ACCENT (using your "mix color" #D6EFFF) */
+  --secondary: 208 100% 89.6%; /* #D6EFFF - Very Light Blue */
+  --secondary-foreground: 0 0% 0%; /* Black for contrast on light secondary */
+  --accent: 208 100% 89.6%; /* #D6EFFF */
+  --accent-foreground: 0 0% 0%; /* Black for contrast on light accent */
+
+  /* MUTED colors (for subtle text, borders) */
+  --muted: 353 30% 25%; /* A slightly less saturated red/maroon */
+  --muted-foreground: 180 50% 80%; /* A slightly darker cyan */
+
+  /* DESTRUCTIVE colors (for errors, warnings) - kept standard red for visibility */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 20% 98%;
+
+  /* BORDER, INPUT, RING colors */
+  --border: 353 40% 30%; /* Darker red/maroon for subtle borders */
+  --input: 353 40% 30%;
+  --ring: 180 100% 92.9%; /* Ring color often matches foreground for focus */
+
+  --radius: 0.5rem; /* Default border-radius */
+
+  /* Sidebar colors - for future use if you implement a sidebar */
+  --sidebar-background: 0 0% 0%;
+  --sidebar-foreground: 180 100% 92.9%;
+  --sidebar-primary: 353 60% 40.6%;
+  --sidebar-primary-foreground: 180 100% 92.9%;
+  --sidebar-accent: 208 100% 89.6%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 353 40% 30%;
+  --sidebar-ring: 180 100% 92.9%;
+}
+
+/* Dark Mode - Since we've made :root black, this block can be identical
+   unless you want to provide a specific "light mode" alternative in the future. */
+html.dark {
+  /* Copying :root values for a consistent dark theme by default */
+  --background: 0 0% 0%;
+  --foreground: 180 100% 92.9%;
+  --card: 353 60% 40.6%;
+  --card-foreground: 180 100% 92.9%;
+  --popover: 353 60% 40.6%;
+  --popover-foreground: 180 100% 92.9%;
+  --primary: 353 60% 40.6%;
+  --primary-foreground: 180 100% 92.9%;
+  --secondary: 208 100% 89.6%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 353 30% 25%;
+  --muted-foreground: 180 50% 80%;
+  --accent: 208 100% 89.6%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 20% 98%;
+  --border: 353 40% 30%;
+  --input: 353 40% 30%;
+  --ring: 180 100% 92.9%;
+
+  --sidebar-background: 0 0% 0%;
+  --sidebar-foreground: 180 100% 92.9%;
+  --sidebar-primary: 353 60% 40.6%;
+  --sidebar-primary-foreground: 180 100% 92.9%;
+  --sidebar-accent: 208 100% 89.6%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 353 40% 30%;
+  --sidebar-ring: 180 100% 92.9%;
+}
+
+/* Original styles from your index.css - largely overridden by Tailwind now */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  /* These will be overridden by Tailwind's `bg-background` and `text-foreground` based on the new vars */
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424; /* This will be ignored due to --background */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff; /* Consider updating this to match your new palette if needed */
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2; /* Consider updating this to match your new palette if needed */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a; /* This will be overridden by Tailwind's bg-primary if used for buttons */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff; /* Consider updating this to match your new palette if needed */
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* This media query will have less impact now that :root defaults to your dark theme */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* If you explicitly want a "light" mode, define it here,
+       otherwise these can be removed or kept identical to the main :root for consistency */
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
