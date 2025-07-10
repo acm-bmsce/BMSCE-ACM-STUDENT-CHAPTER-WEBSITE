@@ -23,7 +23,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
+    <div className="min-h-screen bg-background text-foreground relative">
       {/* Custom cursor effect */}
       <div 
         ref={cursorRef}
