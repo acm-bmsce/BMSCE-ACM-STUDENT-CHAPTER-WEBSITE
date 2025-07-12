@@ -1,5 +1,5 @@
+
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
 	darkMode: ["class"],
@@ -13,7 +13,10 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			
+			padding: '2rem',
+			screens: {
+				'2xl': '1400px'
+			}
 		},
 		extend: {
 			colors: {
@@ -59,12 +62,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom BMSCE ACM colors
+				'acm-gold': '#F2B82E',
+				'acm-blue': '#D6EFFF',
+				'acm-red': '#A62639',
+				'acm-white': '#FEFEFF',
+				'acm-black': '#000000'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			fontFamily: {
+				'bebas': ['Bebas Neue', 'cursive'],
+				'bricolage': ['Bricolage Grotesque', 'sans-serif'],
+				'bellefair': ['Bellefair', 'serif']
 			},
 			keyframes: {
 				'accordion-down': {
@@ -82,13 +96,74 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px) rotateY(0deg)'
+					},
+					'50%': {
+						transform: 'translateY(-20px) rotateY(180deg)'
+					}
+				},
+				'glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px #F2B82E, 0 0 40px #F2B82E, 0 0 60px #F2B82E'
+					},
+					'50%': {
+						boxShadow: '0 0 10px #F2B82E, 0 0 20px #F2B82E, 0 0 30px #F2B82E'
+					}
+				},
+				'slide-in-3d': {
+					'0%': {
+						transform: 'translateX(-100%) rotateY(-90deg)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'translateX(0) rotateY(0deg)',
+						opacity: '1'
+					}
+				},
+				'bounce-3d': {
+					'0%, 20%, 53%, 80%, 100%': {
+						transform: 'translate3d(0,0,0) rotateX(0deg)'
+					},
+					'40%, 43%': {
+						transform: 'translate3d(0,-30px,0) rotateX(10deg)'
+					},
+					'70%': {
+						transform: 'translate3d(0,-15px,0) rotateX(-5deg)'
+					},
+					'90%': {
+						transform: 'translate3d(0,-4px,0) rotateX(2deg)'
+					}
+				},
+				'matrix-rain': {
+					'0%': {
+						transform: 'translateY(-100vh)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1'
+					},
+					'90%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateY(100vh)',
+						opacity: '0'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'glow': 'glow 2s ease-in-out infinite alternate',
+				'slide-in-3d': 'slide-in-3d 1s ease-out',
+				'bounce-3d': 'bounce-3d 2s ease-in-out',
+				'matrix-rain': 'matrix-rain 3s linear infinite'
 			}
 		}
 	},
-	plugins: [tailwindcssAnimate,],
+	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
