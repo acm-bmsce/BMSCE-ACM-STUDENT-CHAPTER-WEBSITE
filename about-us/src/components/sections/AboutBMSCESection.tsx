@@ -40,10 +40,10 @@ export const AboutBMSCESection: React.FC = () => {
           <div className="w-32 h-1 bg-gradient-to-r from-acm-red to-acm-blue mx-auto mb-8"></div>
         </div>
 
-        {/* Main Content - Now a single column for text and cards */}
-        <div className="mb-20"> {/* Removed grid layout from this div */}
-          {/* Text Section - Now spans full width */}
-          <div className="max-w-4xl mx-auto space-y-8 mb-16"> {/* Added mx-auto and mb-16 for spacing */}
+        {/* Main Content - Single column for text and cards */}
+        <div className="mb-20">
+          {/* Text Section - Spans full width */}
+          <div className="max-w-4xl mx-auto space-y-8 mb-16">
             <div className="relative">
               <p className="font-bellefair text-xl text-acm-white leading-relaxed">
                 The BMSCE ACM Student Chapter is a vibrant community of passionate computer science enthusiasts,
@@ -58,12 +58,12 @@ export const AboutBMSCESection: React.FC = () => {
             </div>
           </div>
 
-          {/* Vision Cards - Now spans full width, centered within the max-w-7xl container */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-8 justify-items-center">
+          {/* Vision Cards - Now rectangular and filling horizontal space better */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-8 justify-items-center">
             {visionItems.map((item, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-acm-black/70 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full max-w-sm" // Added w-full and max-w-sm
+                className="group relative bg-gradient-to-br from-acm-black/70 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full min-h-[280px]" // Increased min-height to make it rectangular
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {/* Icon and Title Container */}
@@ -155,7 +155,7 @@ export const AboutBMSCESection: React.FC = () => {
         </div>
       </div>
 
-      {/* Background Geometric Elements (remain as they are for overall section background) */}
+      {/* Background Geometric Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
         <div className="absolute top-1/4 right-20 w-40 h-40 border-2 border-acm-red rotate-45 animate-spin" style={{ animationDuration: '25s' }}></div>
         <div className="absolute bottom-1/3 left-16 w-32 h-32 border-2 border-acm-blue rounded-full animate-pulse"></div>
