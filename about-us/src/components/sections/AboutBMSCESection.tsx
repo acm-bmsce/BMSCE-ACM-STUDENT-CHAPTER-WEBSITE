@@ -1,7 +1,18 @@
 import React from 'react';
 import { Rocket, Brain, Heart, Star, Zap } from 'lucide-react';
-
+import { PhotoCarousel } from '../PhotoCarousel';
+import ACMTEAM from "../../assets/ACMTEAM.jpg"
 export const AboutBMSCESection: React.FC = () => {
+
+   const galleryImages = [
+    ACMTEAM,
+    "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop"
+  ];
+
   const visionItems = [
     {
       icon: Brain,
@@ -34,7 +45,7 @@ export const AboutBMSCESection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-red mb-6 animate-bounce-3d">
+          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             ABOUT BMSCE ACM
           </h2>
           <div className="w-32 h-1 bg-gradient-to-r from-acm-red to-acm-blue mx-auto mb-8"></div>
@@ -45,13 +56,13 @@ export const AboutBMSCESection: React.FC = () => {
           {/* Text Section - Spans full width */}
           <div className="max-w-4xl mx-auto space-y-8 mb-16">
             <div className="relative">
-              <p className="font-bellefair text-xl text-acm-white leading-relaxed">
+              <p className="font-bellefair text-xl text-acm-gold leading-relaxed">
                 The BMSCE ACM Student Chapter is a vibrant community of passionate computer science enthusiasts,
                 researchers, and innovators dedicated to advancing the field of computing at
                 BMS College of Engineering.
               </p>
 
-              <p className="font-bellefair text-lg text-acm-blue/80 mt-6 leading-relaxed">
+              <p className="font-bellefair text-lg text-acm-gold/80 mt-6 leading-relaxed">
                 We foster an environment of learning, collaboration, and innovation where students can explore
                 cutting-edge technologies, participate in research, and build lasting professional networks.
               </p>
@@ -63,7 +74,7 @@ export const AboutBMSCESection: React.FC = () => {
             {visionItems.map((item, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-acm-black/70 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full min-h-[280px]" // Increased min-height to make it rectangular
+                className="group relative bg-gradient-to-br from-acm-black/70 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full min-h-[280px]"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {/* Icon and Title Container */}
@@ -77,7 +88,7 @@ export const AboutBMSCESection: React.FC = () => {
                 </div>
 
                 {/* Description */}
-                <p className="font-bellefair text-acm-blue/90 mb-6 leading-relaxed">
+                <p className="font-bellefair text-acm-gold/90 mb-6 leading-relaxed">
                   {item.description}
                 </p>
 
@@ -86,7 +97,7 @@ export const AboutBMSCESection: React.FC = () => {
                   {item.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center space-x-3">
                       <Zap size={16} className="text-acm-gold" />
-                      <span className="font-bricolage text-acm-white/80">{feature}</span>
+                      <span className="font-bricolage text-acm-gold/80">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -101,35 +112,46 @@ export const AboutBMSCESection: React.FC = () => {
           </div>
         </div>
 
-        {/* Mission Card - Remains centered below other content */}
-        <div className="w-full">
-          <div className="group perspective-1000 max-w-4xl mx-auto">
-            <div className="relative preserve-3d transform transition-all duration-700 group-hover:rotate-y-12 group-hover:rotate-x-6">
-              {/* Main Card */}
-              <div className="bg-gradient-to-br from-acm-red/20 via-acm-gold/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/50 rounded-2xl p-8 transform transition-all duration-500">
-                <h3 className="font-bebas text-3xl text-acm-gold mb-4">OUR MISSION</h3>
-                <p className="font-bellefair text-acm-white/90 mb-6 leading-relaxed">
-                  To create a dynamic ecosystem where students can explore, learn, and contribute to the ever-evolving
-                  world of computer science and technology. [Placeholder - Update with actual mission statement]
-                </p>
+        {/* Mission Card and Photo Carousel - Arranged side-by-side on large screens */}
+        <div className="flex flex-col lg:flex-row lg:justify-center lg:items-stretch lg:space-x-8 p-4">
+          <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
+            <div className="group perspective-1000 max-w-4xl mx-auto h-full">
+              <div className="relative preserve-3d transform transition-all duration-700 group-hover:rotate-y-12 group-hover:rotate-x-6 h-full">
+                {/* Main Card */}
+                <div className="bg-gradient-to-br from-acm-red/20 via-acm-gold/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/50 rounded-2xl p-8 transform transition-all duration-500 h-full flex flex-col">
+                  <h3 className="font-bebas text-3xl text-acm-white mb-4">OUR MISSION</h3>
+                  <p className="font-bellefair text-acm-gold/90 mb-6 leading-relaxed flex-grow">
+                    To create a dynamic ecosystem where students can explore, learn, and contribute to the ever-evolving
+                    world of computer science and technology. [Placeholder - Update with actual mission statement]
+                  </p>
 
-                <div className="space-y-3">
-                  {[
-                    "Promote technical excellence and best practices",
-                    "Foster innovation and cutting-edge research",
-                    "Build professional networks and industry connections",
-                    "Advance computing education and knowledge sharing"
-                  ].map((point, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-acm-gold rounded-full animate-pulse"></div>
-                      <span className="font-bricolage text-acm-blue/90">{point}</span>
-                    </div>
-                  ))}
+                  <div className="space-y-3">
+                    {[
+                      "Promote technical excellence and best practices",
+                      "Foster innovation and cutting-edge research",
+                      "Build professional networks and industry connections",
+                      "Advance computing education and knowledge sharing"
+                    ].map((point, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <div className="w-2 h-2 bg-acm-gold rounded-full animate-pulse"></div>
+                        <span className="font-bricolage text-acm-gold/90">{point}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Shadow Card */}
-              <div className="absolute inset-0 bg-acm-gold/10 rounded-2xl transform translate-x-4 translate-y-4 -z-10"></div>
+                {/* Shadow Card */}
+                <div className="absolute inset-0 bg-acm-gold/10 rounded-2xl transform translate-x-4 translate-y-4 -z-10"></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-1/2">
+            {/* Removed the <h3> tag for "OUR MOMENTS" */}
+            <div className="space-y-4 h-full flex flex-col">
+              <div className="flex-grow flex items-center justify-center">
+                <PhotoCarousel images={galleryImages} autoPlay={true} interval={4000}  />
+              </div>
             </div>
           </div>
         </div>
@@ -145,7 +167,7 @@ export const AboutBMSCESection: React.FC = () => {
               { year: "2024", event: "Innovation Hub Launch - [Placeholder]" }
             ].map((milestone, index) => (
               <div key={index} className="group text-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-acm-gold to-acm-red rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300 animate-glow">
+                <div className="w-20 h-20 bg-gradient-to-br from-acm-gold to-acm-red rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-30 animate-glow">
                   <span className="font-bebas text-xl text-acm-black">{milestone.year}</span>
                 </div>
                 <p className="font-bricolage text-acm-white">{milestone.event}</p>

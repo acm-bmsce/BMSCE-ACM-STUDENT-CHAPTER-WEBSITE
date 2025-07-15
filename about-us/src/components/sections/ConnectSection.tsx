@@ -18,11 +18,11 @@ export const ConnectSection: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 w-full">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-red mb-6 animate-bounce-3d">
+          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             CONNECT WITH US
           </h2>
           <div className="w-32 h-1 bg-gradient-to-r from-acm-red to-acm-gold mx-auto mb-8"></div>
-          <p className="font-bellefair text-xl text-acm-white max-w-3xl mx-auto leading-relaxed">
+          <p className="font-bellefair text-xl text-acm-gold max-w-3xl mx-auto leading-relaxed">
             Ready to join our community? Get in touch with us through any of these channels.
           </p>
         </div>
@@ -63,7 +63,7 @@ export const ConnectSection: React.FC = () => {
 
           {/* Social Media Links */}
           <div className="w-full max-w-md">
-            <h3 className="font-bebas text-3xl text-acm-blue mb-8 text-center">FOLLOW US</h3>
+            <h3 className="font-bebas text-3xl text-acm-white mb-8 text-center">FOLLOW US</h3>
             <div className="flex justify-center gap-6">
               {socialLinks.map((social, index) => (
                 <button
@@ -84,7 +84,7 @@ export const ConnectSection: React.FC = () => {
           <div className="w-full max-w-2xl">
             <div className="bg-gradient-to-r from-acm-gold/20 via-acm-blue/20 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8">
               <h3 className="font-bebas text-3xl text-acm-white mb-4 text-center">STAY UPDATED</h3>
-              <p className="font-bellefair text-acm-white/80 mb-6 text-center">
+              <p className="font-bellefair text-acm-gold/80 mb-6 text-center">
                 Subscribe to our newsletter for the latest updates on events, workshops, and opportunities.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -103,7 +103,7 @@ export const ConnectSection: React.FC = () => {
           {/* Quick Contact Form - Last with horizontal extension */}
           <div className="w-full">
             <div className="bg-gradient-to-br from-acm-red/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/30 rounded-xl p-8">
-              <h4 className="font-bricolage text-xl font-bold text-acm-gold mb-6 text-center">Quick Message</h4>
+              <h4 className="font-bricolage text-xl font-bold text-acm-white mb-6 text-center">Quick Message</h4>
               <form className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
                   <input

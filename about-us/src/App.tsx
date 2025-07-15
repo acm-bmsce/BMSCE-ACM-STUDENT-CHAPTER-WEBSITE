@@ -1,4 +1,4 @@
-
+// src/App.tsx (or src/Index.tsx) - REVISED
 import { useEffect } from 'react';
 import { FuturisticNav } from './components/FuturisticNav';
 import { MatrixBackground } from './components/MatrixBackground';
@@ -8,33 +8,11 @@ import { AboutBMSCESection } from './components/sections/AboutBMSCESection';
 import { WhatWeDoSection } from './components/sections/WhatWeDoSection';
 import { WhyJoinSection } from './components/sections/WhyJoinSection';
 import { ConnectSection } from './components/sections/ConnectSection';
+// import { DepthTransition } from './components/DepthTransition';
 
 const Index = () => {
   useEffect(() => {
-    // Smooth scrolling for the entire page
     document.documentElement.style.scrollBehavior = 'smooth';
-    
-    // Add scroll animations on view
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-slide-in-3d');
-        }
-      });
-    }, observerOptions);
-
-    // Observe all sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
   }, []);
 
   return (
@@ -47,26 +25,38 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="relative z-10">
+
         {/* Hero Section */}
         <HeroSection />
         
         {/* About ACM Section */}
         <AboutACMSection />
         
+        {/* Depth Transition between About ACM and About BMSCE */}
+        {/* <DepthTransition variant="blue" height="lg" /> */}
+        
         {/* About BMSCE ACM Section */}
         <AboutBMSCESection />
+        
+        {/* Transition 3 */}
+        {/* <SectionTransition variant="default" /> */}
         
         {/* What We Do Section */}
         <WhatWeDoSection />
         
+        {/* Transition 4 */}
+        {/* <SectionTransition variant="red" /> */}
+        
         {/* Why Join Us Section */}
         <WhyJoinSection />
+        
+        {/* Transition 5 */}
+        {/* <SectionTransition variant="gold" /> */}
         
         {/* Connect With Us Section */}
         <ConnectSection />
       </main>
 
-      {/* Footer */}
       <footer className="relative z-10 bg-acm-black/90 backdrop-blur-md border-t border-acm-gold/30 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">

@@ -35,11 +35,11 @@ export const WhyJoinSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-gold mb-6 animate-bounce-3d">
+          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             WHY JOIN US
           </h2>
           <div className="w-32 h-1 bg-gradient-to-r from-acm-gold to-acm-red mx-auto mb-8"></div>
-          <p className="font-bellefair text-xl text-acm-white max-w-4xl mx-auto leading-relaxed">
+          <p className="font-bellefair text-xl text-acm-gold max-w-4xl mx-auto leading-relaxed">
             Join a community of innovators, learners, and leaders who are shaping the future of technology.
           </p>
         </div>
@@ -63,7 +63,7 @@ export const WhyJoinSection: React.FC = () => {
               </div>
 
               {/* Description */}
-              <p className="font-bellefair text-acm-blue/90 mb-6 leading-relaxed">
+              <p className="font-bellefair text-acm-gold/90 mb-6 leading-relaxed">
                 {benefit.description}
               </p>
 
@@ -72,7 +72,7 @@ export const WhyJoinSection: React.FC = () => {
                 {benefit.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center space-x-3">
                     <Zap size={16} className="text-acm-gold" />
-                    <span className="font-bricolage text-acm-white/80">{feature}</span>
+                    <span className="font-bricolage text-acm-gold/80">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -102,7 +102,7 @@ export const WhyJoinSection: React.FC = () => {
             ].map((stat, index) => (
               <div key={index} className="text-center group">
                 <div className="text-2xl mb-2">{stat.icon}</div>
-                <div className="font-bebas text-2xl md:text-3xl text-acm-gold mb-1 group-hover:text-acm-red transition-colors duration-300 animate-glow">
+                <div className="font-bebas text-2xl md:text-3xl text-acm-gold mb-1 group-hover:text-acm-red transition-colors duration-30 animate-glow">
                   {stat.number}
                 </div>
                 <div className="font-bricolage text-acm-white/80 text-sm">
@@ -116,8 +116,8 @@ export const WhyJoinSection: React.FC = () => {
         {/* CTA Section */}
         <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-acm-red/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="font-bebas text-3xl text-acm-gold mb-4">READY TO TRANSFORM YOUR FUTURE?</h3>
-            <p className="font-bellefair text-acm-white/90 mb-6">
+            <h3 className="font-bebas text-3xl text-acm-white mb-4">READY TO TRANSFORM YOUR FUTURE?</h3>
+            <p className="font-bellefair text-acm-gold/90 mb-6">
               Take the first step towards joining a community that will accelerate your growth and open doors to endless opportunities.
             </p>
             <button className="group bg-gradient-to-r from-acm-gold to-acm-red text-acm-black font-bricolage font-bold py-4 px-8 rounded-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">

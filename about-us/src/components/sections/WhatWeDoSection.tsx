@@ -47,11 +47,11 @@ export const WhatWeDoSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-blue mb-6 animate-bounce-3d">
+          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             WHAT WE DO
           </h2>
           <div className="w-32 h-1 bg-gradient-to-r from-acm-blue to-acm-gold mx-auto mb-8"></div>
-          <p className="font-bellefair text-xl text-acm-white max-w-4xl mx-auto leading-relaxed">
+          <p className="font-bellefair text-xl text-acm-gold max-w-4xl mx-auto leading-relaxed">
             We offer a comprehensive range of activities designed to enhance technical skills, 
             foster innovation, and build a strong computing community.
           </p>
@@ -81,7 +81,7 @@ export const WhatWeDoSection: React.FC = () => {
                 </h3>
                 
                 {/* Description */}
-                <p className="font-bellefair text-acm-blue/80 leading-relaxed">
+                <p className="font-bellefair text-acm-gold/80 leading-relaxed">
                   {activity.description}
                 </p>
               </div>
@@ -97,7 +97,7 @@ export const WhatWeDoSection: React.FC = () => {
 
         {/* Stats Section */}
         <div className="mt-20 bg-gradient-to-r from-acm-red/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8">
-          <h3 className="font-bebas text-3xl text-acm-gold text-center mb-8">OUR IMPACT</h3>
+          <h3 className="font-bebas text-3xl text-acm-white text-center mb-8">OUR IMPACT</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { number: "50+", label: "Events Organized" },
@@ -106,7 +106,7 @@ export const WhatWeDoSection: React.FC = () => {
               { number: "15+", label: "Research Projects" }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="font-bebas text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-300 animate-glow">
+                <div className="font-bebas text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-30 animate-glow">
                   {stat.number}
                 </div>
                 <div className="font-bricolage text-acm-blue/80 text-sm">

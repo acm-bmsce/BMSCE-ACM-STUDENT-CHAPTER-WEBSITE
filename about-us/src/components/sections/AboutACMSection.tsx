@@ -14,11 +14,11 @@ export const AboutACMSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-gold mb-6 animate-bounce-3d">
+          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             ABOUT ACM
           </h2>
           <div className="w-32 h-1 bg-gradient-to-r from-acm-gold to-acm-red mx-auto mb-8"></div>
-          <p className="font-bellefair text-xl text-acm-blue max-w-4xl mx-auto leading-relaxed">
+          <p className="font-bellefair text-xl text-acm-gold max-w-4xl mx-auto leading-relaxed">
             The Association for Computing Machinery (ACM) is the world's largest educational and scientific computing society, 
             uniting computing educators, researchers, and professionals to inspire dialogue, share resources, and address the field's challenges.
           </p>
@@ -63,7 +63,7 @@ export const AboutACMSection: React.FC = () => {
             { number: "37", label: "SIGs" }
           ].map((stat, index) => (
             <div key={index} className="text-center group">
-              <div className="font-bebas text-4xl md:text-5xl text-acm-gold group-hover:text-acm-red transition-colors duration-300 animate-glow">
+              <div className="font-bebas text-4xl md:text-5xl text-acm-gold group-hover:text-acm-red transition-colors duration-30 animate-glow">
                 {stat.number}
               </div>
               <div className="font-bricolage text-acm-white/80 mt-2">

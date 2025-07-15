@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.transform-preserve-3d {
+  transform-style: preserve-3d;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
