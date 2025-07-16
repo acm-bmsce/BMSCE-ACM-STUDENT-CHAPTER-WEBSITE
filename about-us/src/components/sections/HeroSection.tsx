@@ -16,18 +16,20 @@ export const HeroSection: React.FC = () => {
       <div className="text-center z-10 px-4 max-w-6xl mx-auto">
         {/* Main Title with 3D effect */}
         <div className="relative mb-8">
-          <h1 className="font-bebas text-8xl md:text-9xl lg:text-[12rem] text-transparent bg-clip-text bg-gradient-to-r from-acm-blue via-acm-blue to-acm-white animate-bounce-3d leading-none">
+   
+          <h1 className="font-bebas text-8xl md:text-9xl lg:text-[12rem] text-transparent bg-clip-text bg-gradient-to-r from-acm-blue via-acm-blue to-acm-blue2 animate-bounce-3d leading-none">
             BMSCE
           </h1>
           <div className="absolute inset-0 font-bebas text-8xl md:text-9xl lg:text-[12rem] text-acm-red/20 transform translate-x-2 translate-y-2 -z-10 leading-none">
             BMSCE
           </div>
-        </div>
+        
 
         {/* ACM Text with glow effect */}
-        <h2 className="font-bebas text-4xl md:text-6xl text-acm-blue2 mb-6 animate-glow">
+        <h2 className="font-bebas text-4xl md:text-6xl text-acm-blue2 mb-6 animate-glow ">
           ACM STUDENT CHAPTER
         </h2>
+        </div>
 
         {/* Subtitle */}
         <p className="font-bricolage text-xl md:text-2xl text-acm-blue2 mb-8 max-w-3xl mx-auto animate-slide-in-3d">

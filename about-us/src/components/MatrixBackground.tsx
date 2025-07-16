@@ -21,7 +21,7 @@ export const MatrixBackground: React.FC = () => {
     window.addEventListener('resize', resizeCanvas);
 
     // Matrix characters
-    const chars = '01ACMBMSCE{}[]()<>/\\|';
+    const chars = 'ACMBMSCE{}[]()<>/\\|';
     const fontSize = 14;
     const columns = canvas.width / fontSize;
     const drops: number[] = [];
@@ -61,7 +61,7 @@ export const MatrixBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none opacity-20 z-0"
+      className="fixed inset-0 pointer-events-none opacity-50 z-0"
     />
   );
 };
