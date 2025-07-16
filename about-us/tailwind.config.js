@@ -64,11 +64,12 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				// Custom BMSCE ACM colors
-				'acm-gold': '#F2B82E',
-				'acm-blue': '#D6EFFF',
+				'acm-gold': '#F5B82E',
+				'acm-blue': '#1C05B3',
 				'acm-red': '#A62639',
 				'acm-white': '#FEFEFF',
-				'acm-black': '#000000'
+				'acm-black': '#000000',
+				'acm-blue2' : '#4169E1'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -107,10 +108,10 @@ export default {
 				},
 				'glow': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px #F2B82E, 0 0 40px #F2B82E, 0 0 60px #F2B82E'
+						boxShadow: '0 0 20px #1C05B3, 0 0 40px #1C05B3, 0 0 60px #1C05B3'
 					},
 					'50%': {
-						boxShadow: '0 0 10px #F2B82E, 0 0 20px #F2B82E, 0 0 30px #F2B82E'
+						boxShadow: '0 0 10px #1C05B3, 0 0 20px #1C05B3, 0 0 30px #1C05B3'
 					}
 				},
 				'slide-in-3d': {

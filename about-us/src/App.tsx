@@ -57,20 +57,6 @@ const Index = () => {
         <ConnectSection />
       </main>
 
-      <footer className="relative z-10 bg-acm-black/90 backdrop-blur-md border-t border-acm-gold/30 py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-6 h-6 bg-gradient-to-br from-acm-gold to-acm-red rounded transform rotate-45 animate-glow"></div>
-            <span className="font-bebas text-lg text-acm-white">BMSCE ACM STUDENT CHAPTER</span>
-          </div>
-          <p className="font-bellefair text-acm-white/60">
-            © 2024 BMSCE ACM Student Chapter. All rights reserved.
-          </p>
-          <p className="font-bricolage text-acm-gold/80 text-sm mt-2">
-            Innovating the Future Through Technology & Community
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

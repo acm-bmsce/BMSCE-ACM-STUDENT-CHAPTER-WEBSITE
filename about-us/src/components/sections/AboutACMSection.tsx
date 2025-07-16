@@ -14,11 +14,11 @@ export const AboutACMSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
+          <h2 className="font-bricolage text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             ABOUT ACM
           </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-acm-gold to-acm-red mx-auto mb-8"></div>
-          <p className="font-bellefair text-xl text-acm-gold max-w-4xl mx-auto leading-relaxed">
+          <div className="w-32 h-1 bg-gradient-to-r from-acm-blue to-acm-white mx-auto mb-8"></div>
+          <p className="font-bellefair text-xl text-acm-blue2 max-w-4xl mx-auto leading-relaxed">
             The Association for Computing Machinery (ACM) is the world's largest educational and scientific computing society, 
             uniting computing educators, researchers, and professionals to inspire dialogue, share resources, and address the field's challenges.
           </p>
@@ -29,27 +29,27 @@ export const AboutACMSection: React.FC = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-to-br from-acm-black/50 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:rotate-3 animate-slide-in-3d"
+              className="group relative bg-gradient-to-br from-acm-blue/70 to-acm-blue2/20 backdrop-blur-md border border-acm-blue2/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:rotate-3 animate-slide-in-3d"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-acm-gold/10 to-acm-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-acm-blue/70 to-acm-blue/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               
               {/* Icon */}
               <div className="relative z-10 mb-4">
-                <feature.icon size={48} className="text-acm-gold group-hover:text-acm-blue transition-colors duration-300" />
+                <feature.icon size={48} className="text-acm-blue2 group-hover:text-acm-blue transition-colors duration-300" />
               </div>
               
               {/* Content */}
               <h3 className="font-bricolage text-xl font-bold text-acm-white mb-2 relative z-10">
                 {feature.title}
               </h3>
-              <p className="font-bellefair text-acm-blue/80 relative z-10">
+              <p className="font-bellefair text-acm-white/80 relative z-10">
                 {feature.description}
               </p>
 
               {/* 3D Border Effect */}
-              <div className="absolute inset-0 border-2 border-acm-gold/20 rounded-xl transform translate-x-1 translate-y-1 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
+              <div className="absolute inset-0 border-2 border-acm-blue/20 rounded-xl transform translate-x-1 translate-y-1 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
             </div>
           ))}
         </div>
@@ -63,10 +63,10 @@ export const AboutACMSection: React.FC = () => {
             { number: "37", label: "SIGs" }
           ].map((stat, index) => (
             <div key={index} className="text-center group">
-              <div className="font-bebas text-4xl md:text-5xl text-acm-gold group-hover:text-acm-red transition-colors duration-30 animate-glow">
+              <div className="font-bricolage text-4xl md:text-5xl text-acm-white group-hover:text-acm-white transition-colors duration-30 animate-glow">
                 {stat.number}
               </div>
-              <div className="font-bricolage text-acm-white/80 mt-2">
+              <div className="font-bellefair text-2xl text-bold text-acm-white/80 mt-2">
                 {stat.label}
               </div>
             </div>
@@ -75,7 +75,7 @@ export const AboutACMSection: React.FC = () => {
       </div>
 
       {/* Background Elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 border border-acm-gold/20 rotate-45 animate-spin opacity-20" style={{ animationDuration: '30s' }}></div>
+      <div className="absolute top-20 right-10 w-64 h-64 border border-acm-blue/20 rotate-45 animate-spin opacity-20" style={{ animationDuration: '30s' }}></div>
       <div className="absolute bottom-20 left-10 w-48 h-48 border border-acm-blue/20 rounded-full animate-pulse opacity-20"></div>
     </section>
   );

@@ -56,13 +56,13 @@ export const FuturisticNav: React.FC = () => {
   return (
     <>
       {/* Fixed Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-acm-black/90 backdrop-blur-md border-b border-acm-gold/30">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-acm-black/90 backdrop-blur-md border-b border-acm-blue/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-acm-gold to-acm-red rounded transform rotate-45 animate-glow"></div>
-              <span className="font-bebas text-xl text-acm-white">BMSCE ACM</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-acm-blue to-acm-blue2 rounded transform rotate-45 animate-glow"></div>
+              <span className="font-bebas text-xl text-bold text-acm-white"> BMSCE ACM</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -73,7 +73,7 @@ export const FuturisticNav: React.FC = () => {
                   onClick={() => scrollToSection(item.section)}
                   className={`font-bricolage text-sm font-medium transition-all duration-300 relative group ${
                     activeSection === item.section
-                      ? 'text-acm-gold'
+                      ? 'text-acm-blue2'
                       : 'text-acm-white hover:text-acm-blue'
                   }`}
                 >
@@ -88,7 +88,7 @@ export const FuturisticNav: React.FC = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-acm-white hover:text-acm-gold transition-colors duration-300"
+              className="md:hidden text-acm-white hover:text-acm-blue transition-colors duration-300"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -106,7 +106,7 @@ export const FuturisticNav: React.FC = () => {
                 onClick={() => scrollToSection(item.section)}
                 className={`w-full text-left px-6 py-4 font-bricolage text-sm font-medium transition-all duration-300 flex items-center justify-between group ${
                   activeSection === item.section
-                    ? 'text-acm-gold bg-acm-gold/10'
+                    ? 'text-acm-white bg-acm-blue/20'
                     : 'text-acm-white hover:text-acm-blue hover:bg-acm-blue/5'
                 }`}
                 style={{

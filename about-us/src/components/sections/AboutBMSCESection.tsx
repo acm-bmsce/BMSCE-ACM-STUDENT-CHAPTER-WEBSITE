@@ -45,10 +45,10 @@ export const AboutBMSCESection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="font-bebas text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
+          <h2 className="font-bricolage text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             ABOUT BMSCE ACM
           </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-acm-red to-acm-blue mx-auto mb-8"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-acm-blue to-acm-blue2 mx-auto mb-8"></div>
         </div>
 
         {/* Main Content - Single column for text and cards */}
@@ -56,13 +56,13 @@ export const AboutBMSCESection: React.FC = () => {
           {/* Text Section - Spans full width */}
           <div className="max-w-4xl mx-auto space-y-8 mb-16">
             <div className="relative">
-              <p className="font-bellefair text-xl text-acm-gold leading-relaxed">
+              <p className="font-bellefair text-xl text-acm-blue2 leading-relaxed">
                 The BMSCE ACM Student Chapter is a vibrant community of passionate computer science enthusiasts,
                 researchers, and innovators dedicated to advancing the field of computing at
                 BMS College of Engineering.
               </p>
 
-              <p className="font-bellefair text-lg text-acm-gold/80 mt-6 leading-relaxed">
+              <p className="font-bellefair text-lg text-acm-blue2 mt-6 leading-relaxed">
                 We foster an environment of learning, collaboration, and innovation where students can explore
                 cutting-edge technologies, participate in research, and build lasting professional networks.
               </p>
@@ -74,21 +74,21 @@ export const AboutBMSCESection: React.FC = () => {
             {visionItems.map((item, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-acm-black/70 to-acm-red/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full min-h-[280px]"
+                className="group relative bg-gradient-to-br from-acm-blue/70 to-acm-blue2/20 backdrop-blur-md border border-acm-gold/30 rounded-2xl p-8 transform transition-all duration-700 hover:scale-105 animate-slide-in-3d w-full min-h-[280px]"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {/* Icon and Title Container */}
                 <div className="flex items-center mb-6">
-                  <div className={`w-16 h-16 bg-gradient-to-br from-acm-gold to-acm-red rounded-xl flex items-center justify-center mr-4 group-hover:rotate-12 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 bg-gradient-to-br from-acm-blue2 to-acm-blue2 rounded-xl flex items-center justify-center mr-4 group-hover:rotate-12 transition-transform duration-300`}>
                     <item.icon size={32} className="text-acm-black" />
                   </div>
-                  <h3 className="font-bricolage text-2xl font-bold text-acm-white group-hover:text-acm-gold transition-colors duration-300">
+                  <h3 className="font-bricolage text-2xl font-bold text-acm-white group-hover:text-acm-white transition-colors duration-300">
                     {item.title}
                   </h3>
                 </div>
 
                 {/* Description */}
-                <p className="font-bellefair text-acm-gold/90 mb-6 leading-relaxed">
+                <p className="font-bellefair text-acm-white/90 mb-6 leading-relaxed">
                   {item.description}
                 </p>
 
@@ -96,8 +96,8 @@ export const AboutBMSCESection: React.FC = () => {
                 <div className="space-y-3">
                   {item.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center space-x-3">
-                      <Zap size={16} className="text-acm-gold" />
-                      <span className="font-bricolage text-acm-gold/80">{feature}</span>
+                      <Zap size={16} className="text-acm-white" />
+                      <span className="font-bellafair text-acm-white/80">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -106,7 +106,7 @@ export const AboutBMSCESection: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-acm-gold/5 to-acm-blue/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                 {/* 3D Border */}
-                <div className="absolute inset-0 border-2 border-acm-gold/20 rounded-2xl transform translate-x-1 translate-y-1 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
+                <div className="absolute inset-0 border-2 border-acm-blue/20 rounded-2xl transform translate-x-1 translate-y-1 -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
               </div>
             ))}
           </div>
@@ -118,9 +118,9 @@ export const AboutBMSCESection: React.FC = () => {
             <div className="group perspective-1000 max-w-4xl mx-auto h-full">
               <div className="relative preserve-3d transform transition-all duration-700 group-hover:rotate-y-12 group-hover:rotate-x-6 h-full">
                 {/* Main Card */}
-                <div className="bg-gradient-to-br from-acm-red/20 via-acm-gold/20 to-acm-blue/20 backdrop-blur-md border border-acm-gold/50 rounded-2xl p-8 transform transition-all duration-500 h-full flex flex-col">
-                  <h3 className="font-bebas text-3xl text-acm-white mb-4">OUR MISSION</h3>
-                  <p className="font-bellefair text-acm-gold/90 mb-6 leading-relaxed flex-grow">
+                <div className="bg-gradient-to-br from-acm-blue/70  to-acm-blue2/20 backdrop-blur-md border border-acm-blue/50 rounded-2xl p-8 transform transition-all duration-500 h-full flex flex-col">
+                  <h3 className="font-bricolage text-3xl text-acm-white mb-4">OUR MISSION</h3>
+                  <p className="font-bellefair text-acm-white/90 mb-6 leading-relaxed flex-grow">
                     To create a dynamic ecosystem where students can explore, learn, and contribute to the ever-evolving
                     world of computer science and technology. [Placeholder - Update with actual mission statement]
                   </p>
@@ -133,8 +133,8 @@ export const AboutBMSCESection: React.FC = () => {
                       "Advance computing education and knowledge sharing"
                     ].map((point, index) => (
                       <div key={index} className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-acm-gold rounded-full animate-pulse"></div>
-                        <span className="font-bricolage text-acm-gold/90">{point}</span>
+                        <div className="w-2 h-2 bg-acm-white rounded-full animate-pulse"></div>
+                        <span className="font-bellafair text-acm-white/90">{point}</span>
                       </div>
                     ))}
                   </div>
@@ -158,19 +158,19 @@ export const AboutBMSCESection: React.FC = () => {
 
         {/* Achievement Timeline */}
         <div className="mt-20 relative">
-          <h3 className="font-bebas text-4xl text-acm-white text-center mb-12">OUR JOURNEY</h3>
+          <h3 className="font-bricolage text-4xl text-acm-white text-center mb-12">OUR JOURNEY</h3>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-8">
             {[
-              { year: "2018", event: "Chapter Established - [Placeholder]" },
-              { year: "2020", event: "500+ Members Milestone - [Placeholder]" },
-              { year: "2022", event: "National Recognition Award - [Placeholder]" },
-              { year: "2024", event: "Innovation Hub Launch - [Placeholder]" }
+              { year: "2018", event: "Chapter Established " },
+              { year: "2020", event: "500+ Members Milestone " },
+              { year: "2022", event: "National Recognition Award " },
+              { year: "2024", event: "Innovation Hub Launch " }
             ].map((milestone, index) => (
               <div key={index} className="group text-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-acm-gold to-acm-red rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-30 animate-glow">
-                  <span className="font-bebas text-xl text-acm-black">{milestone.year}</span>
+                <div className="w-20 h-20 bg-gradient-to-br from-acm-blue to-acm-blue2 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-30 animate-glow">
+                  <span className="font-bellefair text-2xl text-acm-gold">{milestone.year}</span>
                 </div>
-                <p className="font-bricolage text-acm-white">{milestone.event}</p>
+                <p className="font-bellefair text-2xl text-acm-white">{milestone.event}</p>
               </div>
             ))}
           </div>
