@@ -1,7 +1,8 @@
 // src/App.tsx (or src/Index.tsx) - REVISED
 import { useEffect } from 'react';
 import { FuturisticNav } from './components/FuturisticNav';
-import { MatrixBackground } from './components/MatrixBackground';
+// import { MatrixBackground } from './components/MatrixBackground';
+import {Footer} from './components/sections/Footer';
 import { HeroSection } from './components/sections/HeroSection';
 import { AboutACMSection } from './components/sections/AboutACMSection';
 import { AboutBMSCESection } from './components/sections/AboutBMSCESection';
@@ -56,6 +57,8 @@ const Index = () => {
         {/* Connect With Us Section */}
         <ConnectSection />
       </main>
+
+    <Footer/>
 
     </div>
   );
