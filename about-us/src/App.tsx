@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <div className="bg-acm-black text-acm-white min-h-screen relative overflow-x-hidden">
       {/* Matrix Background Effect */}
-      <MatrixBackground />
+      {/* <MatrixBackground /> */}
       
       {/* Navigation */}
       <FuturisticNav />

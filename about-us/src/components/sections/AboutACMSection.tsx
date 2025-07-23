@@ -29,7 +29,7 @@ export const AboutACMSection: React.FC = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-to-br from-acm-blue/70 to-acm-blue2/20 backdrop-blur-md border border-acm-blue2/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:rotate-3 animate-slide-in-3d"
+              className="group relative border border-acm-blue2/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:rotate-3 animate-slide-in-3d"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Glow effect */}
@@ -63,7 +63,7 @@ export const AboutACMSection: React.FC = () => {
             { number: "37", label: "SIGs" }
           ].map((stat, index) => (
             <div key={index} className="text-center group">
-              <div className="font-bricolage text-4xl md:text-5xl text-acm-white group-hover:text-acm-white transition-colors duration-30 animate-glow">
+              <div className="font-bricolage text-4xl md:text-5xl text-acm-white group-hover:text-acm-white transition-colors duration-30 border border-white">
                 {stat.number}
               </div>
               <div className="font-bellefair text-2xl text-bold text-acm-white/80 mt-2">

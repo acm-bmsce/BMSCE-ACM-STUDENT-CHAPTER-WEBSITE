@@ -65,11 +65,11 @@ export default {
 				},
 				// Custom BMSCE ACM colors
 				'acm-gold': '#F5B82E',
-				'acm-blue': '#1C05B3',
+				'acm-blue': '#009bce',
 				'acm-red': '#A62639',
 				'acm-white': '#FEFEFF',
 				'acm-black': '#000000',
-				'acm-blue2' : '#4169E1'
+				'acm-blue2' : '#FEFEFF'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -79,7 +79,7 @@ export default {
 			fontFamily: {
 				'bebas': ['Bebas Neue', 'cursive'],
 				'bricolage': ['Bricolage Grotesque', 'sans-serif'],
-				'bellefair': ['Bellefair', 'serif']
+				'bellefair': ['Montserrat', 'serif']
 			},
 			keyframes: {
 				'accordion-down': {

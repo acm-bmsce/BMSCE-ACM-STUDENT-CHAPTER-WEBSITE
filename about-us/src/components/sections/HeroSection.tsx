@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
         
 
         {/* ACM Text with glow effect */}
-        <h2 className="font-bebas text-4xl md:text-6xl text-acm-blue2 mb-6 animate-glow ">
+        <h2 className="font-bebas text-4xl md:text-6xl text-acm-blue2 mb-6 ">
           ACM STUDENT CHAPTER
         </h2>
         </div>
