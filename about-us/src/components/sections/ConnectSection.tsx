@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Instagram, Linkedin, ExternalLink } from 'lucide-react';
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink } from 'lucide-react';
 
 export const ConnectSection: React.FC = () => {
   const socialLinks = [
@@ -9,7 +9,6 @@ export const ConnectSection: React.FC = () => {
 
   const contactInfo = [
     { icon: Mail, label: "Email", value: "acm@bmsce.ac.in", color: "text-acm-gold" },
-    { icon: Phone, label: "Phone", value: "+91 80-26762274", color: "text-acm-blue" },
     { icon: MapPin, label: "Address", value: "BMS College of Engineering, Bangalore", color: "text-acm-red" }
   ];
 
@@ -21,7 +20,7 @@ export const ConnectSection: React.FC = () => {
           <h2 className="font-bricolage text-6xl md:text-8xl text-acm-white mb-6 animate-bounce-3d">
             CONNECT WITH US
           </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-acm-blue to-acm-blue2 mx-auto mb-8"></div>
+          <div className="w-32 h-1  mx-auto mb-8"></div>
           <p className="font-bellefair text-xl text-acm-white max-w-3xl mx-auto leading-relaxed">
             Ready to join our community? Get in touch with us through any of these channels.
           </p>
@@ -36,7 +35,7 @@ export const ConnectSection: React.FC = () => {
               {contactInfo.map((contact, index) => (
                 <div
                   key={index}
-                  className="group flex items-center space-x-4 bg-gradient-to-r from-acm-blue/50 to-acm-blue2/20 backdrop-blur-md border border-acm-blue/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 animate-slide-in-3d"
+                  className="group flex items-center space-x-4  border border-acm-blue/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 animate-slide-in-3d"
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <div className={`w-12 h-12 ${contact.color} bg-acm-white/30 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300`}>
@@ -51,13 +50,13 @@ export const ConnectSection: React.FC = () => {
             </div>
 
             {/* Office Hours */}
-            <div className="bg-gradient-to-br from-acm-blue/50 to-acm-blue/20 backdrop-blur-md border border-acm-blue/30 rounded-xl p-6 mt-8">
+            {/* <div className="bg-gradient-to-br from-acm-blue/50 to-acm-blue/20 backdrop-blur-md border border-acm-blue/30 rounded-xl p-6 mt-8">
               <h4 className="font-bricolage text-xl font-bold text-acm-white mb-4 text-center">Office Hours</h4>
               <div className="space-y-2 font-bellefair text-acm-white/80 text-center">
                 <div>Monday - Friday: 9:00 AM - 5:00 PM</div>
                 <div>Saturday: 10:00 AM - 2:00 PM</div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Social Media Links */}
@@ -67,7 +66,7 @@ export const ConnectSection: React.FC = () => {
               {socialLinks.map((social, index) => (
                 <button
                   key={index}
-                  className={`group bg-gradient-to-br from-acm-blue/50 to-acm-blue2/20 backdrop-blur-md border border-acm-blue/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:-rotate-2 animate-slide-in-3d ${social.color} relative`}
+                  className={`group  border border-acm-blue/30 rounded-xl p-6 transform transition-all duration-500 hover:scale-105 hover:-rotate-2 animate-slide-in-3d ${social.color} relative`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <social.icon size={32} className="mx-auto mb-3 text-acm-white" />
@@ -80,7 +79,7 @@ export const ConnectSection: React.FC = () => {
           </div>
 
           {/* Newsletter Signup */}
-          <div className="w-full max-w-2xl">
+          {/* <div className="w-full max-w-2xl">
             <div className="bg-gradient-to-r from-acm-blue/50  to-acm-blue2/20 backdrop-blur-md border border-acm-blue/30 rounded-2xl p-8">
               <h3 className="font-bricolage text-3xl text-acm-white mb-4 text-center">STAY UPDATED</h3>
               <p className="font-bellefair text-acm-white/80 mb-6 text-center">
@@ -97,10 +96,10 @@ export const ConnectSection: React.FC = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Quick Contact Form - Last with horizontal extension */}
-          <div className="w-full">
+          {/* <div className="w-full">
             <div className="bg-gradient-to-br from-acm-blue/50 to-acm-blue/20 backdrop-blur-md border border-acm-blue/30 rounded-xl p-8">
               <h4 className="font-bricolage text-xl font-bold text-acm-white mb-6 text-center">Quick Message</h4>
               <form className="space-y-4">
@@ -131,7 +130,7 @@ export const ConnectSection: React.FC = () => {
                 </button>
               </form>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

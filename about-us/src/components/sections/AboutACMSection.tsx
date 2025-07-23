@@ -33,11 +33,11 @@ export const AboutACMSection: React.FC = () => {
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-acm-blue/70 to-acm-blue/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              {/* <div className="absolute inset-0 bg-gradient-to-r from-acm-blue/70 to-acm-blue/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
               
               {/* Icon */}
               <div className="relative z-10 mb-4">
-                <feature.icon size={48} className="text-acm-blue2 group-hover:text-acm-blue transition-colors duration-300" />
+                <feature.icon size={48} className="text-acm-blue2 group-hover:text-acm-gold transition-colors duration-300" />
               </div>
               
               {/* Content */}

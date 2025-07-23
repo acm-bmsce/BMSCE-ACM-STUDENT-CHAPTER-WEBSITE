@@ -37,7 +37,7 @@ export const HeroSection: React.FC = () => {
         </p>
 
         {/* CTA Button */}
-        <button className="group relative overflow-hidden bg-gradient-to-r from-acm-blue/50 to-acm-blue2 text-acm-gold font-bricolage font-bold py-4 px-8 rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+        <button className="group relative overflow-hidden bg-gradient-to-r from-acm-blue/50 to-acm-blue text-acm-gold font-bricolage font-bold py-4 px-8 rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
           <span className="relative z-10 flex items-center">
             <Zap className="mr-2" size={20} />
             EXPLORE OUR JOURNEY

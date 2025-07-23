@@ -62,11 +62,11 @@ export const WhatWeDoSection: React.FC = () => {
           {activities.map((activity, index) => (
             <div
               key={index}
-              className="group relative bg-acm-black/50 backdrop-blur-md border border-acm-blue2/30 rounded-xl overflow-hidden transform transition-all duration-700 hover:scale-105 hover:-rotate-2 animate-slide-in-3d"
+              className="group relative bg-acm-black/50 border border-acm-blue2/30 rounded-xl overflow-hidden transform transition-all duration-700 hover:scale-105 hover:-rotate-2 animate-slide-in-3d"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Gradient Background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${activity.color}  group-hover:opacity-20 transition-opacity duration-300`}></div>
+              {/* <div className={`absolute inset-0 bg-gradient-to-br ${activity.color}  group-hover:opacity-20 transition-opacity duration-300`}></div> */}
               
               {/* Content */}
               <div className="relative z-10 p-6">
@@ -90,13 +90,13 @@ export const WhatWeDoSection: React.FC = () => {
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-acm-blue/50 rounded-xl transition-all duration-300"></div>
               
               {/* 3D Shadow */}
-              <div className="absolute inset-0 bg-acm-blue/10 rounded-xl transform translate-x-2 translate-y-2 -z-10 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300"></div>
+              {/* <div className="absolute inset-0 bg-acm-blue/10 rounded-xl transform translate-x-2 translate-y-2 -z-10 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300"></div> */}
             </div>
           ))}
         </div>
 
         {/* Stats Section */}
-        <div className="mt-20 bg-gradient-to-r from-acm-blue/20 to-acm-blue2/20 backdrop-blur-md border border-acm-blue2/30 rounded-2xl p-8">
+        <div className="mt-20  border border-acm-blue2/30 rounded-2xl p-8">
           <h3 className="font-bricolage text-3xl text-acm-white text-center mb-8">OUR IMPACT</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -106,10 +106,10 @@ export const WhatWeDoSection: React.FC = () => {
               { number: "15+", label: "Research Projects" }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="font-bricolage text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-30 animate-glow">
+                <div className="font-bricolage text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-30 border border-acm-white">
                   {stat.number}
                 </div>
-                <div className="font-bellefair text-2xl text-bold text-acm-white/80 text-sm">
+                <div className="font-bellefair text - 4xl text-bold text-acm-white/80 ">
                   {stat.label}
                 </div>
               </div>
