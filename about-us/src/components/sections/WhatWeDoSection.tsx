@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Code2, Users, Trophy, BookOpen, Cpu, Globe } from 'lucide-react';
+import CountUp from '../CountUp';
 
 export const WhatWeDoSection: React.FC = () => {
   const activities = [
@@ -100,14 +101,14 @@ export const WhatWeDoSection: React.FC = () => {
           <h3 className="font-bricolage text-3xl text-acm-white text-center mb-8">OUR IMPACT</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { number: "50+", label: "Events Organized" },
-              { number: "500+", label: "Students Reached" },
-              { number: "25+", label: "Industry Partners" },
-              { number: "15+", label: "Research Projects" }
+              { number: "50",extra: "+", label: "Events Organized" },
+              { number: "500",extra: "+", label: "Students Reached" },
+              { number: "25",extra: "+", label: "Industry Partners" },
+              { number: "15",extra: "+", label: "Research Projects" }
             ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="font-bricolage text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-30 border border-acm-white">
-                  {stat.number}
+              <div key={index} className="text-center group p-4 m-2">
+                <div className="p-2 m-2 font-bricolage text-3xl md:text-4xl text-acm-white mb-2 group-hover:text-acm-gold transition-colors duration-30 border border-acm-white">
+                  <CountUp from={0}  to={stat.number}  separator=","  direction="up"  duration={1}  className="count-up-text"/>{stat.extra}
                 </div>
                 <div className="font-bellefair text - 4xl text-bold text-acm-white/80 ">
                   {stat.label}

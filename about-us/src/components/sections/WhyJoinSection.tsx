@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Lightbulb, Network, Award, TrendingUp, Users2, Zap } from 'lucide-react';
+import CountUp from '../CountUp';
 
 export const WhyJoinSection: React.FC = () => {
   const benefits = [
@@ -95,15 +96,15 @@ export const WhyJoinSection: React.FC = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { number: "500+", label: "Active Members", icon: "👥" },
-              { number: "95%", label: "Placement Rate", icon: "🎯" },
-              { number: "50+", label: "Companies", icon: "🏢" },
-              { number: "4.8/5", label: "Satisfaction", icon: "⭐" }
+              { number: "500",extra: "+", label: "Active Members", icon: "👥" },
+              { number: "95",extra: "%", label: "Placement Rate", icon: "🎯" },
+              { number: "50",extra: "+", label: "Companies", icon: "🏢" },
+              { number: "4.8/5",extra: "", label: "Satisfaction", icon: "⭐" }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
                 <div className="text-2xl mb-2">{stat.icon}</div>
-                <div className="font-bricolage text-2xl md:text-3xl text-acm-white mb-1 border border-acm-white group-hover:text-acm-gold transition-colors duration-30 ">
-                  {stat.number}
+                <div className="p-2 m-2 font-bricolage text-2xl md:text-3xl text-acm-white mb-1 border border-acm-white group-hover:text-acm-gold transition-colors duration-30 ">
+                  <CountUp from={0}  to={stat.number}  separator=","  direction="up"  duration={1}  className="count-up-text"/>{stat.extra}
                 </div>
                 <div className="font-bellefair text-2xl text-bold text-acm-white/80 ">
                   {stat.label}

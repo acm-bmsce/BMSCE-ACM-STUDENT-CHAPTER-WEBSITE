@@ -1,5 +1,6 @@
 import React from 'react';
 import { Globe, Users, Trophy, Code } from 'lucide-react';
+import CountUp from '../CountUp';
 
 export const AboutACMSection: React.FC = () => {
   const features = [
@@ -57,14 +58,14 @@ export const AboutACMSection: React.FC = () => {
         {/* Stats Section */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { number: "1947", label: "Founded" },
-            { number: "100K+", label: "Members" },
-            { number: "190+", label: "Countries" },
-            { number: "37", label: "SIGs" }
+            { number: "1947",extra:"", label: "Founded" },
+            { number: "100",extra:"K+", label: "Members" },
+            { number: "190",extra:"+", label: "Countries" },
+            { number: "37",extra:"", label: "SIGs" }
           ].map((stat, index) => (
-            <div key={index} className="text-center group">
-              <div className="font-bricolage text-4xl md:text-5xl text-acm-white group-hover:text-acm-white transition-colors duration-30 border border-white">
-                {stat.number}
+            <div key={index} className="text-center group p-4 m-2">
+              <div className="p-2 m-2font-bricolage text-4xl md:text-5xl text-acm-white group-hover:text-acm-white transition-colors duration-30 border border-white">
+                <CountUp from={0}  to={stat.number}  separator=","  direction="up"  duration={1}  className="count-up-text"/>{stat.extra}
               </div>
               <div className="font-bellefair text-2xl text-bold text-acm-white/80 mt-2">
                 {stat.label}
