@@ -1,47 +1,46 @@
 import React, { useState, useEffect } from 'react';
-// REMOVED: ChevronLeft and ChevronRight are no longer needed
-// import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+// Define the props for the PhotoCarousel component
 interface PhotoCarouselProps {
-  images: string[];
-  autoPlay?: boolean;
-  interval?: number;
+  images: string[]; // An array of image URLs
+  autoPlay?: boolean; // Optional: whether the carousel should play automatically
+  interval?: number; // Optional: the time in milliseconds between slides
 }
 
+/**
+ * A 3D-style photo carousel that automatically cycles through images.
+ * Only the center image is visible; others fade out and in.
+ * The animation pauses on hover.
+ */
 export const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
   images,
   autoPlay = true,
   interval = 3000,
 }) => {
+  // State to track the index of the image currently in the center
   const [currentIndex, setCurrentIndex] = useState(0);
+  // State to track if the mouse is hovering over the carousel to pause autoplay
   const [isHovered, setIsHovered] = useState(false);
 
+  // Effect hook to handle the autoplay logic
   useEffect(() => {
-    // NOTE: The carousel will now only change via autoplay or by re-enabling some form of navigation.
+    // Start the timer only if autoplay is enabled, there's more than one image, and the carousel is not hovered
     if (autoPlay && images.length > 1 && !isHovered) {
       const timer = setInterval(() => {
+        // Increment the index, looping back to the start if at the end
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, interval);
 
+      // Cleanup function: clear the timer when the component unmounts or dependencies change
       return () => clearInterval(timer);
     }
-  }, [autoPlay, interval, images.length, isHovered, currentIndex]);
+  }, [autoPlay, interval, images.length, isHovered, currentIndex]); // Rerun effect if these values change
 
-  // These functions are no longer called by buttons, but could be used by other interactions in the future.
-  // const goToPrevious = () => {
-  //   setCurrentIndex((prevIndex) =>
-  //     prevIndex === 0 ? images.length - 1 : prevIndex - 1
-  //   );
-  // };
-
-  // const goToNext = () => {
-  //   setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  // };
-
+  // Render a placeholder if no images are provided
   if (images.length === 0) {
     return (
-      <div className="relative w-full h-80 bg-acm-black/50 rounded-lg flex items-center justify-center">
-        <p className="font-bricolage text-acm-white/60">No images available</p>
+      <div className="relative w-full h-80 bg-gray-800/50 rounded-lg flex items-center justify-center">
+        <p className="text-white/60">No images available</p>
       </div>
     );
   }
@@ -49,29 +48,34 @@ export const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
   return (
     <div
       className="relative w-full h-80 rounded-lg group overflow-hidden"
-      style={{ perspective: '1000px' }}
+      style={{ perspective: '1000px' }} // Creates the 3D space for the children
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
         className="relative w-full h-full"
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{ transformStyle: 'preserve-3d' }} // Ensures children are positioned in 3D space
       >
         {images.map((image, index) => {
-          const offset = index - currentIndex;
-          const isCurrent = offset === 0;
-          const isPrevious = offset === -1 || (currentIndex === 0 && index === images.length - 1);
-          const isNext = offset === 1 || (currentIndex === images.length - 1 && index === 0);
+          // Determine if the image is the current, previous, or next one
+          const isCurrent = index === currentIndex;
+          const isPrevious = index === (currentIndex - 1 + images.length) % images.length;
+          const isNext = index === (currentIndex + 1) % images.length;
 
+          // Define the CSS transform based on the image's position
           const transform = isCurrent
-            ? 'rotateY(0) translateZ(0) scale(1)'
+            ? 'rotateY(0) translateZ(0) scale(1)' // Center image
             : isPrevious
-            ? 'rotateY(25deg) translateX(-75%) scale(0.9)'
+            ? 'rotateY(25deg) translateX(-75%) scale(0.9)' // Left image (will be invisible)
             : isNext
-            ? 'rotateY(-25deg) translateX(75%) scale(0.9)'
-            : 'scale(0.8)';
+            ? 'rotateY(-25deg) translateX(75%) scale(0.9)' // Right image (will be invisible)
+            : 'scale(0.8)'; // Other images
 
-          const opacity = isCurrent ? 'opacity-100' : 'opacity-40';
+          // --- CHANGED HERE ---
+          // Opacity is now 0 for any image that is not the current one.
+          const opacity = isCurrent ? 'opacity-100' : 'opacity-0';
+          
+          // Ensure the current image is always on top
           const zIndex = isCurrent ? images.length : images.length - 1;
 
           return (
@@ -81,6 +85,7 @@ export const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
               style={{
                 transform,
                 zIndex,
+                // Hide images that are not the current, previous, or next for better performance
                 visibility: (isCurrent || isPrevious || isNext) ? 'visible' : 'hidden',
               }}
             >
@@ -89,22 +94,17 @@ export const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
                 alt={`Gallery image ${index + 1}`}
                 className={`w-full h-full object-cover rounded-lg transition-opacity duration-500 ${opacity}`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-acm-black/60 via-transparent to-acm-black/40 rounded-lg"></div>
             </div>
           );
         })}
       </div>
-
-      {/* REMOVED: Navigation Buttons */}
-      {/* The <button> elements for previous and next have been deleted. */}
-
-      {/* REMOVED: Dots Indicator */}
-      {/* The div that mapped over images to create dot indicators has been deleted. */}
       
-      {/* MODIFIED: Image Counter made smaller */}
-      <div className="absolute top-3 right-3 bg-acm-black/70 text-acm-white px-2 py-0.5 rounded-full text-xs font-bricolage z-50">
+      {/* Image counter display */}
+      <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-0.5 rounded-full text-xs z-50">
         {currentIndex + 1} / {images.length}
       </div>
     </div>
   );
 };
+
+export default PhotoCarousel;

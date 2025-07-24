@@ -1,18 +1,39 @@
 import React from 'react';
 import { Rocket, Brain, Heart, Star, Zap } from 'lucide-react';
+import { PhotoCarousel } from '../PhotoCarousel';
 import { DynamicCollage } from '../DynamicCollage';
 import ACMTEAM from "../../assets/ACMTEAM.jpg";
 import { JourneyTimeline } from '../JourneyTimeline';
+import ACMCERT from "../../assets/ACMCERT.jpg";
+import EVENT1 from "../../assets/EVENT1.png";
+import EVENT2 from "../../assets/EVENT2.png";
+import EVENT3 from "../../assets/EVENT3.png";
+import EVENT4 from "../../assets/EVENT4.png";
+import EVENT5 from "../../assets/EVENT5.png";
+import EVENT6 from "../../assets/EVENT6.jpeg";
+import EVENT7 from "../../assets/EVENT7.png";
+import EVENT8 from "../../assets/EVENT8.png";
+import EVENT9 from "../../assets/EVENT9.png";
+import EVENT10 from "../../assets/EVENT10.png";
+import EVENT11 from "../../assets/EVENT11.png";
 
 export const AboutBMSCESection: React.FC = () => {
   const galleryImages = [
     ACMTEAM,
-    "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop"
+    ACMCERT,
+    EVENT1,
+    EVENT2,
+    EVENT3,
+    EVENT4,
+    EVENT5,
+    EVENT6,
+    EVENT7,
+    EVENT8,
+    EVENT9,
+    EVENT10,
+    EVENT11
   ];
+
 
   const collageData = galleryImages.map((imageUrl, index) => ({
     src: imageUrl,
@@ -140,10 +161,11 @@ export const AboutBMSCESection: React.FC = () => {
         {/* Photo Collage Section */}
         {/* CORRECTED: Removed the duplicated block of code */}
         <div className="flex flex-col lg:flex-row lg:justify-center lg:items-stretch p-4">
-          <div className="w-full lg:w-3/4"> 
+          <div className="w-full lg:w-1/2"> 
             <div className="h-full flex flex-col">
               <div className="flex-grow flex items-center justify-center">
                 <DynamicCollage images={collageData} />
+                {/* <PhotoCarousel  images={galleryImages} autoPlay={true}  interval={2000} /> */}
               </div>
             </div>
           </div>
