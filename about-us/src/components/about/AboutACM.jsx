@@ -1,4 +1,4 @@
-// src/components/AboutACM.jsx
+// src/components/about/AboutACM.jsx
 
 import AnimatedTitle from "../AnimatedTitle";
 import { BentoCard, BentoTilt } from "../Bento"; 
@@ -39,8 +39,8 @@ const AboutACM = () => {
           The Association for Computing Machinery (ACM) is the world's largest educational and scientific computing society, uniting computing educators, researchers, and professionals to inspire dialogue, share resources, and address the field's challenges.
         </p>
 
-        {/* Bento Grid */}
-        <div className="ggrid h-[135vh] w-full grid-cols-1 lg:grid-cols-2 grid-rows-6 gap-7">
+        {/* Bento Grid - CORRECTED */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {acmCards.map((card, index) => (
             <BentoTilt key={index} className="bento-tilt_1 row-span-1 h-[50vh]">
               <BentoCard

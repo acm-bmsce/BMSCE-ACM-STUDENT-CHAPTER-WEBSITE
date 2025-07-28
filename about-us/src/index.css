@@ -34,7 +34,7 @@ body {
 
 @layer utilities {
   .border-hsla { @apply border border-white/20; }
-  .bento-tilt_1 { @apply relative border-hsla col-span-2 overflow-hidden rounded-md transition-transform duration-300 ease-out; }
+  .bento-tilt_1 { @apply relative border-hsla  overflow-hidden rounded-md transition-transform duration-300 ease-out; }
   .bento-title { @apply uppercase md:text-6xl text-4xl font-normal font-bebas-neue; }
   .hero-heading { @apply uppercase font-bebas-neue font-black text-6xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[9rem]; }
   .animated-title { @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[7rem] pb-[10px]; }
