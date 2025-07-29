@@ -9,11 +9,61 @@ import AnimatedTitle from "../AnimatedTitle";
 gsap.registerPlugin(ScrollTrigger);
 
 const timelineData = [
-    { year: "2021", title: "Chapter Inauguration", description: "The official launch of the BMSCE ACM Student Chapter, setting the stage for a new era of computing culture on campus." },
-    { year: "2022", title: "First Workshop Series", description: "Hosted our first series of workshops on emerging technologies like AI/ML and Web3, attracting over 200 participants." },
-    { year: "2023", title: "Genesis Hackathon", description: "Successfully organized our flagship national-level hackathon, 'Genesis', with teams competing from across the country." },
-    { year: "2024", title: "Research Publications", description: "Chapter members achieved a new milestone with three papers accepted at international conferences." },
-    { year: "2025", title: "Emerging Chapter Award", description: "Recognized as the 'Emerging Chapter of the Year' by ACM India for our outstanding contributions and rapid growth." },
+  {
+    year: "2022",
+    title: "Chapter Inauguration",
+    description: "The official launch of the BMSCE ACM Student Chapter, setting the stage for a new era of computing culture on campus."
+  },
+  {
+    year: "2022",
+    title: "Protocol",
+    description: "The chapter's first flagship event, a professional networking session connecting students with seasoned industry experts."
+  },
+  {
+    year: "2023",
+    title: "Code N' Collab",
+    description: "A collaborative coding competition that emphasized teamwork and problem-solving in a dynamic environment."
+  },
+  {
+    year: "2023",
+    title: "Genesis '23",
+    description: "The inaugural edition of their intra-collegiate technical fest, featuring a diverse range of coding and design events."
+  },
+  {
+    year: "2023",
+    title: "Hour of Code",
+    description: "An initiative to demystify programming and provide a one-hour introduction to computer science for beginners."
+  },
+  {
+    year: "2024",
+    title: "Techsperts",
+    description: "An insightful speaker series where industry professionals shared their knowledge on cutting-edge technologies like AI/ML and Web3."
+  },
+  {
+    year: "2024",
+    title: "Codeblanca",
+    description: "A flagship 24-hour national-level hackathon that challenged participants to build innovative real-world solutions."
+  },
+  {
+    year: "2024",
+    title: "Genesis '24",
+    description: "The successful second iteration of the annual technical fest, expanding its scale with more events and wider participation."
+  },
+  {
+    year: "2024",
+    title: "Summer of Projects (SoP)",
+    description: "A summer-long program designed to foster project-building skills, mentorship, and peer-learning among students."
+  },
+  {
+    year: "2025",
+    title: "CodeFiesta",
+    description: "An online competitive programming contest held to identify and nurture top coding talent within the college."
+  },
+  {
+    year: "2025",
+    title: "ACM Annual National Summit Meeting",
+    description: "A strategic meeting where computing leaders convene to shape national tech policy, education, and industry innovation."
+  }
 ];
 
 const Journey = () => {

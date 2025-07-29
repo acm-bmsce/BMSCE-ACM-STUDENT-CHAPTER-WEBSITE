@@ -18,7 +18,7 @@ const acmCards = [
   {
     title: "Excellence",
     description: "Upholding the highest standards in research, practice, and ethics in computing.",
-    video: "videos/design.mov",
+    video: "videos/excellence.mov",
   },
   {
     title: "Innovation",

@@ -17,12 +17,12 @@ const bmsceAcmCards = [
     {
         title: "Excellence",
         description: "Striving for technical and academic excellence in all our endeavors, from coding competitions to research papers.",
-        video: "videos/event.mov",
+        video: "videos/excelence2.mov",
     },
     {
         title: "Growth",
         description: "Providing opportunities for personal and professional development, preparing members for future careers.",
-        video: "videos/glance-2.mov",
+        video: "videos/Events_video.mov",
     },
 ];
 
