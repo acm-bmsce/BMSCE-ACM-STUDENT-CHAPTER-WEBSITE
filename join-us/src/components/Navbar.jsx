@@ -15,7 +15,7 @@ const NavBar = () => {
   const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showMenuItems, setShowMenuItems] = useState(false);
-  const [isUnmounting, setIsUnmounting] = useState(false); // 👈 New state
+  const [isUnmounting, setIsUnmounting] = useState(false); 
 
   const audioElementRef = useRef(null);
   const navContainerRef = useRef(null);
@@ -31,7 +31,7 @@ const NavBar = () => {
 
   const toggleMenu = () => {
     if (isMenuOpen) {
-      // Closing: trigger exit animation
+     
       setIsUnmounting(true);
       document.body.style.overflow = "";
 
@@ -39,9 +39,9 @@ const NavBar = () => {
         setShowMenuItems(false);
         setIsMenuOpen(false);
         setIsUnmounting(false);
-      }, 600); // 🔧 delay to wait for fall animation to finish (match animation duration)
+      }, 600); 
     } else {
-      // Opening
+      
       setShowMenuItems(true);
       setIsMenuOpen(true);
       document.body.style.overflow = "hidden";
@@ -139,7 +139,7 @@ const NavBar = () => {
         </header>
       </div>
 
-      {/* Slide-in Mobile Menu */}
+      
       <div
         className={clsx(
           "fixed top-0 right-0 z-[999] h-screen w-full bg-black text-white px-10 py-20 transform transition-transform duration-500 ease-in-out md:hidden",
