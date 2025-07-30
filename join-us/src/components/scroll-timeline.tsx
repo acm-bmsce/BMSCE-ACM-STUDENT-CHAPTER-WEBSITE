@@ -55,14 +55,12 @@ export const ScrollTimeline = ({
     restDelta: 0.001,
   });
   
-  // ✅ FIX: Inverted the animation mapping to fix the scroll direction.
-  // It now maps the reversed scroll value [1, 0] to the correct visual [0%, 100%].
   const progressHeight = useTransform(smoothProgress, [1, 0], ["0%", "100%"]);
 
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((v) => {
-      // The active index calculation also needs to be inverted.
+
       const newIndex = Math.floor((1 - v) * eventPairs.length);
       if (
         newIndex !== activeIndex &&
@@ -152,7 +150,7 @@ export const ScrollTimeline = ({
                 <div className="flex flex-col lg:flex-row justify-between items-start w-full gap-8 lg:gap-0">
                   {leftEvent && (
                     <motion.div
-                      // ✅ FIX: Centered the text content
+                    
                       className="w-full lg:w-[calc(50%-80px)] text-center"
                       variants={getTextVariants(pairIndex * 2)}
                       initial="initial"
@@ -165,7 +163,7 @@ export const ScrollTimeline = ({
 
                   {rightEvent ? (
                     <motion.div
-                      // ✅ FIX: Centered the text content
+                    
                       className="w-full lg:w-[calc(50%-80px)] text-center"
                       variants={getTextVariants(pairIndex * 2 + 1)}
                       initial="initial"
