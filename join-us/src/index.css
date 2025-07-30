@@ -205,9 +205,6 @@ body {
   }
 }
 
-
-/* From Uiverse.io by G4b413l */
-/* https://uiverse.io/G4b413l/tidy-walrus-92 */
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;
@@ -386,8 +383,8 @@ body {
 
 * {
   user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none;     /* IE/Edge */
+  -webkit-user-select: none; 
+  -ms-user-select: none;     
 }
 
 @media (hover: hover) {
@@ -406,9 +403,8 @@ body {
     display: block !important;
   }
 }
-/* src/index.css */
-/* Add this to your main CSS file */
+
 .mask-clip-path {
-  /* Correctly starts as a circle with a 500px diameter */
+ 
   clip-path: circle(250px at center);
 }
