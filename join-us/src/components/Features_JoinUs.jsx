@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Animated Title using GSAP
+
 const AnimatedTitle = ({ title, containerClass }) => {
   useGSAP(() => {
     gsap.fromTo(
@@ -39,7 +39,7 @@ const AnimatedTitle = ({ title, containerClass }) => {
   );
 };
 
-// Product component (desktop hover)
+
 function Product({ val, mover, count }) {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -69,7 +69,7 @@ function Product({ val, mover, count }) {
   );
 }
 
-// Mobile Card
+
 const MobileCard = ({ title, description, image }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
