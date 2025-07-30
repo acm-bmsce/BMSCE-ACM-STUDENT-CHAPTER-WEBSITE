@@ -3,7 +3,7 @@ import gsap from "gsap";
 import NavBar from "./components/NavBar";
 import Hero from "./components/Hero";
 import HeroSection from "./components/HeroSection_JoinUs";
-import Features from "./components/Features";
+import Features from "./components/Features_JoinUs";
 import Glance from "./components/Glance";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
