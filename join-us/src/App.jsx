@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar";
 import Hero from "./components/Hero";
 import HeroSection from "./components/HeroSection_JoinUs";
 import Features from "./components/Features_JoinUs";
-import Glance from "./components/Glance";
+import Membership from "./components/Membership_JoinUs";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -111,7 +111,7 @@ function App() {
           <NavBar />
           <HeroSection />
           <Features />
-          <Glance />
+          <Membership />
           <Story />
           <Contact />
           <Story />
