@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import AnimatedTitle from "./AnimatedTitle";
 
 
-const About = () => {
+const HeroSection = () => {
   useGSAP(() => {
     const masterTimeline = gsap.timeline({
       delay: 0.5, 
