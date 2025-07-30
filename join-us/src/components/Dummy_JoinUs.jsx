@@ -9,4 +9,4 @@ const Dummy = () => {
   );
 };
 
-export default dummy;
+export default Dummy;
