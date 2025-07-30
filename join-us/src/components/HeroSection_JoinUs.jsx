@@ -3,37 +3,29 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import AnimatedTitle from "./AnimatedTitle";
 
-// ScrollTrigger is not used, so it can be removed
-// import { ScrollTrigger } from "gsap/all";
-// gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    // A single master timeline for all page-load animations
     const masterTimeline = gsap.timeline({
-      delay: 0.5, // A brief delay before the whole sequence starts
+      delay: 0.5, 
     });
 
-    // 1. THE FIX: A single fromTo() tween for a seamless animation
     masterTimeline.fromTo(
       ".mask-clip-path",
       {
-        // Starting State
         clipPath: "circle(250px at center)",
         opacity: 0,
         scale: 0.9,
       },
       {
-        // Ending State
         clipPath: "circle(150% at center)",
         opacity: 1,
         scale: 1,
-        duration: 2.5, // Total duration for the main reveal
+        duration: 2.5, 
         ease: "power2.inOut",
       }
     );
 
-    // 2. Animate the dark overlay at the same time
     masterTimeline.to(
       ".image-overlay",
       {
@@ -41,10 +33,9 @@ const About = () => {
         duration: 2.5,
         ease: "power2.inOut",
       },
-      "<" // Starts at the same time as the fromTo animation
+      "<" 
     );
 
-    // 3. Fade in the text content, starting 1 second into the main reveal
     masterTimeline.to(
       ".text-content",
       {
@@ -52,14 +43,13 @@ const About = () => {
         duration: 1.5,
         ease: "power2.inOut",
       },
-      "<1" // Starts 1 second after the beginning of the previous animations
+      "<1" 
     );
   }, []);
 
   return (
     <div id="about-container" className="relative h-screen w-screen">
       <div id="clip" className="h-screen w-screen">
-        {/* The opacity-0 class is no longer needed here */}
         <div className="mask-clip-path relative h-screen w-screen">
           <div className="text-content absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 px-4 text-center opacity-0">
             <AnimatedTitle
