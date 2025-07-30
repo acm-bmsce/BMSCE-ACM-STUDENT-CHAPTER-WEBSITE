@@ -78,7 +78,7 @@ function App() {
            onComplete: () => {
     setShowContent(true);
     const introSlider = document.getElementById("intro-slider");
-    if (introSlider) introSlider.style.display = "none"; // 👈 Hides the blocking element
+    if (introSlider) introSlider.style.display = "none";
   },
         });
     }, comp);
