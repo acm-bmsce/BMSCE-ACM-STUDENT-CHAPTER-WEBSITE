@@ -1,86 +1,10 @@
-// import React from "react";
-// import { motion, useAnimation } from "framer-motion";
-// import { useInView } from "react-intersection-observer";
-// import AnimatedTitle from "./AnimatedTitle";
-
-// const Membership = () => {
-//   const controls = useAnimation();
-//   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
-
-//   React.useEffect(() => {
-//     if (inView) {
-//       controls.start("visible");
-//     }
-//   }, [inView, controls]);
-
-//   const fadeUp = {
-//     hidden: { opacity: 0, y: 60 },
-//     visible: {
-//       opacity: 1,
-//       y: 0,
-//       transition: { duration: 0.9, ease: "easeOut" },
-//     },
-//   };
-
-//   return (
-//     <section className="bg-black text-white py-48" ref={ref}>
-//       <div className="max-w-6xl mx-auto px-6 md:px-48">
-//         {/* Animated Heading */}
-//         <AnimatedTitle
-//           title="Membership <b>O</b>ptions"
-//           containerClass="mb-0 md:mb-12 text-center"
-//           className="special-font !md:text-[5rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
-//         />
-
-//         {/* Animated Content */}
-//         <motion.div
-//           className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-52"
-//           variants={fadeUp}
-//           initial="hidden"
-//           animate={controls}
-//         >
-//           {/* Student Chapter Column */}
-//           <div>
-//             <p className="text-xl text-gray-400 uppercase mb-10 tracking-widest">
-//               [ Student Chapter ]
-//             </p>
-//             <ul className="space-y-6 text-2xl">
-//               <li>Workshops & Events Access</li>
-//               <li>Networking with Peers & Faculty</li>
-//               <li>Hands-on Local Projects</li>
-//               <li>Discounts on Chapter Activities</li>
-//               <li>Leadership Roles & Volunteering</li>
-//             </ul>
-//           </div>
-
-//           {/* Global Membership Column */}
-//           <div>
-//             <p className="text-xl text-gray-400 uppercase mb-10 tracking-widest">
-//               [ Global Membership ]
-//             </p>
-//             <ul className="space-y-6 text-2xl">
-//               <li>ACM Digital Library Access</li>
-//               <li>ACM Magazine Subscription</li>
-//               <li>Global Networking & Events</li>
-//               <li>Conference Discounts</li>
-//               <li>Career & Research Opportunities</li>
-//             </ul>
-//           </div>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Membership;
-
 import React from "react";
 import { ScrollTimeline } from "./scroll-timeline";
 import AnimatedTitle from "./AnimatedTitle";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-// Main Data Source (remains the same)
+
 const membershipEvents = [
   { type: "Student Chapter", title: "Workshops & Events", description: "Gain access to exclusive workshops and events organized by the local chapter."},
   { type: "Global Membership", title: "ACM Digital Library", description: "Get full access to the world's largest repository of computing literature."},
@@ -95,9 +19,8 @@ const membershipEvents = [
 ];
 
 
-// Main Membership Component
+
 const Membership = () => {
-  // Animation setup for the mobile view
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -128,13 +51,9 @@ const Membership = () => {
           className="special-font !md:text-[5rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
         />
         
-        {/* ✅ FIX: Switched to CSS-based responsive layouts */}
-
-        {/* --- Desktop View --- */}
-        {/* This div is hidden by default and only visible on medium screens (md) and up */}
         <div className="hidden md:block">
           <div className="relative">
-            {/* Column Headings */}
+  
             <div className="flex justify-between w-full mb-12">
               <div className="w-full lg:w-[calc(50%-80px)] text-center">
                 <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Student Chapter ]</h2>
@@ -143,7 +62,7 @@ const Membership = () => {
                 <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Global Membership ]</h2>
               </div>
             </div>
-            {/* Timeline Component */}
+   
             <ScrollTimeline
               events={membershipEvents.map(e => ({...e, year: e.type}))}
               darkMode={true}
@@ -152,18 +71,17 @@ const Membership = () => {
           </div>
         </div>
 
-        {/* --- Mobile View --- */}
-        {/* This div is visible by default and hidden on medium screens (md) and up */}
+
         <div className="block md:hidden">
             <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={controls} className="space-y-16">
-            {/* Student Chapter Section */}
+        
             <div>
                 <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center">[ Student Chapter ]</h2>
                 <ul className="space-y-6 text-2xl text-center">
                 {studentBenefits.map(item => <li key={item.title}>{item.title}</li>)}
                 </ul>
             </div>
-            {/* Global Membership Section */}
+       
             <div>
                 <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center">[ Global Membership ]</h2>
                 <ul className="space-y-6 text-2xl text-center">
