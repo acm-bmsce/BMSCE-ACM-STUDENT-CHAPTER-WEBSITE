@@ -5,7 +5,7 @@ import Hero from "./components/Hero";
 import HeroSection from "./components/HeroSection_JoinUs";
 import Features from "./components/Features_JoinUs";
 import Membership from "./components/Membership_JoinUs";
-import Story from "./components/Story";
+import Dummy from "./components/Dummy_JoinUs";
 import Contact from "./components/Contact_JoinUs";
 import Footer from "./components/Footer";
 
@@ -112,9 +112,9 @@ function App() {
           <HeroSection />
           <Features />
           <Membership />
-          <Story />
+          <Dummy />
           <Contact />
-          <Story />
+          <Dummy />
           <Footer />
         </>
       )}
