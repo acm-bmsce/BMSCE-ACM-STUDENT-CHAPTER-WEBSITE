@@ -5,22 +5,21 @@ const Footer = () => {
   return (
     <footer className="bg-black text-gray-300 py-10 px-6 border-t border-white/10">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Column 1: About & Logos */}
+        
         <div>
-          {/* ⭐ CHANGE: Added description text */}
+         
           <p className="text-sm leading-relaxed mb-4">
             A vibrant student-led community passionate about technology, innovation, and collaboration.
           </p>
           <div className="flex items-center gap-6">
             <img src="img/ACM-BLUE.svg" alt="ACM Logo" className="h-11 w-auto" />
             <img src="img/BMSCE_BLUE.svg" alt="BMSCE Logo" className="h-12 w-auto" />
-            {/* ⭐ CHANGE: Increased height of this logo */}
+           
             <img src="img//BMSCE_ACM_BLUE.svg" alt="BMSCE ACM Logo" className="h-20 w-auto" />
           </div>
         </div>
 
-        {/* Column 2: Links */}
-        {/* ⭐ CHANGE: Hidden on small devices, visible on medium and up */}
+     
         <div className="hidden md:block">
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
@@ -31,7 +30,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Column 3: Contact + Socials */}
+     
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Connect With Us</h3>
           <p className="text-sm">Email: <a href="mailto:bmsce.acm@bmsce.ac.in" className="underline hover:text-white">acm@bmsce.ac.in</a></p>
@@ -52,7 +51,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className="text-center text-xs text-gray-500 mt-10 border-t border-white/10 pt-6">
         © {new Date().getFullYear()} BMSCE ACM Student Chapter. All rights reserved.
       </div>
