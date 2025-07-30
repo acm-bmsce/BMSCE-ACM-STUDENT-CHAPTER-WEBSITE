@@ -1,7 +1,7 @@
 import React from "react";
 import AnimatedTitle from "./AnimatedTitle";
 import { motion } from "framer-motion";
-import Button from "./Button"; // Adjust path if needed
+import Button from "./Button"; 
 
 const steps = [
   {
@@ -28,7 +28,7 @@ const Contact = () => {
   return (
     <div id="contact" className="w-screen bg-black py-18">
       <div className="relative text-blue-50 sm:overflow-hidden max-w-7xl mx-auto px-4">
-        {/* Main Content */}
+       
         <div className="flex flex-col items-center text-center">
           <AnimatedTitle
             title="Ready To Get Started?"
@@ -39,7 +39,7 @@ const Contact = () => {
             Join our thriving community in just three simple steps — connect, grow, and lead with us.
           </p>
 
-          {/* Steps Cards */}
+        
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full">
             {steps.map((step, idx) => (
               <motion.div
@@ -57,7 +57,7 @@ const Contact = () => {
             ))}
           </div>
 
-          {/* Buttons */}
+          
           <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
