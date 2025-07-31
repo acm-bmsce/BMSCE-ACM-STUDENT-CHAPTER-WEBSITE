@@ -6,9 +6,9 @@ import Studentadvisor from './StudentAdvisor';
 const teamData = {
   facultyAdvisor: [
     {
-      name: "Dr. John Smith",
-      role: "Faculty Advisor",
-      image: "./img/Hrithik (1).jpg",
+      name: "Dr. Gowrishankar",
+      role: "Faculty Advisor, Dean Academics",
+      image: "./img/gowrishankar.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/kushal-b-n-1404002b4/",
         email: "john.smith@bmsce.ac.in"
@@ -18,47 +18,7 @@ const teamData = {
     {
       name: "New Faculty Member",
       role: "New Role",
-      image: "/img/harsha.webp",
-      socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
-      },
-      funFact: "Enjoys hiking."
-    },
-    {
-      name: "New Faculty Member",
-      role: "New Role",
-      image: "/img/harsha.webp",
-      socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
-      },
-      funFact: "Enjoys hiking."
-    },
-    {
-      name: "New Faculty Member",
-      role: "New Role",
-      image: "/img/harsha.webp",
-      socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
-      },
-      funFact: "Enjoys hiking."
-    },
-    {
-      name: "New Faculty Member",
-      role: "New Role",
-      image: "/img/harsha.webp",
-      socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
-      },
-      funFact: "Enjoys hiking."
-    },
-    {
-      name: "New Faculty Member",
-      role: "New Role",
-      image: "/img/harsha.webp",
+      image: "",
       socials: {
         linkedin: "https://linkedin.com/in/newfaculty",
         email: "newfaculty@example.com"
@@ -89,7 +49,7 @@ const teamData = {
   {
     name: "Roshini B",
     role: "Secretary",
-    image: "/img/harsha.webp",
+    image: "./img/roshini.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
@@ -99,7 +59,7 @@ const teamData = {
   {
     name: "Hrithik M",
     role: "Web Master",
-    image: "/img/harsha.webp",
+    image: "./img/Hrithik (1).jpg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
@@ -129,13 +89,35 @@ const teamData = {
   {
     name: "Srikanth M",
     role: "Senior Co-Ordinator",
-    image: "/img/harsha.webp",
+    image: "./img/Srikanth.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
     },
     funFact: "Enjoys hiking."
-  },
+  }
+  ],
+  studentAdvisor: [
+    {
+      name: "Bhuvan Kumar SG",
+      role: "Student Advisor",
+      image: "./img/Bhuvan.jpg",
+      socials: {
+        linkedin: "https://linkedin.com/in/newfaculty",
+        email: "newfaculty@example.com"
+      },
+      funFact: "Enjoys hiking."
+    },
+    {
+      name: "Srujana A Rao",
+      role: "Student Advisor",
+      image: "./img/Srujana.jpeg",
+      socials: {
+        linkedin: "https://linkedin.com/in/newfaculty",
+        email: "newfaculty@example.com"
+      },
+      funFact: "Enjoys hiking."
+    }
   ]
 };
 

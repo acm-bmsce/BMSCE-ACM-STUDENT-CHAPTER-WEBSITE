@@ -72,21 +72,23 @@ const FacultyAdvisorSection = ({ members }) => {
             </div>
 
             {/* Grid Layout for Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-24 px-4 justify-center">
-                {members.map((member, idx) => (
-                    <div
-                        key={idx}
-                        className="w-fit" // Ensures grid cell wraps tightly around the card
-                        ref={(el) => (cardsRef.current[idx] = el)}
-                    >
-                        <Card
-                            name={member.name}
-                            pic={member.image}
-                            role={member.role}
-                            linkedin={member.socials.linkedin}
-                        />
-                    </div>
-                ))}
+            <div className="flex justify-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-40 gap-y-32 px-4">
+                    {members.map((member, idx) => (
+                        <div
+                            key={idx}
+                            className="w-fit" //cards fit within the grid
+                            ref={(el) => (cardsRef.current[idx] = el)}
+                        >
+                            <Card
+                                name={member.name}
+                                pic={member.image}
+                                role={member.role}
+                                linkedin={member.socials.linkedin}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

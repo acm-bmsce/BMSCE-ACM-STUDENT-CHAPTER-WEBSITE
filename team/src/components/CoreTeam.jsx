@@ -66,7 +66,7 @@ const Coreteam = ({ members }) => {
                 </div>
                 <div ref={descriptionRef}>
                     <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mt-4">
-                        Meet the distinguished academics and partners who provide invaluable guidance and essential resources to our chapter.
+                        The driving force behind all initiatives—our Core Team leads with passion, purpose, and a spirit of innovation.
                     </p>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import TeamsHero from "./components/TeamsHero";
 import Teams from "./components/Teams";
 import TeamContact from "./components/TeamContact";
 import Footer from "./components/Footer";
+import PreviousCoreTeam from "./components/PreviousCoreTeam";
 
 function App() {
   const comp = useRef(null);
@@ -109,6 +110,7 @@ function App() {
           <TeamsHero />
           <Teams />
           {/* <TeamContact /> */}
+          <PreviousCoreTeam />
           <Footer />
         </>
       )}
