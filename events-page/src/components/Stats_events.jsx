@@ -1,6 +1,6 @@
 import { TrendingUp, Calendar, Users, Clock } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
-import CountUp from './text/CountUp';
+import CountUp from './text/CountUp_event';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from "gsap/ScrollTrigger";

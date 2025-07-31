@@ -1,6 +1,6 @@
 import { useEffect, useRef,useState } from 'react';
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
-import { EventCard } from './EventCard';
+import { EventCard} from './Card_event';
 
 export const HorizontalScroll = ({ events, onEventClick, title, isModalOpen }) => {
   // const scrollRef = useRef(null);
