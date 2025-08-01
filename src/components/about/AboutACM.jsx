@@ -8,12 +8,12 @@ const acmCards = [
   {
     title: "Global Network",
     description: "Connect with a worldwide community of leaders and innovators in the computing field.",
-    video: "videos/community.mov",
+    video: "videos/globalnet.mov",
   },
   {
     title: "100,000+ Members",
     description: "Part of the world's largest computing society, shaping the future of technology.",
-    video: "videos/glance-5.mp4",
+    video: "videos/members.mov",
   },
   {
     title: "Excellence",
@@ -23,7 +23,7 @@ const acmCards = [
   {
     title: "Innovation",
     description: "Driving progress by fostering dialogue, sharing resources, and solving challenges.",
-    video: "videos/research.mov",
+    video: "videos/innovation.mov",
   },
 ];
 
@@ -42,7 +42,7 @@ const AboutACM = () => {
         {/* Bento Grid - CORRECTED */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {acmCards.map((card, index) => (
-            <BentoTilt key={index} className="bento-tilt_1 row-span-1 h-[50vh]">
+            <BentoTilt key={index} className="bento-tilt_2 row-span-1 h-[50vh]">
               <BentoCard
                 src={card.video}
                 title={card.title}

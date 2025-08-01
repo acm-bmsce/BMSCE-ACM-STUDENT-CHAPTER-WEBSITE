@@ -41,7 +41,7 @@ const AboutBMSCE_ACM = () => {
                 {/* Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                     {bmsceAcmCards.map((card, index) => (
-                        <BentoTilt key={index} className="bento-tilt_1 row-span-1 h-[50vh]">
+                        <BentoTilt key={index} className="bento-tilt_2 row-span-1 h-[50vh]">
                             <BentoCard
                                 src={card.video}
                                 title={card.title}

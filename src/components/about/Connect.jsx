@@ -1,13 +1,15 @@
 // src/components/Connect.jsx
 
 import AnimatedTitle from "../AnimatedTitle";
-import { FaInstagram, FaLinkedin, FaYoutube, FaEnvelope } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaGithub, FaYoutube, FaEnvelope } from "react-icons/fa";
 
 const socialLinks = [
-  { href: "#", icon: <FaInstagram size={28} /> },
-  { href: "#", icon: <FaLinkedin size={28} /> },
-  { href: "#", icon: <FaYoutube size={28} /> },
-  { href: "#", icon: <FaEnvelope size={28} /> },
+  { href: "https://instagram.com/bmsce_acm", icon: <FaInstagram size={28} /> },
+  { href: "https://www.linkedin.com/company/bmsce-acm-student-chapter/", icon: <FaLinkedin size={28} /> },
+  { href: "https://www.youtube.com/channel/UC-p5iI_OFm_n8-wI_u4a5xw", icon: <FaYoutube size={28} /> },
+  { href: "https://github.com/bmsce-acm", icon: <FaGithub size={28} /> },
+  { href: "mailto:bmsce.acm@bmsce.ac.in", icon: <FaEnvelope size={28} /> },
+  
 ];
 
 const Connect = () => {
