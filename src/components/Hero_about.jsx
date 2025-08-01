@@ -8,7 +8,7 @@ import TagCloud from "TagCloud";
 const values = [
   "Innovation", "Community", "Excellence", 
   "Growth", "Collaboration", "Technology",
-  "Research", "Leadership", "ACM", "BMSCE",
+  "Research", "Leadership",
   "Events", "Workshops"
 ];
 
