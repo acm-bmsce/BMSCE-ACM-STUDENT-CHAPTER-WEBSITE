@@ -131,6 +131,19 @@ const NavBar = () => {
           {item}
         </Link>
       );
+    } else if (item === "Events") {
+      return (
+        <Link
+          key={index}
+          to="/event"
+          className="nav-hover-btn text-xl lg:text-[1rem] font-bold"
+          onClick={() => {
+            if (isMenuOpen) toggleMenu();
+          }}
+        >
+          {item}
+        </Link>
+      );
     } else {
       return (
         <a
