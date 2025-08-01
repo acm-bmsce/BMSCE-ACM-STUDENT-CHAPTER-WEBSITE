@@ -16,7 +16,7 @@ const Hero = () => {
   const [loading, setLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
 
-  const totalVideos = 4;
+  const totalVideos = 2;
   const nextVdRef = useRef(null);
 
   const handleVideoLoad = () => {
@@ -84,16 +84,16 @@ const Hero = () => {
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
-      {loading && (
+      {/* {loading && (
         <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-black">
-          {/* https://uiverse.io/G4b413l/tidy-walrus-92 */}
+          
           <div className="three-body">
             <div className="three-body__dot"></div>
             <div className="three-body__dot"></div>
             <div className="three-body__dot"></div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div
         id="video-frame"

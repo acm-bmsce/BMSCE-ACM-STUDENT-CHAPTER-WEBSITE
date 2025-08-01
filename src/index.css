@@ -387,3 +387,28 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none;     /* IE/Edge */
 }
+
+
+
+.transition-row{
+  flex:1;
+  display:flex;
+}
+
+.transition-row row-1 block{
+  transform-origin:top;
+
+
+}
+
+.transition-row row-2 block{
+  transform-origin: bottom;
+
+}
+
+.block{
+  flex:1;
+  background-color: #7dd4ef;
+  transform:scaleY(1);
+  will-change:transform;
+}
