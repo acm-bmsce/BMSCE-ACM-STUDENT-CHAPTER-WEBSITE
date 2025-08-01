@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaInstagram, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -13,9 +14,9 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-6">
             <img src="img/ACM-BLUE.svg" alt="ACM Logo" className="h-11 w-auto" />
-            <img src="img/BMSCE _BLUE.svg" alt="BMSCE Logo" className="h-12 w-auto" />
+            <img src="img/BMSCE-BLUE.png" alt="BMSCE Logo" className="h-12 w-auto" />
             {/* ⭐ CHANGE: Increased height of this logo */}
-            <img src="img/BMSCE_ACM_BLUE.svg" alt="BMSCE ACM Logo" className="h-20 w-auto" />
+            <img src="img/BMSCE-ACM-BLUE.png" alt="BMSCE ACM Logo" className="h-20 w-auto" />
           </div>
         </div>
 
@@ -24,10 +25,10 @@ const Footer = () => {
         <div className="hidden md:block">
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#events" className="hover:text-white transition">Events</a></li>
-            <li><a href="#join" className="hover:text-white transition">Join Us</a></li>
-            <li><a href="#team" className="hover:text-white transition">Team</a></li>
-            <li><a href="#about" className="hover:text-white transition">About Us</a></li>
+            <li><Link to="/event" className="hover:text-white transition">Events</Link></li>
+            <li><Link to="/join-us" className="hover:text-white transition">Join Us</Link></li>
+            <li><Link to="/team" className="hover:text-white transition">Team</Link></li>
+            <li><Link to="/about-us" className="hover:text-white transition">About Us</Link></li>
           </ul>
         </div>
 

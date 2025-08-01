@@ -1,23 +1,15 @@
-import { useEffect, useRef } from "react";
+// src/components/ScrollToTop.jsx
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
-    const { pathname } = useLocation();
-    const visitedRoutes = useRef(new Set());
+  const { pathname } = useLocation();
 
-    useEffect(() => {
-        const alreadyVisited = visitedRoutes.current.has(pathname);
+  useEffect(() => {
+    window.scrollTo(0, 0); // Instantly jump to top, no animation
+  }, [pathname]);
 
-        if (alreadyVisited) {
-            // Scroll only if the user has been here before
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            // Mark this route as visited
-            visitedRoutes.current.add(pathname);
-        }
-    }, [pathname]);
-
-    return null;
+  return null;
 };
 
 export default ScrollToTop;

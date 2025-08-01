@@ -1,41 +1,61 @@
-import { FaDiscord, FaTwitter, FaYoutube, FaMedium, FaInstagram, FaInstagramSquare } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa6";
-
-const socialLinks = [
-  { href: "https://discord.com", icon: <FaDiscord /> },
-  { href: "https://www.instagram.com/bmsce_acm/", icon: <FaInstagramSquare /> },
-  { href: "https://www.youtube.com/@BMSCEACM", icon: <FaYoutube /> },
-  { href: "https://medium.com", icon: <FaLinkedin /> },
-];
+import React from 'react';
+import { FaInstagram, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="w-screen bg-[#5542ff] py-4 text-black">
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row">
-        <p className="text-center text-sm font-light md:text-left">
-          ©BMSCE ACM 2025. All rights reserved
-        </p>
-
-        <div className="flex justify-center gap-4  md:justify-start">
-          {socialLinks.map((link, index) => (
-            <a
-              key={index}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-black transition-colors duration-500 ease-in-out hover:text-white"
-            >
-              {link.icon}
-            </a>
-          ))}
+    <footer className="bg-black text-gray-300 py-10 px-6 border-t border-white/10">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+        {/* Column 1: About & Logos */}
+        <div>
+          {/* ⭐ CHANGE: Added description text */}
+          <p className="text-sm leading-relaxed mb-4">
+            A vibrant student-led community passionate about technology, innovation, and collaboration.
+          </p>
+          <div className="flex items-center gap-6">
+            <img src="img/ACM-BLUE.svg" alt="ACM Logo" className="h-11 w-auto" />
+            <img src="img/BMSCE-BLUE.png" alt="BMSCE Logo" className="h-12 w-auto" />
+            {/* ⭐ CHANGE: Increased height of this logo */}
+            <img src="img/BMSCE-ACM-BLUE.png" alt="BMSCE ACM Logo" className="h-20 w-auto" />
+          </div>
         </div>
 
-        <a
-          href="#privacy-policy"
-          className="text-center text-sm font-light hover:underline md:text-right"
-        >
-          Privacy Policy
-        </a>
+        {/* Column 2: Links */}
+        {/* ⭐ CHANGE: Hidden on small devices, visible on medium and up */}
+        <div className="hidden md:block">
+          <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
+          <ul className="space-y-2 text-sm">
+            <li><Link to="/event" className="hover:text-white transition">Events</Link></li>
+            <li><Link to="/join-us" className="hover:text-white transition">Join Us</Link></li>
+            <li><Link to="/team" className="hover:text-white transition">Team</Link></li>
+            <li><Link to="/about-us" className="hover:text-white transition">About Us</Link></li>
+          </ul>
+        </div>
+
+        {/* Column 3: Contact + Socials */}
+        <div>
+          <h3 className="text-xl font-bold text-white mb-4">Connect With Us</h3>
+          <p className="text-sm">Email: <a href="mailto:bmsce.acm@bmsce.ac.in" className="underline hover:text-white">acm@bmsce.ac.in</a></p>
+          <div className="flex space-x-4 mt-4">
+            <a href="https://github.com/bmsce-acm" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
+              <FaGithub />
+            </a>
+            <a href="https://www.linkedin.com/company/bmsce-acm-student-chapter/" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
+              <FaLinkedin />
+            </a>
+            <a href="https://instagram.com/bmsce_acm" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
+              <FaInstagram />
+            </a>
+            <a href="https://www.youtube.com/channel/UC-p5iI_OFm_n8-wI_u4a5xw" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
+              <FaYoutube />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom */}
+      <div className="text-center text-xs text-gray-500 mt-10 border-t border-white/10 pt-6">
+        © {new Date().getFullYear()} BMSCE ACM Student Chapter. All rights reserved.
       </div>
     </footer>
   );

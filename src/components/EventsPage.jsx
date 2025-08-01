@@ -95,7 +95,7 @@ const EventsPage = () => {
                     />
                 )}
 
-                <Footer />
+                
             </div>
 
         </div>

@@ -82,12 +82,12 @@ const PreviousCoreTeamSection = () => {
                             </h2>
 
                             <ul className="text-white text-2xl font-medium leading-relaxed space-y-4">
-                                <li>1. G Sri Sai Meghana – Ex Chair</li>
-                                <li>2. Srujana A Roa – Ex Vice Chair</li>
-                                <li>3. Harshavardhan S – Ex Secretary</li>
-                                <li>4. Bhuvan Kumar SG – Ex Treasurer</li>
-                                <li>5. Manvendra Singh – Ex Membership Chair</li>
-                                <li>6. Sudeep S – Ex Web Master</li>
+                                <li>1. G Sri Sai Meghana – Chair</li>
+                                <li>2. Srujana A Roa – Vice Chair</li>
+                                <li>3. Harshavardhan S – Secretary</li>
+                                <li>4. Bhuvan Kumar SG – Treasurer</li>
+                                <li>5. Manvendra Singh – Membership Chair</li>
+                                <li>6. Sudeep S – Web Master</li>
                             </ul>
                         </div>
 
