@@ -59,7 +59,7 @@ const PreviousCoreTeamSection = () => {
                     />
                 </div>
                 <div ref={descriptionRef}>
-                    <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mt-4">
+                    <p className="text-gray-300 text-lg md:text-xl lg:text-3xl max-w-2xl mx-auto mt-4 font-semibold">
                         2024
                     </p>
                 </div>
@@ -81,14 +81,15 @@ const PreviousCoreTeamSection = () => {
                                 Team Members
                             </h2>
 
-                            <ul className="text-white text-2xl font-medium leading-relaxed space-y-4">
-                                <li>1. G Sri Sai Meghana – Chair</li>
-                                <li>2. Srujana A Roa – Vice Chair</li>
-                                <li>3. Harshavardhan S – Secretary</li>
-                                <li>4. Bhuvan Kumar SG – Treasurer</li>
-                                <li>5. Manvendra Singh – Membership Chair</li>
-                                <li>6. Sudeep S – Web Master</li>
+                            <ul className="text-white font-medium leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
+                                <li>1. G Sri Sai Meghana – Ex Chair</li>
+                                <li>2. Srujana A Roa – Ex Vice Chair</li>
+                                <li>3. Harshavardhan S – Ex Secretary</li>
+                                <li>4. Bhuvan Kumar SG – Ex Treasurer</li>
+                                <li>5. Manvendra Singh – Ex Membership Chair</li>
+                                <li>6. Sudeep S – Ex Web Master</li>
                             </ul>
+
                         </div>
 
 

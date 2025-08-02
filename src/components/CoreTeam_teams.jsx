@@ -72,7 +72,7 @@ const Coreteam = ({ members }) => {
             </div>
 
             {/* Grid Layout for Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 place-items-center w-full mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-24 px-4 place-items-center w-full mx-auto">
                 {members.map((member, idx) => (
                     <div
                         key={idx}

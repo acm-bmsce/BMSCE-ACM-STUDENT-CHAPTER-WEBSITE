@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FacultyAdvisorSection from './FacultyAdvisorSection_teams';
+import FacultyAdvisorSection from './FacultyAdvisorSection';
 import Coreteam from './CoreTeam_teams';
 import Studentadvisor from './StudentAdvisor_teams';
 
@@ -16,9 +16,9 @@ const teamData = {
       funFact: "Published 50+ research papers"
     },
     {
-      name: "New Faculty Member",
-      role: "New Role",
-      image: "",
+      name: "Dr. Seemanthini K Gowda",
+      role: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
+      image: "./img/Seemanthini.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/newfaculty",
         email: "newfaculty@example.com"
@@ -39,7 +39,7 @@ const teamData = {
   {
     name: "Indraneel M",
     role: "Vice Chair",
-    image: "/img/harsha.webp",
+    image: "/img/Indraneel.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
@@ -69,7 +69,7 @@ const teamData = {
   {
     name: "Kanishka Sharma",
     role: "Membership Chair",
-    image: "/img/harsha.webp",
+    image: "/img/Kanishka.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
