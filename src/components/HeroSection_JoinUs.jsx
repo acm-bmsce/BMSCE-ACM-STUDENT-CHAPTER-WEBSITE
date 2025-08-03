@@ -29,7 +29,7 @@ const HeroSection = () => {
     masterTimeline.to(
       ".image-overlay",
       {
-        opacity: 0.6,
+        opacity: 0.75,
         duration: 2.5,
         ease: "power2.inOut",
       },
@@ -51,21 +51,21 @@ const HeroSection = () => {
     <div id="about-container" className="relative h-screen w-screen">
       <div id="clip" className="h-screen w-screen">
         <div className="mask-clip-path relative h-screen w-screen">
-          <div className="text-content absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 px-4 text-center opacity-0">
+          <div className="text-content absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center opacity-0">
             <AnimatedTitle
-              title="JOIN THE  <br /> BMSCE ACM STUDENT CHAPTER"
-              containerClass="!text-white text-center"
+              title="JOIN THE<br /> BMSCE ACM STUDENT CHAPTER"
+              
+              containerClass="animated-title_joinus !text-white text-center mb-2"
             />
-            <p className="font-general text-sm uppercase text-white md:text-[20px]">
+            <p className="font-general text-sm uppercase text-white md:text-[24px]">
               Where innovation meets community – Shape your tech future with us
             </p>
-            <div className="about-subtext text-white">
-              <p className="text-base font-semibold md:text-lg lg:text-xl">
-                Level up with BMSCE ACM Student Chapter
-              </p>
-              <p className="text-gray-300 text-sm md:text-base">
-                Become a Member <br />
-                Join 500+ students already part of our community
+            
+            <div className="about-subtext_joinus mt-4 text-white">
+              <p className="text-base font-semibold md:text-lg lg:text-2xl">
+                Join over 500 students and <br />
+                level up by becoming a member <br /> of the BMSCE ACM Student
+                Chapter community.
               </p>
             </div>
           </div>
@@ -74,7 +74,7 @@ const HeroSection = () => {
             alt="BMSCE ACM Student Chapter"
             className="h-full w-full object-cover"
           />
-          <div className="image-overlay absolute inset-0 z-10 bg-black opacity-0"></div>
+          <div className="image-overlay absolute inset-0 z-10 bg-black opacity-60"></div>
         </div>
       </div>
     </div>
