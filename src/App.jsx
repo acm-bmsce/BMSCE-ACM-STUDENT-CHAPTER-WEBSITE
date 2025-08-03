@@ -64,7 +64,7 @@ function AnimatedRoutes() {
           },
           ease,
           onComplete: () => {
-            gsap.set(".block", { visibility: "hidden" });
+            gsap.set(".block", { visibility: "visible" });
             resolve();
             setIsTransitioning(false); // 🟢 End transition
           },
