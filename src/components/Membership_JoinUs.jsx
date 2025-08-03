@@ -72,7 +72,7 @@ const Membership = () => {
         </div>
 
 
-        <div className="block md:hidden">
+        <div className="block_joinus md:hidden">
             <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={controls} className="space-y-16">
         
             <div>
