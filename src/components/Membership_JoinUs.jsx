@@ -76,14 +76,14 @@ const Membership = () => {
             <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={controls} className="space-y-16">
         
             <div>
-                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center">[ Student Chapter ]</h2>
+                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Student Chapter ]</h2>
                 <ul className="space-y-6 text-2xl text-center">
                 {studentBenefits.map(item => <li key={item.title}>{item.title}</li>)}
                 </ul>
             </div>
        
             <div>
-                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center">[ Global Membership ]</h2>
+                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Global Membership ]</h2>
                 <ul className="space-y-6 text-2xl text-center">
                 {globalBenefits.map(item => <li key={item.title}>{item.title}</li>)}
                 </ul>

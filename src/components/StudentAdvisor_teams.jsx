@@ -83,7 +83,8 @@ const Studentadvisor = ({ members }) => {
                             <Card
                                 name={member.name}
                                 pic={member.image}
-                                role={member.role}
+                                role1={member.role1}
+                                role2={member.role2}
                                 linkedin={member.socials.linkedin}
                             />
                         </div>

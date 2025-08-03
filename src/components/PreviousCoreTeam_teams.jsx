@@ -21,7 +21,7 @@ const PreviousCoreTeamSection = () => {
                     opacity: 1,
                     y: 0,
                     duration: 1,
-                    ease: "power2.out",
+                    ease: "power4.out",
                     scrollTrigger: {
                         trigger: sectionRef.current,
                         start: "top 80%",
@@ -59,7 +59,7 @@ const PreviousCoreTeamSection = () => {
                     />
                 </div>
                 <div ref={descriptionRef}>
-                    <p className="text-gray-300 text-lg md:text-xl lg:text-3xl max-w-2xl mx-auto mt-4 font-semibold">
+                    <p className="text-gray-300 text-lg md:text-xl lg:text-5xl max-w-2xl mx-auto font-semibold">
                         2024
                     </p>
                 </div>
@@ -81,13 +81,13 @@ const PreviousCoreTeamSection = () => {
                                 Team Members
                             </h2>
 
-                            <ul className="text-white font-medium leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
-                                <li>1. G Sri Sai Meghana – Ex Chair</li>
-                                <li>2. Srujana A Roa – Ex Vice Chair</li>
-                                <li>3. Harshavardhan S – Ex Secretary</li>
-                                <li>4. Bhuvan Kumar SG – Ex Treasurer</li>
-                                <li>5. Manvendra Singh – Ex Membership Chair</li>
-                                <li>6. Sudeep S – Ex Web Master</li>
+                            <ul className="text-white font-bold leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
+                                <li>1. G Sri Sai Meghana – Chair</li>
+                                <li>2. Srujana A Rao – Vice Chair</li>
+                                <li>3. Harshavardhan S – Secretary</li>
+                                <li>4. Bhuvan Kumar SG – Treasurer</li>
+                                <li>5. Manvendra Singh – Membership Chair</li>
+                                <li>6. Sudeep S – Web Master</li>
                             </ul>
 
                         </div>

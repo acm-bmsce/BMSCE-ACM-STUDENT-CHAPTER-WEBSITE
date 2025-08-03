@@ -7,7 +7,8 @@ const teamData = {
   facultyAdvisor: [
     {
       name: "Dr. Gowrishankar",
-      role: "Faculty Advisor, Dean Academics",
+      role1: "Faculty Advisor",
+      role2: "Faculty Advisor, Dean academics",
       image: "./img/gowrishankar.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/kushal-b-n-1404002b4/",
@@ -17,7 +18,8 @@ const teamData = {
     },
     {
       name: "Dr. Seemanthini K Gowda",
-      role: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
+      role1: "Faculty Sponsor",
+      role2: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
       image: "./img/Seemanthini.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/newfaculty",
@@ -28,7 +30,8 @@ const teamData = {
   ],
   coreTeam: [{
     name: "H S Adwi",
-    role: "Chair",
+    role1: "Chair",
+    role2: "Chair",
     image: "img/Adwi.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -38,7 +41,8 @@ const teamData = {
   },
   {
     name: "Indraneel M",
-    role: "Vice Chair",
+    role1: "Vice Chair",
+    role2: "Vice Chair",
     image: "/img/Indraneel.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -48,7 +52,8 @@ const teamData = {
   },
   {
     name: "Roshini B",
-    role: "Secretary",
+    role1: "Secretary",
+    role2: "Secretary",
     image: "./img/roshini.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -58,7 +63,9 @@ const teamData = {
   },
   {
     name: "Hrithik M",
-    role: "Web Master",
+    role1: "Web Master",
+    role1: "Web Master",
+    role2: "Web Master and Technical Head",
     image: "./img/Hrithik (1).jpg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -68,7 +75,8 @@ const teamData = {
   },
   {
     name: "Kanishka Sharma",
-    role: "Membership Chair",
+    role1: "Membership Chair",
+    role2: "Membership Chair",
     image: "/img/Kanishka.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -78,8 +86,9 @@ const teamData = {
   },
   {
     name: "Dhruva G S",
-    role: "Treasurer",
-    image: "/img/harsha.webp",
+    role1: "Treasurer",
+    role2: "Treasurer",
+    image: "/img/Unknown_person.jpg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
       email: "newfaculty@example.com"
@@ -88,7 +97,8 @@ const teamData = {
   },
   {
     name: "Srikanth M",
-    role: "Senior Co-Ordinator",
+    role1: "Senior Co-Ordinator",
+    role2: "Senior Co-Ordinator",
     image: "./img/Srikanth.jpeg",
     socials: {
       linkedin: "https://linkedin.com/in/newfaculty",
@@ -100,7 +110,8 @@ const teamData = {
   studentAdvisor: [
     {
       name: "Bhuvan Kumar SG",
-      role: "Student Advisor",
+      role1: "Student Advisor",
+      role2: "Student Advisor",
       image: "./img/Bhuvan.jpg",
       socials: {
         linkedin: "https://linkedin.com/in/newfaculty",
@@ -110,7 +121,8 @@ const teamData = {
     },
     {
       name: "Srujana A Rao",
-      role: "Student Advisor",
+      role1: "Student Advisor",
+      role2: "Student Advisor",
       image: "./img/Srujana.jpeg",
       socials: {
         linkedin: "https://linkedin.com/in/newfaculty",
@@ -130,11 +142,11 @@ const Teams = () => {
   return (
     <section className="min-h-screen bg-black text-blue-100 p-5 space-y-10">
       <div className="pt-20">
-        <div className="text-center mt-8">
+        {/* <div className="text-center mt-8">
           <p className="text-gray-400 max-w-2xl mx-auto">
             Get to know the passionate individuals driving innovation and community at BMSCE ACM Student Chapter
           </p>
-        </div>
+        </div> */}
       </div>
       {teamData.facultyAdvisor?.length > 0 &&
         <FacultyAdvisorSection

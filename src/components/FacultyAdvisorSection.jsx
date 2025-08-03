@@ -60,7 +60,7 @@ const FacultyAdvisorSection = ({ members }) => {
             <div className="text-center mb-12">
                 <div ref={headingRef}>
                     <AnimatedTitle
-                        title="Faculty Advisor & Sponsor"
+                        title="Faculty Core"
                         containerClass="!text-blue-100 text-center text-3xl md:text-4xl lg:text-8xl"
                     />
                 </div>
@@ -83,7 +83,9 @@ const FacultyAdvisorSection = ({ members }) => {
                             <Card
                                 name={member.name}
                                 pic={member.image}
-                                role={member.role}
+                                role1={member.role1}
+                                role2={member.role2}
+
                                 linkedin={member.socials.linkedin}
                             />
                         </div>

@@ -445,13 +445,13 @@ const Card = (props) => {
         </div>
         <div className="bottom">
           <div className="default-content">
-            <span className="name">{props.role}</span> {/* Show only name initially */}
+            <span className="name">{props.role1}</span> {/* Show only name initially */}
           </div>
 
           <div className="hover-content">
             <div className="hover-text">
               <span className="name">{props.name} <br /></span>
-              <span className="about-me">Role:  {props.role}</span>
+              <span className="about-me">{props.role2}</span>
             </div>
             <div className="social-links-container">
 
@@ -601,21 +601,28 @@ const StyledWrapper = styled.div`
 }
   
 .card .bottom .hover-content .social-links-container a svg:hover{
-fill: #f55d56 }
+fill: #1068e3ff}
 
 .card .bottom .hover-content .name{
-  font-size : 1.7rem;
+  font-size : 2rem;
   font-weight : bold;
+  line-height:0.8;
+  color:#1068e3ff;
+
   }
 
 .card .bottom .hover-content .about-me{
-  font-size : 1.3rem;
+  font-size : 1.4rem;
   font-weight : bold;
+  line-height:0.8;
+  padding-top:10px;
+
+  
   }
 
 .card .bottom .default-content .name {
-    font-weight: bold;
-  font-size: 1.25rem;
+  font-weight: bold;
+  font-size: 1.5rem;
   color: white;
   line-height: 1.2;
   padding: 2px;
@@ -623,7 +630,7 @@ fill: #f55d56 }
 
 .card .bottom .default-content .about-me {
    font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: white;
   margin-top: 0.25rem;
   line-height: 1.2;

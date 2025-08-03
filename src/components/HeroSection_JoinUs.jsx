@@ -51,7 +51,7 @@ const HeroSection = () => {
     <div id="about-container" className="relative h-screen w-screen">
       <div id="clip" className="h-screen w-screen">
         <div className="mask-clip-path relative h-screen w-screen">
-          <div className="text-content absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center opacity-0">
+          <div className="text-content absolute inset-0 top-20 z-20 flex flex-col items-center justify-center px-4 text-center opacity-0">
             <AnimatedTitle
               title="JOIN THE<br /> BMSCE ACM STUDENT CHAPTER"
               
@@ -62,7 +62,7 @@ const HeroSection = () => {
             </p>
             
             <div className="about-subtext_joinus mt-4 text-white">
-              <p className="text-base font-semibold md:text-lg lg:text-2xl">
+              <p className="text-base md:text-lg lg:text-2xl">
                 Join over 500 students and <br />
                 level up by becoming a member <br /> of the BMSCE ACM Student
                 Chapter community.

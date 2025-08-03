@@ -433,9 +433,6 @@ body {
   }
 }
 
-.mask-clip-path {
-  clip-path: circle(250px at center);
-}
 
 .animated-title_joinus {
     @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[7rem] pb-[20px];

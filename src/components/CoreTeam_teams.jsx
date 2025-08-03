@@ -57,15 +57,15 @@ const Coreteam = ({ members }) => {
     return (
         <div ref={sectionRef} className="w-full bg-black text-white py-24 px-6">
             {/* Heading */}
-            <div className="text-center mb-12">
+            <div className="text-center">
                 <div ref={headingRef}>
                     <AnimatedTitle
-                        title="Current core team"
+                        title="CORE  2025-2026"
                         containerClass="!text-blue-100 text-center text-3xl md:text-4xl lg:text-8xl"
                     />
                 </div>
                 <div ref={descriptionRef}>
-                    <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mt-4">
+                    <p className="text-gray-300 text-base mb-12 md:text-lg max-w-2xl mx-auto ">
                         The driving force behind all initiatives—our Core Team leads with passion, purpose, and a spirit of innovation.
                     </p>
                 </div>
@@ -82,7 +82,8 @@ const Coreteam = ({ members }) => {
                         <Card
                             name={member.name}
                             pic={member.image}
-                            role={member.role}
+                            role1={member.role1}
+                            role2={member.role2}
                             linkedin={member.socials.linkedin}
                         />
                     </div>
