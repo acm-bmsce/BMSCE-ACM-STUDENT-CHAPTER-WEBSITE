@@ -22,7 +22,7 @@ const Footer = () => {
 
         {/* Column 2: Links */}
         {/* ⭐ CHANGE: Hidden on small devices, visible on medium and up */}
-        <div className="hidden md:block">
+        <div className="hidden md:block pl-20">
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li><Link to="/event" className="hover:text-white transition">Events</Link></li>
