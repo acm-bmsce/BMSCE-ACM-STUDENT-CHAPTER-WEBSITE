@@ -35,7 +35,7 @@ const AnimatedTitle = ({ title, containerClass }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={clsx("animated-title", containerClass)}>
+    <div ref={containerRef} className={clsx("animated-title_joinus", containerClass)}>
       {title.split("<br />").map((line, index) => (
         <div
           key={index}
