@@ -1,7 +1,7 @@
 import React from "react";
 import AnimatedTitle from "./AnimatedTitle";
 import { motion } from "framer-motion";
-import Button from "./Button"; 
+import Button from "./Button";
 
 const steps = [
   {
@@ -27,19 +27,18 @@ const steps = [
 const Contact = () => {
   return (
     <div id="contact" className="w-screen bg-black py-18">
-      <div className="relative text-blue-50 sm:overflow-hidden max-w-7xl mx-auto px-4">
-       
+      <div className="relative text-blue-50 max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           <AnimatedTitle
             title="Ready To Get Started?"
-            className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
+            className="special-font !md:text-[6.1rem] w-full font-zentry !text-5xl !font-black !leading-[.9] pt-2" // Add this class
           />
 
           <p className="text-sm text-gray-400 mt-0 max-w-sm">
-            Join our thriving community in just three simple steps — connect, grow, and lead with us.
+            Join our thriving community in just three simple steps — connect,
+            grow, and lead with us.
           </p>
 
-        
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full">
             {steps.map((step, idx) => (
               <motion.div
@@ -57,7 +56,6 @@ const Contact = () => {
             ))}
           </div>
 
-          
           <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
