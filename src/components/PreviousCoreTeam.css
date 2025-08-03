@@ -5,6 +5,7 @@
   aspect-ratio: 4 / 3;
   perspective: 1200px;
   margin: 0 auto;
+  
 }
 
 .flip-card-inner {
@@ -14,10 +15,12 @@
   transform-style: preserve-3d;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
+  
 }
 
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
+  
 }
 
 .flip-card-front,
@@ -48,6 +51,8 @@
   align-items: center;
   padding: 1rem;
   will-change: transform, opacity;
+  overflow:hidden;
+  max-height: 100%;
 }
 
 /* Responsive */

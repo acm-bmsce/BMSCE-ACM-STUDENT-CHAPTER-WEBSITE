@@ -60,13 +60,13 @@ const Studentadvisor = ({ members }) => {
             <div className="text-center mb-12">
                 <div ref={headingRef}>
                     <AnimatedTitle
-                        title="Student Advisor"
+                        title="Student Advisors"
                         containerClass="!text-blue-100 text-center text-3xl md:text-4xl lg:text-8xl"
                     />
                 </div>
                 <div ref={descriptionRef}>
                     <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mt-4">
-                        With experience and insight, our Student Advisor ensures continuity and empowers the next generation of leaders.
+                        With experience and insight, our Student Advisors ensure continuity and empowers the next generation of leaders.
                     </p>
                 </div>
             </div>
@@ -86,6 +86,7 @@ const Studentadvisor = ({ members }) => {
                                 role1={member.role1}
                                 role2={member.role2}
                                 linkedin={member.socials.linkedin}
+                                email={member.socials.email}
                             />
                         </div>
                     ))}

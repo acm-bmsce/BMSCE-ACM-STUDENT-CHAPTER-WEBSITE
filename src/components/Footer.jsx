@@ -2,26 +2,46 @@ import React from 'react';
 import { FaInstagram, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+const socialLinks = [
+  {
+    icon: <FaGithub />,
+    href: "https://github.com/acm-bmsce",
+    hoverColor: "hover:text-white",
+  },
+  {
+    icon: <FaLinkedin />,
+    href: "https://www.linkedin.com/company/bmsce-acm-student-chapter/",
+    hoverColor: "hover:text-blue-500",
+  },
+  {
+    icon: <FaInstagram />,
+    href: "https://instagram.com/bmsce_acm",
+    hoverColor: "hover:text-pink-500",
+  },
+  {
+    icon: <FaYoutube />,
+    href: "http://www.youtube.com/@BMSCEACM",
+    hoverColor: "hover:text-red-500",
+  },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-black text-gray-300 py-10 px-6 border-t border-white/10">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:pl-20">
-        {/* Column 1: About & Logos */}
+        {/* Column 1 */}
         <div>
-          {/* ⭐ CHANGE: Added description text */}
           <p className="text-sm leading-relaxed mb-4">
             A vibrant student-led community passionate about technology, innovation, and collaboration.
           </p>
           <div className="flex items-center gap-6">
             <img src="img/ACM-BLUE.svg" alt="ACM Logo" className="h-11 w-auto" />
             <img src="img/BMSCE-BLUE.png" alt="BMSCE Logo" className="h-12 w-auto" />
-            {/* ⭐ CHANGE: Increased height of this logo */}
             <img src="img/BMSCE-ACM-BLUE.png" alt="BMSCE ACM Logo" className="h-20 w-auto" />
           </div>
         </div>
 
-        {/* Column 2: Links */}
-        {/* ⭐ CHANGE: Hidden on small devices, visible on medium and up */}
+        {/* Column 2 */}
         <div className="hidden md:block pl-20">
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
@@ -32,23 +52,30 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Column 3: Contact + Socials */}
+        {/* Column 3 */}
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Connect With Us</h3>
-          <p className="text-sm">Email: <a href="mailto:bmsce.acm@bmsce.ac.in" className="underline hover:text-white">acm@bmsce.ac.in</a></p>
+          <p className="text-sm">
+            Email: <a href="mailto:bmsce.acm@bmsce.ac.in" className="underline hover:text-white">acm@bmsce.ac.in</a>
+          </p>
           <div className="flex space-x-4 mt-4">
-            <a href="https://github.com/bmsce-acm" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
-              <FaGithub />
-            </a>
-            <a href="https://www.linkedin.com/company/bmsce-acm-student-chapter/" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
-              <FaLinkedin />
-            </a>
-            <a href="https://instagram.com/bmsce_acm" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
-              <FaInstagram />
-            </a>
-            <a href="https://www.youtube.com/channel/UC-p5iI_OFm_n8-wI_u4a5xw" target="_blank" rel="noopener noreferrer" className="hover:text-white text-xl">
-              <FaYoutube />
-            </a>
+            {socialLinks.map(({ icon, href, hoverColor }, idx) => (
+              <a
+                key={idx}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`
+                  text-xl text-gray-400
+                  transition-all duration-300 ease-in-out
+                  transform
+                  ${hoverColor}
+                  hover:scale-110 hover:-translate-y-1
+                `}
+              >
+                {icon}
+              </a>
+            ))}
           </div>
         </div>
       </div>

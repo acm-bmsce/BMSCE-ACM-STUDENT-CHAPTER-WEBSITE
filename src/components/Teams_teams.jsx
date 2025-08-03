@@ -12,7 +12,7 @@ const teamData = {
       image: "./img/gowrishankar.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/kushal-b-n-1404002b4/",
-        email: "john.smith@bmsce.ac.in"
+        email: "gowrishankar.cse@bmsce.ac.in"
       },
       funFact: "Published 50+ research papers"
     },
@@ -22,8 +22,8 @@ const teamData = {
       role2: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
       image: "./img/Seemanthini.jpeg",
       socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
+        linkedin: "https://www.linkedin.com/in/dr-seemanthini-k-87115466/",
+        email: "seemanthinik.mel@bmsce.ac.in"
       },
       funFact: "Enjoys hiking."
     }
@@ -34,8 +34,8 @@ const teamData = {
     role2: "Chair",
     image: "img/Adwi.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/adwi-h-s-31b96928b/",
+      email: "hsadwi.ai23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -45,8 +45,8 @@ const teamData = {
     role2: "Vice Chair",
     image: "/img/Indraneel.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/indraneel-mulpuru-219a332bb/",
+      email: "indraneel.ec23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -56,20 +56,19 @@ const teamData = {
     role2: "Secretary",
     image: "./img/roshini.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/roshini-b-480204339/",
+      email: "broshini.ai23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
   {
     name: "Hrithik M",
     role1: "Web Master",
-    role1: "Web Master",
     role2: "Web Master and Technical Head",
-    image: "./img/Hrithik (1).jpg",
+    image: "./img/Hrithik.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/hrithik-m-897581307/",
+      email: "hrithikm.ai23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -79,8 +78,8 @@ const teamData = {
     role2: "Membership Chair",
     image: "/img/Kanishka.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/kanishka-sharma-3aab79279/",
+      email: "kanishkasharma.cs23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -90,8 +89,8 @@ const teamData = {
     role2: "Treasurer",
     image: "/img/Unknown_person.jpg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/dhruva-g-shankar-85a7911a5/",
+      email: "dhruvagshankar.ai23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -101,8 +100,8 @@ const teamData = {
     role2: "Senior Co-Ordinator",
     image: "./img/Srikanth.jpeg",
     socials: {
-      linkedin: "https://linkedin.com/in/newfaculty",
-      email: "newfaculty@example.com"
+      linkedin: "https://www.linkedin.com/in/srikanth-mandayam-annadoray-9744ba308/",
+      email: "srikanthannadoray.ai23@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   }
@@ -114,8 +113,8 @@ const teamData = {
       role2: "Student Advisor",
       image: "./img/Bhuvan.jpg",
       socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
+        linkedin: "https://www.linkedin.com/in/bhuvan-kumar-sg-52ba3a295/",
+        email: "bhuvan.cd22@bmsce.ac.in"
       },
       funFact: "Enjoys hiking."
     },
@@ -125,8 +124,8 @@ const teamData = {
       role2: "Student Advisor",
       image: "./img/Srujana.jpeg",
       socials: {
-        linkedin: "https://linkedin.com/in/newfaculty",
-        email: "newfaculty@example.com"
+        linkedin: "https://www.linkedin.com/in/srujana-a-rao/",
+        email: "srujana.cd22@bmsce.ac.in"
       },
       funFact: "Enjoys hiking."
     }

@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import TagCloud from "TagCloud";
+import { TextPlugin } from "gsap/TextPlugin";
+
+gsap.registerPlugin(TextPlugin);
 
 const values = [
   "Innovation", "Community", "Excellence", 
   "Growth", "Collaboration", "Technology",
-  "Research", "Leadership",
-  "Events", "Workshops"
+  "Research", "Leadership", "Events", "Workshops"
 ];
 
 const Hero = () => {
@@ -18,9 +20,11 @@ const Hero = () => {
   const titleRef = useRef(null);
   const centerTextRef = useRef(null);
   const [isMorphed, setIsMorphed] = useState(false);
+  const timeoutRef = useRef(null);
 
+  // Initialize TagCloud
   useEffect(() => {
-    if (isMorphed || !cloudRef.current) return;
+    if (!cloudRef.current) return;
 
     const options = {
       radius: 280,
@@ -29,11 +33,21 @@ const Hero = () => {
       direction: 135,
       keep: true,
     };
-    const tagCloudInstance = TagCloud(cloudRef.current, values, options);
-    
-    return () => tagCloudInstance.destroy();
-  }, [isMorphed]);
 
+    const tagCloudInstance = TagCloud(cloudRef.current, values, options);
+
+    // Auto-trigger morph after 5 seconds
+    timeoutRef.current = setTimeout(() => {
+      setIsMorphed(true);
+    }, 8000);
+
+    return () => {
+      tagCloudInstance.destroy();
+      clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  // GSAP transition animation
   useGSAP(() => {
     if (isMorphed) {
       gsap.to([cloudRef.current, centerTextRef.current], {
@@ -44,43 +58,58 @@ const Hero = () => {
         onComplete: () => {
           gsap.to(titleRef.current, {
             opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: "power3.out",
+            duration:0.5,
+            onComplete: ()=>{
+              gsap.to(titleRef.current,{
+                text:"Find your people</br>Find your passion",
+                duration: 3,
+                ease: "none"
+              });
+            }
+            
           });
-        }
+        },
       });
     }
   }, { scope: containerRef, dependencies: [isMorphed] });
+
+  // Manual click trigger (if before 5s)
+  const handleClick = () => {
+    if (!isMorphed) {
+      clearTimeout(timeoutRef.current);
+      setIsMorphed(true);
+    }
+  };
 
   return (
     <section
       ref={containerRef}
       className="relative h-dvh w-screen overflow-hidden bg-black flex items-center justify-center"
-      onClick={() => setIsMorphed(true)}
+      onClick={handleClick}
     >
       <div
         ref={cloudRef}
         className="text-blue-300 font-general uppercase text-lg cursor-pointer"
       >
-        {/* TagCloud library will populate this div */}
+        {/* TagCloud will render here */}
       </div>
 
       <div
         ref={centerTextRef}
         className="absolute z-10 text-center pointer-events-none"
       >
-        <h2 className="font-bebas-neue text-6xl tracking-wider text-[#009BCE]">Who Are We?</h2>
+        <h2 className="font-bebas-neue text-6xl tracking-wider text-[#009BCE]">
+          Who Are We?
+        </h2>
       </div>
 
-      {/* Final Headline */}
+      {/* Final Headline with typewriter effect */}
       <h1
         ref={titleRef}
-        // CORRECTED: Added absolute centering classes
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white hero-heading !text-6xl md:!text-8xl lg:!text-[9rem] opacity-0"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white hero-heading !text-4xl md:!text-6xl lg:!text-8xl opacity-0 font-bold"
         style={{ pointerEvents: 'none' }}
       >
-        Find your people <br className="hidden md:block" /> Find your passion.
+        {/* Initial blank, will be filled by GSAP TextPlugin */}
       </h1>
     </section>
   );

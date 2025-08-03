@@ -77,11 +77,11 @@ const PreviousCoreTeamSection = () => {
                             />
                         </div>
                         <div className="flip-card-back flex flex-col items-center justify-center px-12 py-10 gap-8 bg-gradient-to-br from-blue-900/60 via-indigo-800/60 to-sky-700/60 backdrop-blur-md rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] border border-white/20">
-                            <h2 className="text-5xl font-extrabold text-white tracking-wide drop-shadow-xl underline underline-offset-8 decoration-sky-400">
+                            <h2 className="text-5xl text-center font-extrabold text-white tracking-wide drop-shadow-xl underline underline-offset-8 decoration-sky-400">
                                 Team Members
                             </h2>
 
-                            <ul className="text-white font-bold leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
+                            <ul className="text-white text-center font-bold leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
                                 <li>1. G Sri Sai Meghana – Chair</li>
                                 <li>2. Srujana A Rao – Vice Chair</li>
                                 <li>3. Harshavardhan S – Secretary</li>

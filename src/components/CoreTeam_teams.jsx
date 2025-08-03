@@ -85,6 +85,7 @@ const Coreteam = ({ members }) => {
                             role1={member.role1}
                             role2={member.role2}
                             linkedin={member.socials.linkedin}
+                            email={member.socials.email}
                         />
                     </div>
                 ))}
