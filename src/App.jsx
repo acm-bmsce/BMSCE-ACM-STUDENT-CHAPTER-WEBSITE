@@ -4,48 +4,77 @@ import {
   Routes,
   Route,
   useLocation,
+  useNavigationType,
 } from "react-router-dom";
 import gsap from "gsap";
+
 // Pages
 import Home from "./pages/Home";
 import JoinUs from "./pages/join-us";
 import AboutUs from "./pages/about-us";
 import Team from "./pages/team";
 import Event from "./pages/event";
+
 // Components
 import ScrollToTop from "./components/ScrollToTop";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-// Optional: import your sound
-import transitionSound from "./assets/sounds/transition.mp3"; // <- place file accordingly
+// Sound
+import transitionSound from "./assets/sounds/transition.mp3";
 
 const ease = "power4.inOut";
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const navigationType = useNavigationType(); // 'PUSH', 'POP', or 'REPLACE'
+
   const transitionRef = useRef();
+  const audioRef = useRef(null);
+  const prevPathRef = useRef(location.pathname);
+
   const [displayLocation, setDisplayLocation] = useState(location);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const audioRef = useRef(null);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
-    // Load audio only once
     audioRef.current = new Audio(transitionSound);
-    audioRef.current.volume = 0.6; // adjust volume if needed
+    audioRef.current.volume = 0.6;
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
+    const fromPath = prevPathRef.current;
+    const toPath = location.pathname;
+    const isSameRoute = fromPath === toPath;
+    const isPageReload = navigationType === "POP";
+
+    // Scroll to top on every navigation (delayed to ensure render)
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
+
+    // Skip transition on first load or same route
+    if (firstLoad || isSameRoute || isPageReload) {
+      prevPathRef.current = location.pathname;
+      setDisplayLocation(location);
+      setIsTransitioning(false);
+      setFirstLoad(false);
+
+      // Hide transition blocks
+      const blocks = transitionRef.current?.querySelectorAll(".block") || [];
+      blocks.forEach((block) => {
+        gsap.set(block, { scaleY: 0, visibility: "hidden" });
+      });
+
+      return;
+    }
 
     const animateTransition = () => {
       return new Promise((resolve) => {
         if (!transitionRef.current) return resolve();
 
-        // Play transition sound
         if (audioRef.current) {
-          audioRef.current.currentTime = -1;
+          audioRef.current.currentTime = 0;
           audioRef.current.play().catch((err) => {
             console.warn("Audio play failed:", err);
           });
@@ -53,6 +82,7 @@ function AnimatedRoutes() {
 
         const blocks = transitionRef.current.querySelectorAll(".block");
         gsap.set(blocks, { scaleY: 0, visibility: "visible" });
+
         gsap.to(blocks, {
           scaleY: 1,
           duration: 0.7,
@@ -85,7 +115,7 @@ function AnimatedRoutes() {
           },
           ease,
           onComplete: () => {
-            gsap.set(".block", { visibility: "visible" });
+            gsap.set(blocks, { visibility: "hidden" });
             setIsTransitioning(false);
             resolve();
           },
@@ -94,16 +124,11 @@ function AnimatedRoutes() {
     };
 
     animateTransition().then(() => {
-      if (isMounted) setDisplayLocation(location);
-      setTimeout(() => {
-        revealTransition();
-      }, 0);
+      setDisplayLocation(location);
+      prevPathRef.current = location.pathname;
+      revealTransition();
     });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [location]);
+  }, [location, navigationType, firstLoad]);
 
   return (
     <>
@@ -118,7 +143,7 @@ function AnimatedRoutes() {
             .map((_, i) => (
               <div
                 key={`top-${i}`}
-                className="block flex-1 bg-cyan-400 origin-top scale-y-1"
+                className="block flex-1 bg-cyan-400 origin-top scale-y-0 invisible"
               />
             ))}
         </div>
@@ -128,14 +153,14 @@ function AnimatedRoutes() {
             .map((_, i) => (
               <div
                 key={`bottom-${i}`}
-                className="block flex-1 bg-cyan-400 origin-bottom scale-y-1"
+                className="block flex-1 bg-cyan-400 origin-bottom scale-y-0 invisible"
               />
             ))}
         </div>
       </div>
 
       {/* Main content */}
-      <div key={displayLocation.pathname}>
+      <div key={displayLocation.key || displayLocation.pathname}>
         {!isTransitioning && <NavBar />}
         <Routes location={displayLocation}>
           <Route path="/" element={<Home />} />

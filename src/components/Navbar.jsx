@@ -245,6 +245,27 @@ const NavBar = () => {
           </Link>
         </li>
       );
+    }else if (item === "Events") {
+      return (
+        <li
+          key={index}
+          className={clsx(
+            "text-5xl font-bold text-blue-50 transition-opacity duration-500",
+            {
+              "opacity-100 animate-rise": showMenuItems && !isUnmounting,
+              "opacity-0 animate-fall": isUnmounting,
+            }
+          )}
+          style={{
+            animationDelay: `${0.1 * index + 0.3}s`,
+            animationFillMode: "both",
+          }}
+        >
+          <Link to="/event" onClick={toggleMenu}>
+            {item}
+          </Link>
+        </li>
+      );
     } else {
       return (
         <li
