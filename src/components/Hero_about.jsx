@@ -1,15 +1,15 @@
 // src/components/Hero.jsx
 
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import TagCloud from "TagCloud";
-import { TextPlugin } from "gsap/TextPlugin";
-
-gsap.registerPlugin(TextPlugin);
+import TextType from "./TextType"; // ✅ make sure path is correct
 
 const values = [
-  "Innovation", "Community", "Excellence", 
+  "Innovation", "Community", "Excellence",
   "Growth", "Collaboration", "Technology",
   "Research", "Leadership", "Events", "Workshops"
 ];
@@ -17,9 +17,9 @@ const values = [
 const Hero = () => {
   const containerRef = useRef(null);
   const cloudRef = useRef(null);
-  const titleRef = useRef(null);
   const centerTextRef = useRef(null);
   const [isMorphed, setIsMorphed] = useState(false);
+  const [showTextType, setShowTextType] = useState(false);
   const timeoutRef = useRef(null);
 
   // Initialize TagCloud
@@ -36,7 +36,6 @@ const Hero = () => {
 
     const tagCloudInstance = TagCloud(cloudRef.current, values, options);
 
-    // Auto-trigger morph after 5 seconds
     timeoutRef.current = setTimeout(() => {
       setIsMorphed(true);
     }, 8000);
@@ -47,7 +46,7 @@ const Hero = () => {
     };
   }, []);
 
-  // GSAP transition animation
+  // Morph animation using GSAP
   useGSAP(() => {
     if (isMorphed) {
       gsap.to([cloudRef.current, centerTextRef.current], {
@@ -56,24 +55,12 @@ const Hero = () => {
         duration: 0.8,
         ease: "power3.in",
         onComplete: () => {
-          gsap.to(titleRef.current, {
-            opacity: 1,
-            duration:0.5,
-            onComplete: ()=>{
-              gsap.to(titleRef.current,{
-                text:"Find your people</br>Find your passion",
-                duration: 3,
-                ease: "none"
-              });
-            }
-            
-          });
+          setShowTextType(true); // Show typewriter effect after animation
         },
       });
     }
   }, { scope: containerRef, dependencies: [isMorphed] });
 
-  // Manual click trigger (if before 5s)
   const handleClick = () => {
     if (!isMorphed) {
       clearTimeout(timeoutRef.current);
@@ -91,7 +78,7 @@ const Hero = () => {
         ref={cloudRef}
         className="text-blue-300 font-general uppercase text-lg cursor-pointer"
       >
-        {/* TagCloud will render here */}
+        {/* TagCloud renders here */}
       </div>
 
       <div
@@ -103,14 +90,24 @@ const Hero = () => {
         </h2>
       </div>
 
-      {/* Final Headline with typewriter effect */}
-      <h1
-        ref={titleRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white hero-heading !text-4xl md:!text-6xl lg:!text-8xl opacity-0 font-bold"
-        style={{ pointerEvents: 'none' }}
-      >
-        {/* Initial blank, will be filled by GSAP TextPlugin */}
-      </h1>
+      {/* ✅ Final Headline with TextType after morph */}
+      {showTextType && (
+        <TextType
+          text={["WELCOME TO BMSCE ACM STUDENT CHAPTER", "FIND YOUR PEOPLE","FIND YOUR PASSION"]}
+          as="h1"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white font-robert-medium !text-8xl md:!text-6xl lg:!text-[6rem] font-bold"
+          typingSpeed={70}
+          deletingSpeed={50}
+          pauseDuration={2000}
+          initialDelay={200}
+          loop={true}
+          showCursor={true}
+          hideCursorWhileTyping={false}
+          cursorCharacter="."
+          cursorBlinkDuration={0.5}
+          textColors={["#ffffff", "#00BFFF"]}
+        />
+      )}
     </section>
   );
 };
