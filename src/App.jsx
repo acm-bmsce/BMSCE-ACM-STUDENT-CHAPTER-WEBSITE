@@ -19,6 +19,7 @@ import Event from "./pages/event";
 import ScrollToTop from "./components/ScrollToTop";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SmoothScroll from "./components/SmoothScroll";
 
 // Sound
 import transitionSound from "./assets/sounds/transition.mp3";
@@ -179,6 +180,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
+      <SmoothScroll/>
       <ScrollToTop />
       <AnimatedRoutes />
     </Router>
