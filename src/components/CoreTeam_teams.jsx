@@ -72,12 +72,12 @@ const Coreteam = ({ members }) => {
             </div>
 
             {/* Grid Layout for Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-24 px-4 place-items-center w-full mx-auto">
+            <div className="flex flex-wrap justify-center gap-x-20 gap-y-12 px-4 w-full mx-auto">
                 {members.map((member, idx) => (
                     <div
                         key={idx}
-                        ref={(el) => (cardsRef.current[idx] = el)} // NEW: track card ref
-                        className="w-full max-w-[350px] aspect-[1/1] sm:aspect-[4/5]"
+                        ref={(el) => (cardsRef.current[idx] = el)}
+                        className="w-full max-w-[350px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-20px)] aspect-[1/1] sm:aspect-[4/5]"
                     >
                         <Card
                             name={member.name}
@@ -90,6 +90,7 @@ const Coreteam = ({ members }) => {
                     </div>
                 ))}
             </div>
+
         </div>
     );
 };

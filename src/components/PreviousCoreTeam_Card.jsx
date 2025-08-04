@@ -108,7 +108,7 @@ const StyledWrapper = styled.div`
     100% { transform: translateY(0); }
   }
   .card:hover {
-    transform: scale(1.03) rotate(-1deg);
+    transform: scale(1.03);
   }
 
   /* Responsive Queries */

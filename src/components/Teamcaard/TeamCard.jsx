@@ -53,7 +53,7 @@ const StyledWrapper = styled.div`
   .card {
     width: 300px;
     height: 350px;
-    background: white;
+    background: #ffffffff;
     border-radius: 32px;
     padding: 3px;
     position: relative;
