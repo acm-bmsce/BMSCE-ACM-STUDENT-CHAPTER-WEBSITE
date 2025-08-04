@@ -2,7 +2,8 @@ import React, { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedTitle from "./AnimatedTitle";
-import "./PreviousCoreTeam.css"; // Import the CSS for flip animation
+//import "./PreviousCoreTeam_Card.jsx"; // Import the CSS for flip animation
+import Card from "./PreviousCoreTeam_Card.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,7 @@ const PreviousCoreTeamSection = () => {
                     opacity: 1,
                     y: 0,
                     duration: 1,
-                    ease: "power4.out",
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: sectionRef.current,
                         start: "top 80%",
@@ -67,7 +68,8 @@ const PreviousCoreTeamSection = () => {
 
             {/* Flip Card */}
             <div className="flex justify-center" ref={cardRef}>
-                <div className="flip-card">
+                <Card />
+                {/* <div className="flip-card">
                     <div className="flip-card-inner">
                         <div className="flip-card-front">
                             <img
@@ -77,24 +79,23 @@ const PreviousCoreTeamSection = () => {
                             />
                         </div>
                         <div className="flip-card-back flex flex-col items-center justify-center px-12 py-10 gap-8 bg-gradient-to-br from-blue-900/60 via-indigo-800/60 to-sky-700/60 backdrop-blur-md rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] border border-white/20">
-                            <h2 className="text-5xl text-center font-extrabold text-white tracking-wide drop-shadow-xl underline underline-offset-8 decoration-sky-400">
+                            <h2 className="text-5xl font-extrabold text-white tracking-wide drop-shadow-xl underline underline-offset-8 decoration-sky-400">
                                 Team Members
                             </h2>
 
-                            <ul className="text-white text-center font-bold leading-relaxed space-y-4 text-[clamp(0.8rem,2.5vw,1.5rem)]">
-                                <li>1. G Sri Sai Meghana – Chair</li>
-                                <li>2. Srujana A Rao – Vice Chair</li>
-                                <li>3. Harshavardhan S – Secretary</li>
-                                <li>4. Bhuvan Kumar SG – Treasurer</li>
-                                <li>5. Manvendra Singh – Membership Chair</li>
-                                <li>6. Sudeep S – Web Master</li>
+                            <ul className="text-white text-2xl font-medium leading-relaxed space-y-4">
+                                <li>1. G Sri Sai Meghana – Ex Chair</li>
+                                <li>2. Srujana A Roa – Ex Vice Chair</li>
+                                <li>3. Harshavardhan S – Ex Secretary</li>
+                                <li>4. Bhuvan Kumar SG – Ex Treasurer</li>
+                                <li>5. Manvendra Singh – Ex Membership Chair</li>
+                                <li>6. Sudeep S – Ex Web Master</li>
                             </ul>
-
                         </div>
 
 
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
