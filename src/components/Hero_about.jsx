@@ -95,8 +95,8 @@ const Hero = () => {
         <TextType
           text={["WELCOME TO BMSCE ACM STUDENT CHAPTER", "FIND YOUR PEOPLE","FIND YOUR PASSION"]}
           as="h1"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white font-robert-medium !text-8xl md:!text-6xl lg:!text-[6rem] font-bold"
-          typingSpeed={70}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center text-white font-robert-medium !text-[5rem] md:!text-6xl lg:!text-[6rem] font-bold"
+          typingSpeed={80}
           deletingSpeed={50}
           pauseDuration={2000}
           initialDelay={200}
