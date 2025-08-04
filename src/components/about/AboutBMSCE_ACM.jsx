@@ -7,22 +7,22 @@ const bmsceAcmCards = [
     {
         title: "Innovation",
         description: "We encourage creative problem-solving and the development of novel technologies through projects and workshops.",
-        video: "videos/hackathon.mov",
+        video: "videos/hackathon.mp4",
     },
     {
         title: "Community",
         description: "Building a strong, supportive network of students and faculty to foster collaboration and shared growth.",
-        video: "videos/seminar.mov",
+        video: "videos/seminar.mp4",
     },
     {
         title: "Excellence",
         description: "Striving for technical and academic excellence in all our endeavors, from coding competitions to research papers.",
-        video: "videos/excelence2.mov",
+        video: "videos/excelence2.mp4",
     },
     {
         title: "Growth",
         description: "Providing opportunities for personal and professional development, preparing members for future careers.",
-        video: "videos/Events_video.mov",
+        video: "videos/Events_video.mp4",
     },
 ];
 

@@ -8,22 +8,22 @@ const acmCards = [
   {
     title: "Global Network",
     description: "Connect with a worldwide community of leaders and innovators in the computing field.",
-    video: "videos/globalnet.mov",
+    video: "videos/globalnet.mp4",
   },
   {
     title: "100,000+ Members",
     description: "Part of the world's largest computing society, shaping the future of technology.",
-    video: "videos/members.mov",
+    video: "videos/members.mp4",
   },
   {
     title: "Excellence",
     description: "Upholding the highest standards in research, practice, and ethics in computing.",
-    video: "videos/excellence.mov",
+    video: "videos/excellence.mp4",
   },
   {
     title: "Innovation",
     description: "Driving progress by fostering dialogue, sharing resources, and solving challenges.",
-    video: "videos/innovation.mov",
+    video: "videos/innovation.mp4",
   },
 ];
 

@@ -6,10 +6,16 @@ import { useEffect, useRef, useState } from "react";
 
 import Button from "./Button";
 import VideoPreview from "./VideoPreview";
+import { useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
+
+
 const Hero = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
 
@@ -80,7 +86,7 @@ const Hero = () => {
     });
   });
 
-  const getVideoSrc = (index) => `videos/hero-${index}.mov`;
+  const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -159,6 +165,7 @@ const Hero = () => {
                 title="Join Us"
                 leftIcon={<TiLocationArrow />}
                 containerClass="bg-yellow-300 flex-center gap-1"
+                onClick={() => navigate("/join-us")}
               />
             </div>
 

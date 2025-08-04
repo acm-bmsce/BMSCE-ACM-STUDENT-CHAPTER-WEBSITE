@@ -48,19 +48,17 @@ function AnimatedRoutes() {
     const isSameRoute = fromPath === toPath;
     const isPageReload = navigationType === "POP";
 
-    // Scroll to top on every navigation (delayed to ensure render)
+    // ✅ Always scroll to top, even on same route
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 0);
 
-    // Skip transition on first load or same route
-    if (firstLoad || isSameRoute || isPageReload) {
+    if (firstLoad || isPageReload) {
       prevPathRef.current = location.pathname;
       setDisplayLocation(location);
       setIsTransitioning(false);
       setFirstLoad(false);
 
-      // Hide transition blocks
       const blocks = transitionRef.current?.querySelectorAll(".block") || [];
       blocks.forEach((block) => {
         gsap.set(block, { scaleY: 0, visibility: "hidden" });
@@ -68,6 +66,9 @@ function AnimatedRoutes() {
 
       return;
     }
+
+    // ✅ Skip transition if same route (but scroll already triggered above)
+    if (isSameRoute) return;
 
     const animateTransition = () => {
       return new Promise((resolve) => {

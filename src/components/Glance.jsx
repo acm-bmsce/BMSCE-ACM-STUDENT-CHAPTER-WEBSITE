@@ -100,7 +100,7 @@ const Glance = () => {
                         onMouseLeave={() => setIsHovering(false)}
                     >
                         <video
-                            src="videos/glance-2.mov"
+                            src="videos/glance-2.mp4"
                             loop
                             muted
                             autoPlay
@@ -251,7 +251,7 @@ const Glance = () => {
                         onMouseLeave={() => setIsHovering(false)}
                     >
                         <video
-                            src="videos/glance-4.mov"
+                            src="videos/glance-4.mp4"
                             loop
                             muted
                             autoPlay

@@ -111,7 +111,7 @@ const Features = () => (
       />
       <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md lg:h-[65vh] ">
         <BentoCard
-          src="videos/hackathon.mov"
+          src="videos/hackathon.mp4"
           title={
             <>
               TECHNICAL
@@ -126,7 +126,7 @@ const Features = () => (
       <div className="grid h-[135vh] w-full grid-cols-1 lg:grid-cols-2 grid-rows-6 gap-7">
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
-            src="videos/design.mov"
+            src="videos/design.mp4"
             title={
               <>
                 Media and Design
@@ -139,7 +139,7 @@ const Features = () => (
 
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
-            src="videos/seminar.mov"
+            src="videos/seminar.mp4"
             title={
               <>
                 Seminars and Workshops
@@ -152,7 +152,7 @@ const Features = () => (
 
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
-            src="videos/research.mov"
+            src="videos/research.mp4"
             title={
               <>
                 Research
@@ -164,7 +164,7 @@ const Features = () => (
         </BentoTilt>
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
-            src="videos/event.mov"
+            src="videos/event.mp4"
             title={
               <>
                 Event Management
@@ -176,7 +176,7 @@ const Features = () => (
         </BentoTilt>
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2 ">
           <BentoCard
-            src="videos/community.mov"
+            src="videos/community.mp4"
             title={
               <>
                 Community Service
