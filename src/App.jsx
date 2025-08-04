@@ -17,6 +17,9 @@ import ScrollToTop from "./components/ScrollToTop";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+// Optional: import your sound
+import transitionSound from "./assets/sounds/transition.mp3"; // <- place file accordingly
+
 const ease = "power4.inOut";
 
 function AnimatedRoutes() {
@@ -25,12 +28,29 @@ function AnimatedRoutes() {
   const [displayLocation, setDisplayLocation] = useState(location);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    // Load audio only once
+    audioRef.current = new Audio(transitionSound);
+    audioRef.current.volume = 0.6; // adjust volume if needed
+  }, []);
+
   useEffect(() => {
     let isMounted = true;
 
     const animateTransition = () => {
       return new Promise((resolve) => {
         if (!transitionRef.current) return resolve();
+
+        // Play transition sound
+        if (audioRef.current) {
+          audioRef.current.currentTime = -1;
+          audioRef.current.play().catch((err) => {
+            console.warn("Audio play failed:", err);
+          });
+        }
+
         const blocks = transitionRef.current.querySelectorAll(".block");
         gsap.set(blocks, { scaleY: 0, visibility: "visible" });
         gsap.to(blocks, {
@@ -43,7 +63,7 @@ function AnimatedRoutes() {
             axis: "x",
           },
           ease,
-          onStart: () => setIsTransitioning(true), // 🟢 Start transition
+          onStart: () => setIsTransitioning(true),
           onComplete: resolve,
         });
       });
@@ -52,6 +72,7 @@ function AnimatedRoutes() {
     const revealTransition = () => {
       return new Promise((resolve) => {
         if (!transitionRef.current) return resolve();
+
         const blocks = transitionRef.current.querySelectorAll(".block");
         gsap.to(blocks, {
           scaleY: 0,
@@ -65,8 +86,8 @@ function AnimatedRoutes() {
           ease,
           onComplete: () => {
             gsap.set(".block", { visibility: "visible" });
+            setIsTransitioning(false);
             resolve();
-            setIsTransitioning(false); // 🟢 End transition
           },
         });
       });
@@ -113,7 +134,7 @@ function AnimatedRoutes() {
         </div>
       </div>
 
-      {/* Content */}
+      {/* Main content */}
       <div key={displayLocation.pathname}>
         {!isTransitioning && <NavBar />}
         <Routes location={displayLocation}>
@@ -128,7 +149,6 @@ function AnimatedRoutes() {
     </>
   );
 }
-
 
 function App() {
   return (
