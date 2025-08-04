@@ -1,13 +1,42 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 import ScrollFloat from "./ScrollFloat";
 import BlurText from "./BlurText";
 import AnimatedTitle from "./AnimatedTitle";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const BentoTilt = ({ children, className = "" }) => {
   const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
+
+  // Scroll rise-up animation
+  useGSAP(() => {
+    if (itemRef.current) {
+      gsap.fromTo(
+        itemRef.current,
+        {
+          y: 100,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: itemRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+  }, []);
 
   const handleMouseMove = (event) => {
     if (!itemRef.current) return;
@@ -112,14 +141,8 @@ const Features = () => (
       <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md lg:h-[65vh] ">
         <BentoCard
           src="videos/hackathon.mp4"
-          title={
-            <>
-              TECHNICAL
-            </>
-          }
+          title={<>TECHNICAL</>}
           description="Promoting innovation through coding, projects, and hackathon participation."
-          
-          
         />
       </BentoTilt>
 
@@ -127,63 +150,41 @@ const Features = () => (
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
             src="videos/design.mp4"
-            title={
-              <>
-                Media and Design
-              </>
-            }
+            title={<>Media and Design</>}
             description="Showcasing our work through creative visuals, content, and design."
-            
           />
         </BentoTilt>
 
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
             src="videos/seminar.mp4"
-            title={
-              <>
-                Seminars and Workshops
-              </>
-            }
+            title={<>Seminars and Workshops</>}
             description="Hosting expert talks and hands-on learning sessions."
-            
           />
         </BentoTilt>
 
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
             src="videos/research.mp4"
-            title={
-              <>
-                Research
-              </>
-            }
+            title={<>Research</>}
             description="Exploring AI, ML, and emerging tech through research and publications."
             isComingSoon
           />
         </BentoTilt>
+
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2">
           <BentoCard
             src="videos/event.mp4"
-            title={
-              <>
-                Event Management
-              </>
-            }
+            title={<>Event Management</>}
             description="Planning and executing events with seamless coordination."
-            
           />
         </BentoTilt>
+
         <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 lg:row-span-2 ">
           <BentoCard
             src="videos/community.mp4"
-            title={
-              <>
-                Community Service
-              </>
-            }
+            title={<>Community Service</>}
             description="Driving impact through outreach, education, and social initiatives."
-            
           />
         </BentoTilt>
 
@@ -196,9 +197,6 @@ const Features = () => (
             <TiLocationArrow className="m-5 scale-[5] self-end" />
           </div>
         </BentoTilt>
-
-        
-
       </div>
     </div>
   </section>
