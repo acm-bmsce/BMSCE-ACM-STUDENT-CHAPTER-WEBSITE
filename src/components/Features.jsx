@@ -116,7 +116,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
         muted
         preload="none"
         playsInline
-        className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-50 pointer-events-none"
+        className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40 pointer-events-none"
       >
         <source src={src.replace(".mp4", ".webm")} type="video/webm" />
         <source src={src} type="video/mp4" />

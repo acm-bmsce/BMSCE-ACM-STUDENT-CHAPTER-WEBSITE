@@ -35,6 +35,7 @@ export default {
       animation: {
         rise: 'rise 0.5s ease forwards',
       },
+      
     },
   },
   plugins: [],
