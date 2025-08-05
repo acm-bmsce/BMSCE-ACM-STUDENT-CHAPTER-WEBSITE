@@ -74,7 +74,7 @@ const TeamsHero = () => {
             style={{ pointerEvents: 'none' }}
           >
             <img
-              src="img/18.jpg"
+              src="img/18.webp"
               alt="Teams background"
               className="w-full h-full object-cover absolute inset-0 z-30 opacity-40"
               style={{ pointerEvents: 'none' }}

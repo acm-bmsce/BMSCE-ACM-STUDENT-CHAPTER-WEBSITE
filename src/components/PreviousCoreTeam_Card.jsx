@@ -5,7 +5,7 @@ const Card = () => {
   return (
     <StyledWrapper>
       <div className="card">
-        <img className="img" src="./img/previous_core.jpeg" alt="Team Members" />
+        <img className="img" src="./img/previous_core.webp" alt="Team Members" />
         <div className="textBox">
           <h2 className="title">Team Members</h2>
           <ul className="memberList">

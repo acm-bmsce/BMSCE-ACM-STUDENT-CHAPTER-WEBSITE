@@ -9,7 +9,7 @@ const teamData = {
       name: "Dr. Gowrishankar",
       role1: "Faculty Advisor",
       role2: "Faculty Advisor, Dean academics",
-      image: "./img/gowrishankar.jpeg",
+      image: "./img/gowrishankar.webp",
       socials: {
         linkedin: "https://www.linkedin.com/in/kushal-b-n-1404002b4/",
         email: "gowrishankar.cse@bmsce.ac.in"
@@ -20,7 +20,7 @@ const teamData = {
       name: "Dr. Seemanthini K Gowda",
       role1: "Faculty Sponsor",
       role2: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
-      image: "./img/Seemanthini.jpeg",
+      image: "./img/Seemanthini.webp",
       socials: {
         linkedin: "https://www.linkedin.com/in/dr-seemanthini-k-87115466/",
         email: "seemanthinik.mel@bmsce.ac.in"
@@ -32,7 +32,7 @@ const teamData = {
     name: "H S Adwi",
     role1: "Chair",
     role2: "Chair",
-    image: "img/Adwi.jpeg",
+    image: "img/Adwi.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/adwi-h-s-31b96928b/",
       email: "hsadwi.ai23@bmsce.ac.in"
@@ -43,7 +43,7 @@ const teamData = {
     name: "Indraneel M",
     role1: "Vice Chair",
     role2: "Vice Chair",
-    image: "/img/Indraneel.jpeg",
+    image: "/img/Indraneel.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/indraneel-mulpuru-219a332bb/",
       email: "indraneel.ec23@bmsce.ac.in"
@@ -54,7 +54,7 @@ const teamData = {
     name: "Roshini B",
     role1: "Secretary",
     role2: "Secretary",
-    image: "./img/roshini.jpeg",
+    image: "./img/roshini.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/roshini-b-480204339/",
       email: "broshini.ai23@bmsce.ac.in"
@@ -65,7 +65,7 @@ const teamData = {
     name: "Hrithik M",
     role1: "Web Master",
     role2: "Web Master and Technical Head",
-    image: "./img/Hrithik.jpeg",
+    image: "./img/Hrithik.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/hrithik-m-897581307/",
       email: "hrithikm.ai23@bmsce.ac.in"
@@ -76,7 +76,7 @@ const teamData = {
     name: "Kanishka Sharma",
     role1: "Membership Chair",
     role2: "Membership Chair",
-    image: "/img/Kanishka.jpeg",
+    image: "/img/Kanishka.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/kanishka-sharma-3aab79279/",
       email: "kanishkasharma.cs23@bmsce.ac.in"
@@ -87,7 +87,7 @@ const teamData = {
     name: "Dhruva G S",
     role1: "Treasurer",
     role2: "Treasurer",
-    image: "/img/Unknown_person.jpg",
+    image: "/img/Unknown_person.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/dhruva-g-shankar-85a7911a5/",
       email: "dhruvagshankar.ai23@bmsce.ac.in"
@@ -98,7 +98,7 @@ const teamData = {
     name: "Srikanth M",
     role1: "Senior Co-Ordinator",
     role2: "Senior Co-Ordinator",
-    image: "./img/Srikanth.jpeg",
+    image: "./img/Srikanth.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/srikanth-mandayam-annadoray-9744ba308/",
       email: "srikanthannadoray.ai23@bmsce.ac.in"
@@ -111,7 +111,7 @@ const teamData = {
       name: "Bhuvan Kumar SG",
       role1: "Student Advisor",
       role2: "Student Advisor",
-      image: "./img/Bhuvan.jpg",
+      image: "./img/Bhuvan.webp",
       socials: {
         linkedin: "https://www.linkedin.com/in/bhuvan-kumar-sg-52ba3a295/",
         email: "bhuvan.cd22@bmsce.ac.in"
@@ -122,7 +122,7 @@ const teamData = {
       name: "Srujana A Rao",
       role1: "Student Advisor",
       role2: "Student Advisor",
-      image: "./img/Srujana.jpeg",
+      image: "./img/Srujana.webp",
       socials: {
         linkedin: "https://www.linkedin.com/in/srujana-a-rao/",
         email: "srujana.cd22@bmsce.ac.in"

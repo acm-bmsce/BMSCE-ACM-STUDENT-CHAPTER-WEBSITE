@@ -70,7 +70,7 @@ const HeroSection = () => {
             </div>
           </div>
           <img
-            src="/img/42.jpg"
+            src="/img/42.webp"
             alt="BMSCE ACM Student Chapter"
             className="h-full w-full object-cover"
           />

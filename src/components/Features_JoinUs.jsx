@@ -160,12 +160,12 @@ const Features = () => {
   ];
 
   const imageSources = [
-    "/img/13.jpg",
-    "/img/56.jpeg",
-    "/img/9.jpg",
-    "/img/10.jpg",
-    "/img/15.jpg",
-    "/img/40.jpg",
+    "/img/13.webp",
+    "/img/56.webp",
+    "/img/9.webp",
+    "/img/10.webp",
+    "/img/15.webp",
+    "/img/40.webp",
   ];
 
   const [pos, setPos] = useState(0);
