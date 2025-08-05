@@ -1,15 +1,22 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { TiLocationArrow } from "react-icons/ti";
-import ScrollFloat from "./ScrollFloat";
-import BlurText from "./BlurText";
 import AnimatedTitle from "./AnimatedTitle";
-
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Utils: Debounce
+const debounce = (fn, delay) => {
+  let frame;
+  return (...args) => {
+    if (frame) cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => fn(...args));
+  };
+};
+
+// BentoTilt with performance optimizations
 export const BentoTilt = ({ children, className = "" }) => {
   const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
@@ -37,23 +44,18 @@ export const BentoTilt = ({ children, className = "" }) => {
     }
   }, []);
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = debounce((event) => {
     if (!itemRef.current) return;
     const { left, top, width, height } = itemRef.current.getBoundingClientRect();
-
     const relativeX = (event.clientX - left) / width;
     const relativeY = (event.clientY - top) / height;
-
     const tiltX = (relativeY - 0.5) * 5;
     const tiltY = (relativeX - 0.5) * -5;
-
     const newTransform = `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(.95, .95, .95)`;
     setTransformStyle(newTransform);
-  };
+  }, 16); // ~60fps
 
-  const handleMouseLeave = () => {
-    setTransformStyle("");
-  };
+  const handleMouseLeave = () => setTransformStyle("");
 
   return (
     <div
@@ -68,10 +70,12 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
+// VideoCard with IntersectionObserver to pause/resume video
 export const BentoCard = ({ src, title, description, isComingSoon }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef(null);
+  const videoRef = useRef(null);
 
   const handleMouseMove = (event) => {
     if (!hoverButtonRef.current) return;
@@ -85,18 +89,40 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
   const handleMouseEnter = () => setHoverOpacity(1);
   const handleMouseLeave = () => setHoverOpacity(0);
 
+  // Pause/resume video when offscreen
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (videoRef.current) {
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(() => {});
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    if (videoRef.current) observer.observe(videoRef.current);
+    return () => videoRef.current && observer.unobserve(videoRef.current);
+  }, []);
+
   return (
     <div className="relative w-full h-full will-change-transform overflow-hidden rounded-md">
       <video
-        src={src}
+        ref={videoRef}
         loop
         muted
-        autoPlay
         preload="none"
         playsInline
-        loading="lazy"
         className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-50 pointer-events-none"
-      />
+      >
+        <source src={src.replace(".mp4", ".webm")} type="video/webm" />
+        <source src={src} type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
         <div>
           <h1 className="bento-title special-font">{title}</h1>
