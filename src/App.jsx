@@ -180,8 +180,9 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <SmoothScroll/>
+      
       <ScrollToTop />
+      <SmoothScroll/>
       <AnimatedRoutes />
     </Router>
   );
