@@ -1,35 +1,69 @@
 // src/components/AboutBMSCE_ACM.jsx
 
+import { useEffect, useRef } from "react";
 import AnimatedTitle from "../AnimatedTitle";
 import { BentoCard, BentoTilt } from "../Bento"; // Reusing from Features.jsx
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const bmsceAcmCards = [
     {
         title: "Innovation",
-        description: "We encourage creative problem-solving and the development of novel technologies through projects and workshops.",
+        description:
+            "We encourage creative problem-solving and the development of novel technologies through projects and workshops.",
         video: "videos/innovation.mp4",
-        type:"video",
+        type: "video",
     },
     {
         title: "Community",
-        description: "Building a strong, supportive network of students and faculty to foster collaboration and shared growth.",
+        description:
+            "Building a strong, supportive network of students and faculty to foster collaboration and shared growth.",
         video: "img/community.webp",
-        type:"image",
+        type: "image",
     },
     {
         title: "Excellence",
-        description: "Striving for technical and academic excellence in all our endeavors, from coding competitions to research papers.",
+        description:
+            "Striving for technical and academic excellence in all our endeavors, from coding competitions to research papers.",
         video: "img/excellence2.webp",
-        type:"image",
+        type: "image",
     },
     {
         title: "Growth",
-        description: "Providing opportunities for personal and professional development, preparing members for future careers.",
+        description:
+            "Providing opportunities for personal and professional development, preparing members for future careers.",
         video: "videos/growth.mp4",
     },
 ];
 
 const AboutBMSCE_ACM = () => {
+    const cardsRef = useRef([]);
+
+    useEffect(() => {
+        cardsRef.current.forEach((card) => {
+            gsap.fromTo(
+                card,
+                {
+                    opacity: 0,
+                    y: 50,
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        toggleActions: "play none none reset",
+                    },
+                }
+            );
+        });
+    }, []);
+
     return (
         <section className="bg-black text-blue-50 py-32 px-3 md:px-10">
             <div className="container mx-auto">
@@ -44,14 +78,19 @@ const AboutBMSCE_ACM = () => {
                 {/* Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                     {bmsceAcmCards.map((card, index) => (
-                        <BentoTilt key={index} className="bento-tilt_2 row-span-1 h-[50vh]">
-                            <BentoCard
-                                src={card.video}
-                                title={card.title}
-                                description={card.description}
-                                type={card.type}
-                            />
-                        </BentoTilt>
+                        <div
+                            key={index}
+                            ref={(el) => (cardsRef.current[index] = el)}
+                        >
+                            <BentoTilt className="bento-tilt_2 row-span-1 h-[20vh] md:h-[50vh]">
+                                <BentoCard
+                                    src={card.video}
+                                    title={card.title}
+                                    description={card.description}
+                                    type={card.type}
+                                />
+                            </BentoTilt>
+                        </div>
                     ))}
                 </div>
             </div>

@@ -4,6 +4,7 @@ import AnimatedTitle from "../AnimatedTitle";
 import { BentoCard, BentoTilt } from "../Bento";
 import CountUp from "../CountUp";
 import Button from "../Button";
+import { motion } from "framer-motion";
 
 const acmCards = [
   {
@@ -15,7 +16,7 @@ const acmCards = [
   {
     title: "100,000+ Members",
     description: "Part of the world's largest computing society, shaping the future of technology.",
-    video: "img/members.webp", // replaced with image
+    video: "img/members.webp",
     type: "image",
   },
   {
@@ -27,7 +28,7 @@ const acmCards = [
   {
     title: "Innovation",
     description: "Driving progress by fostering dialogue, sharing resources, and solving challenges.",
-    video: "img/innovation.webp", // replaced with image
+    video: "img/innovation.webp",
     type: "image",
   },
 ];
@@ -51,18 +52,25 @@ const AboutACM = () => {
           />
         </div>
 
-
-        {/* Bento Grid */}
+        {/* Bento Grid with rise-up animation */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {acmCards.map((card, index) => (
-            <BentoTilt key={index} className="bento-tilt_2 row-span-1 h-[50vh]">
-              <BentoCard
-                src={card.video}
-                title={card.title}
-                description={card.description}
-                type={card.type}
-              />
-            </BentoTilt>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <BentoTilt className="bento-tilt_2 row-span-1 h-[20vh] md:h-[50vh]">
+                <BentoCard
+                  src={card.video}
+                  title={card.title}
+                  description={card.description}
+                  type={card.type}
+                />
+              </BentoTilt>
+            </motion.div>
           ))}
         </div>
 
