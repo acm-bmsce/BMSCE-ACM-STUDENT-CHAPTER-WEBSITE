@@ -11,58 +11,48 @@ gsap.registerPlugin(ScrollTrigger);
 const timelineData = [
   {
     year: "2022",
-    title: "Chapter Inauguration",
-    description: "The official launch of the BMSCE ACM Student Chapter, setting the stage for a new era of computing culture on campus."
+    title: "Inauguration of BMSCE ACM Student Chapter",
+    description: "September 30: Officially launched with over 250 attendees, laying the foundation for innovation and collaboration."
   },
   {
     year: "2022",
-    title: "Protocol",
-    description: "The chapter's first flagship event, a professional networking session connecting students with seasoned industry experts."
+    title: "First Technical Event",
+    description: "July 16: A talk on \"AI/ML in Cognitive Science Applications\" by Dr. G R Sinha marked our academic debut."
   },
   {
     year: "2023",
-    title: "Code N' Collab",
-    description: "A collaborative coding competition that emphasized teamwork and problem-solving in a dynamic environment."
-  },
-  {
-    year: "2023",
-    title: "Genesis '23",
-    description: "The inaugural edition of their intra-collegiate technical fest, featuring a diverse range of coding and design events."
-  },
-  {
-    year: "2023",
-    title: "Hour of Code",
-    description: "An initiative to demystify programming and provide a one-hour introduction to computer science for beginners."
+    title: "Hack for Good",
+    description: "August: A week-long national hackathon in collaboration with TechGig. 98 participants, ₹10,000 prize pool, and free Google Cloud access."
   },
   {
     year: "2024",
-    title: "Techsperts",
-    description: "An insightful speaker series where industry professionals shared their knowledge on cutting-edge technologies like AI/ML and Web3."
+    title: "DSA Mastery Program",
+    description: "January–February: A month-long course on Data Structures and Algorithms with 33 learners, concluding with an Amazon guest lecture."
+  },
+  {
+    year: "2023-2025",
+    title: "Duo's Dash Series",
+    description: "Three editions across three years, each with 100+ participants. Creative, AI-powered mini-games testing teamwork and logic."
   },
   {
     year: "2024",
-    title: "Codeblanca",
-    description: "A flagship 24-hour national-level hackathon that challenged participants to build innovative real-world solutions."
-  },
-  {
-    year: "2024",
-    title: "Genesis '24",
-    description: "The successful second iteration of the annual technical fest, expanding its scale with more events and wider participation."
-  },
-  {
-    year: "2024",
-    title: "Summer of Projects (SoP)",
-    description: "A summer-long program designed to foster project-building skills, mentorship, and peer-learning among students."
+    title: "ACM India Chapter Summit 2024",
+    description: "December: Co-hosted with RVCE, BMSCE led this national summit on Sustainable Computing with 350+ attendees."
   },
   {
     year: "2025",
-    title: "CodeFiesta",
-    description: "An online competitive programming contest held to identify and nurture top coding talent within the college."
+    title: "15 Days of Code",
+    description: "April–May: Highest participation with 285 students solving coding problems daily. A leaderboard-based competitive coding challenge."
+  },
+  {
+    year: "2024",
+    title: "National Recognition: Emerging Chapter Award",
+    description: "Recognized by ACM India for excellence, impact, and engagement across the country."
   },
   {
     year: "2025",
-    title: "ACM Annual National Summit Meeting",
-    description: "A strategic meeting where computing leaders convene to shape national tech policy, education, and industry innovation."
+    title: "National Recognition: Most Number of Activities Award",
+    description: "Awarded by ACM India for our consistent high level of activity and member engagement."
   }
 ];
 
