@@ -50,8 +50,8 @@ const timelineData = [
     description: "Recognized by ACM India for excellence, impact, and engagement across the country."
   },
   {
-    year: "2025",
-    title: "National Recognition: Most Number of Activities Award",
+    year: "2025 - July",
+    title: "National Recognition: Most Number of Activities Reported",
     description: "Awarded by ACM India for our consistent high level of activity and member engagement."
   }
 ];

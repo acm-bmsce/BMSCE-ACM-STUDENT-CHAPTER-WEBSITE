@@ -18,20 +18,42 @@ export const BentoTilt = ({ children, className = "" }) => {
   const handleMouseLeave = () => setTransformStyle("");
 
   return (
-    <div ref={itemRef} className={className} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} style={{ transform: transformStyle }}>
+    <div
+      ref={itemRef}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transform: transformStyle }}
+    >
       {children}
     </div>
   );
 };
 
-export const BentoCard = ({ src, title, description }) => (
+export const BentoCard = ({ src, title, description, type = "video" }) => (
   <div className="relative w-full h-full">
-    <video src={src} loop muted autoPlay className="absolute left-0 top-0 size-full object-cover object-center opacity-40" />
+    {type === "video" ? (
+      <video
+        src={src}
+        loop
+        muted
+        autoPlay
+        className="absolute left-0 top-0 size-full object-cover object-center opacity-40"
+      />
+    ) : (
+      <img
+        src={src}
+        alt={title}
+        className="absolute left-0 top-0 size-full object-cover object-center opacity-40"
+      />
+    )}
     <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
       <div>
         <h1 className="bento-title special-font">{title}</h1>
-        {description && <p className="mt-3 max-w-64 text-xs md:text-base">{description}</p>}
+        {description && (
+          <p className="mt-3 max-w-64 text-xs md:text-base">{description}</p>
+        )}
       </div>
     </div>
   </div>
-); 
+);

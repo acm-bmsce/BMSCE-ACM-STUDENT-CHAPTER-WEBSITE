@@ -7,22 +7,25 @@ const bmsceAcmCards = [
     {
         title: "Innovation",
         description: "We encourage creative problem-solving and the development of novel technologies through projects and workshops.",
-        video: "videos/hackathon.mp4",
+        video: "videos/innovation.mp4",
+        type:"video",
     },
     {
         title: "Community",
         description: "Building a strong, supportive network of students and faculty to foster collaboration and shared growth.",
-        video: "videos/seminar.mp4",
+        video: "img/community.webp",
+        type:"image",
     },
     {
         title: "Excellence",
         description: "Striving for technical and academic excellence in all our endeavors, from coding competitions to research papers.",
-        video: "videos/excelence2.mp4",
+        video: "img/excellence2.webp",
+        type:"image",
     },
     {
         title: "Growth",
         description: "Providing opportunities for personal and professional development, preparing members for future careers.",
-        video: "videos/Events_video.mp4",
+        video: "videos/growth.mp4",
     },
 ];
 
@@ -46,6 +49,7 @@ const AboutBMSCE_ACM = () => {
                                 src={card.video}
                                 title={card.title}
                                 description={card.description}
+                                type={card.type}
                             />
                         </BentoTilt>
                     ))}
