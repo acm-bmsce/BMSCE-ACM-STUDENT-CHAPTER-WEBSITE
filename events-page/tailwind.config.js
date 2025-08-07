@@ -10,6 +10,7 @@ module.exports = {
         subheading: ['"Bricolage Grotesque"', 'sans-serif'],
         body: ['"Bellefair"', 'serif'],
 		zentry: ["zentry", "sans-serif"],
+		montserrat: ['Montserrat', 'sans-serif'],
         general: ["general", "sans-serif"],
         "circular-web": ["circular-web", "sans-serif"],
         "robert-medium": ["robert-medium", "sans-serif"],

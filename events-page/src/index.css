@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bellefair&family=Bricolage+Grotesque:opsz,wght@10..48,400&display=swap');
 @import url("https://fonts.cdnfonts.com/css/general-sans");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,7 +11,7 @@ html {
 }
 
 body {
-  width: 100dvw;
+  width: 100vw;
   overflow-x: hidden;
   background-color: blue-75;
   font-family: "General Sans", sans-serif;
@@ -140,6 +141,7 @@ body {
     src: url("../public/fonts/circularweb-book.woff2") format("woff2");
   }
 
+
   @font-face {
     font-family: "general";
     src: url("../public/fonts/general.woff2") format("woff2");
@@ -154,6 +156,8 @@ body {
     font-family: "robert-regular";
     src: url("../public/fonts/robert-regular.woff2") format("woff2");
   }
+
+
 
   @font-face {
     font-family: "zentry";
