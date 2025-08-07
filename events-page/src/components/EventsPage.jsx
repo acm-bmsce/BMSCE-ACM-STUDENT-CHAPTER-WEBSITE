@@ -9,6 +9,8 @@ import AnimatedTitle from "./text/AnimatedTitle_event";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import eventData from "./Data2_event";
+import Timeline from "./Timeline_events";
+
 
 // const tabs = [
 //   "Upcoming Events",
@@ -57,7 +59,7 @@ const EventsPage = () => {
       
       <div className=" flex flex-col gap-3 w-full items-center relative z-10 snap-y snap-mandatory h-full">
 
-        <div className="relative flex flex-col bg-blue-50 p-8 text-center items-center gap-2 w-full min-h-screen  pt-4 justify-center">
+        <div className="relative flex flex-col bg-blue-50 p-8 text-center items-center gap-2 w-full min-h-screen font-montserrat pt-4 justify-center">
           <AnimatedTitle title="Our Events" containerClass="text-xl mt-5 special-font hero-heading !text-black text-center"/>
           <BlurText
             text={eventsPageIntro}
@@ -72,24 +74,30 @@ const EventsPage = () => {
           <EventStats totalAttendees={2603} totalEvents={40} upcomingEvents={0} pastEvents={40}/>
         </div>
 
-        <div className="w-full">
+        {/* <div className="w-full">
                 <EventNav activeTab={activeTab} onTabChange={setActiveTab} pastCount={12} upcomingCount={0} />
-        </div>
+        </div> */}
 
-        
         <HorizontalScroll
           events={activeTab === 'upcoming' ? upcomingEvents : pastEvents}
           onEventClick={handleEventClick}
           title={activeTab === 'upcoming' ? 'Upcoming Events' : 'Past Events'}
           />
+
+          {selectedEvent && (
+            <EventModal 
+            event={selectedEvent}
+            onClose={handleCloseModal}
+            /> )}
+
+        
+        {/* 
   
 
-        {selectedEvent && (
-          <EventModal 
-          event={selectedEvent}
-          onClose={handleCloseModal}
-          />
-        )}
+         */}
+        {/* <Timeline onEventClick={handleEventClick}/>
+        )} */}
+        {/* <Slider/> */}
 
 
       </div>

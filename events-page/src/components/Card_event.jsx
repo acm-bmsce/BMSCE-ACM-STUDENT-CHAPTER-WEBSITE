@@ -12,9 +12,9 @@ export const EventCard = ({ event, onClick }) => {
 
   return (
     <CardContainer
-      className="group bg-event-card border border-event-card-border rounded-xl p-5 
+      className="group bg-event-card border border-event-card-border rounded-xl p-3 
                  shadow-card hover:shadow-elevated transition-all duration-300 
-                 cursor-pointer hover:scale-105 hover:border-primary/50 
+                 cursor-pointer hover:border-primary/50 
                  w-[400px] h-[500px] flex-shrink-0"
       onClick={onClick}
     >
@@ -26,7 +26,7 @@ export const EventCard = ({ event, onClick }) => {
           src={event.image}
           alt={event.title}
           className="w-full h-48 object-cover transition-transform duration-300 
-                     group-hover:scale-110"
+                    "
         />
       </div>
         </CardItem>
