@@ -8,11 +8,12 @@ import Button from "./Button";
 import VideoPreview from "./VideoPreview";
 import { useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom";
-
 gsap.registerPlugin(ScrollTrigger);
 
-
+// Detect if device is mobile/touch-enabled
+const isMobile =
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -36,14 +37,14 @@ const Hero = () => {
   }, [loadedVideos]);
 
   const handleMiniVdClick = () => {
+    if (isMobile) return; // Disable video switching on mobile
     setHasClicked(true);
-
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
   useGSAP(
     () => {
-      if (hasClicked) {
+      if (!isMobile && hasClicked) {
         gsap.set("#next-video", { visibility: "visible" });
         gsap.to("#next-video", {
           transformOrigin: "center center",
@@ -90,50 +91,44 @@ const Hero = () => {
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
-      {/* {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-black">
-          
-          <div className="three-body">
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-          </div>
-        </div>
-      )} */}
-
       <div
         id="video-frame"
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
       >
         <div>
-          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
-            <VideoPreview>
-              <div
-                onClick={handleMiniVdClick}
-                className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
-              >
-                <video
-                  ref={nextVdRef}
-                  src={getVideoSrc((currentIndex % totalVideos) + 1)}
-                  loop
-                  muted
-                  id="current-video"
-                  className="size-64 origin-center scale-150 object-cover object-center"
-                  onLoadedData={handleVideoLoad}
-                />
-              </div>
-            </VideoPreview>
-          </div>
+          {!isMobile && (
+            <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
+              <VideoPreview>
+                <div
+                  onClick={handleMiniVdClick}
+                  className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
+                >
+                  <video
+                    ref={nextVdRef}
+                    src={getVideoSrc((currentIndex % totalVideos) + 1)}
+                    loop
+                    muted
+                    id="current-video"
+                    className="size-64 origin-center scale-150 object-cover object-center"
+                    onLoadedData={handleVideoLoad}
+                  />
+                </div>
+              </VideoPreview>
+            </div>
+          )}
 
-          <video
-            ref={nextVdRef}
-            src={getVideoSrc(currentIndex)}
-            loop
-            muted
-            id="next-video"
-            className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            onLoadedData={handleVideoLoad}
-          />
+          {!isMobile && (
+            <video
+              ref={nextVdRef}
+              src={getVideoSrc(currentIndex)}
+              loop
+              muted
+              id="next-video"
+              className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
+              onLoadedData={handleVideoLoad}
+            />
+          )}
+
           <video
             src={getVideoSrc(
               currentIndex === totalVideos - 1 ? 1 : currentIndex
@@ -146,7 +141,7 @@ const Hero = () => {
           />
         </div>
 
-        <h1 className="special-font hero-heading lg:hero-heading absolute pt-[160px] md:pt-[13rem] left-5 lg:top-auto lg:left-auto lg:bottom-5 lg:right-5 z-40 !text-blue-100  font-medium">
+        <h1 className="special-font hero-heading lg:hero-heading absolute pt-[160px] md:pt-[13rem] left-5 lg:top-auto lg:left-auto lg:bottom-5 lg:right-5 z-40 !text-blue-100 font-medium">
           STUDENT CHAPTER
         </h1>
 
@@ -156,8 +151,9 @@ const Hero = () => {
               BMSCE ACM
             </h1>
             <div className="pt-20 md:pt-28 lg:pt-0">
-              <p className="mb-5 max-w-64 font-robert-regular text-blue-100 ">
-                Innovating the Future Through <br />Technology & Community
+              <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
+                Innovating the Future Through <br />
+                Technology & Community
               </p>
 
               <Button
@@ -168,12 +164,14 @@ const Hero = () => {
                 onClick={() => navigate("/join-us")}
               />
             </div>
-
           </div>
         </div>
       </div>
-      <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black font-medium hidden lg:block"
-        style={{ right: '1.5rem' }}>
+
+      <h1
+        className="special-font hero-heading absolute bottom-5 right-5 text-black font-medium hidden lg:block"
+        style={{ right: "1.5rem" }}
+      >
         STUDENT CHAPTER
       </h1>
     </div>

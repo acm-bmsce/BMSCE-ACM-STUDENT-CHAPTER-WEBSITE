@@ -1,35 +1,28 @@
-
 import { ReactLenis } from "lenis/dist/lenis-react";
-import {
-  motion,
-  useMotionTemplate,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-
-import { useRef } from "react";
-import AnimatedTitle from "./AnimatedTitle";
-import Button from "./Button";
-
-const SECTION_HEIGHT = 1500;
 
 const SmoothScroll = () => {
+  const isMobile = typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
   return (
     <div className="bg-zinc-950">
-      <ReactLenis
-        root
-        options={{
-          lerp: 0.05,
-        }}
-      >
-
-        
-      </ReactLenis>
+      {!isMobile ? (
+        <ReactLenis
+          root
+          options={{
+            lerp: 0.05,
+          }}
+        >
+          
+        </ReactLenis>
+      ) : (
+        // Fallback for mobile — native scroll
+        <div>
+         
+        </div>
+      )}
     </div>
   );
 };
-
-
-
 
 export default SmoothScroll;

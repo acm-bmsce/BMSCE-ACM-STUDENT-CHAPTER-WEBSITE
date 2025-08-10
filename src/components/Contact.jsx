@@ -11,8 +11,8 @@ import {
 import { useInView } from "react-intersection-observer";
 
 import AnimatedTitle from "./AnimatedTitle";
-import Button from "./Button";
-import SmoothScrollContact from "./SmoothScroll";
+
+
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 
@@ -45,8 +45,8 @@ const Contact = () => {
   });
 
   return (
-    <div id="contact" className="my-20 w-screen px-10">
-      <SmoothScrollContact />
+    <div id="contact" className="my-16 md:py-20 w-screen px-5 md:px-10">
+      
 
       <motion.div
         style={{
@@ -79,7 +79,7 @@ const Contact = () => {
             initial={{ y: 30, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-10 font-general text-[20px] uppercase tracking-widest"
+            className="mb-10 mt-10 md:mt-0 font-general text-[20px] uppercase tracking-widest"
           >
             Join BMSCE ACM Student Chapter
           </motion.p>

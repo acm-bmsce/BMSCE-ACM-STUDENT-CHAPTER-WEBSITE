@@ -49,6 +49,7 @@ function AnimatedRoutes() {
     const isSameRoute = fromPath === toPath;
     const isPageReload = navigationType === "POP";
 
+    // Handle first load or page reload
     if (firstLoad || isPageReload) {
       prevPathRef.current = location.pathname;
       setDisplayLocation(location);
@@ -59,12 +60,16 @@ function AnimatedRoutes() {
       blocks.forEach((block) => {
         gsap.set(block, { scaleY: 0, visibility: "hidden" });
       });
-
       return;
     }
 
-    if (isSameRoute) return;
+    // ✅ If same route clicked, just scroll to top without animation
+    if (isSameRoute) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
+    // Normal animated transition
     const animateTransition = () => {
       return new Promise((resolve) => {
         if (!transitionRef.current) return resolve();

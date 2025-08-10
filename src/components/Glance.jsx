@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from "gsap/all";
 import AnimatedTitle from "./AnimatedTitle";
 import TextPressure from './TextPressure';
 import CountUp from './CountUp';
-
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +13,9 @@ const Glance = () => {
     const animationFrame = useRef(null);
     const mousePosition = useRef({});
     const videoRefs = useRef([]);
+
+    const isMobile = typeof window !== "undefined" &&
+        ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
     const addToRefs = (el) => {
         if (el && !cardRefs.current.includes(el)) {
@@ -28,9 +29,11 @@ const Glance = () => {
         }
     };
 
+    // Handle mouse move — only for desktop
     const handleMouseMove = useCallback(({ clientX, clientY, currentTarget }) => {
-        const rect = currentTarget.getBoundingClientRect();
+        if (isMobile) return; // no tilt on mobile
 
+        const rect = currentTarget.getBoundingClientRect();
         const xOffset = clientX - (rect.left + rect.width / 2);
         const yOffset = clientY - (rect.top + rect.height / 2);
 
@@ -51,9 +54,11 @@ const Glance = () => {
                 });
             }
         });
-    }, [isHovering]);
+    }, [isHovering, isMobile]);
 
+    // Reset tilt on mouse leave — only for desktop
     useEffect(() => {
+        if (isMobile) return;
         if (!isHovering) {
             cardRefs.current.forEach(card => {
                 gsap.to(card, {
@@ -67,9 +72,12 @@ const Glance = () => {
                 });
             });
         }
-    }, [isHovering]);
+    }, [isHovering, isMobile]);
 
+    // Video optimization — only on desktop
     useEffect(() => {
+        if (isMobile) return; // On mobile, skip lazy loading / conditional play-pause
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const video = entry.target;
@@ -92,7 +100,7 @@ const Glance = () => {
                 if (video) observer.unobserve(video);
             });
         };
-    }, []);
+    }, [isMobile]);
 
     return (
         <section className='min-h-screen bg-black text-violet-100 p-5 space-y-10'>
@@ -107,8 +115,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='relative flex border flex-col justify-between w-full max-w-full lg:max-w-xl md:h-[15rem] border border-neutral-700 p-5 rounded-lg overflow-hidden'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <video
                             ref={addVideoRef}
@@ -116,6 +124,7 @@ const Glance = () => {
                             loop
                             muted
                             autoPlay
+                            playsInline
                             className="absolute inset-0 h-full w-full left-[100px] object-cover object-left md:object-[60%] opacity-40 z-0"
                         />
                         <div className='relative z-10 p-2'>
@@ -131,8 +140,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='flex border flex-col justify-between w-full h-[20rem] max-w-full lg:max-w-xl md:h-[30rem] lg:h-[26rem] border border-neutral-700 p-2 bg-yellow-300 rounded-lg overflow-hidden'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <div className='special-font text-black lg:text-[16rem] leading-none' style={{ position: 'relative', height: '390px' }}>
                             <TextPressure text="59+" flex={true} alpha={false} stroke={false} width={true} weight={true} italic={false} textColor="#000000ff" strokeColor="#ff0000" minFontSize={20} />
@@ -146,8 +155,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='flex border flex-col justify-between w-full max-w-full lg:max-w-xl border border-neutral-700 p-2 bg-blue-300 rounded-lg overflow-hidden'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <div className='p-2 px-5'>
                             <div className='p-2'>
@@ -195,8 +204,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='relative flex border flex-col justify-between w-full max-w-full lg:max-w-xl md:h-[30rem] border border-neutral-700 p-3 rounded-lg overflow-hidden'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <video
                             ref={addVideoRef}
@@ -204,6 +213,7 @@ const Glance = () => {
                             loop
                             muted
                             autoPlay
+                            playsInline
                             className="absolute inset-0 h-2rem w-full left-[-100px] top-[200px] object-cover md:object-[50%] opacity-30 z-0"
                         />
                         <div className='relative z-10 font-montserrat text-white opacity-70 p-4 text-2xl md:text-[2rem] leading-none'>
@@ -219,8 +229,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='relative flex border flex-col justify-between w-full max-w-full lg:max-w-xl md:h-[18rem] border border-neutral-700 p-5 rounded-lg overflow-hidden'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <video
                             ref={addVideoRef}
@@ -228,6 +238,7 @@ const Glance = () => {
                             loop
                             muted
                             autoPlay
+                            playsInline
                             className="absolute inset-0 h-full w-full left-[100px] object-cover object-left md:object-[60%] opacity-60 z-0"
                         />
                         <div className='relative z-10 p-2'>
@@ -242,8 +253,8 @@ const Glance = () => {
                         ref={addToRefs}
                         className='bg-blue-75 rounded-lg w-full max-w-full lg:max-w-xl'
                         onMouseMove={handleMouseMove}
-                        onMouseEnter={() => setIsHovering(true)}
-                        onMouseLeave={() => setIsHovering(false)}
+                        onMouseEnter={() => !isMobile && setIsHovering(true)}
+                        onMouseLeave={() => !isMobile && setIsHovering(false)}
                     >
                         <div className='p-2'>
                             <div className='p-2'>
@@ -260,5 +271,3 @@ const Glance = () => {
 };
 
 export default Glance;
-
-
