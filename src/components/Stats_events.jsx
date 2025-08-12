@@ -8,40 +8,40 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 
-const EventStats = ({
-    totalEvents,
-    upcomingEvents,
-    pastEvents,
-    totalAttendees
+const EventStats = ({ 
+  totalEvents, 
+  upcomingEvents, 
+  pastEvents, 
+  totalAttendees 
 }) => {
-    const stats = [
-        {
-            label: 'Total Events',
-            value: totalEvents,
-            icon: Calendar,
-            color: 'text-primary'
-        },
-        {
-            label: 'Upcoming',
-            value: upcomingEvents,
-            icon: Clock,
-            color: 'text-primary-glow'
-        },
-        {
-            label: 'Past Events',
-            value: pastEvents,
-            icon: TrendingUp,
-            color: 'text-muted-foreground'
-        },
-        {
-            label: 'Total Attendees',
-            value: totalAttendees,
-            icon: Users,
-            color: 'text-primary'
-        }
-    ];
+  const stats = [
+    {
+      label: 'Total Events',
+      value: totalEvents,
+      icon: Calendar,
+      color: 'text-primary'
+    },
+    {
+      label: 'Upcoming',
+      value: upcomingEvents,
+      icon: Clock,
+      color: 'text-primary-glow'
+    },
+    {
+      label: 'Past Events',
+      value: pastEvents,
+      icon: TrendingUp,
+      color: 'text-muted-foreground'
+    },
+    {
+      label: 'Total Attendees',
+      value: totalAttendees,
+      icon: Users,
+      color: 'text-primary'
+    }
+  ];
 
-    const [isHovering, setIsHovering] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
     const cardRefs = useRef([]);
 
 
@@ -113,52 +113,124 @@ const EventStats = ({
         }
     }, [isHovering]);
 
-
+  
     cardRefs.current = []
 
-    return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat) => {
-                    const Icon = stat.icon;
-                    return (
-                        <div
-                            key={stat.label}
-                            // className={`bg-event-stats border border-event-card-border rounded-lg p-6 
-                            //            shadow-card hover:shadow-glow hover:bg-black transition-all duration-300
-                            //            animate-slide-up`}
-                            // style={{ animationDelay: `${index * 100}ms` }}
-                            ref={addToRefs}
-                            className='flex border bg-event-stats flex-col justify-between w-full hover:bg-black shadow-card hover:shadow-glo max-w-full lg:max-w-xl border-event-card-border p-6 rounded-lg overflow-hidden'
-                            onMouseMove={handleMouseMove}
-                            onMouseEnter={() => setIsHovering(true)}
-                            onMouseLeave={() => setIsHovering(false)}
-                        >
-                            <div className="flex items-center font-general justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-muted-foreground mb-1">
-                                        {stat.label}
-                                    </p>
-                                    <p className="text-2xl font-bold text-foreground">
-                                        {/* {stat.value.toLocaleString()} */}
-                                        <CountUp
-                                            from={0}
-                                            to={stat.value}
-                                            separator=","
-                                            direction="up"
-                                            duration={0.8}
-                                            className="count-up-text"
-                                        />
-                                    </p>
-                                </div>
-                                <Icon className={`h-8 w-8 ${stat.color}`} />
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    );
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 gap-6">
+         <div 
+            ref={addToRefs}
+                      className='flex border  flex-col justify-between w-full bg-blue-300  shadow-card hover:shadow-glo max-w-full lg:max-w-xl border-event-card-border p-6 rounded-lg overflow-hidden lg:row-span-2'
+                      onMouseMove={handleMouseMove}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+          >
+            <div className="flex items-center lg:items-start font-general justify-between">
+              <div className='flex flex-col lg:gap-14 justify-center lg:items-center'>
+                <p className="text-sm lg:text-2xl font-semibold text-black mb-1  ">
+                  Total Events
+                </p>
+                <p className="text-2xl lg:text-[150px] font-bold text-yellow-50">
+                  <CountUp 
+                    from={0}
+                    to={totalEvents}
+                    separator=","
+                    direction="up"
+                    duration={0.8}
+                    className="count-up-text "
+                  />
+                </p>
+              </div>
+              <Calendar className={`h-8 w-8 lg:h-[60px] lg:w-[60px] lg:text-black`} />
+            </div>   
+          </div>
+
+          <div 
+            ref={addToRefs}
+                      className='flex border bg-event-stats flex-col justify-between w-full text-white  hover:shadow-glo max-w-full lg:max-w-xl border-event-card-border p-6 rounded-lg overflow-hidden'
+                      onMouseMove={handleMouseMove}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+          >
+            <div className="flex items-center font-general justify-between">
+              <div>
+                <p className="text-sm font-medium text-white mb-1">
+                  Past Events
+                </p>
+                <p className="text-2xl font-bold text-foreground">
+                  <CountUp
+                    from={0}
+                    to={pastEvents}
+                    separator=","
+                    direction="up"
+                    duration={0.8}
+                    className="count-up-text"
+                  />
+                </p>
+              </div>
+              <TrendingUp className={`h-8 w-8`} />
+            </div>   
+          </div>
+
+          <div 
+            ref={addToRefs}
+                      className='flex border bg-event-stats flex-col justify-between w-full  bg-yellow-300 shadow-card hover:shadow-glo max-w-full lg:max-w-xl border-event-card-border p-6 lg:row-span-2 rounded-lg overflow-hidden'
+                      onMouseMove={handleMouseMove}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+          >
+            <div className="flex items-center lg:items-start font-general justify-between">
+              <div className='flex flex-col lg:gap-14 lg:justify-center'>
+                <p className="text-sm font-medium lg:text-2xl text-black mb-1">
+                  Total Participants
+                </p>
+                <p className="text-2xl lg:text-[100px] font-bold text-black">
+                  <CountUp
+                    from={0}
+                    to={totalAttendees}
+                    separator=","
+                    direction="up"
+                    duration={0.7}
+                    className="count-up-text"
+                  />
+                </p>
+              </div>
+              <Users className={`h-8 w-8 lg:h-[60px] lg:w-[60px] text-black`} />
+            </div>   
+          </div>
+
+          <div 
+            ref={addToRefs}
+                      className='flex border bg-event-stats flex-col text-white justify-between w-full hover:bg-black shadow-card hover:shadow-glo max-w-full lg:max-w-xl border-event-card-border p-6 rounded-lg overflow-hidden'
+                      onMouseMove={handleMouseMove}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+          >
+            <div className="flex items-center font-general justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground mb-1">
+                  Upcomimg Events
+                </p>
+                <p className="text-2xl font-bold text-foreground">
+                  <CountUp
+                    from={0}
+                    to={0}
+                    separator=","
+                    direction="up"
+                    duration={0.8}
+                    className="count-up-text"
+                  />
+                </p>
+              </div>
+              <Clock className={`h-8 w-8`} />
+            </div>   
+          </div>
+
+          
+      </div>
+    </div>
+  );
 };
 
 export default EventStats

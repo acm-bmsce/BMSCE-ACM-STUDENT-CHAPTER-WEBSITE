@@ -2,7 +2,7 @@ import Hero from "../components/Hero_about";
 import AboutACM from "../components/about/AboutACM";
 import AboutBMSCE_ACM from "../components/about/AboutBMSCE_ACM";
 import Journey from "../components/about/Journey";
-import Connect from "../components/about/Connect";
+import GetInTouch from "../components/about/GetInTouch";
 
 
 function AboutUs() {
@@ -14,7 +14,7 @@ function AboutUs() {
       <AboutACM />
       <AboutBMSCE_ACM />
       <Journey />
-      <Connect />
+      <GetInTouch />
       
     </main>
   );

@@ -31,9 +31,14 @@ export default {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
       },
       animation: {
         rise: 'rise 0.5s ease forwards',
+        float: 'float 6s ease-in-out infinite',
       },
       
     },
