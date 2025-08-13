@@ -1,6 +1,6 @@
 import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
   useMotionTemplate,
@@ -12,27 +12,23 @@ import { useInView } from "react-intersection-observer";
 
 import AnimatedTitle from "./AnimatedTitle";
 
-
-
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
-
-const ImageClipBox = ({ src, clipClass }) => (
-  <div className={clipClass}>
-    <img src={src} />
-  </div>
-);
-
+const COLORS_MOB= ["#5acbedff"]
 const Contact = () => {
-  const color = useMotionValue(COLORS_TOP[0]);
+  const color = useMotionValue(COLORS_MOB[0]);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
+  // Animate color only on desktop for performance
   useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, []);
+    if (!isMobile) {
+      animate(color, COLORS_TOP, {
+        ease: "easeInOut",
+        duration: 10,
+        repeat: Infinity,
+        repeatType: "mirror",
+      });
+    }
+  }, [isMobile, color]);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
@@ -44,24 +40,38 @@ const Contact = () => {
     threshold: 0.3,
   });
 
+  // Memoized starfield so it doesn’t remount
+  const Starfield = useMemo(
+    () => (
+      <Canvas>
+        <Stars
+          radius={50}
+          count={isMobile ? 500 : 2500}
+          factor={isMobile ? 2 : 4}
+          fade
+          speed={1.5}
+        />
+      </Canvas>
+    ),
+    [isMobile]
+  );
+
   return (
     <div id="contact" className="my-16 md:py-20 w-screen px-5 md:px-10">
-      
-
       <motion.div
         style={{
           backgroundImage,
           boxShadow: "0 30px 60px rgba(0, 0, 0, 0.6)",
-          borderStyle:"none"
+          borderStyle: "none",
         }}
-        className="relative rounded-lg bg-gray-950/50 backdrop-blur-md border border-white/20 py-24 text-gray-200 sm:overflow-hidden"
+        className={`relative rounded-lg ${
+          isMobile
+            ? "bg-gray-900/80"
+            : "bg-gray-950/50 backdrop-blur-md"
+        } border border-white/20 py-24 text-gray-200 sm:overflow-hidden`}
       >
         {/* Starfield Canvas */}
-        <div className="absolute inset-0 z-0">
-          <Canvas>
-            <Stars radius={50} count={2500} factor={4} fade speed={2} />
-          </Canvas>
-        </div>
+        <div className="absolute inset-0 z-0">{Starfield}</div>
 
         {/* Floating Logo */}
         <div className="relative z-10">
