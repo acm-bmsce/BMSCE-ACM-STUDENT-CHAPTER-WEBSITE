@@ -20,6 +20,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 // Sound
 import transitionSound from "./assets/sounds/transition.mp3";
@@ -188,6 +189,7 @@ function App() {
       <ScrollToTop />
       <SmoothScroll />
       <AnimatedRoutes />
+      <ScrollToTopButton />
     </Router>
   );
 }
