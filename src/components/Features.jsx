@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 import AnimatedTitle from "./AnimatedTitle";
 import gsap from "gsap";
@@ -7,12 +7,10 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Detect touch devices
 const isMobile =
   typeof window !== "undefined" &&
   ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-// Utils: Debounce (for desktop only)
 const debounce = (fn, delay) => {
   let frame;
   return (...args) => {
@@ -21,33 +19,38 @@ const debounce = (fn, delay) => {
   };
 };
 
-// BentoTilt with conditional mobile optimization
 export const BentoTilt = ({ children, className = "" }) => {
   const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
 
-  // Run GSAP only on desktop
   useGSAP(() => {
-    if (!isMobile && itemRef.current) {
-      gsap.fromTo(
-        itemRef.current,
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: itemRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
+    if (itemRef.current) {
+      const runAnim = () => {
+        gsap.fromTo(
+          itemRef.current,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            willChange: "transform, opacity",
+            scrollTrigger: {
+              trigger: itemRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      };
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(runAnim);
+      } else {
+        setTimeout(runAnim, 100);
+      }
     }
   }, []);
 
-  // Tilt effect only on desktop
   const handleMouseMove = !isMobile
     ? debounce((event) => {
         if (!itemRef.current) return;
@@ -56,9 +59,10 @@ export const BentoTilt = ({ children, className = "" }) => {
         const relativeY = (event.clientY - top) / height;
         const tiltX = (relativeY - 0.5) * 5;
         const tiltY = (relativeX - 0.5) * -5;
-        const newTransform = `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(.95, .95, .95)`;
-        setTransformStyle(newTransform);
-      }, 16)
+        setTransformStyle(
+          `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(.95, .95, .95)`
+        );
+      }, 32)
     : undefined;
 
   const handleMouseLeave = !isMobile ? () => setTransformStyle("") : undefined;
@@ -71,7 +75,9 @@ export const BentoTilt = ({ children, className = "" }) => {
       onMouseLeave={handleMouseLeave}
       style={{
         transform: isMobile ? undefined : transformStyle,
-        willChange: !isMobile ? "transform" : undefined,
+        willChange: "transform, opacity",
+        transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden"
       }}
     >
       {children}
@@ -79,11 +85,9 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
-// VideoCard: Mobile = paused until clicked, Desktop = normal behavior
 export const BentoCard = ({ src, title, description, isComingSoon }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const hoverButtonRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -92,29 +96,15 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
     const rect = hoverButtonRef.current.getBoundingClientRect();
     setCursorPosition({
       x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      y: event.clientY - rect.top
     });
   };
 
   const handleMouseEnter = () => setHoverOpacity(1);
   const handleMouseLeave = () => setHoverOpacity(0);
 
-  // Mobile: play video on click only
-  const handleVideoClick = () => {
-    if (isMobile && videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().catch(() => {});
-        setIsPlaying(true);
-      }
-    }
-  };
-
-  // Only desktop gets IntersectionObserver pause/resume
   useEffect(() => {
-    if (!isMobile) {
+    if (!isMobile && videoRef.current) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (videoRef.current) {
@@ -125,42 +115,38 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
             }
           }
         },
-        { threshold: 0.25 }
+        { threshold: 0.6 }
       );
-
-      if (videoRef.current) observer.observe(videoRef.current);
-      return () => videoRef.current && observer.unobserve(videoRef.current);
+      observer.observe(videoRef.current);
+      return () => observer.disconnect();
     }
   }, []);
 
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-md ">
+    <div className="relative w-full h-full overflow-hidden rounded-md">
       {isMobile ? (
-        // MOBILE: Paused until clicked
-        <video
-          ref={videoRef}
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40 cursor-pointer"
-          onClick={handleVideoClick}
-        >
-          <source src={src.replace(".mp4", ".webm")} type="video/webm" />
-          <source src={src} type="video/mp4" />
-        </video>
+        <img
+          src={src.replace(".mp4", ".png")}
+          alt={title}
+          className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40"
+        />
       ) : (
-        // DESKTOP: Optimized autoplay/pause with IntersectionObserver
         <video
           ref={videoRef}
           loop
           muted
-          preload="none"
+          preload="auto"
           playsInline
           className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40 pointer-events-none"
         >
-          <source src={src.replace(".mp4", ".webm")} type="video/webm" />
-          <source src={src} type="video/mp4" />
+          <source
+            src={src.replace(".mp4", ".webm")}
+            type="video/webm"
+          />
+          <source
+            src={src}
+            type="video/mp4"
+          />
         </video>
       )}
 
@@ -185,7 +171,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
                 className="pointer-events-none absolute -inset-px transition duration-300"
                 style={{
                   opacity: hoverOpacity,
-                  background: `radial-gradient(100px circle at ${cursorPosition.x}px ${cursorPosition.y}px, #656fe288, #00000026)`,
+                  background: `radial-gradient(100px circle at ${cursorPosition.x}px ${cursorPosition.y}px, #656fe288, #00000026)`
                 }}
               />
             )}
@@ -220,32 +206,32 @@ const Features = () => (
             src: "videos/design.mp4",
             title: "Media and Design",
             description:
-              "Showcasing our work through creative visuals, content, and design.",
+              "Showcasing our work through creative visuals, content, and design."
           },
           {
             src: "videos/seminar.mp4",
             title: "Seminars and Workshops",
-            description: "Hosting expert talks and hands-on learning sessions.",
+            description: "Hosting expert talks and hands-on learning sessions."
           },
           {
             src: "videos/research.mp4",
             title: "Research",
             description:
               "Exploring AI, ML, and emerging tech through research and publications.",
-            isComingSoon: true,
+            isComingSoon: true
           },
           {
             src: "videos/event.mp4",
             title: "Event Management",
             description:
-              "Planning and executing events with seamless coordination.",
+              "Planning and executing events with seamless coordination."
           },
           {
             src: "videos/community.mp4",
             title: "Community Service",
             description:
-              "Driving impact through outreach, education, and social initiatives.",
-          },
+              "Driving impact through outreach, education, and social initiatives."
+          }
         ].map((item, index) => (
           <BentoTilt
             key={index}
