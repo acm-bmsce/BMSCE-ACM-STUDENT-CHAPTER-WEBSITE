@@ -56,7 +56,7 @@ const Membership = () => {
   
             <div className="flex justify-between w-full mb-12">
               <div className="w-full lg:w-[calc(50%-80px)] text-center">
-                <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Student Chapter ]</h2>
+                <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Chapter Membership ]</h2>
               </div>
               <div className="w-full lg:w-[calc(50%-80px)] text-center">
                 <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Global Membership ]</h2>

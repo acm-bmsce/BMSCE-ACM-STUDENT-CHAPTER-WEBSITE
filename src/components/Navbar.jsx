@@ -84,7 +84,7 @@ const NavBar = () => {
         <Link
           key={index}
           to="/"
-          className="nav-hover-btn text-xl lg:text-[1rem] font-bold"
+          className="nav-hover-btn text-xl lg:text-[1rem] font-bold "
           onClick={() => {
             if (isMenuOpen) toggleMenu();
           }}
@@ -333,7 +333,7 @@ const NavBar = () => {
 
             <button
               onClick={toggleMenu}
-              className="md:hidden text-blue-50"
+              className="md:hidden text-white"
             >
               {isMenuOpen ? (
                 <IoMdClose size={30} className="text-white" />

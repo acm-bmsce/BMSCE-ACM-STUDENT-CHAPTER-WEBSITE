@@ -84,7 +84,7 @@ const TeamsHero = () => {
           {/* Hero Content */}
           <div className="relative z-20 text-center -top-6 px-5 lg:px-10 max-w-4xl mx-auto">
             <AnimatedTitle
-              title="MEET OUR TEAM"
+              title="OUR TEAM"
               containerClass="!text-white !text-[5rem] md:!text-[8rem] text-center mb-8"
             />
             <p

@@ -40,15 +40,16 @@ const timelineData = [
     description: "December: Co-hosted with RVCE, BMSCE led this national summit on Sustainable Computing with 350+ attendees."
   },
   {
-    year: "2025",
-    title: "15 Days of Code",
-    description: "April–May: Highest participation with 285 students solving coding problems daily. A leaderboard-based competitive coding challenge."
-  },
-  {
     year: "2024",
     title: "National Recognition: Emerging Chapter Award",
     description: "Recognized by ACM India for excellence, impact, and engagement across the country."
   },
+  {
+    year: "2025",
+    title: "15 Days of Code",
+    description: "April–May: Highest participation with 285 students solving coding problems daily. A leaderboard-based competitive coding challenge."
+  },
+  
   {
     year: "2025 - July",
     title: "National Recognition: Most Number of Activities Reported",

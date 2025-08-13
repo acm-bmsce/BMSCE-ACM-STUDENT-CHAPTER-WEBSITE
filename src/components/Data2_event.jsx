@@ -9,8 +9,7 @@ import pos8 from '../assets/posters2025/2025-8.jpg'
 import pos9 from '../assets/posters2025/2025-9.jpeg'
 import pos10 from '../assets/posters2025/2025-10.jpeg'
 import pos11 from '../assets/posters2025/2025-11.jpg'
-// import pos12 from '../assets/posters2025/2025-12.jpeg'
-import pos13 from '../assets/posters2025/2025-13.jpg'
+import pos12 from '../assets/posters2025/2025-12.jpg'
 
 
 
@@ -29,12 +28,11 @@ const eventData = [
     },
     {
         id: '2',
-        title: "GRANDMASTER’S GAMBIT 3.0",
+        title: "Grandmaster's Gambit",
         description: 'The tournament aims to promote strategic collaboration and adaptability in competitive chess by bringing together teams of two players. Unlike traditional solo play, this team-based format emphasizes coordination, communication, and joint decision-making across a series of varied chess formats',
         date: '2025-05-11',
         image: pos2,
-        fullDescription:
-            "Grandmaster’s Gambit 3.0, hosted on Chess.com, was a thrilling and fast-paced online chess experience like no other. This unique event brought a refreshing twist to traditional chess competitions by focusing on team-based play. Each team consisted of two players who joined forces, combining their skills, strategies, and communication to outplay their opponents. The tournament featured a series of matches played in multiple chess formats, including blitz, bullet, and rapid games. This variety tested each team’s adaptability and versatility, pushing players to think quickly, plan effectively, and adjust their playstyles depending on the format and opponent. No two matches were the same — making every round a new challenge and an opportunity to shine. Teamwork was at the heart of this competition. Success depended not just on individual skill but also on how well players communicated, supported, and synchronized with each other. Whether it was discussing opening strategies, coordinating attacks, or defending in tough positions, teams had to stay sharp and stay united throughout the event. At the end of the tournament, the team with the most overall victories across all games and formats was declared the champion. Along the way, there were thrilling plays, surprising upsets, and memorable moments of collaboration and creativity. Whether it was tactical brilliance, fast thinking, or dynamic coordination, this tournament became the perfect stage for participants to showcase their passion for chess and their strength as a team."
+        fullDescription:"Grandmaster’s Gambit 3.0, hosted on Chess.com, was a thrilling and fast-paced online chess experience like no other. This unique event brought a refreshing twist to traditional chess competitions by focusing on team-based play. Each team consisted of two players who joined forces, combining their skills, strategies, and communication to outplay their opponents. The tournament featured a series of matches played in multiple chess formats, including blitz, bullet, and rapid games. This variety tested each team’s adaptability and versatility, pushing players to think quickly, plan effectively, and adjust their playstyles depending on the format and opponent. No two matches were the same — making every round a new challenge and an opportunity to shine. Teamwork was at the heart of this competition. Success depended not just on individual skill but also on how well players communicated, supported, and synchronized with each other. Whether it was discussing opening strategies, coordinating attacks, or defending in tough positions, teams had to stay sharp and stay united throughout the event. At the end of the tournament, the team with the most overall victories across all games and formats was declared the champion. Along the way, there were thrilling plays, surprising upsets, and memorable moments of collaboration and creativity. Whether it was tactical brilliance, fast thinking, or dynamic coordination, this tournament became the perfect stage for participants to showcase their passion for chess and their strength as a team."
         , outcomes: "The event is designed to deliver an engaging and challenging experience that goes beyond traditional individual chess play. By incorporating a variety of game formats and requiring close coordination between teammates, the tournament will showcase the value of strategic collaboration and adaptability under pressure. Participants will walk away with enriched skills in communication, rapid decision-making, and tactical planning across different time controls and styles of play. The event will also strengthen the sense of community among chess enthusiasts by fostering sportsmanship, mutual respect, and camaraderie through team-based competition. Ultimately, the tournament will crown a champion team that not only excels in individual talent but also demonstrates exceptional synergy and versatility. This outcome will serve as a celebration of both strategic excellence and cooperative gameplay in the evolving landscape of online chess.",
         gallery: [],
         location: 'AIML LAB 1',
@@ -42,7 +40,7 @@ const eventData = [
     },
     {
         id: '3',
-        title: 'Duo’s Dash 3.0',
+        title: 'Duo’s Dash',
         description: 'The BMSCE ACM Student Chapter organized Duo’s Dash 3.0 on account of UTSAV’25. We aim to strengthen connections and forge new bonds during this event. Most of all, we wanted to ensure that our participants have a wonderful experience at UTSAV’25 while playing our mini-games.',
         date: '2025-05-10',
         image: pos3,
@@ -98,7 +96,7 @@ const eventData = [
     },
     {
         id: '7',
-        title: 'Eminent Speaker Program',
+        title: 'ESP-Cryptoverse',
         description: 'The objective of this Eminent Speaker Talk was to dive into the challenges of transforming theoretical cryptographic security into real-world applications and to learn how to build systems that withstand modern cyber threats.',
         date: '2025-05-08',
         image: pos7,
@@ -111,7 +109,7 @@ const eventData = [
     },
     {
         id: '8',
-        title: 'TOWN HALL FOR ACM STUDENTS',
+        title: 'ACM India TOWN HALL',
         description: 'The Town Hall for ACM Students, held virtually on April 5th, 2025, brought together ACM student chapter members and faculty from across the country for an enriching interaction with the ACM India Council. The event aimed to foster collaboration, recognize excellence, and offer guidance on how student chapters can thrive and make meaningful contributions to the ACM community.',
         date: '2025-05-05',
         image: pos8,
@@ -144,7 +142,7 @@ const eventData = [
     },
     {
         id: '9',
-        title: 'BMSCE ACM Student Chapter Annual General Meeting 2025.',
+        title: 'AGM 2025',
         description: 'The BMSCE ACM Student Chapter organized the Annual General Meeting 2025 to review the chapter’s key activities and achievements over the past year, discuss future plans and industry collaborations, introduce the newly elected student leadership team for 2025-26, and provide a platform for faculty and students to share their feedback and suggestions to enhance the chapter’s growth and impact.',
         date: '2025-03-20',
         image: pos9,
@@ -195,25 +193,13 @@ const eventData = [
         location: 'PJ Block, 6th floor, Computer Science Data Science Lab',
         attendees: '50',
     },
+   
     {
         id: '12',
-        title: '',
-        description: '',
-        date: '',
-        image: '',
-        fullDescription:
-            ""
-        , outcomes: "",
-        gallery: [],
-        location: '',
-        attendees: '',
-    },
-    {
-        id: '13',
         title: 'iTeach',
         description: 'BMSCE ACM Student Chapter conducted the CS Pathshala program as part of iTeach, an initiative by the BMS Rotaract Club. This collaboration brought a fresh technical perspective to the event, introducing students to key computational thinking concepts and fostering problem-solving skills in a creative and hands-on manner.',
         date: '2025-02-15',
-        image: pos13,
+        image: pos12,
         fullDescription:
             "The CS Pathshala program by the ACM India Council, conducted by the BMSCE ACM Student Chapter, was integrated into the iTeach initiative by the BMSCE Rotaract Club. This partnership focused on introducing computational thinking to students through dynamic, grade-specific activities that emphasized problem-solving, logical reasoning, and teamwork.\n\n" +
 
