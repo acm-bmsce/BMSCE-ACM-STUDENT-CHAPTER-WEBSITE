@@ -134,7 +134,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
   }, []);
 
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-md">
+    <div className="relative w-full h-full overflow-hidden rounded-md ">
       {isMobile ? (
         // MOBILE: Paused until clicked
         <video
