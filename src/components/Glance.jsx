@@ -156,7 +156,7 @@ const Glance = () => {
                     >
                         {renderMedia(
                             "videos/glance-2.mp4",
-                            "img/memberscard.png",
+                            "img/memberscard.webp",
                             "absolute inset-0 h-full w-full left-[100px] object-cover object-left md:object-[60%] opacity-40 z-0"
                         )}
                         <div className='relative z-10 p-2'>
@@ -256,7 +256,7 @@ const Glance = () => {
                     >
                         {renderMedia(
                             "videos/glance-4.mp4",
-                            "img/mission.png",
+                            "img/mission.webp",
                             "absolute inset-0 h-2rem w-full left-[-100px] top-[200px] object-cover md:object-[50%] opacity-30 z-0"
                         )}
                         <div className='relative z-10 font-montserrat text-white opacity-70 p-4 text-2xl md:text-[2rem] leading-none'>
@@ -276,8 +276,8 @@ const Glance = () => {
                         {...tiltHandlers}
                     >
                         {renderMedia(
-                            "img/internships.png",
-                            "img/internships.png",
+                            "img/internships.webp",
+                            "img/internships.webp",
                             "absolute inset-0 h-full w-full left-[100px] object-cover object-left md:object-[60%] opacity-60 z-0"
                         )}
                         <div className='relative z-10 p-2'>

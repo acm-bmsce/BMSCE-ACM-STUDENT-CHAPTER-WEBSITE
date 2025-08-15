@@ -15,7 +15,7 @@ const TeamsHero = () => {
   useEffect(() => {
     const updateImage = () => {
       if (window.innerWidth <= 768) {
-        setBgImage("img/team_mobile.jpg"); // mobile version
+        setBgImage("img/team_mobile.webp"); // mobile version
       } else {
         setBgImage("img/18.webp"); // desktop version
       }
