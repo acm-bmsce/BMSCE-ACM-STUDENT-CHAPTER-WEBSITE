@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import AnimatedTitle from "./AnimatedTitle";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -9,14 +9,27 @@ gsap.registerPlugin(ScrollTrigger);
 const TeamsHero = () => {
   const heroRef = useRef(null);
   const descriptionRef = useRef(null);
+  const [bgImage, setBgImage] = useState("img/18.webp"); // default desktop
+
+  // Detect screen size and set image
+  useEffect(() => {
+    const updateImage = () => {
+      if (window.innerWidth <= 768) {
+        setBgImage("img/team_mobile.jpg"); // mobile version
+      } else {
+        setBgImage("img/18.webp"); // desktop version
+      }
+    };
+    updateImage();
+    window.addEventListener("resize", updateImage);
+    return () => window.removeEventListener("resize", updateImage);
+  }, []);
 
   // Circular Fade-In on Load
   useGSAP(() => {
     gsap.fromTo(
       "#circular-mask",
-      {
-        clipPath: "circle(0% at 50% 50%)",
-      },
+      { clipPath: "circle(0% at 50% 50%)" },
       {
         clipPath: "circle(150% at 50% 50%)",
         duration: 2.5,
@@ -63,7 +76,10 @@ const TeamsHero = () => {
   }, { scope: heroRef });
 
   return (
-    <div ref={heroRef} className="relative h-dvh w-screen overflow-x-hidden bg-black flex items-center justify-center">
+    <div
+      ref={heroRef}
+      className="relative h-dvh w-screen overflow-x-hidden bg-black flex items-center justify-center"
+    >
       {/* Circular Reveal Mask */}
       <div id="circular-mask" className="absolute inset-0 z-10 bg-black">
         <div className="relative h-full w-full flex items-center justify-center">
@@ -71,13 +87,13 @@ const TeamsHero = () => {
           <div
             id="hero-bg-frame"
             className="absolute inset-0 z-0 overflow-hidden"
-            style={{ pointerEvents: 'none' }}
+            style={{ pointerEvents: "none" }}
           >
             <img
-              src="img/18.webp"
+              src={bgImage}
               alt="Teams background"
               className="w-full h-full object-cover absolute inset-0 z-30 opacity-30"
-              style={{ pointerEvents: 'none' }}
+              style={{ pointerEvents: "none" }}
             />
           </div>
 
@@ -89,7 +105,7 @@ const TeamsHero = () => {
             />
             <p
               ref={descriptionRef}
-              className="!mt-48 max-w-2xl  mx-auto font-robert-regular text-white text-2xl md:text-xl "
+              className="!mt-48 max-w-2xl mx-auto font-robert-regular text-white text-2xl md:text-xl"
             >
               Discover the passionate minds behind our innovation. <br />
               Meet the dedicated individuals who drive our community forward.
