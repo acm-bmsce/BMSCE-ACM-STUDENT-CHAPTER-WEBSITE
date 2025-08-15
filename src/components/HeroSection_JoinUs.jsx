@@ -57,12 +57,10 @@ const HeroSection = () => {
               
               containerClass="animated-title_joinus !text-white text-center mb-2"
             />
-            <p className="font-general text-sm uppercase text-white md:text-[24px]">
-              Where innovation meets community – Shape your tech future with us
-            </p>
+            
             
             <div className="about-subtext_joinus mt-4 text-white">
-              <p className="text-base md:text-lg lg:text-2xl">
+              <p className="text-base md:text-lg lg:text-xl">
                 Join over 500 students and <br />
                 level up by becoming a member <br /> of the BMSCE ACM Student
                 Chapter community.

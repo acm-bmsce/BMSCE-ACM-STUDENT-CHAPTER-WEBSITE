@@ -76,20 +76,20 @@ const TeamsHero = () => {
             <img
               src="img/18.webp"
               alt="Teams background"
-              className="w-full h-full object-cover absolute inset-0 z-30 opacity-40"
+              className="w-full h-full object-cover absolute inset-0 z-30 opacity-30"
               style={{ pointerEvents: 'none' }}
             />
           </div>
 
           {/* Hero Content */}
-          <div className="relative z-20 text-center -top-6 px-5 lg:px-10 max-w-4xl mx-auto">
+          <div className="relative z-20 text-center !top-2 px-5 lg:px-10 max-w-4xl mx-auto">
             <AnimatedTitle
               title="OUR TEAM"
-              containerClass="!text-white !text-[5rem] md:!text-[8rem] text-center mb-8"
+              containerClass="!text-white !text-[5rem] md:!text-[8rem] text-center"
             />
             <p
               ref={descriptionRef}
-              className="mb-8 max-w-2xl mx-auto font-robert-regular text-white text-2xl md:text-xl leading-relaxed"
+              className="!mt-48 max-w-2xl  mx-auto font-robert-regular text-white text-2xl md:text-xl "
             >
               Discover the passionate minds behind our innovation. <br />
               Meet the dedicated individuals who drive our community forward.

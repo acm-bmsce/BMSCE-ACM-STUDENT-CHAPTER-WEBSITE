@@ -1,4 +1,4 @@
-import Hero from "../components/Hero_JoinUs";
+
 import HeroSection from "../components/HeroSection_JoinUs";
 import Features from "../components/Features_JoinUs";
 import Membership from "../components/Membership_JoinUs";
