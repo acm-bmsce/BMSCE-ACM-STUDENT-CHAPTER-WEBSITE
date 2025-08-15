@@ -19,7 +19,7 @@ const teamData = {
     {
       name: "Dr. Seemanthini K Gowda",
       role1: "Faculty Sponsor",
-      role2: "Faculty Sponsor, Associate Professor, Dept of Machine Learning",
+      role2: "Faculty Sponsor,Associate Professor, Dept of Machine Learning",
       image: "./img/Seemanthini.webp",
       socials: {
         linkedin: "https://www.linkedin.com/in/dr-seemanthini-k-87115466/",
