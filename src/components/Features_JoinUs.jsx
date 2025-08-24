@@ -146,7 +146,7 @@ const Features = () => {
         </>
       ),
       description:
-        "Whether you're in Engineering, Design, or Business - everyone is welcome to innovate with us.",
+        "Whether you're in Computer Science, Electronics, Mechanical, or Civil – everyone is welcome to innovate with us.",
     },
     {
       title: (
@@ -155,8 +155,18 @@ const Features = () => {
         </>
       ),
       description:
-        "4-year chapter membership with international ACM resources, communities, and conferences.",
+        "A 4-year Chapter membership gives you access to all BMSCE ACM Chapter events and activities, while international ACM resources, communities, and conferences are available through ACM Global Membership.",
     },
+    {
+      title: (
+        <>
+          Exclusive <br /> Access to <br /> ACM programs
+        </>
+      ),
+      description:
+        "Through ACM membership, get access and discounts to Summer Schools, Winter Schools, PhD Clinics, CSPtashala, ACM India AI Olympiad and many more exclusive programs.",
+    },
+
   ];
 
   const imageSources = [
@@ -166,6 +176,7 @@ const Features = () => {
     "/img/10.webp",
     "/img/15.webp",
     "/img/40.webp",
+    "/img/summerschools.webp",
   ];
 
   const [pos, setPos] = useState(0);
