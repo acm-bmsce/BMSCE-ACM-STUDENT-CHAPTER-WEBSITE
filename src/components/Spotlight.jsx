@@ -270,7 +270,7 @@ export default function Spotlight() {
 
   const openModal = (item, index) => {
     setOverviewVisible(false);
-    setActiveTab("Overview"); // Reset tab here as well
+    setActiveTab("Overview");
     setActiveModal({ ...item, index });
   };
 
@@ -350,7 +350,7 @@ export default function Spotlight() {
             ))}
           </div>
           <div className="modal-content !font-robert-regular" style={{ flex: 1, overflowY: "auto", padding: "1rem" }} ref={tabContentRef}>
-            {activeTab === "Overview" && (<p ref={overviewRef} style={{ opacity: overviewVisible ? 1 : 0 }}>{activeModal.fullDescription}</p>)}
+            {activeTab === "Overview" && (<p ref={overviewRef} style={{ opacity: overviewVisible ? 1 : 0, textAlign: "justify" }}>{activeModal.fullDescription}</p>)}
 
             {activeTab === "Gallery" && (
               activeModal.gallery.length > 0 ? (
