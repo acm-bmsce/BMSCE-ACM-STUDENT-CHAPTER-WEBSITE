@@ -56,6 +56,7 @@ export default function Spotlight() {
   const [overviewVisible, setOverviewVisible] = useState(false);
   const tabContentRef = useRef();
 
+  // Spotlight scroll animation
   useEffect(() => {
     const lenis = new Lenis();
     lenis.on("scroll", ScrollTrigger.update);
@@ -92,7 +93,6 @@ export default function Spotlight() {
         const containerHeight = window.innerHeight;
 
         if (progress < 0.2) {
-          // ✅ Fade spotlight completely when zooming out / Connect-Collaborate visible
           const animationProgress = progress / 0.2;
           const moveDistance = window.innerWidth * 0.6;
 
@@ -109,11 +109,10 @@ export default function Spotlight() {
             scale: 1.5 - animationProgress * 0.5,
           });
 
-          // ✅ Hide spotlight elements when Connect/Collaborate are active
           imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
           headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
-            opacity: 0, // <--- Added
+            opacity: 0,
             "--before-opacity": "0",
             "--after-opacity": "0",
           });
@@ -125,7 +124,7 @@ export default function Spotlight() {
 
           headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
-            opacity: 1, // <--- Ensure titles are visible again
+            opacity: 1,
             "--before-opacity": "1",
             "--after-opacity": "1",
           });
@@ -151,24 +150,15 @@ export default function Spotlight() {
             viewportHeight - fractionalIndex * titleHeight - titleHeight / 2;
           gsap.set(
             titlesContainerRef.current.querySelector(".spotlight-titles"),
-            {
-              transform: `translateY(${currentY}px)`,
-            }
+            { transform: `translateY(${currentY}px)` }
           );
 
           imgRefs.current.forEach((img, index) => {
-            const imageProgress = getImgProgressState(
-              index,
-              overallImgProgress
-            );
+            const imageProgress = getImgProgressState(index, overallImgProgress);
             if (imageProgress < 0 || imageProgress > 1) {
               gsap.set(img.current, { opacity: 0 });
             } else {
-              const pos = getBezierPosition(
-                imageProgress,
-                containerWidth,
-                containerHeight
-              );
+              const pos = getBezierPosition(imageProgress, containerWidth, containerHeight);
               const imageHeight = 150;
               const targetCenterY = viewportHeight / 2 - imageHeight / 2;
               let drift = targetCenterY - pos.y;
@@ -202,10 +192,7 @@ export default function Spotlight() {
               title.style.opacity = i === closestIndex ? "1" : "0.25";
             });
             const bgImageEl = bgImgRef.current.querySelector("img");
-            if (
-              bgImageEl &&
-              bgImageEl.getAttribute("src") !== eventData[closestIndex].image
-            ) {
+            if (bgImageEl && bgImageEl.getAttribute("src") !== eventData[closestIndex].image) {
               bgImageEl.setAttribute("src", eventData[closestIndex].image);
             }
             currentActiveIndex = closestIndex;
@@ -232,21 +219,13 @@ export default function Spotlight() {
   useEffect(() => {
     if (activeModal !== null) {
       document.body.style.overflow = "hidden";
+      setActiveTab("Overview"); // Reset tab to Overview on every modal open
 
-      const imgEl =
-        imgRefs.current[activeModal.index].current.querySelector("img");
+      const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");
       const imgRect = imgEl.getBoundingClientRect();
 
-      gsap.set(blurBgRef.current, {
-        opacity: 0,
-        display: "block",
-        backdropFilter: "blur(0px)",
-      });
-      gsap.to(blurBgRef.current, {
-        opacity: 1,
-        backdropFilter: "blur(8px)",
-        duration: 0.4,
-      });
+      gsap.set(blurBgRef.current, { opacity: 0, display: "block", backdropFilter: "blur(0px)" });
+      gsap.to(blurBgRef.current, { opacity: 1, backdropFilter: "blur(8px)", duration: 0.4 });
 
       gsap.set(modalRef.current, {
         position: "fixed",
@@ -273,11 +252,7 @@ export default function Spotlight() {
         ease: "power3.out",
         onComplete: () => {
           if (activeTab === "Overview") {
-            gsap.fromTo(
-              overviewRef.current,
-              { opacity: 0, y: 20 },
-              { opacity: 1, y: 0, duration: 0.4 }
-            );
+            gsap.fromTo(overviewRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 });
             setOverviewVisible(true);
           }
         },
@@ -289,27 +264,20 @@ export default function Spotlight() {
 
   useEffect(() => {
     if (tabContentRef.current) {
-      gsap.fromTo(
-        tabContentRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
-      );
+      gsap.fromTo(tabContentRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
     }
   }, [activeTab]);
 
   const openModal = (item, index) => {
     setOverviewVisible(false);
+    setActiveTab("Overview"); // Reset tab here as well
     setActiveModal({ ...item, index });
   };
 
   const closeModal = () => {
     if (!activeModal) return;
-    gsap.to(
-      modalImageRef.current.querySelector(".modal-title"),
-      { opacity: 0, duration: 0.2 }
-    );
-    const imgEl =
-      imgRefs.current[activeModal.index].current.querySelector("img");
+    gsap.to(modalImageRef.current.querySelector(".modal-title"), { opacity: 0, duration: 0.2 });
+    const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");
     const imgRect = imgEl.getBoundingClientRect();
 
     gsap.to(modalRef.current, {
@@ -328,11 +296,7 @@ export default function Spotlight() {
       },
     });
 
-    gsap.to(blurBgRef.current, {
-      opacity: 0,
-      duration: 0.3,
-      onComplete: () => gsap.set(blurBgRef.current, { display: "none" }),
-    });
+    gsap.to(blurBgRef.current, { opacity: 0, duration: 0.3, onComplete: () => gsap.set(blurBgRef.current, { display: "none" }) });
   };
 
   return (
@@ -347,61 +311,32 @@ export default function Spotlight() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <AnimatedTitle
-          title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
-          containerClass="animated-title_joinus !text-white text-center mb-2"
-        />
+        <AnimatedTitle title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS" containerClass="animated-title_joinus !text-white text-center mb-2" />
         <p>Learn, Connect, and Create — one event at a time.</p>
       </section>
 
-
       <section className="spotlight" ref={spotlightRef}>
         <div className="spotlight-intro-text-wrapper">
-          <div className="spotlight-intro-text" ref={introTextRefs[0]}>
-            <p>Connect</p>
-          </div>
-          <div className="spotlight-intro-text" ref={introTextRefs[1]}>
-            <p>Collaborate</p>
-          </div>
+          <div className="spotlight-intro-text" ref={introTextRefs[0]}><p>Connect</p></div>
+          <div className="spotlight-intro-text" ref={introTextRefs[1]}><p>Collaborate</p></div>
         </div>
 
-        <div className="spotlight-bg-img" ref={bgImgRef}>
-          <img src={eventData[0].image} alt="" />
-        </div>
+        <div className="spotlight-bg-img" ref={bgImgRef}><img src={eventData[0].image} alt="" /></div>
 
         <div className="spotlight-titles-container" ref={titlesContainerRef}>
-          <div className="spotlight-titles">
-            {eventData.map((item) => (
-              <h1 key={item.id}>{item.title}</h1>
-            ))}
-          </div>
+          <div className="spotlight-titles">{eventData.map((item) => (<h1 key={item.id}>{item.title}</h1>))}</div>
         </div>
 
-        <div className="spotlight-images">
-          {eventData.map((item, i) => (
-            <div
-              className="spotlight-img"
-              key={item.id}
-              ref={imgRefs.current[i]}
-              onClick={() => openModal(item, i)}
-            >
-              <img src={item.image} alt={item.title} />
-            </div>
-          ))}
-        </div>
+        <div className="spotlight-images">{eventData.map((item, i) => (<div className="spotlight-img" key={item.id} ref={imgRefs.current[i]} onClick={() => openModal(item, i)}><img src={item.image} alt={item.title} /></div>))}</div>
 
-        <div className="spotlight-header" ref={headerRef}>
-          <p>2025</p>
-        </div>
+        <div className="spotlight-header" ref={headerRef}><p>2025</p></div>
       </section>
 
       <div className="modal-blur-bg" ref={blurBgRef}></div>
 
       {activeModal && (
         <div className="event-modal" ref={modalRef}>
-          <button className="close-btn" onClick={closeModal}>
-            ×
-          </button>
+          <button className="close-btn" onClick={closeModal}>×</button>
           <div className="modal-image" ref={modalImageRef}>
             <img src={activeModal.image} alt="" />
             <div className="modal-title">
@@ -411,55 +346,27 @@ export default function Spotlight() {
           </div>
           <div className="modal-navbar">
             {["Overview", "Gallery", "Highlights & Outcomes"].map((tab) => (
-              <button
-                key={tab}
-                className={activeTab === tab ? "active" : ""}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
+              <button key={tab} className={activeTab === tab ? "active" : ""} onClick={() => setActiveTab(tab)}>{tab}</button>
             ))}
           </div>
-          <div
-            className="modal-content !font-robert-regular"
-            style={{ flex: 1, overflowY: "auto", padding: "1rem" }}
-            ref={tabContentRef}
-          >
-            {activeTab === "Overview" && (
-              <p
-                ref={overviewRef}
-                style={{ opacity: overviewVisible ? 1 : 0 }}
-              >
-                {activeModal.fullDescription}
-              </p>
-            )}
-            {activeTab === "Gallery" &&
-              (activeModal.gallery.length > 0 ? (
-                activeModal.gallery.map((img, idx) => (
-                  <img key={idx} src={img} alt={`Gallery ${idx}`} />
-                ))
+          <div className="modal-content !font-robert-regular" style={{ flex: 1, overflowY: "auto", padding: "1rem" }} ref={tabContentRef}>
+            {activeTab === "Overview" && (<p ref={overviewRef} style={{ opacity: overviewVisible ? 1 : 0 }}>{activeModal.fullDescription}</p>)}
+
+            {activeTab === "Gallery" && (
+              activeModal.gallery.length > 0 ? (
+                <div className="gallery-grid">
+                  {activeModal.gallery.map((img, idx) => (<img key={idx} src={img} alt={`Gallery ${idx}`} />))}
+                </div>
               ) : (
                 <p>No gallery images available.</p>
-              ))}
+              )
+            )}
+
             {activeTab === "Highlights & Outcomes" && (
               <div className="highlight-cards">
-                <div className="highlight-card">
-                  <FaMapMarkerAlt className="highlight-icon" />
-                  <div>
-                    <h4>Location</h4>
-                    <p>{activeModal.location}</p>
-                  </div>
-                </div>
-                <div className="highlight-card">
-                  <FaUsers className="highlight-icon" />
-                  <div>
-                    <h4>Attendees</h4>
-                    <p>{activeModal.attendees}</p>
-                  </div>
-                </div>
-                <div style={{ marginTop: "1rem" }}>
-                  <p>{activeModal.outcomes}</p>
-                </div>
+                <div className="highlight-card"><FaMapMarkerAlt className="highlight-icon" /><div><h4>Location</h4><p>{activeModal.location}</p></div></div>
+                <div className="highlight-card"><FaUsers className="highlight-icon" /><div><h4>Attendees</h4><p>{activeModal.attendees}</p></div></div>
+                <div style={{ marginTop: "1rem" }}><p>{activeModal.outcomes}</p></div>
               </div>
             )}
           </div>
