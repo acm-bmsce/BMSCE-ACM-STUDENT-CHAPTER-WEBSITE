@@ -337,13 +337,23 @@ export default function Spotlight() {
 
   return (
     <div className="spotlight-wrapper" style={{ overflowX: "hidden" }}>
-      <section className="intro flex flex-col gap-4">
+      <section
+        className="intro flex flex-col gap-4"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.75)), url('/img/events-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <AnimatedTitle
           title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
           containerClass="animated-title_joinus !text-white text-center mb-2"
         />
         <p>Learn, Connect, and Create — one event at a time.</p>
       </section>
+
 
       <section className="spotlight" ref={spotlightRef}>
         <div className="spotlight-intro-text-wrapper">
