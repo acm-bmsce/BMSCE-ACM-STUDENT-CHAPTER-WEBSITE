@@ -1,5 +1,5 @@
 // src/components/about/GetInTouch.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -27,10 +27,71 @@ const FloatingLabelInput = ({ id, name, type = 'text', value, onChange, label, e
             <label
                 htmlFor={id}
                 className={`
-                    absolute top-4 left-4 z-10 origin-[0] -translate-y-6 scale-75 transform 
-                    font-general text-lg text-gray-500 duration-300 
-                    peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 
-                    peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-black
+                    absolute top-4 left-4 text-lg font-general text-gray-500 
+                    transition-opacity duration-300 
+                    peer-focus:opacity-0
+                `}
+            >
+                {label}
+            </label>
+            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+        </div>
+    );
+};
+
+const FloatingLabelTextarea = ({ id, name, value, onChange, label, error }) => {
+    const textareaRef = useRef(null);
+
+    // Ensure mouse wheel scroll works inside textarea
+    useEffect(() => {
+        const el = textareaRef.current;
+        if (!el) return;
+
+        const handleWheel = (e) => {
+            const { scrollTop, scrollHeight, clientHeight } = el;
+            const isScrollingDown = e.deltaY > 0;
+
+            if (
+                (isScrollingDown && scrollTop + clientHeight >= scrollHeight) ||
+                (!isScrollingDown && scrollTop <= 0)
+            ) {
+                // Let the page scroll when reaching top or bottom
+                return;
+            }
+
+            // Prevent the page from scrolling when inside textarea
+            e.stopPropagation();
+        };
+
+        el.addEventListener("wheel", handleWheel, { passive: false });
+        return () => el.removeEventListener("wheel", handleWheel);
+    }, []);
+
+    return (
+        <div className="relative">
+            <textarea
+                ref={textareaRef}
+                id={id}
+                name={name}
+                value={value}
+                onChange={onChange}
+                rows={4}
+                className={`
+                    peer block w-full appearance-none rounded-t-lg border-0 border-b-2 
+                    bg-white px-4 py-4 text-lg text-black
+                    focus:border-black focus:outline-none focus:ring-0
+                    ${error ? 'border-red-500' : 'border-black'}
+                    max-h-[200px] overflow-y-auto
+                `}
+                placeholder=" "
+                style={{ overscrollBehavior: "contain" }}
+            />
+            <label
+                htmlFor={id}
+                className={`
+                    absolute top-4 left-4 text-lg font-general text-gray-500 
+                    transition-opacity duration-300 
+                    peer-focus:opacity-0
                 `}
             >
                 {label}
@@ -58,26 +119,24 @@ const GetInTouch = () => {
             scrollTrigger: {
                 trigger: sectionRef.current,
                 start: "top top",
-                end: "+=150%", // shorter scroll distance
+                end: "+=150%",
                 scrub: true,
                 pin: true,
                 anticipatePin: 1
             }
         });
 
-        // Stage 1: Rise in text
         tl.fromTo(introRef.current,
             { y: 100, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
         );
 
-        // Stage 2: Split text right after rise
         tl.to(leftTextRef.current, {
             x: "-100vw",
             opacity: 0,
             ease: "power3.inOut",
             duration: 0.4
-        }, ">"); // immediately after Stage 1
+        }, ">");
 
         tl.to(rightTextRef.current, {
             x: "100vw",
@@ -86,11 +145,10 @@ const GetInTouch = () => {
             duration: 0.4
         }, "<");
 
-        // Stage 3: Zoom in form right after split
         tl.fromTo(containerRef.current,
             { scale: 0.5, opacity: 0 },
             { scale: 1, opacity: 1, duration: 0.8, ease: "power3.out" },
-            ">" // right after Stage 2
+            ">"
         );
     }, []);
 
@@ -182,7 +240,7 @@ const GetInTouch = () => {
                             onChange={handleChange}
                             error={errors.email}
                         />
-                        <FloatingLabelInput 
+                        <FloatingLabelTextarea 
                             id="message"
                             name="message"
                             label="Your Message"

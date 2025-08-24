@@ -45,6 +45,11 @@ const timelineData = [
     description: "Recognized by ACM India for excellence, impact, and engagement across the country."
   },
   {
+    year: "2025 - April",
+    title: "ACM Student Town Hall",
+    description: "Hosted with ACM India, the first Town Hall spotlighted awards, funding, research, and student chapter achievements."
+  },
+  {
     year: "2025",
     title: "15 Days of Code",
     description: "April–May: Highest participation with 285 students solving coding problems daily. A leaderboard-based competitive coding challenge."

@@ -46,10 +46,12 @@ const AboutACM = () => {
         </p>
         <div className="flex justify-center items-center w-full mt-8 mb-12">
           <Button
+            id="explore-more"
             title="EXPLORE MORE"
-            containerClass="bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white px-8 py-4 text-lg font-semibold rounded-full w-full sm:w-auto transition-all"
+            containerClass="bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white flex-center gap-1 px-8 py-4 text-lg font-semibold rounded-full w-full sm:w-auto transition-all"
             onClick={() => window.open("https://india.acm.org/", "_blank")}
           />
+
         </div>
 
         {/* Bento Grid with rise-up animation */}
