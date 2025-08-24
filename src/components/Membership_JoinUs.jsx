@@ -4,7 +4,6 @@ import AnimatedTitle from "./AnimatedTitle";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-
 const membershipEvents = [
   { type: "Student Chapter", title: "Workshops & Events", description: "Gain access to exclusive workshops and events organized by the local chapter."},
   { type: "Global Membership", title: "ACM Digital Library", description: "Get full access to the world's largest repository of computing literature."},
@@ -17,8 +16,6 @@ const membershipEvents = [
   { type: "Student Chapter", title: "Activity Discounts", description: "Receive discounts on various chapter activities, competitions, and merchandise."},
   { type: "Global Membership", title: "Career Opportunities", description: "Access a wealth of career resources, job boards, and research opportunities."},
 ];
-
-
 
 const Membership = () => {
   const controls = useAnimation();
@@ -51,9 +48,9 @@ const Membership = () => {
           className="special-font !md:text-[5rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
         />
         
+        {/* Desktop View */}
         <div className="hidden md:block">
           <div className="relative">
-  
             <div className="flex justify-between w-full mb-12">
               <div className="w-full lg:w-[calc(50%-80px)] text-center">
                 <h2 className="text-xl text-gray-400 uppercase tracking-widest">[ Chapter Membership ]</h2>
@@ -71,24 +68,34 @@ const Membership = () => {
           </div>
         </div>
 
-
+        {/* Mobile View */}
         <div className="block_joinus md:hidden">
-            <motion.div ref={ref} variants={fadeUp} initial="hidden" animate={controls} className="space-y-16">
-        
+          <motion.div 
+            ref={ref} 
+            variants={fadeUp} 
+            initial="hidden" 
+            animate={controls} 
+            className="space-y-16"
+          >
             <div>
-                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Student Chapter ]</h2>
-                <ul className="space-y-6 text-2xl text-center">
+              <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Student Chapter ]</h2>
+              <ul className="space-y-6 text-2xl text-center">
                 {studentBenefits.map(item => <li key={item.title}>{item.title}</li>)}
-                </ul>
+              </ul>
             </div>
        
             <div>
-                <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Global Membership ]</h2>
-                <ul className="space-y-6 text-2xl text-center">
+              <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Global Membership ]</h2>
+              <ul className="space-y-6 text-2xl text-center">
                 {globalBenefits.map(item => <li key={item.title}>{item.title}</li>)}
-                </ul>
+              </ul>
             </div>
-            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Note at the End */}
+        <div className="mt-16 text-center text-gray-400 text-sm md:text-base">
+          <p>* All Student Chapter benefits are automatically included with ACM Global Membership.</p>
         </div>
       </div>
     </section>

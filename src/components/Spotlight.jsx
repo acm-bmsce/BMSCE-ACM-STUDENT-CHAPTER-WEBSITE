@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 import eventData from "./Data2_event";
+import AnimatedTitle from "./AnimatedTitle";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,6 +92,7 @@ export default function Spotlight() {
         const containerHeight = window.innerHeight;
 
         if (progress < 0.2) {
+          // ✅ Fade spotlight completely when zooming out / Connect-Collaborate visible
           const animationProgress = progress / 0.2;
           const moveDistance = window.innerWidth * 0.6;
 
@@ -107,9 +109,11 @@ export default function Spotlight() {
             scale: 1.5 - animationProgress * 0.5,
           });
 
+          // ✅ Hide spotlight elements when Connect/Collaborate are active
           imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
           headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
+            opacity: 0, // <--- Added
             "--before-opacity": "0",
             "--after-opacity": "0",
           });
@@ -121,6 +125,7 @@ export default function Spotlight() {
 
           headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
+            opacity: 1, // <--- Ensure titles are visible again
             "--before-opacity": "1",
             "--after-opacity": "1",
           });
@@ -131,6 +136,7 @@ export default function Spotlight() {
 
           headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
+            opacity: 1,
             "--before-opacity": "1",
             "--after-opacity": "1",
           });
@@ -207,8 +213,9 @@ export default function Spotlight() {
         } else if (progress >= 0.95) {
           headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
-            "--before-opacity": "1",
-            "--after-opacity": "1",
+            opacity: 0,
+            "--before-opacity": "0",
+            "--after-opacity": "0",
           });
         }
       },
@@ -280,7 +287,6 @@ export default function Spotlight() {
     }
   }, [activeModal]);
 
-  // Animate tab content when switching
   useEffect(() => {
     if (tabContentRef.current) {
       gsap.fromTo(
@@ -332,7 +338,10 @@ export default function Spotlight() {
   return (
     <div className="spotlight-wrapper" style={{ overflowX: "hidden" }}>
       <section className="intro flex flex-col gap-4">
-        <h1>A curated series of transformative days</h1>
+        <AnimatedTitle
+          title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
+          containerClass="animated-title_joinus !text-white text-center mb-2"
+        />
         <p>Learn, Connect, and Create — one event at a time.</p>
       </section>
 
@@ -374,10 +383,6 @@ export default function Spotlight() {
         <div className="spotlight-header" ref={headerRef}>
           <p>2025</p>
         </div>
-      </section>
-
-      <section className="outro">
-        <h1>Innovations in collective motion.</h1>
       </section>
 
       <div className="modal-blur-bg" ref={blurBgRef}></div>
