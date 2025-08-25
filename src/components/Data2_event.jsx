@@ -83,7 +83,7 @@ const eventData = [
     },
     {
         id: '6',
-        title: 'ALGOTHON',
+        title: 'Algothon',
         description: "Algothon's main goals were to challenge and sharpen participants' algorithmic problem-solving and coding skills through a competitive three-round format. It aimed to foster logical thinking, efficient coding, and the application of theoretical knowledge in a practical setting. The event also sought to identify talent, build a community of algorithm enthusiasts, and provide a platform for learning, networking, and sparking interest in computer science. Ultimately, it was about testing abilities and encouraging growth in the field of algorithms.s",
         date: '2025-05-15',
         image: pos6,
@@ -109,7 +109,7 @@ const eventData = [
     },
     {
         id: '8',
-        title: 'ACM India TOWN HALL',
+        title: 'ACM India Town Hall',
         description: 'The Town Hall for ACM Students, held virtually on April 5th, 2025, brought together ACM student chapter members and faculty from across the country for an enriching interaction with the ACM India Council. The event aimed to foster collaboration, recognize excellence, and offer guidance on how student chapters can thrive and make meaningful contributions to the ACM community.',
         date: '2025-05-05',
         image: pos8,
@@ -155,7 +155,7 @@ const eventData = [
     },
     {
         id: '10',
-        title: 'SAMANVAYA #1',
+        title: 'Samanvaya #1',
         description: 'The BMSCE ACM Student Chapter organized a community service event, SAMANVAYA #1 - Together for Change, as an initiative to give back to society. The event aimed to instill a sense of social responsibility among members while making a meaningful impact. A donation was made to provide lunch for 72 children at an orphanage, emphasizing the power of collective efforts in bringing change.',
         date: '2025-03-13',
         image: pos10,
