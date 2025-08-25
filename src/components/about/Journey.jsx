@@ -52,6 +52,12 @@ const timelineData = [
       "Recognized by ACM India for excellence, impact, and engagement across the country.",
   },
   {
+    year: "2025 - January to Present",
+    title: "ACM India Regional Coordination",
+    description:
+      "The ACM India Council entrusted the BMSCE ACM Student Chapter with the responsibility of managing regional events across India.",
+  },
+  {
     year: "2025 - April",
     title: "ACM Student Town Hall",
     description:
