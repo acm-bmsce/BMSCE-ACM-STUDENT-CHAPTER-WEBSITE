@@ -155,7 +155,7 @@ const eventData = [
     },
     {
         id: '10',
-        title: 'Samanvayak #1',
+        title: 'Samanvaya #1',
         description: 'The BMSCE ACM Student Chapter organized a community service event, SAMANVAYA #1 - Together for Change, as an initiative to give back to society. The event aimed to instill a sense of social responsibility among members while making a meaningful impact. A donation was made to provide lunch for 72 children at an orphanage, emphasizing the power of collective efforts in bringing change.',
         date: '2025-03-13',
         image: pos10,
