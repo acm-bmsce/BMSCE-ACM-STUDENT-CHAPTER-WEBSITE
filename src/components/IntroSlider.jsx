@@ -1,91 +1,88 @@
 // IntroSlider.jsx
-import { useLayoutEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
+import lottie from "lottie-web";
 
 /**
- * Plays the “WELCOME to BMSCE ACM Student Chapter” animation
- * the first time the site is opened in this tab.
- * After it finishes, it hides itself and never renders again.
+ * Plays the Lottie intro animation the first time
+ * the site is opened in this tab. After it finishes,
+ * it hides itself and never renders again.
+ * Plays a different animation on mobile devices.
  */
 export default function IntroSlider() {
-  const sliderRef = useRef(null);
+  const containerRef = useRef(null);
+  const animRef = useRef(null);
   const [visible, setVisible] = useState(() => {
-    // sessionStorage survives full-page refreshes in the same tab,
-    // but resets when the tab is closed.
     return !sessionStorage.getItem("introPlayed");
   });
+  const [fadeOut, setFadeOut] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!visible) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        onComplete() {
-          // mark as played so it won't run again
-          sessionStorage.setItem("introPlayed", "true");
-          // hide the slider
-          setVisible(false);
-        },
-      });
+    const handleLoad = () => {
+      // Delay before starting animation (in ms)
+      const startDelay = 1000;
 
-      tl.from("#intro-slider", {
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        backgroundColor: "#000",
-      })
-        .to("#intro-slider", {
-          duration: 1.3,
-          ease: "power3.inOut",
-          backgroundColor: "#000",
-        })
-        .fromTo("#title-1", { x: "-100vw" }, { x: 0, duration: 0.5 })
-        .fromTo("#title-2", { x: "100vw" }, { x: 0, duration: 0.5 })
-        .fromTo("#title-3", { x: "-100vw" }, { x: 0, duration: 0.5 })
-        .fromTo("#title-4", { x: "100vw" }, { x: 0, duration: 0.5 })
-        .to(["#title-1", "#title-2", "#title-3", "#title-4"], {
-          scale: 4,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "power4.in",
-        })
-        .to("#intro-slider", {
-          scale: 0,
-          opacity: 0,
-          duration: 0.5,
+      const timeoutId = setTimeout(() => {
+        // Detect mobile devices (simple width check)
+        const isMobile = window.innerWidth <= 768;
+
+        const animationPath = isMobile
+          ? "/animations/intro-mob.json"
+          : "/animations/intro.json";
+
+        animRef.current = lottie.loadAnimation({
+          container: containerRef.current,
+          renderer: "svg",
+          loop: false,
+          autoplay: true,
+          path: animationPath,
+          rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+          },
         });
-    }, sliderRef);
 
-    return () => ctx.revert();
+        // Set playback speed
+        animRef.current.setSpeed(isMobile ? 1 : 1.5);
+
+
+        // When animation completes
+        animRef.current.addEventListener("complete", () => {
+          // Start fade-out
+          setFadeOut(true);
+
+          // Wait for fade-out to finish before removing component
+          setTimeout(() => {
+            sessionStorage.setItem("introPlayed", "true");
+            setVisible(false);
+          }, 500); // matches CSS transition duration
+        });
+      }, startDelay);
+
+      return () => clearTimeout(timeoutId);
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => {
+      animRef.current?.destroy();
+      window.removeEventListener("load", handleLoad);
+    };
   }, [visible]);
 
-  if (!visible) return null; // nothing to render after first run
+  if (!visible) return null;
 
   return (
     <div
-      ref={sliderRef}
-      id="intro-slider"
-      className="fixed inset-0 z-[90] flex flex-col items-center justify-center space-y-10 bg-black p-10 font-spaceGrotesk font-extrabold tracking-tight text-blue-100"
+      className={`fixed inset-0 z-[90] flex items-center justify-center bg-black transition-opacity duration-500 ${
+        fadeOut ? "opacity-0" : "opacity-100"
+      }`}
     >
-      <h1 id="title-1" className="special-font hero-heading text-4xl md:text-8xl">
-        WELCOME
-      </h1>
-      <h1 id="title-2" className="special-font hero-heading text-4xl md:text-6xl uppercase">
-        to
-      </h1>
-      <h1
-        id="title-3"
-        className="special-font hero-heading text-4xl md:text-8xl uppercase text-blue-300"
-      >
-        BMSCE ACM
-      </h1>
-      <h1
-        id="title-4"
-        className="special-font hero-heading text-4xl md:text-8xl uppercase text-blue-300"
-      >
-        Student Chapter
-      </h1>
+      <div ref={containerRef} className="w-full h-full overflow-hidden" />
     </div>
   );
 }
