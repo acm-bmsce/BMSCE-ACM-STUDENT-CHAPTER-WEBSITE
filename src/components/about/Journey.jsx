@@ -133,7 +133,7 @@ const Journey = () => {
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: "url('/img/card-bg-1.png')", // <-- replace with your image path
+                      backgroundImage: "url('/img/card-bg-1.webp')", // <-- replace with your image path
                     }}
                   ></div>
 
