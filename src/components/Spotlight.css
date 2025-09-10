@@ -19,6 +19,7 @@ html, body {
 .spotlight-wrapper {
     font-family: "PP Neue Montreal", sans-serif;
     overflow-x: hidden;
+    background-color: #000000; /* 👈 ADD THIS LINE */
 }
 
 .spotlight-wrapper img {
@@ -472,4 +473,18 @@ html, body {
   }
 
     
+}
+
+
+.spotlight-wrapper .outro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  color: #ffffff; /* Text color for the outro message */
+}
+
+.spotlight-wrapper .outro p {
+  font-size: 2rem;
+  opacity: 0.8;
 }
