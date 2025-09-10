@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,13 +7,6 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import gsap from "gsap";
-
-// Pages
-import Home from "./pages/Home";
-import JoinUs from "./pages/join-us";
-import AboutUs from "./pages/about-us";
-import Team from "./pages/team";
-import Event from "./pages/event";
 
 // Components
 import ScrollToTop from "./components/ScrollToTop";
@@ -25,11 +18,18 @@ import ScrollToTopButton from "./components/ScrollToTopButton";
 // Sound
 import transitionSound from "./assets/sounds/transition.mp3";
 
+// Lazy-loaded Pages
+const Home = lazy(() => import("./pages/Home"));
+const JoinUs = lazy(() => import("./pages/join-us"));
+const AboutUs = lazy(() => import("./pages/about-us"));
+const Team = lazy(() => import("./pages/team"));
+const Event = lazy(() => import("./pages/event"));
+
 const ease = "power4.inOut";
 
 function AnimatedRoutes() {
   const location = useLocation();
-  const navigationType = useNavigationType(); // 'PUSH', 'POP', or 'REPLACE'
+  const navigationType = useNavigationType();
 
   const transitionRef = useRef();
   const audioRef = useRef(null);
@@ -50,7 +50,6 @@ function AnimatedRoutes() {
     const isSameRoute = fromPath === toPath;
     const isPageReload = navigationType === "POP";
 
-    // Handle first load or page reload
     if (firstLoad || isPageReload) {
       prevPathRef.current = location.pathname;
       setDisplayLocation(location);
@@ -64,13 +63,11 @@ function AnimatedRoutes() {
       return;
     }
 
-    // ✅ If same route clicked, just scroll to top without animation
     if (isSameRoute) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
-    // Normal animated transition
     const animateTransition = () => {
       return new Promise((resolve) => {
         if (!transitionRef.current) return resolve();
@@ -120,7 +117,6 @@ function AnimatedRoutes() {
             gsap.set(blocks, { visibility: "hidden" });
             setIsTransitioning(false);
 
-            // ✅ Scroll to top AFTER page content is mounted
             setTimeout(() => {
               window.scrollTo({ top: 0, behavior: "auto" });
             }, 0);
@@ -170,13 +166,15 @@ function AnimatedRoutes() {
       {/* Main content */}
       <div key={displayLocation.key || displayLocation.pathname}>
         {!isTransitioning && <NavBar />}
-        <Routes location={displayLocation}>
-          <Route path="/" element={<Home />} />
-          <Route path="/join-us" element={<JoinUs />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/event" element={<Event />} />
-        </Routes>
+        <Suspense fallback={<div className="h-screen w-screen bg-black" />}>
+          <Routes location={displayLocation}>
+            <Route path="/" element={<Home />} />
+            <Route path="/join-us" element={<JoinUs />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/event" element={<Event />} />
+          </Routes>
+        </Suspense>
         {!isTransitioning && <Footer />}
       </div>
     </>
