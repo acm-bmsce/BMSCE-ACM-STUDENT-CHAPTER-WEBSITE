@@ -1,3 +1,4 @@
+// App.js
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
@@ -14,12 +15,15 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import Loader from "./components/Loader"; // ✅ Loader imported
 
 // Sound
 import transitionSound from "./assets/sounds/transition.mp3";
 
+// Eager-loaded Home
+import Home from "./pages/Home";
+
 // Lazy-loaded Pages
-const Home = lazy(() => import("./pages/Home"));
 const JoinUs = lazy(() => import("./pages/join-us"));
 const AboutUs = lazy(() => import("./pages/about-us"));
 const Team = lazy(() => import("./pages/team"));
@@ -166,15 +170,43 @@ function AnimatedRoutes() {
       {/* Main content */}
       <div key={displayLocation.key || displayLocation.pathname}>
         {!isTransitioning && <NavBar />}
-        <Suspense fallback={<div className="h-screen w-screen bg-black" />}>
-          <Routes location={displayLocation}>
-            <Route path="/" element={<Home />} />
-            <Route path="/join-us" element={<JoinUs />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/event" element={<Event />} />
-          </Routes>
-        </Suspense>
+        <Routes location={displayLocation}>
+          {/* Eager-loaded Home */}
+          <Route path="/" element={<Home />} />
+          {/* Lazy-loaded others with Loader fallback */}
+          <Route
+            path="/join-us"
+            element={
+              <Suspense fallback={<Loader />}>
+                <JoinUs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/about-us"
+            element={
+              <Suspense fallback={<Loader />}>
+                <AboutUs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/team"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Team />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/event"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Event />
+              </Suspense>
+            }
+          />
+        </Routes>
         {!isTransitioning && <Footer />}
       </div>
     </>
