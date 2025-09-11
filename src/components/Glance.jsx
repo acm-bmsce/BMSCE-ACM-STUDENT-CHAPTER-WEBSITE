@@ -145,7 +145,8 @@ const Glance = () => {
                 containerClass="mt-5 !text-black !text-blue-100 text-center"
             />
 
-            <div className='flex flex-col lg:flex-row gap-10 lg:pr-40'>
+            {/* Fixed grid centering */}
+            <div className='flex flex-col lg:flex-row gap-10 max-w-7xl mx-auto justify-center'>
                 <div className='flex flex-col w-full gap-10 items-end mt-28'>
 
                     {/* Card 1 */}
