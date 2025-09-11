@@ -301,7 +301,7 @@ const Glance = () => {
                                 <h3 className='text-black text-start text-3xl lg:text-4xl font-semibold'>Our Online Community</h3>
                                 <h3 className='text-black text-start font-semibold opacity-70'>Instagram + LinkedIn</h3>
                             </div>
-                            <h1 className='plain-heading special-font text-black text-[9rem] px-4 md:text-[16rem] lg:text-[16rem] leading-none text-start'><b>2.5k</b>+</h1>
+                            <h1 className='plain-heading special-font text-black text-[9rem] px-4 md:text-[16rem] lg:text-[16rem] leading-none text-start'><b>2.8k</b>+</h1>
                             <h3 className='text-black text-end pr-2 font-semibold text-2xl opacity-70'>Followers</h3>
                         </div>
                     </div>
