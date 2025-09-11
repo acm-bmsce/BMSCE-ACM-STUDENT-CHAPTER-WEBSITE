@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 import AnimatedTitle from "./AnimatedTitle";
 import gsap from "gsap";
@@ -38,8 +38,8 @@ export const BentoTilt = ({ children, className = "" }) => {
             scrollTrigger: {
               trigger: itemRef.current,
               start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
+              toggleActions: "play none none reverse",
+            },
           }
         );
       };
@@ -77,7 +77,7 @@ export const BentoTilt = ({ children, className = "" }) => {
         transform: isMobile ? undefined : transformStyle,
         willChange: "transform, opacity",
         transformStyle: "preserve-3d",
-        backfaceVisibility: "hidden"
+        backfaceVisibility: "hidden",
       }}
     >
       {children}
@@ -85,7 +85,7 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon }) => {
+export const BentoCard = ({ videoSrc, imgSrc, title, description, isComingSoon }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef(null);
@@ -96,7 +96,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
     const rect = hoverButtonRef.current.getBoundingClientRect();
     setCursorPosition({
       x: event.clientX - rect.left,
-      y: event.clientY - rect.top
+      y: event.clientY - rect.top,
     });
   };
 
@@ -124,9 +124,15 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
 
   return (
     <div className="relative w-full h-full overflow-hidden rounded-md">
-      {isMobile ? (
+      {imgSrc ? (
         <img
-          src={src.replace(".mp4", ".png")}
+          src={imgSrc}
+          alt={title}
+          className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40"
+        />
+      ) : isMobile ? (
+        <img
+          src={videoSrc.replace(".mp4", ".webp")}
           alt={title}
           className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40"
         />
@@ -139,14 +145,8 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
           playsInline
           className="absolute left-0 top-0 w-full h-full object-cover object-center opacity-40 pointer-events-none"
         >
-          <source
-            src={src.replace(".mp4", ".webm")}
-            type="video/webm"
-          />
-          <source
-            src={src}
-            type="video/mp4"
-          />
+          <source src={videoSrc.replace(".mp4", ".webm")} type="video/webm" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
       )}
 
@@ -171,7 +171,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
                 className="pointer-events-none absolute -inset-px transition duration-300"
                 style={{
                   opacity: hoverOpacity,
-                  background: `radial-gradient(100px circle at ${cursorPosition.x}px ${cursorPosition.y}px, #656fe288, #00000026)`
+                  background: `radial-gradient(100px circle at ${cursorPosition.x}px ${cursorPosition.y}px, #656fe288, #00000026)`,
                 }}
               />
             )}
@@ -194,7 +194,7 @@ const Features = () => (
 
       <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md lg:h-[65vh]">
         <BentoCard
-          src="videos/hackathon.mp4"
+          imgSrc="videos/hackathon.webp"
           title={<>TECHNICAL</>}
           description="Promoting innovation through coding, projects, and hackathon participation."
         />
@@ -203,35 +203,34 @@ const Features = () => (
       <div className="grid h-[135vh] w-full grid-cols-1 lg:grid-cols-2 grid-rows-6 gap-7">
         {[
           {
-            src: "videos/design.mp4",
+            videoSrc: "videos/design.mp4",
             title: "Media and Design",
             description:
-              "Showcasing our work through creative visuals, content, and design."
+              "Showcasing our work through creative visuals, content, and design.",
           },
           {
-            src: "videos/seminar.mp4",
+            videoSrc: "videos/seminar.mp4",
             title: "Seminars and Workshops",
-            description: "Hosting expert talks and hands-on learning sessions."
+            description: "Hosting expert talks and hands-on learning sessions.",
           },
           {
-            src: "videos/research.mp4",
+            videoSrc: "videos/research.mp4",
             title: "Research",
             description:
               "Exploring AI, ML, and emerging tech through research and publications.",
-            isComingSoon: true
+            isComingSoon: true,
           },
           {
-            src: "videos/event.mp4",
+            imgSrc: "videos/event.webp",
             title: "Event Management",
-            description:
-              "Planning and executing events with seamless coordination."
+            description: "Planning and executing events with seamless coordination.",
           },
           {
-            src: "videos/community.mp4",
+            imgSrc: "videos/community.webp",
             title: "Community Service",
             description:
-              "Driving impact through outreach, education, and social initiatives."
-          }
+              "Driving impact through outreach, education, and social initiatives.",
+          },
         ].map((item, index) => (
           <BentoTilt
             key={index}

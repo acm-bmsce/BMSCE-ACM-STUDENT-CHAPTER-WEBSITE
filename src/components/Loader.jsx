@@ -1,75 +1,106 @@
-// Loader.js
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Loader = () => {
   return (
     <StyledWrapper>
-      <div className="bar">
-        <div className="ball" />
+      <div className="spinner">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div key={i} />
+        ))}
       </div>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh; /* full screen center */
-  width: 100vw;
-  background: #000;
+  align-items: center;
+  height: 100vh; /* Full screen center */
+  width: 100%;
+  background: #000; /* black background */
 
-  .ball {
+  .spinner {
     position: relative;
-    bottom: 50px;
-    left: calc(100% - 20px);
-    width: 50px;
-    height: 50px;
-    background: #fff;
-    border-radius: 50%;
-    animation: ball-move8234 3s ease-in-out 1s infinite alternate;
+    width: 40px; /* overall size */
+    height: 40px;
   }
 
-  .ball::after {
+  .spinner div {
     position: absolute;
-    content: '';
-    top: 25px;
-    right: 5px;
-    width: 5px;
-    height: 5px;
-    background: #000;
-    border-radius: 50%;
+    width: 6px;
+    height: 16px;
+    background: #fff; /* loader color changed to white */
+    left: 50%;
+    top: 50%;
+    transform-origin: center -120%;
+    transform: rotate(calc(var(--rotation) * 1deg))
+      translate(0, calc(var(--translation) * 1%));
+    border-radius: 3px;
+    animation: spinner-fzua35 1s calc(var(--delay) * 1s) infinite ease;
   }
 
-  .bar {
-    width: 200px;
-    height: 12.5px;
-    background: #FFDAAF;
-    border-radius: 30px;
-    transform: rotate(-15deg);
-    animation: up-down6123 3s ease-in-out 1s infinite alternate;
+  /* 10 elements rotated equally (360/10 = 36° each) */
+  .spinner div:nth-child(1) {
+    --delay: 0.1;
+    --rotation: 36;
+    --translation: 150;
+  }
+  .spinner div:nth-child(2) {
+    --delay: 0.2;
+    --rotation: 72;
+    --translation: 150;
+  }
+  .spinner div:nth-child(3) {
+    --delay: 0.3;
+    --rotation: 108;
+    --translation: 150;
+  }
+  .spinner div:nth-child(4) {
+    --delay: 0.4;
+    --rotation: 144;
+    --translation: 150;
+  }
+  .spinner div:nth-child(5) {
+    --delay: 0.5;
+    --rotation: 180;
+    --translation: 150;
+  }
+  .spinner div:nth-child(6) {
+    --delay: 0.6;
+    --rotation: 216;
+    --translation: 150;
+  }
+  .spinner div:nth-child(7) {
+    --delay: 0.7;
+    --rotation: 252;
+    --translation: 150;
+  }
+  .spinner div:nth-child(8) {
+    --delay: 0.8;
+    --rotation: 288;
+    --translation: 150;
+  }
+  .spinner div:nth-child(9) {
+    --delay: 0.9;
+    --rotation: 324;
+    --translation: 150;
+  }
+  .spinner div:nth-child(10) {
+    --delay: 1;
+    --rotation: 360;
+    --translation: 150;
   }
 
-  @keyframes up-down6123 {
-    from {
-      transform: rotate(-15deg);
+  @keyframes spinner-fzua35 {
+    0%, 10%, 20%, 30%, 60%, 70%, 80%, 90%, 100% {
+      transform: rotate(calc(var(--rotation) * 1deg))
+        translate(0, calc(var(--translation) * 1%));
     }
-
-    to {
-      transform: rotate(15deg);
-    }
-  }
-
-  @keyframes ball-move8234 {
-    from {
-      left: calc(100% - 40px);
-      transform: rotate(360deg);
-    }
-
-    to {
-      left: calc(0% - 20px);
-      transform: rotate(0deg);
+    50% {
+      transform: rotate(calc(var(--rotation) * 1deg))
+        translate(0, calc(var(--translation) * 1.5%));
     }
   }
 `;
