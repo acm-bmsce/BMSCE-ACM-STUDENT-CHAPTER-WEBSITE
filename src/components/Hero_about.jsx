@@ -75,7 +75,7 @@ const Hero = () => {
             "FIND YOUR PASSION",
           ]}
           as="h1"
-          className="absolute text-center text-white font-robert-medium !text-[5rem] md:!text-6xl lg:!text-[6rem] font-bold max-w-[80%] mx-auto"
+          className="absolute text-center text-white font-robert-medium !text-[3rem] md:!text-6xl lg:!text-[6rem] font-bold max-w-[80%] mx-auto"
           typingSpeed={80}
           deletingSpeed={50}
           pauseDuration={2000}

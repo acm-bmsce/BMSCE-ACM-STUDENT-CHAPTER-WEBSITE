@@ -48,8 +48,8 @@ const Membership = () => {
           className="special-font !md:text-[5rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
         />
         
-        {/* Desktop View */}
-        <div className="hidden md:block">
+        {/* Desktop / Large Screens */}
+        <div className="hidden lg:block">
           <div className="relative">
             <div className="flex justify-between w-full mb-12">
               <div className="w-full lg:w-[calc(50%-80px)] text-center">
@@ -68,8 +68,8 @@ const Membership = () => {
           </div>
         </div>
 
-        {/* Mobile View */}
-        <div className="block_joinus md:hidden">
+        {/* Mobile & Tablet View */}
+        <div className="block_joinus lg:hidden">
           <motion.div 
             ref={ref} 
             variants={fadeUp} 
@@ -79,14 +79,14 @@ const Membership = () => {
           >
             <div>
               <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Student Chapter ]</h2>
-              <ul className="space-y-6 text-2xl text-center">
+              <ul className="space-y-6 text-lg sm:text-xl md:text-2xl text-center">
                 {studentBenefits.map(item => <li key={item.title}>{item.title}</li>)}
               </ul>
             </div>
        
             <div>
               <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Global Membership ]</h2>
-              <ul className="space-y-6 text-2xl text-center">
+              <ul className="space-y-6 text-lg sm:text-xl md:text-2xl text-center">
                 {globalBenefits.map(item => <li key={item.title}>{item.title}</li>)}
               </ul>
             </div>
