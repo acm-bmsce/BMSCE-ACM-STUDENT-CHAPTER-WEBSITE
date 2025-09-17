@@ -3,8 +3,7 @@ import { useRef } from "react";
 
 import Button from "./Button";
 import AnimatedTitle from "./AnimatedTitle";
-
-import { ConfettiSideCannons } from "./ConfettiSideCannons"; // <-- Add this line
+import { ConfettiSideCannons } from "./ConfettiSideCannons";
 
 const FloatingImage = () => {
   const frameRef = useRef(null);
@@ -12,7 +11,6 @@ const FloatingImage = () => {
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const element = frameRef.current;
-
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
@@ -36,7 +34,6 @@ const FloatingImage = () => {
 
   const handleMouseLeave = () => {
     const element = frameRef.current;
-
     if (element) {
       gsap.to(element, {
         duration: 0.3,
@@ -49,18 +46,14 @@ const FloatingImage = () => {
 
   return (
     <div id="story" className="min-h-dvh w-screen bg-black text-blue-50">
-      
       <div className="flex size-full flex-col items-center py-10 pb-24">
-
-
         <div className="relative size-full">
           <AnimatedTitle
             title="emerging chapter<br />award-2024"
-            containerClass="mt-[200px] pointer-events-none mix-blend-difference relative z-10"
+            containerClass="mt-40 pointer-events-none mix-blend-difference relative z-10"
           />
 
-
-          <div className="story-img-container ">
+          <div className="story-img-container mb-12">
             <div className="story-img-mask">
               <div className="story-img-content">
                 <img
@@ -71,12 +64,12 @@ const FloatingImage = () => {
                   onMouseEnter={handleMouseLeave}
                   src="/img/entrance.webp"
                   alt="entrance.webp"
-                  className="object-contain w-[90vw] "
+                  className="object-contain w-[90vw] mx-auto"
                 />
               </div>
             </div>
 
-            {/* for the rounded corner */}
+            {/* rounded corner filter */}
             <svg
               className="invisible absolute size-0"
               xmlns="http://www.w3.org/2000/svg"
@@ -103,19 +96,19 @@ const FloatingImage = () => {
               </defs>
             </svg>
           </div>
-        </div>
 
-        <div className="flex w-full justify-center md:justify-center  mt-[-18rem] md:mt-[-18rem] lg:mt-[-30rem] ">
-          <div className="flex h-full w-fit flex-col items-center text-center md:items-center md:text-center ">
-            <p className="mt-1 max-w-xs text-sm font-circular-web text-violet-50 sm:max-w-sm sm:text-base md:max-w-md lg:max-w-2xl">
-              BMSCE ACM Student Chapter received the Emerging Chapter Award 2024 at the ACM India Annual Event 2025, presented by ACM President Yannis Ioannidis and Jury Chair Mini Ulanat.
-            </p>
-            <ConfettiSideCannons />
-
-
+          {/* fixed spacing below image */}
+          <div className="flex w-full justify-center mb-20">
+            <div className="flex h-full w-fit flex-col items-center text-center">
+              <p className="mt-1 max-w-xs text-sm font-circular-web text-violet-50 sm:max-w-sm sm:text-base md:max-w-md lg:max-w-2xl">
+                BMSCE ACM Student Chapter received the Emerging Chapter Award
+                2024 at the ACM India Annual Event 2025, presented by ACM
+                President Yannis Ioannidis and Jury Chair Mini Ulanat.
+              </p>
+              <ConfettiSideCannons />
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );

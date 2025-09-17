@@ -138,24 +138,26 @@ body {
   }
 
   .story-img-container {
-    @apply relative h-[70vh] w-full lg:h-dvh;
+    @apply relative w-full;
     filter: url("#flt_tag");
   }
 
   @media (min-width: 1024px) {
     .story-img-mask {
-      @apply absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full overflow-hidden;
-      @apply lg:w-[40rem] lg:h-[22rem] lg:-top-[5rem];
+      @apply relative left-1/2 transform -translate-x-1/2 w-full overflow-hidden;
+      @apply lg:w-[40rem] lg:h-[22rem];
+      /* rectangle */
     }
   }
 
-
   .story-img-content {
-    @apply absolute w-full h-auto opacity-100 left-5 -top-[3rem];
+    @apply relative w-full h-full opacity-100 px-8 lg:px-0;
+    /* 👆 padding only on mobile, removed on lg+ */
     transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1);
-    @apply md:left-10 md:-top-[6rem];
-    @apply lg:w-full lg:h-auto lg:left-0 lg:top-[30rem];
-    @apply xl:left-0 xl:top-0;
+  }
+
+  .story-img-content img {
+    @apply w-full h-full object-cover object-top;
   }
 
 
