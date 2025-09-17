@@ -30,13 +30,12 @@ const Glance = () => {
         }
     };
 
-    // Throttled mouse move — only for desktop
     const lastTime = useRef(0);
     const handleMouseMove = useCallback(({ clientX, clientY, currentTarget }) => {
-        if (isMobile) return; // no tilt on mobile
+        if (isMobile) return;
 
         const now = performance.now();
-        if (now - lastTime.current < 16) return; // ~60fps limit
+        if (now - lastTime.current < 16) return;
         lastTime.current = now;
 
         const rect = currentTarget.getBoundingClientRect();
@@ -63,7 +62,6 @@ const Glance = () => {
         });
     }, [isHovering, isMobile]);
 
-    // Reset tilt on mouse leave — only for desktop
     useEffect(() => {
         if (isMobile) return;
         if (!isHovering) {
@@ -82,9 +80,8 @@ const Glance = () => {
         }
     }, [isHovering, isMobile]);
 
-    // Video optimization — only on desktop
     useEffect(() => {
-        if (isMobile) return; // On mobile, videos replaced with images
+        if (isMobile) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -96,7 +93,7 @@ const Glance = () => {
                 }
             });
         }, {
-            threshold: 0.5 // play fewer videos at once
+            threshold: 0.5
         });
 
         videoRefs.current.forEach(video => {
@@ -110,7 +107,6 @@ const Glance = () => {
         };
     }, [isMobile]);
 
-    // Build tilt handlers only if desktop
     const tiltHandlers = !isMobile
         ? {
             onMouseMove: handleMouseMove,
@@ -119,7 +115,6 @@ const Glance = () => {
         }
         : {};
 
-    // Helper to render video or fallback image for mobile
     const renderMedia = (videoSrc, poster, className) => {
         if (isMobile) {
             return <img src={poster} alt="" className={className} />;
@@ -145,9 +140,10 @@ const Glance = () => {
                 containerClass="mt-5 !text-black !text-blue-100 text-center"
             />
 
-            {/* Fixed grid centering */}
-            <div className='flex flex-col lg:flex-row gap-10 max-w-7xl mx-auto justify-center'>
-                <div className='flex flex-col w-full gap-10 items-end mt-28'>
+            {/* Fixed centering of cards */}
+            <div className='flex flex-col lg:flex-row gap-10 max-w-7xl mx-auto justify-center items-center'>
+                {/* First column */}
+                <div className='flex flex-col w-full gap-10 items-center mt-28'>
 
                     {/* Card 1 */}
                     <div
@@ -243,11 +239,10 @@ const Glance = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 {/* Second column */}
-                <div className='flex flex-col w-auto gap-10 items-start'>
+                <div className='flex flex-col w-auto gap-10 items-center'>
 
                     {/* Card 4 */}
                     <div
@@ -305,7 +300,6 @@ const Glance = () => {
                             <h3 className='text-black text-end pr-2 font-semibold text-2xl opacity-70'>Followers</h3>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
