@@ -25,7 +25,7 @@ function AboutUs() {
         enableTilt={true}
         enableMagnetism={true}
         clickEffect={true}
-        spotlightRadius={300}
+        spotlightRadius={400}
         particleCount={12}
         glowColor="52, 171, 235"
       />

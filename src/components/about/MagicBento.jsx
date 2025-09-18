@@ -46,14 +46,20 @@ const cardData = [
     label: '2024 Edition',
     showSlideshow: true,
     slideshowImages: [
-      '/img/speaker-1.webp',
-      '/img/speaker-2.webp',
-      '/img/speaker-3.webp',
-      '/img/speaker-4.webp',
-      '/img/speaker-5.webp',
-      '/img/speaker-6.webp',
-      '/img/speaker-7.webp',
-      '/img/speaker-8.webp',
+      '/img/sh-1.webp',
+      '/img/sh-2.webp',
+      '/img/sh-3.webp',
+      '/img/sh-4.webp',
+      '/img/sh-5.webp',
+      '/img/sh-6.webp',
+      '/img/sh-7.webp',
+      '/img/sh-8.webp',
+      '/img/sh-9.webp',
+      '/img/sh-10.webp',
+      '/img/sh-11.webp',
+      '/img/sh-12.webp',
+      '/img/sh-13.webp',
+      '/img/sh-14.webp',
     ]
   },
   {
@@ -480,10 +486,10 @@ const MagicBento = ({
   disableAnimations = false,
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
   particleCount = DEFAULT_PARTICLE_COUNT,
-  enableTilt = false,
+  enableTilt = true,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true
+  enableMagnetism = false
 }) => {
   const gridRef = useRef(null);
   const isMobile = useMobileDetection();
