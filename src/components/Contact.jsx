@@ -57,7 +57,7 @@ const Contact = () => {
   );
 
   return (
-    <div id="contact" className="my-16 md:py-20 w-screen px-5 md:px-10">
+    <div id="contact" className="pt-24 pb-20 w-screen px-5 md:px-24 bg-black">
       <motion.div
         style={{
           backgroundImage,

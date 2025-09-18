@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
-import AnimatedTitle from "../AnimatedTitle";
+import AnimatedTitle from "./AnimatedTitle";
 
 const DEFAULT_PARTICLE_COUNT = 16;
 const DEFAULT_SPOTLIGHT_RADIUS = 350;
@@ -496,7 +496,7 @@ const MagicBento = ({
   const shouldDisableAnimations = disableAnimations || isMobile;
 
   return (
-    <>
+    <div style={{ backgroundColor: '#000', paddingTop: '5rem', paddingBottom: '10rem' }} className="bento-section">
       <AnimatedTitle
         title="ACM India <br />  Chapter Summit-2024"
         containerClass="mt-20 text-center !text-white"
@@ -516,6 +516,7 @@ const MagicBento = ({
             --purple-glow: rgba(132, 0, 255, 0.2);
             --purple-border: rgba(132, 0, 255, 0.8);
           }
+            
           .card-responsive {
             grid-template-columns: 1fr;
             width: 95vw;           /* Changed from 95vw to 80vw */
@@ -563,16 +564,19 @@ const MagicBento = ({
               border-radius: 30px;
             }
             .card__title {
-              font-size: 1.5rem;
+              font-size: 1.2rem;
               padding-bottom: 0.2rem;
+              font-family: 'Circular Std', sans-serif;
             }
             .card__header {
               font-size: 1.05em;
+              font-family: 'Circular Std', sans-serif;
             }
             .card__description {
-              font-size: 0.6em;
+              font-size: 1rem;
               padding-bottom: 0.1rem;
               opacity: 0.6;
+              font-family: 'Circular Std', sans-serif;
             }
           }
           .card--border-glow::after {
@@ -646,6 +650,19 @@ const MagicBento = ({
           .card__slideshow {
             pointer-events: auto;
           }
+            @media (max-width: 768px) {
+          .card__title {
+            font-size: 1.5rem !important;  /* bigger title font on mobile */
+          }
+          .card__header {
+            font-size: 1.3rem !important;  /* bigger header font */
+          }
+          .card__description {
+            font-size: 1rem !important;
+            padding-top: 0.5rem;
+          }
+}
+
         `}
       </style>
       {enableSpotlight && (
@@ -660,9 +677,8 @@ const MagicBento = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] w-full max-w-full border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
-              enableBorderGlow ? 'card--border-glow' : ''
-            }`;
+            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] w-full max-w-full border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${enableBorderGlow ? 'card--border-glow' : ''
+              }`;
             const cardStyle = {
               backgroundColor: card.color || 'var(--background-dark)',
               borderColor: 'var(--border-color)',
@@ -691,13 +707,23 @@ const MagicBento = ({
                     <CardSlideshow images={card.slideshowImages} />
                   </div>
                   <div className="relative z-10 card__header flex justify-between gap-3">
-                    <span className="card__label text-base">{card.label}</span>
+                    <span className="card__label font-circular-web text-base" style={{
+                      fontSize: card.showSlideshow ? '1.3rem' : '1.1rem',
+
+                    }}>{card.label}</span>
                   </div>
                   <div className="relative z-10 card__content flex flex-col">
-                    <h3 className="card__title font-normal text-base m-0 mb-1">
+                    <h3 className="card__title font-circular-web text-base m-0 mb-1" style={{
+                      fontSize: card.showSlideshow ? '2rem' : '1.1rem',
+
+                    }} >
                       {card.title}
                     </h3>
-                    <p className="card__description text-xs leading-5 opacity-90">
+                    <p className="card__description font-circular-web text-xs leading-5 opacity-90" style={{
+                      fontSize: card.showSlideshow ? '1.4rem' : '1.1rem',
+                      lineHeight: card.showSlideshow ? '1.2' : '1',
+
+                    }}>
                       {card.description}
                     </p>
                   </div>
@@ -730,13 +756,13 @@ const MagicBento = ({
                     />
                   </div>
                   <div className="card__header flex justify-between gap-3 relative z-10">
-                    <span className="card__label text-base">{card.label}</span>
+                    <span className="card__label font-circular-web text-base">{card.label}</span>
                   </div>
                   <div className="card__content flex flex-col relative z-10">
-                    <h3 className="card__title font-normal text-base m-0 mb-1">
+                    <h3 className="card__title font-circular-web text-base m-0 mb-1">
                       {card.title}
                     </h3>
-                    <p className="card__description text-xs leading-5 opacity-90">
+                    <p className="card__description font-circular-web text-xs leading-5 opacity-90">
                       {card.description}
                     </p>
                   </div>
@@ -756,13 +782,13 @@ const MagicBento = ({
                 enableMagnetism={enableMagnetism}
               >
                 <div className="card__header flex justify-between gap-3 relative text-white">
-                  <span className="card__label text-base">{card.label}</span>
+                  <span className="card__label font-circular-web text-base">{card.label}</span>
                 </div>
                 <div className="card__content flex flex-col relative text-white">
-                  <h3 className="card__title font-normal text-base m-0 mb-1">
+                  <h3 className="card__title font-circular-web text-base m-0 mb-1">
                     {card.title}
                   </h3>
-                  <p className="card__description text-xs leading-5 opacity-90">
+                  <p className="card__description font-circular-web text-xs leading-5 opacity-90">
                     {card.description}
                   </p>
                 </div>
@@ -771,7 +797,7 @@ const MagicBento = ({
           })}
         </div>
       </BentoCardGrid>
-    </>
+    </div>
   );
 };
 
