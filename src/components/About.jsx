@@ -8,8 +8,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    const clipAnimation = gsap.timeline({
+    const animation = gsap.timeline({
       scrollTrigger: {
+        id: "about-clip", // ✅ unique ID
         trigger: "#clip",
         start: "center center",
         end: "+=800 center",
@@ -19,11 +20,17 @@ const About = () => {
       },
     });
 
-    clipAnimation.to(".mask-clip-path", {
+    animation.to(".mask-clip-path", {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
     });
+
+    // ✅ Cleanup only this animation & trigger on unmount
+    return () => {
+      ScrollTrigger.getById("about-clip")?.kill();
+      animation.kill();
+    };
   });
 
   return (
@@ -41,18 +48,18 @@ const About = () => {
         <div className="about-subtext">
           <p>Level up with BMSCE ACM Student Chapter</p>
           <p className="text-gray-500">
-            Your gateway to the world of computing. Dive into a vibrant community where students, tech, and innovation 
-            collide through events, learning, and endless possibilities.
+            Your gateway to the world of computing. Dive into a vibrant community where students,
+            tech, and innovation collide through events, learning, and endless possibilities.
           </p>
         </div>
       </div>
 
       <div className="h-screen w-screen" id="clip">
-        <div className="mask-clip-path about-image ">
+        <div className="mask-clip-path about-image">
           <img
             src="img/about.webp"
             alt="Background"
-            className="absolute left-0 top-0 size-full object-cover "
+            className="absolute left-0 top-0 size-full object-cover"
           />
         </div>
       </div>
