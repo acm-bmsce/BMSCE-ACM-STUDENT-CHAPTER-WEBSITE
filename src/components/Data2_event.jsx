@@ -196,7 +196,7 @@ const eventData = [
    
     {
         id: '12',
-        title: 'iTeach',
+        title: 'CS Pathshala',
         description: 'BMSCE ACM Student Chapter conducted the CS Pathshala program as part of iTeach, an initiative by the BMS Rotaract Club. This collaboration brought a fresh technical perspective to the event, introducing students to key computational thinking concepts and fostering problem-solving skills in a creative and hands-on manner.',
         date: '2025-02-15',
         image: pos12,

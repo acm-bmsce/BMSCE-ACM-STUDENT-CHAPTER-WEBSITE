@@ -60,26 +60,30 @@ export default function Spotlight() {
   useEffect(() => {
     const lenis = new Lenis();
     lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
+
+    const raf = (time) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
     let currentActiveIndex = 0;
     imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
 
-    const titleNodes = titlesContainerRef.current.querySelectorAll("h1");
+    const titleNodes = titlesContainerRef.current?.querySelectorAll("h1") || [];
     titleNodes.forEach((title, i) => {
       title.style.opacity = i === 0 ? "1" : "0.25";
     });
 
     const viewportHeight = window.innerHeight;
-    const titlesContainerHeight = titlesContainerRef.current.scrollHeight;
+    const titlesContainerHeight = titlesContainerRef.current?.scrollHeight || 0;
     const extraScroll = viewportHeight * 2;
     const totalImages = eventData.length;
     const totalAnimationDuration =
       (totalImages - 1) * config.gap + config.speed;
     const scrollEndExtra = (totalAnimationDuration / 0.7) * viewportHeight;
 
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: spotlightRef.current,
       start: "top top",
       end: `+=${viewportHeight + titlesContainerHeight + extraScroll + scrollEndExtra}px`,
@@ -105,12 +109,12 @@ export default function Spotlight() {
             opacity: 1,
           });
           gsap.set(bgImgRef.current, { scale: animationProgress });
-          gsap.set(bgImgRef.current.querySelector("img"), {
+          gsap.set(bgImgRef.current?.querySelector("img"), {
             scale: 1.5 - animationProgress * 0.5,
           });
 
           imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
-          headerRef.current.style.opacity = "0";
+          if (headerRef.current) headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
             opacity: 0,
             "--before-opacity": "0",
@@ -118,11 +122,11 @@ export default function Spotlight() {
           });
         } else if (progress > 0.2 && progress <= 0.25) {
           gsap.set(bgImgRef.current, { scale: 1 });
-          gsap.set(bgImgRef.current.querySelector("img"), { scale: 1 });
+          gsap.set(bgImgRef.current?.querySelector("img"), { scale: 1 });
           introTextRefs.forEach((el) => gsap.set(el.current, { opacity: 0 }));
           imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
 
-          headerRef.current.style.opacity = "1";
+          if (headerRef.current) headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
             opacity: 1,
             "--before-opacity": "1",
@@ -130,10 +134,10 @@ export default function Spotlight() {
           });
         } else if (progress > 0.25 && progress <= 0.95) {
           gsap.set(bgImgRef.current, { scale: 1 });
-          gsap.set(bgImgRef.current.querySelector("img"), { scale: 1 });
+          gsap.set(bgImgRef.current?.querySelector("img"), { scale: 1 });
           introTextRefs.forEach((el) => gsap.set(el.current, { opacity: 0 }));
 
-          headerRef.current.style.opacity = "1";
+          if (headerRef.current) headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
             opacity: 1,
             "--before-opacity": "1",
@@ -149,7 +153,7 @@ export default function Spotlight() {
           const currentY =
             viewportHeight - fractionalIndex * titleHeight - titleHeight / 2;
           gsap.set(
-            titlesContainerRef.current.querySelector(".spotlight-titles"),
+            titlesContainerRef.current?.querySelector(".spotlight-titles"),
             { transform: `translateY(${currentY}px)` }
           );
 
@@ -191,14 +195,14 @@ export default function Spotlight() {
             titleNodes.forEach((title, i) => {
               title.style.opacity = i === closestIndex ? "1" : "0.25";
             });
-            const bgImageEl = bgImgRef.current.querySelector("img");
+            const bgImageEl = bgImgRef.current?.querySelector("img");
             if (bgImageEl && bgImageEl.getAttribute("src") !== eventData[closestIndex].image) {
               bgImageEl.setAttribute("src", eventData[closestIndex].image);
             }
             currentActiveIndex = closestIndex;
           }
         } else if (progress >= 0.95) {
-          headerRef.current.style.opacity = "0";
+          if (headerRef.current) headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
             opacity: 0,
             "--before-opacity": "0",
@@ -209,8 +213,8 @@ export default function Spotlight() {
     });
 
     return () => {
-      ScrollTrigger.killAll();
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      trigger.kill();
+      gsap.ticker.remove(raf);
       lenis.destroy();
     };
   }, []);
@@ -219,9 +223,10 @@ export default function Spotlight() {
   useEffect(() => {
     if (activeModal !== null) {
       document.body.style.overflow = "hidden";
-      setActiveTab("Overview"); // Reset tab to Overview on every modal open
+      setActiveTab("Overview"); 
 
-      const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");
+      const imgEl = imgRefs.current[activeModal.index].current?.querySelector("img");
+      if (!imgEl) return;
       const imgRect = imgEl.getBoundingClientRect();
 
       gsap.set(blurBgRef.current, { opacity: 0, display: "block", backdropFilter: "blur(0px)" });
@@ -276,8 +281,9 @@ export default function Spotlight() {
 
   const closeModal = () => {
     if (!activeModal) return;
-    gsap.to(modalImageRef.current.querySelector(".modal-title"), { opacity: 0, duration: 0.2 });
-    const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");
+    gsap.to(modalImageRef.current?.querySelector(".modal-title"), { opacity: 0, duration: 0.2 });
+    const imgEl = imgRefs.current[activeModal.index].current?.querySelector("img");
+    if (!imgEl) return;
     const imgRect = imgEl.getBoundingClientRect();
 
     gsap.to(modalRef.current, {
