@@ -722,6 +722,7 @@ const MagicBento = ({
                     <p className="card__description font-circular-web text-xs leading-5 opacity-90" style={{
                       fontSize: card.showSlideshow ? '1.4rem' : '1.1rem',
                       lineHeight: card.showSlideshow ? '1.2' : '1',
+                      paddingTop: card.showSlideshow ? '0.5rem' : '0',
 
                     }}>
                       {card.description}
