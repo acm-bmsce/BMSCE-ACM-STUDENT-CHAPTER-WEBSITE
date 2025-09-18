@@ -46,9 +46,14 @@ const cardData = [
     label: '2024 Edition',
     showSlideshow: true,
     slideshowImages: [
-      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=400&q=80',
-      'https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=400&q=80',
+      '/img/speaker-1.webp',
+      '/img/speaker-2.webp',
+      '/img/speaker-3.webp',
+      '/img/speaker-4.webp',
+      '/img/speaker-5.webp',
+      '/img/speaker-6.webp',
+      '/img/speaker-7.webp',
+      '/img/speaker-8.webp',
     ]
   },
   {
