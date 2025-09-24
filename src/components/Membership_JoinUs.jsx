@@ -5,15 +5,15 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const membershipEvents = [
-  { type: "Student Chapter", title: "Workshops & Events", description: "Gain access to exclusive workshops and events organized by the local chapter."},
+  { type: "Chapter Membership", title: "Workshops & Events", description: "Gain access to exclusive workshops and events organized by the local chapter."},
   { type: "Global Membership", title: "ACM Digital Library", description: "Get full access to the world's largest repository of computing literature."},
-  { type: "Student Chapter", title: "Hands-on Local Projects", description: "Participate in practical projects to apply your skills and build your portfolio."},
+  { type: "Chapter Membership", title: "Hands-on Local Projects", description: "Participate in practical projects to apply your skills and build your portfolio."},
   { type: "Global Membership", title: "ACM Magazine Subscription", description: "Stay updated with the latest trends through a subscription to ACM's flagship magazine."},
-  { type: "Student Chapter", title: "Peer & Faculty Networking", description: "Build valuable connections with fellow students and faculty members in your field."},
+  { type: "Chapter Membership", title: "Peer & Faculty Networking", description: "Build valuable connections with fellow students and faculty members in your field."},
   { type: "Global Membership", title: "Global Networking & Events", description: "Connect with professionals and experts from around the world through global events."},
-  { type: "Student Chapter", title: "Leadership & Volunteering", description: "Take on leadership roles and volunteer to develop soft skills and give back."},
+  { type: "Chapter Membership", title: "Leadership & Volunteering", description: "Take on leadership roles and volunteer to develop soft skills and give back."},
   { type: "Global Membership", title: "Conference Discounts", description: "Enjoy significant discounts on registration for ACM-sponsored conferences."},
-  { type: "Student Chapter", title: "Activity Discounts", description: "Receive discounts on various chapter activities, competitions, and merchandise."},
+  { type: "Chapter Membership", title: "Activity Discounts", description: "Receive discounts on various chapter activities, competitions, and merchandise."},
   { type: "Global Membership", title: "Career Opportunities", description: "Access a wealth of career resources, job boards, and research opportunities."},
 ];
 
@@ -36,7 +36,7 @@ const Membership = () => {
     },
   };
 
-  const studentBenefits = membershipEvents.filter(e => e.type === "Student Chapter");
+  const studentBenefits = membershipEvents.filter(e => e.type === "Chapter Membership");
   const globalBenefits = membershipEvents.filter(e => e.type === "Global Membership");
 
   return (
@@ -78,7 +78,7 @@ const Membership = () => {
             className="space-y-16"
           >
             <div>
-              <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Student Chapter ]</h2>
+              <h2 className="text-xl text-gray-400 uppercase mb-8 tracking-widest text-center bg-black">[ Chapter Membership ]</h2>
               <ul className="space-y-6 text-lg sm:text-xl md:text-2xl text-center">
                 {studentBenefits.map(item => <li key={item.title}>{item.title}</li>)}
               </ul>
