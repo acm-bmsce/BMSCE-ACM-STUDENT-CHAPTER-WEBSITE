@@ -75,6 +75,12 @@ const timelineData = [
     description:
       "Awarded by ACM India for our consistent high level of activity and member engagement.",
   },
+  {
+    year: "2025 - September",
+    title: "Hosted ACM ROCS-2025",
+    description:
+      "Hosted ACM ROCS-2025, the first two-day edition of ACM India’s Research Opportunities in Computer Science, inspiring undergraduates towards research with speakers from IISc, IBM, Google DeepMind, and TCS.",
+  },
 ];
 
 const Journey = () => {
