@@ -61,14 +61,14 @@ const Contact = () => {
               <Button
                 title="Chapter Membership"
                 containerClass="bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white px-8 py-4 text-lg font-semibold rounded-full w-full sm:w-auto transition-all"
-                onClick={() => window.open("https://docs.google.com/forms/d/1pCJ6ZbYq8Rdrt5-k9RkNWKHhjJ5wJtfxnL4pSwpUk3U/edit?chromeless=1#responses", "_blank")}
+                onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLSflJHSNisWEh-SAAK5G1YtlX8PH5ff1qCuLU4t-fzuNDEzG5w/viewform", "_blank")}
               />
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 title="Global Membership"
                 containerClass="bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white px-8 py-4 text-lg font-semibold rounded-full w-full sm:w-auto transition-all"
-                onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLSfYRNzZMGE5dY1yYlEXV0wllD5LVv6FPy_bH8se04qDSy8_kw/closedform", "_blank")}
+                onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLSfYRNzZMGE5dY1yYlEXV0wllD5LVv6FPy_bH8se04qDSy8_kw/viewform", "_blank")}
               />
             </motion.div>
           </div>
