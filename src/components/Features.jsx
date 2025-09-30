@@ -214,11 +214,11 @@ const Features = () => (
             description: "Hosting expert talks and hands-on learning sessions.",
           },
           {
-            videoSrc: "videos/research.mp4",
+            imgSrc: "videos/rocs.webp",
             title: "Research",
             description:
-              "Exploring AI, ML, and emerging tech through research and publications.",
-            isComingSoon: true,
+              "Exploring CSE, AI, ML, and emerging tech through research and publications.",
+            
           },
           {
             imgSrc: "videos/event.webp",
