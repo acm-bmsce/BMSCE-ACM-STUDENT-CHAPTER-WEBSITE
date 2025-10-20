@@ -77,7 +77,7 @@ const Contact = () => {
         <div className="relative z-10">
           <img
             src="/img/logo.png"
-            className="absolute left-1/2 -translate-x-1/2 -top-[5rem] w-32 h-auto lg:top-[22rem] lg:w-40 object-cover"
+            className="floating-logo absolute left-1/2 -translate-x-1/2 -top-[5rem] w-32 h-auto lg:top-[23rem] lg:w-40 object-cover"
             alt="contact decoration"
           />
         </div>

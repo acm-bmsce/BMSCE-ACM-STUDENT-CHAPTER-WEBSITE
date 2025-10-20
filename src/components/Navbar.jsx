@@ -348,10 +348,12 @@ const NavBar = () => {
       {/* Slide-in Mobile Menu */}
       <div
         className={clsx(
-          "fixed top-0 right-0 z-[999] h-screen w-full bg-black text-white px-10 py-20 transform transition-transform duration-500 ease-in-out md:hidden",
+          " fixed top-0 right-0 z-[999] h-screen w-full bg-black text-white px-10 py-20 transform transition-transform duration-500 ease-in-out md:hidden",
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
+
+         
         <button
           onClick={toggleMenu}
           className="absolute top-8 right-3 text-white z-[1001]"
@@ -361,12 +363,12 @@ const NavBar = () => {
         </button>
 
         {(showMenuItems || isUnmounting) && (
-          <ul className="flex flex-col items-center space-y-10 mt-16">
+          <ul className="mobile-nav-list flex flex-col items-center space-y-10 mt-16">
             {navItems.map((item, index) => renderMobileNavItem(item, index))}
           </ul>
         )}
 
-        <div className="absolute bottom-32 left-0 right-0 px-10 flex items-center justify-between w-full">
+        <div className="absolute bottom-20 sm:bottom-32 left-0 right-0 px-10 flex items-center justify-between w-full">
           <p className="text-sm text-blue-50">BMSCE ACM STUDENT CHAPTER</p>
           <button onClick={toggleAudioIndicator} className="flex items-center space-x-1">
             <audio
@@ -388,6 +390,9 @@ const NavBar = () => {
             ))}
           </button>
         </div>
+
+
+        
       </div>
     </>
   );
