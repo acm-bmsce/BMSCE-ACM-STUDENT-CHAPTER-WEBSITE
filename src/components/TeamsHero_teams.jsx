@@ -98,14 +98,14 @@ const TeamsHero = () => {
           </div>
 
           {/* Hero Content */}
-          <div className="relative z-20 text-center !top-2 px-5 lg:px-10 max-w-4xl mx-auto">
+          <div className="animated-title-teams-section relative z-20 text-center !top-2 px-5 lg:px-10 max-w-4xl mx-auto">
             <AnimatedTitle
               title="OUR TEAM"
               containerClass="!text-white !text-[5rem] md:!text-[8rem] text-center"
             />
             <p
               ref={descriptionRef}
-              className="!mt-48 max-w-2xl mx-auto font-robert-regular text-white text-2xl md:text-xl"
+              className="animated-subtext-teams-section !mt-48 max-w-2xl mx-auto font-robert-regular text-white text-2xl md:text-xl"
             >
               Discover the passionate minds behind our innovation. <br />
               Meet the dedicated individuals who drive our community forward.

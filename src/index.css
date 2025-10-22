@@ -540,3 +540,95 @@ body {
     top:35rem!important;
   }
 }
+
+
+
+
+
+
+
+
+
+@media (max-height: 662px) {
+  .text-content {
+    top: 14rem !important; /* Adjust as needed */
+    transform: scale(0.9);
+  }
+
+  .animated-title_joinus {
+    font-size: 5.5rem !important; 
+    line-height: 1 !important;
+    margin-bottom:0.1rem;
+  }
+
+  .about-subtext_joinus p {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.1rem;
+    display: none !important;
+  }
+
+  
+}
+
+
+
+
+
+
+@media (max-height: 662px){
+  .animated-subtext-teams-section{
+   display: none;
+  }
+
+  .animated-title-teams-section{
+    margin-top: 8rem;
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.mobile-nav-list {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  pointer-events: auto;
+  max-height: calc(100vh - 180px);
+  padding-bottom: 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #111;
+}
+
+
+.mobile-nav-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-nav-list::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.mobile-nav-list::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 3px;
+}
+
+
+@media (max-height: 765px) {
+  .toggle-audio-title {
+    display: none;
+  }
+}
+
+
+
+
+
+

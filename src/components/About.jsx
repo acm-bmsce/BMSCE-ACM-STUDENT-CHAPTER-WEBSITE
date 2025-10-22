@@ -8,6 +8,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
+    const isShortScreen = window.innerHeight < 500;
+
+  // ✅ Start smaller if the height < 500
+  gsap.set(".mask-clip-path", {
+    width: isShortScreen ? "80vh" : "100vw", // start from your CSS value
+    height: isShortScreen ? "50vh" : "100vh",
+  });
+
+
     const animation = gsap.timeline({
       scrollTrigger: {
         id: "about-clip", // ✅ unique ID
@@ -25,6 +34,8 @@ const About = () => {
       height: "100vh",
       borderRadius: 0,
     });
+
+    ScrollTrigger.refresh(true);
 
     // ✅ Cleanup only this animation & trigger on unmount
     return () => {
@@ -55,7 +66,7 @@ const About = () => {
       </div>
 
       <div className="h-screen w-screen" id="clip">
-        <div className="mask-clip-path about-image">
+        <div className="mask mask-clip-path about-image">
           <img
             src="img/about.webp"
             alt="Background"
