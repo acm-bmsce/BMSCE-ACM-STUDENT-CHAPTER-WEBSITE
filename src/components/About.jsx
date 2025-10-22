@@ -8,13 +8,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    const isShortScreen = window.innerHeight < 500;
+    const h = window.innerHeight;
+    const w = window.innerWidth;
 
-  // ✅ Start smaller if the height < 500
-  gsap.set(".mask-clip-path", {
-    width: isShortScreen ? "80vh" : "100vw", // start from your CSS value
-    height: isShortScreen ? "50vh" : "100vh",
-  });
+    let initialWidth, initialHeight;
+
+    if (h < 700 && w>767) {
+      initialWidth = "80vh";
+      initialHeight = "50vh";
+    } else if (h < 850 && w < 767) {
+      initialWidth = "70vw";
+      initialHeight = "50vh";
+    } else {
+      initialWidth = "60vw";
+      initialHeight = "62vh";
+    }
+
+    
+    gsap.set(".mask-clip-path", { width: initialWidth, height: initialHeight });
 
 
     const animation = gsap.timeline({
