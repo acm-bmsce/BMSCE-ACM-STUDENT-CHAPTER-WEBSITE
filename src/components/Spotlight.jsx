@@ -35,7 +35,7 @@ function getImgProgressState(index, overallProgress) {
   return (overallProgress - startTime) / config.speed;
 }
 
-export default function Spotlight() {
+export default function Spotlight({ setIsGridView }) {
   const spotlightRef = useRef();
   const titlesContainerRef = useRef();
   const introTextRefs = [useRef(), useRef()];
@@ -48,8 +48,22 @@ export default function Spotlight() {
   const blurBgRef = useRef();
   const [activeTab, setActiveTab] = useState("Overview");
   const tabContentRef = useRef();
+  const [activeYear, setActiveYear] = useState(eventData[0].year);
 
   const [fullScreenImage, setFullScreenImage] = useState(null);
+
+  const yearRef = useRef();
+
+  useEffect(() => {
+    if (!yearRef.current) return;
+
+    gsap.fromTo(
+      yearRef.current,
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }
+    );
+  }, [activeYear]);
+
 
   // Scroll and animation setup (unchanged)
   useEffect(() => {
@@ -174,10 +188,13 @@ export default function Spotlight() {
             titleNodes.forEach((title, i) => {
               title.style.opacity = i === closestIndex ? "1" : "0.25";
             });
+
             const bgImageEl = bgImgRef.current?.querySelector("img");
             if (bgImageEl && bgImageEl.getAttribute("src") !== eventData[closestIndex].image) {
               bgImageEl.setAttribute("src", eventData[closestIndex].image);
             }
+
+            setActiveYear(eventData[closestIndex].year);  // ✅ Update the year dynamically
             currentActiveIndex = closestIndex;
           }
         } else if (progress >= 0.95) {
@@ -302,31 +319,9 @@ export default function Spotlight() {
 
   return (
     <div className="spotlight-wrapper" style={{ overflowX: "hidden" }}>
-      <section
-        className="intro flex flex-col gap-4"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.75)), url('/img/events-bg.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <AnimatedTitle
-          title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
-          containerClass="animated-title_joinus !text-white text-center mb-2"
-        />
-        <p>Learn, Connect, and Create — one event at a time.</p>
-      </section>
+
       <section className="spotlight" ref={spotlightRef}>
-        <div className="spotlight-intro-text-wrapper">
-          <div className="spotlight-intro-text" ref={introTextRefs[0]}>
-            <p>Connect</p>
-          </div>
-          <div className="spotlight-intro-text" ref={introTextRefs[1]}>
-            <p>Collaborate</p>
-          </div>
-        </div>
+
         <div className="spotlight-bg-img" ref={bgImgRef}>
           <img src={eventData[0].image} alt="" />
         </div>
@@ -350,8 +345,21 @@ export default function Spotlight() {
           ))}
         </div>
         <div className="spotlight-header" ref={headerRef}>
-          <p>2025</p>
+          <button
+            className="back-btn"
+            onClick={() => setIsGridView(false)}
+          >
+            ← Back
+          </button>
+          <p ref={yearRef}>{activeYear}</p>
         </div>
+        <div className="scroll-indicator">
+          <span>Scroll to Explore</span>
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+        </div>
+
       </section>
 
       {/* Modal Blur Background */}
