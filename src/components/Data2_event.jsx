@@ -238,12 +238,12 @@ const eventData = [
     },
     {
         id: '13',
-        title: 'CS Pathshala',
-        description: 'BMSCE ACM Student Chapter conducted the CS Pathshala program as part of iTeach, an initiative by the BMS Rotaract Club. This collaboration brought a fresh technical perspective to the event, introducing students to key computational thinking concepts and fostering problem-solving skills in a creative and hands-on manner.',
+        title: 'Vault Of Trials',
+        description: 'The BMSCE ACM Student Chapter, in collaboration with BMSCE IEEE PELS and IES, organized an event titled “Vault of Trials”, an interactive logic-based puzzle game designed to challenge participants’ analytical thinking, reasoning abilities, and problem-solving skills as part of PELS and IES Week 2025.',
         date: '2025-02-15',
         image: pos13,
         fullDescription:
-            "The VAULT OF TRAILS was a creatively designed logic testing event which was implemented in the form of an engaging game. The website of the game was customized and curated by our abled technical team. The event began with the explanation of rules and regulations as well as the structure of the game, following which the participants entered their team names to start the game which they accessed through a link.\n\n" +
+            "The Vault Of Trials was a creatively designed logic testing event which was implemented in the form of an engaging game. The website of the game was customized and curated by our abled technical team. The event began with the explanation of rules and regulations as well as the structure of the game, following which the participants entered their team names to start the game which they accessed through a link.\n\n" +
 
             "The objective of the game was to lead on the correct path and find the correct door at the earliest. The first question was an easy math problem following which the storyline of the game was displayed.\n\n" +
 
@@ -251,7 +251,7 @@ const eventData = [
 
             "The level C doors were particularly harder to solve in comparison to level A and B and tested the critical thinking of the participants.\n\n" +
 
-            "Overall, the game, Vault of Trails, tested the participants' critical and analytical thinking and problem-solving abilities through a fun and exciting game."
+            "Overall, the game, Vault of Trials, tested the participants' critical and analytical thinking and problem-solving abilities through a fun and exciting game."
 
         , outcomes: "The event successfully blended problem-solving skills with fun and compelled the participants to think logically and radically to solve the questions across different fields. It allowed them to find a solution applying both logical and mathematical skills. The questions tested participants’ knowledge with various mathematical fields as well as in real life scenarios. The event fostered healthy competition, enthusiasm, and collaboration, leaving a memorable impact on everyone involved.",
         gallery: ["img/vot1.jpeg", "img/vot2.jpeg", "img/vot3.jpeg", "img/vot4.jpeg", "img/vot5.jpeg", "img/vot6.jpeg", "img/vot7.jpeg", "img/vot8.jpeg"],
