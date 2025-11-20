@@ -8,29 +8,39 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
+    // ✅ Determine initial size based on screen height & width
     const h = window.innerHeight;
     const w = window.innerWidth;
 
     let initialWidth, initialHeight;
 
-    if (h < 700 && w>767) {
+    if (h < 700 && w > 767) {
+      // Short desktop screens
       initialWidth = "80vh";
       initialHeight = "50vh";
-    } else if (h < 850 && w < 767) {
-      initialWidth = "70vw";
-      initialHeight = "50vh";
+    } else if (h < 850 && w <= 767) {
+      // Mobile / tablet screens
+      initialWidth = "80vw";
+      initialHeight = "47vh";
     } else {
+      // Default larger screens
       initialWidth = "60vw";
       initialHeight = "62vh";
     }
 
-    
-    gsap.set(".mask-clip-path", { width: initialWidth, height: initialHeight });
+    // ✅ Set initial size after layout
+    const setInitialSize = () => {
+      gsap.set(".about-clip-path", { width: initialWidth, height: initialHeight });
+    };
 
+    // Run immediately and also after window load (to account for images)
+    setInitialSize();
+    window.addEventListener("load", setInitialSize);
 
+    // ✅ Timeline animation
     const animation = gsap.timeline({
       scrollTrigger: {
-        id: "about-clip", // ✅ unique ID
+        id: "about-clip",
         trigger: "#clip",
         start: "center center",
         end: "+=800 center",
@@ -40,16 +50,17 @@ const About = () => {
       },
     });
 
-    animation.to(".mask-clip-path", {
+    animation.to(".about-clip-path", {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
+      ease: "power2.out",
     });
 
-    ScrollTrigger.refresh(true);
+    ScrollTrigger.refresh();
 
-    // ✅ Cleanup only this animation & trigger on unmount
     return () => {
+      window.removeEventListener("load", setInitialSize);
       ScrollTrigger.getById("about-clip")?.kill();
       animation.kill();
     };
@@ -70,14 +81,15 @@ const About = () => {
         <div className="about-subtext">
           <p>Level up with BMSCE ACM Student Chapter</p>
           <p className="text-gray-500">
-            Your gateway to the world of computing. Dive into a vibrant community where students,
-            tech, and innovation collide through events, learning, and endless possibilities.
+            Your gateway to the world of computing. Dive into a vibrant
+            community where students, tech, and innovation collide through
+            events, learning, and endless possibilities.
           </p>
         </div>
       </div>
 
       <div className="h-screen w-screen" id="clip">
-        <div className="mask mask-clip-path about-image">
+        <div className="mask mask-clip-path about-clip-path about-image">
           <img
             src="img/about.webp"
             alt="Background"
