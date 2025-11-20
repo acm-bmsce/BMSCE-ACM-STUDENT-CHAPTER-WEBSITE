@@ -7,8 +7,8 @@ import { ScrollTrigger } from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-const AnimatedTitle = ({ title, containerClass }) => {
+// ------------------ Animated Title ------------------
+const AnimatedTitle = ({ title, containerClass, zoomFactor }) => {
   useGSAP(() => {
     gsap.fromTo(
       "#features-title",
@@ -27,10 +27,17 @@ const AnimatedTitle = ({ title, containerClass }) => {
     );
   }, []);
 
+  // Gradually scale down title when zoomed in
+  const scale = zoomFactor > 1 ? Math.max(0.85, 1 - (zoomFactor - 1) * 0.3) : 1;
+
   return (
     <div className={containerClass}>
       <h1
         id="features-title"
+        style={{
+          transform: `scale(${scale})`,
+          transition: "transform 0.3s ease",
+        }}
         className="text-4xl md:text-5xl font-bold tracking-tighter special-font"
       >
         {title}
@@ -39,15 +46,13 @@ const AnimatedTitle = ({ title, containerClass }) => {
   );
 };
 
-
+// ------------------ Product Card ------------------
 function Product({ val, mover, count }) {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   useEffect(() => {
-    if (inView) {
-      controls.start({ opacity: 1, y: 0 });
-    }
+    if (inView) controls.start({ opacity: 1, y: 0 });
   }, [inView]);
 
   return (
@@ -69,15 +74,13 @@ function Product({ val, mover, count }) {
   );
 }
 
-
+// ------------------ Mobile Card ------------------
 const MobileCard = ({ title, description, image }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   useEffect(() => {
-    if (inView) {
-      controls.start({ opacity: 1, y: 0 });
-    }
+    if (inView) controls.start({ opacity: 1, y: 0 });
   }, [inView]);
 
   return (
@@ -101,6 +104,7 @@ const MobileCard = ({ title, description, image }) => {
   );
 };
 
+// ------------------ Main Features Section ------------------
 const Features = () => {
   const products = [
     {
@@ -166,7 +170,6 @@ const Features = () => {
       description:
         "Through ACM membership, get access and discounts to Summer Schools, Winter Schools, PhD Clinics, CSPtashala, ACM India AI Olympiad and many more exclusive programs.",
     },
-
   ];
 
   const imageSources = [
@@ -181,16 +184,29 @@ const Features = () => {
 
   const [pos, setPos] = useState(0);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [zoomFactor, setZoomFactor] = useState(1);
 
   const mover = (val) => setPos(val * 23);
 
   useEffect(() => {
     const handleResize = () => {
+      const rootFontSize =
+        parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+      // Base font-size (16px) is normal zoom. If user zooms in, this value increases.
+      const zoomLevel = rootFontSize / 16; // 1.0 = 100%, 1.25 = 125%, etc.
+
+      setZoomFactor(zoomLevel);
+
       const isMobileOrTablet =
         /iphone|ipod|ipad/.test(navigator.userAgent.toLowerCase()) ||
-        (/android/.test(navigator.userAgent.toLowerCase()) && !/mobile/.test(navigator.userAgent.toLowerCase())) ||
-        window.innerWidth < 1024;
-      setIsMobileView(isMobileOrTablet);
+        (/android/.test(navigator.userAgent.toLowerCase()) &&
+          !/mobile/.test(navigator.userAgent.toLowerCase())) ||
+        window.innerWidth < 1280;
+
+      // ✅ Trigger mobile view *only when zoomed in ≥125%*
+      const shouldForceMobile = zoomLevel >= 1.25;
+      setIsMobileView(isMobileOrTablet || shouldForceMobile);
     };
 
     handleResize();
@@ -204,6 +220,7 @@ const Features = () => {
         <AnimatedTitle
           title="WHY JOIN OUR NETWORK?"
           containerClass="mt-20 mb-20 !text-white text-center"
+          zoomFactor={zoomFactor}
         />
 
         {!isMobileView && (

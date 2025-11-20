@@ -73,7 +73,7 @@ const Studentadvisor = ({ members }) => {
 
             {/* Grid Layout for Cards */}
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-40 gap-y-24 px-4">
+                <div className="team-grid grid grid-cols-1 sm:grid-cols-2 gap-x-40 gap-y-24 px-4">
                     {members.map((member, idx) => (
                         <div
                             key={idx}

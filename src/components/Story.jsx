@@ -50,7 +50,7 @@ const FloatingImage = () => {
         <div className="relative size-full">
           <AnimatedTitle
             title="emerging chapter<br />award-2024"
-            containerClass="mt-40 pointer-events-none mix-blend-difference relative z-10"
+            containerClass="mt-40 pointer-events-none mix-blend-difference relative z-10 [@media(min-width:768px)_and_(max-width:785px)]:text-8xl"
           />
 
           <div className="story-img-container mb-12">

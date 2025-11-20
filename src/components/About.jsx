@@ -8,6 +8,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+
+    let initialWidth, initialHeight;
+
+    if (h < 700 && w>767) {
+      initialWidth = "80vh";
+      initialHeight = "50vh";
+    } else if (h < 850 && w < 767) {
+      initialWidth = "70vw";
+      initialHeight = "50vh";
+    } else {
+      initialWidth = "60vw";
+      initialHeight = "62vh";
+    }
+
+    
+    gsap.set(".mask-clip-path", { width: initialWidth, height: initialHeight });
+
+
     const animation = gsap.timeline({
       scrollTrigger: {
         id: "about-clip", // ✅ unique ID
@@ -25,6 +45,8 @@ const About = () => {
       height: "100vh",
       borderRadius: 0,
     });
+
+    ScrollTrigger.refresh(true);
 
     // ✅ Cleanup only this animation & trigger on unmount
     return () => {
@@ -55,7 +77,7 @@ const About = () => {
       </div>
 
       <div className="h-screen w-screen" id="clip">
-        <div className="mask-clip-path about-image">
+        <div className="mask mask-clip-path about-image">
           <img
             src="img/about.webp"
             alt="Background"
