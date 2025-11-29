@@ -148,12 +148,13 @@ const Journey = () => {
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <p className="text-blue-300 font-bebas-neue text-4xl mb-2">
+                    <p className="text-blue-300 font-bebas-neue text-4xl max-[500px]:text-2xl mb-2">
                       {event.year}
                     </p>
-                    <h3 className="font-general uppercase text-xl font-bold mb-3 text-white">
+                    <h3 className="font-general uppercase text-xl max-[500px]:text-base font-bold mb-3 text-white">
                       {event.title}
                     </h3>
+
                     <p className="text-sm text-blue-50/90">
                       {event.description}
                     </p>

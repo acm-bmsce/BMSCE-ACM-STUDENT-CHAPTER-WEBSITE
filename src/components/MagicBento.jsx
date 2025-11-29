@@ -506,7 +506,7 @@ const MagicBento = ({
           .bento-section {
             --glow-x: 50%;
             --glow-y: 50%;
-            --glow-intensity: 0;
+            --glow-intensity: 0;,
             --glow-radius: 275px;
             --glow-color: ${glowColor};
             --border-color: #392e4e;
@@ -521,7 +521,7 @@ const MagicBento = ({
             grid-template-columns: 1fr;
             width: 95vw;           /* Changed from 95vw to 80vw */
             margin: 0 auto;
-            padding: 0.5rem;
+            padding: 0.7rem;
             max-width: 95vw;       /* Changed from 100vw to 80vw */
           }
           @media (min-width: 600px) {
@@ -579,6 +579,100 @@ const MagicBento = ({
               font-family: 'Circular Std', sans-serif;
             }
           }
+
+
+@media (min-width: 600px) and (max-width: 1023px) {
+  .card-responsive {
+    gap: 2rem; /* Add spacing between cards */
+    width: 90vw;  /* Optional: adjust width */
+  }
+
+  .card {
+    padding: 1.5rem; /* Add padding inside each card */
+    border-radius: 25px; /* Slightly rounded corners */
+    min-height: 300px; /* Adjust height */
+  }
+
+  .card__title {
+    font-size: 1.15rem;
+    padding-bottom: 0.3rem; /* Space below title */
+  }
+
+  .card__description {
+    font-size: 0.95rem;
+    padding-bottom: 0.2rem; /* Space below description */
+    opacity: 0.65;
+  }
+
+  .card__header {
+    font-size: 1.05rem;
+  }
+}
+
+
+/* Mobile screens: below 600px */
+@media (max-width: 599px) {
+  .card-responsive {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 1rem;                  /* Space between cards */
+    width: 95vw;                /* Slightly narrower than full width */
+  }
+
+  .card {
+    padding: 1rem;             /* Padding inside each card */
+    border-radius: 20px;       /* Rounded corners */
+    min-height: 250px;         /* Adjust height */
+  }
+
+  .card__title {
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .card__description {
+    font-size: 0.9rem;
+    padding-bottom: 0.15rem;
+    opacity: 0.6;
+  }
+
+  .card__header {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Mobile screens: below 600px */
+@media (max-width: 599px) {
+  .card-responsive {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 2.5rem;                  /* Space between cards */
+    width: 95vw;                /* Slightly narrower than full width */
+  }
+
+  .card {
+    padding: 1rem;             /* Padding inside each card */
+    border-radius: 20px;       /* Rounded corners */
+    min-height: 250px;         /* Adjust height */
+  }
+
+  .card__title {
+    font-size: 1rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .card__description {
+    font-size: 0.9rem;
+    padding-bottom: 0.15rem;
+    opacity: 0.6;
+  }
+
+  .card__header {
+    font-size: 0.95rem;
+  }
+}
+
+
+
           .card--border-glow::after {
             content: '';
             position: absolute;

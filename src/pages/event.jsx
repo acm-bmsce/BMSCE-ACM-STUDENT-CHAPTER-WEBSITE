@@ -64,7 +64,7 @@ export default function App() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -50 }}
-                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
                             className="flex flex-col gap-20"
                         >
                             <Spotlight setIsGridView={handleCloseGrid} />

@@ -51,7 +51,7 @@ const HeroSection = () => {
     <div id="about-container" className="relative h-screen w-screen">
       <div id="clip" className="h-screen w-screen">
         <div className="mask-clip-path relative h-screen w-screen">
-          <div className="text-content absolute inset-0 top-20 z-20 flex flex-col items-center justify-center px-4 text-center opacity-0">
+          <div className="text-content  absolute inset-0 top-20 z-20 flex flex-col items-center justify-center px-4 text-center opacity-0">
             <AnimatedTitle
               title="JOIN THE<br /> BMSCE ACM STUDENT CHAPTER"
               

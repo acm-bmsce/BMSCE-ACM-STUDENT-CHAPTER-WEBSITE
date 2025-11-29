@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide, useSwiperSlide } from "swiper/react";
 import "swiper/css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
-import eventData from "./Data2_event";
+
+import eventData from "./Data2_event";                 // MOBILE DATA
+import eventDataDesktop from "./Data2_events_desktop";  // DESKTOP DATA
 
 // ---------------------------------------------------
 // Slide Item Component
@@ -50,23 +51,29 @@ function SlideItem({ src, title, alt, onClick }) {
 // ---------------------------------------------------
 // Main Carousel Component
 // ---------------------------------------------------
-export default function ImageCarousel({ images }) {
+export default function ImageCarousel() {
     const swiperRef = useRef(null);
     const [swiperReady, setSwiperReady] = useState(false);
 
     const [isMobile, setIsMobile] = useState(false);
     const [popup, setPopup] = useState(null);
 
-    // ⭐ NEW TAB STATE
+    // ⭐ Tabs inside popup
     const [popupTab, setPopupTab] = useState("Overview");
 
-    // Detect mobile
+    // ⭐ Fullscreen image viewer
+    const [fullImg, setFullImg] = useState(null);
+
+    // Detect screen size
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth < 768);
         check();
         window.addEventListener("resize", check);
         return () => window.removeEventListener("resize", check);
     }, []);
+
+    // Select dataset based on device
+    const activeData = isMobile ? eventData : eventDataDesktop;
 
     // Arrow controls
     const prev = () => swiperRef.current?.slidePrev(300);
@@ -90,7 +97,7 @@ export default function ImageCarousel({ images }) {
                 loop={false}
                 className="w-full py-10"
             >
-                {eventData.map((item) => (
+                {activeData.map((item) => (
                     <SwiperSlide
                         key={item.id}
                         style={{ width: "380px", display: "flex", justifyContent: "center" }}
@@ -100,10 +107,8 @@ export default function ImageCarousel({ images }) {
                             alt={item.title}
                             title={item.title}
                             onClick={() => {
-                                if (isMobile) {
-                                    setPopup(item);
-                                    setPopupTab("Overview"); // RESET TAB
-                                }
+                                setPopup(item);
+                                setPopupTab("Overview");
                             }}
                         />
                     </SwiperSlide>
@@ -131,10 +136,10 @@ export default function ImageCarousel({ images }) {
 
 
             {/* -----------------------------------
-                ❤️ POPUP (Mobile)
+                ❤️ POPUP (Mobile + Desktop)
             ----------------------------------- */}
             <AnimatePresence>
-                {popup && isMobile && (
+                {popup && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -143,7 +148,17 @@ export default function ImageCarousel({ images }) {
                         className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-3"
                     >
                         {/* MODAL */}
-                        <div className="relative bg-white rounded-2xl w-full max-w-[450px] max-h-[92vh] overflow-hidden shadow-xl flex flex-col">
+                        <div
+                            className="
+                                relative bg-white rounded-2xl 
+                                w-full 
+                                max-w-[450px]       /* Mobile */
+                                md:max-w-[750px]    /* Tablets */
+                                lg:max-w-[900px]    /* Desktop */
+                                max-h-[92vh] 
+                                overflow-hidden shadow-xl flex flex-col
+                            "
+                        >
 
                             {/* CLOSE BUTTON */}
                             <button
@@ -201,7 +216,8 @@ export default function ImageCarousel({ images }) {
                                                 key={i}
                                                 src={img}
                                                 alt="gallery"
-                                                className="w-full h-28 object-cover rounded-md"
+                                                onClick={() => setFullImg(img)}
+                                                className="w-full h-28 object-cover rounded-md cursor-pointer hover:opacity-80 transition"
                                             />
                                         ))}
                                     </div>
@@ -226,9 +242,31 @@ export default function ImageCarousel({ images }) {
                                         </div>
                                     </div>
                                 )}
-
                             </div>
                         </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+
+            {/* -----------------------------------
+                🖼️ FULLSCREEN IMAGE VIEWER
+            ----------------------------------- */}
+            <AnimatePresence>
+                {fullImg && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center p-4"
+                        onClick={() => setFullImg(null)}
+                    >
+                        <img
+                            src={fullImg}
+                            alt="Full View"
+                            className="max-w-[90%] max-h-[90%] rounded-xl shadow-2xl object-contain"
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -457,3 +457,178 @@ body {
 .animated-title_joinus {
   @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[7rem] pb-[20px];
 }
+
+
+
+
+
+
+@media (min-width: 768px) and (max-width: 774px) {
+  .hero-heading {
+    /* revert to pre-md styles */
+    font-size: 5rem; /* text-3xl */
+    margin-bottom: 2rem;
+    
+  }
+  .hero-subtext {
+    padding-top: 5rem;   /* pt-20 */
+    max-width: 16rem;    /* max-w-64 */
+  }
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .card-responsive {
+    /*
+      'gap' is the ideal property for creating space between grid items.
+      This adds a 1.5rem (24px) gap both horizontally and vertically
+      between your cards. Feel free to adjust this value.
+    */
+    gap: 2rem;
+
+    /*
+      'padding' adds space around the entire grid of cards,
+      preventing them from touching the edges of the screen.
+    */
+    padding: 1rem;
+
+    /*
+      This ensures the grid doesn't exceed the viewport width,
+      especially with the added padding.
+    */
+    width: 90vw;
+  }
+}
+
+
+@media (max-width: 375px) {
+  .mobile-nav-list {
+    margin-top: 1rem !important; /* mt-8 = 2rem */
+  }
+}
+
+
+
+/* Responsive adjustments for screens ≤ 375px */
+@media screen and (max-width: 375px) {
+  .team-grid {
+    gap: 2rem 1rem; /* reduce vertical and horizontal gap, similar to max-[375px]:gap-x-4 max-[375px]:gap-y-8 */
+    max-width: 90%;
+    justify-items: center; /* keep items centered */
+  }
+}
+
+
+
+
+
+
+
+/* Default (already styled via Tailwind in JSX) */
+
+/* Between 1024px and 1285px: move logo above the contact button */
+@media (min-width: 1061px) and (max-width: 1285px) {
+  .floating-logo {
+    top: 30rem !important;
+  }
+}
+
+
+@media (min-width:1024px) and (max-width:1060px) {
+  .floating-logo{
+    top:35rem!important;
+  }
+}
+
+
+
+
+
+
+
+
+
+@media (max-height: 662px) {
+  .text-content {
+    top: 14rem !important; /* Adjust as needed */
+    transform: scale(0.9);
+  }
+
+  .animated-title_joinus {
+    font-size: 5.5rem !important; 
+    line-height: 1 !important;
+    margin-bottom:0.1rem;
+  }
+
+  .about-subtext_joinus p {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.1rem;
+    display: none !important;
+  }
+
+  
+}
+
+
+
+
+
+
+@media (max-height: 662px){
+  .animated-subtext-teams-section{
+   display: none;
+  }
+
+  .animated-title-teams-section{
+    margin-top: 8rem;
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.mobile-nav-list {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  pointer-events: auto;
+  max-height: calc(100vh - 180px);
+  padding-bottom: 2rem;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #111;
+}
+
+
+.mobile-nav-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-nav-list::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.mobile-nav-list::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 3px;
+}
+
+
+@media (max-height: 765px) {
+  .toggle-audio-title {
+    display: none;
+  }
+}
+
+
+
+
+
+
