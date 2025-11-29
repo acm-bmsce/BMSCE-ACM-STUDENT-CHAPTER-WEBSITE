@@ -41,9 +41,11 @@ function SlideItem({ src, title, alt, onClick }) {
             />
 
             {/* Hover Title (Desktop Only) */}
-            <div className="hidden md:flex absolute inset-0 bg-black/50 items-center justify-center text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition">
-                {title}
+            <div className="hidden md:flex absolute inset-0 bg-black/50 items-center justify-center text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition active:underline">
+                View Details
             </div>
+
+
         </motion.div>
     );
 }
@@ -150,14 +152,14 @@ export default function ImageCarousel() {
                         {/* MODAL */}
                         <div
                             className="
-                                relative bg-white rounded-2xl 
-                                w-full 
-                                max-w-[450px]       /* Mobile */
-                                md:max-w-[750px]    /* Tablets */
-                                lg:max-w-[900px]    /* Desktop */
-                                max-h-[92vh] 
-                                overflow-hidden shadow-xl flex flex-col
-                            "
+        relative bg-white rounded-2xl 
+        w-full 
+        max-w-[450px]       
+        md:max-w-[750px]    
+        lg:max-w-[900px]    
+        h-[85vh]             /* 🔥 FIXED HEIGHT */
+        overflow-hidden shadow-xl flex flex-col
+    "
                         >
 
                             {/* CLOSE BUTTON */}
@@ -260,16 +262,30 @@ export default function ImageCarousel() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
                         className="fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center p-4"
-                        onClick={() => setFullImg(null)}
                     >
-                        <img
-                            src={fullImg}
-                            alt="Full View"
-                            className="max-w-[90%] max-h-[90%] rounded-xl shadow-2xl object-contain"
-                        />
+                        {/* IMAGE WRAPPER */}
+                        <div className="relative">
+
+                            {/* CLOSE BUTTON INSIDE IMAGE */}
+                            <button
+                                onClick={() => setFullImg(null)}
+                                className="absolute top-3 right-3 text-white text-2xl bg-black/50 w-9 h-9 flex items-center justify-center rounded-full backdrop-blur-md hover:bg-black/70 transition"
+                            >
+                                ×
+                            </button>
+
+                            {/* IMAGE */}
+                            <img
+                                src={fullImg}
+                                alt="Full View"
+                                className="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl object-contain"
+                            />
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+
+
 
         </div>
     );
