@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Github, Code, TrendingUp, Search, X } from 'lucide-react';
 
-// --------------------------------------------
-// RESTORED ORIGINAL PROJECT DATA
-// --------------------------------------------
 const staticProjects = [
   {
     id: 1,
@@ -236,14 +233,6 @@ const ProjectsPage = () => {
             <p className="text-xl text-white">No projects found.</p>
           </div>
         )}
-
-        {/* FOOTER */}
-        <footer className="text-center mt-16 p-4 border-t border-[#1F3037]">
-          <p className="text-sm text-[#BFC7CC]">
-            <Code className="inline w-4 h-4 mr-1" />
-            Backend integration ready: Data currently static.
-          </p>
-        </footer>
 
       </div>
     </div>

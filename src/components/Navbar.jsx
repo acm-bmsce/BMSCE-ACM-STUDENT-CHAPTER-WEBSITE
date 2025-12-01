@@ -9,7 +9,8 @@ import { Link, useLocation } from "react-router-dom";
 
 import Button from "./Button";
 
-const navItems = ["Home", "Events", "Join Us", "Teams", "About Us"];
+// ✅ CHANGE 1: ADD "Projects" to the navItems array
+const navItems = ["Home", "Events", "Projects", "Join Us", "Teams", "About Us"];
 
 const NavBar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -78,6 +79,7 @@ const NavBar = () => {
     });
   }, [isNavVisible]);
 
+  // ✅ CHANGE 2: Add logic for "Projects" in the desktop navigation
   const renderNavItem = (item, index) => {
     if (item === "Home") {
       return (
@@ -85,6 +87,19 @@ const NavBar = () => {
           key={index}
           to="/"
           className="nav-hover-btn text-xl lg:text-[1rem] font-bold "
+          onClick={() => {
+            if (isMenuOpen) toggleMenu();
+          }}
+        >
+          {item}
+        </Link>
+      );
+    } else if (item === "Projects") { // ⬅️ NEW LOGIC ADDED HERE
+      return (
+        <Link
+          key={index}
+          to="/projects"
+          className="nav-hover-btn text-xl lg:text-[1rem] font-bold"
           onClick={() => {
             if (isMenuOpen) toggleMenu();
           }}
@@ -178,6 +193,27 @@ const NavBar = () => {
           }}
         >
           <Link to="/" onClick={toggleMenu}>
+            {item}
+          </Link>
+        </li>
+      );
+    } else if (item === "Projects") {
+      return (
+        <li
+          key={index}
+          className={clsx(
+            "text-5xl font-bold text-blue-50 transition-opacity duration-500",
+            {
+              "opacity-100 animate-rise": showMenuItems && !isUnmounting,
+              "opacity-0 animate-fall": isUnmounting,
+            }
+          )}
+          style={{
+            animationDelay: `${0.1 * index + 0.3}s`,
+            animationFillMode: "both",
+          }}
+        >
+          <Link to="/projects" onClick={toggleMenu}>
             {item}
           </Link>
         </li>
@@ -305,6 +341,7 @@ const NavBar = () => {
             </div>
 
             <div className="hidden md:flex h-full items-center gap-8">
+              {/* Desktop Navigation Items */}
               {navItems.map((item, index) => renderNavItem(item, index))}
 
               <button
@@ -366,6 +403,7 @@ const NavBar = () => {
 
         {(showMenuItems || isUnmounting) && (
           <ul className="mobile-nav-list flex flex-col items-center space-y-10 mt-16">
+            {/* Mobile Navigation Items */}
             {navItems.map((item, index) => renderMobileNavItem(item, index))}
           </ul>
           

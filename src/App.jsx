@@ -7,7 +7,6 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import gsap from "gsap";
-import ProjectsPage from "./components/ProjectsPage";
 
 // Components
 import ScrollToTop from "./components/ScrollToTop";
@@ -28,6 +27,7 @@ const JoinUs = lazy(() => import("./pages/join-us"));
 const AboutUs = lazy(() => import("./pages/about-us"));
 const Team = lazy(() => import("./pages/team"));
 const Event = lazy(() => import("./pages/event"));
+const Projects = lazy(() => import("./pages/projects"));
 
 const ease = "power4.inOut";
 
@@ -44,7 +44,6 @@ function AnimatedRoutes() {
   const [firstLoad, setFirstLoad] = useState(true);
 
   const EXCLUDED_PATHS = ["/projects"];
-  const shouldHideNavBar = EXCLUDED_PATHS.includes(displayLocation.pathname);
 
   useEffect(() => {
     audioRef.current = new Audio(transitionSound);
@@ -175,9 +174,7 @@ function AnimatedRoutes() {
         {/* VVV --- CHANGE: Conditionally render the NavBar --- remove this to get the navbar in projects page VVV */}
         {!isTransitioning && <NavBar />}
         <Routes location={displayLocation}>
-          {/* Eager-loaded Home */}
           <Route path="/" element={<Home />} />
-          {/* Lazy-loaded others with Loader fallback */}
           <Route
             path="/join-us"
             element={
@@ -214,7 +211,7 @@ function AnimatedRoutes() {
             path="/projects"
             element={
               <Suspense fallback={<Loader />}>
-                <ProjectsPage />
+                <Projects />
               </Suspense>
             }
           />
