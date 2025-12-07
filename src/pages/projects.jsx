@@ -1,53 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Github, Code, TrendingUp, Search, X } from 'lucide-react';
+import { Github, Code, TrendingUp, Search, X, User } from 'lucide-react'; 
+import staticProjects from '../components/Data_projects.jsx'; 
 
-const staticProjects = [
-  {
-    id: 1,
-    title: "E-Commerce Microservices Platform",
-    description: "A scalable e-commerce backend built with Node.js and gRPC, utilizing PostgreSQL for product catalog and Redis for caching.",
-    imageUrl: "https://placehold.co/600x400/1e293b/f8fafc?text=Microservice+API",
-    techStack: ["Node.js", "PostgreSQL", "gRPC", "Docker", "Redis"],
-    category: "Backend",
-    githubUrl: "https://github.com/placeholder-repo/ecommerce-platform",
-  },
-  {
-    id: 2,
-    title: "Financial Dashboard UI",
-    description: "A responsive, real-time data visualization dashboard using React, designed for monitoring portfolio performance and market trends.",
-    imageUrl: "https://placehold.co/600x400/0f172a/f8fafc?text=Financial+Dashboard",
-    techStack: ["React", "Tailwind CSS", "Recharts", "TypeScript"],
-    category: "Frontend",
-    githubUrl: "https://github.com/placeholder-repo/financial-dashboard",
-  },
-  {
-    id: 3,
-    title: "Machine Learning Image Classifier",
-    description: "A Python model utilizing TensorFlow to classify images of common objects. Deployed via a lightweight Flask API.",
-    imageUrl: "https://placehold.co/600x400/475569/f8fafc?text=ML+Classifier",
-    techStack: ["Python", "TensorFlow", "Flask", "Scikit-learn"],
-    category: "Machine Learning",
-    githubUrl: "https://github.com/placeholder-repo/image-classifier",
-  },
-  {
-    id: 4,
-    title: "Personal Blog & CMS",
-    description: "A modern blog application with integrated content management features, built with Next.js for SSR and fast loading times.",
-    imageUrl: "https://placehold.co/600x400/64748b/f8fafc?text=Blog+Platform",
-    techStack: ["Next.js", "Tailwind CSS", "MongoDB", "Auth.js"],
-    category: "Full Stack",
-    githubUrl: "https://github.com/placeholder-repo/personal-blog",
-  },
-];
-
+// --- ProjectCard Component ---
 const ProjectCard = ({ project }) => {
-  const handleClick = () => {
+  const handleGithubClick = (e) => {
+    e.stopPropagation(); 
     window.open(project.githubUrl, "_blank");
   };
 
   return (
     <div
-      onClick={handleClick}
       className="
         bg-[#0E181C]
         border border-[#1F3037]
@@ -57,10 +20,11 @@ const ProjectCard = ({ project }) => {
         transform transition duration-300
         hover:scale-[1.02]
         hover:border-[#2FA6B8]
-        cursor-pointer
+        flex flex-col
+        min-h-[500px] 
       "
     >
-      <div className="relative h-48 sm:h-56">
+      <div className="relative h-48 sm:h-56 flex-shrink-0"> {/* Image area */}
         <img
           src={project.imageUrl}
           alt={project.title}
@@ -69,48 +33,83 @@ const ProjectCard = ({ project }) => {
             e.target.src = "https://placehold.co/600x400/0f172a/f8fafc?text=Project";
           }}
         />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-          <Github className="w-10 h-10 text-white/90" />
-        </div>
       </div>
 
-      <div className="p-5">
+      {/* Content area: flex-col and flex-grow ensure items fill space and button is pushed down */}
+      <div className="p-5 flex flex-col flex-grow"> 
         <h3 className="text-2xl font-bebas-neue uppercase text-white mb-2 line-clamp-2">
           {project.title}
         </h3>
 
-        <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-3">
+        {/* flex-grow here ensures the description expands to fill space */}
+        <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-3"> 
           {project.description}
         </p>
 
-        <div className="flex flex-wrap gap-2 mt-auto">
-          <span className="px-3 py-1 text-xs font-medium text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]">
-            {project.category}
-          </span>
+        {/* MODIFIED: Author Display - Removed tabs and simplified spacing */}
+        <div className="flex items-center text-sm text-[#BFC7CC] mb-4">
+          <User className="w-4 h-4 mr-2 text-[#2FA6B8]" />
+          <span className="font-medium">By{"\t"}:{"\t"}{project.author}{"\t"}</span>
+        </div>
+        
+        <div className="flex flex-wrap gap-2 mb-4">
+          
+          {/* Loop through all categories */}
+          {project.categories && project.categories.map((category, index) => (
+            <span
+              key={`cat-${index}`}
+              className="px-3 py-1 text-xs font-medium text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]"
+            >
+              {category}
+            </span>
+          ))}
 
+          {/* Tech Stack remains a separate loop */}
           {project.techStack.map((tech, index) => (
             <span
-              key={index}
+              key={`tech-${index}`}
               className="px-3 py-1 text-xs font-medium text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]"
             >
               {tech}
             </span>
           ))}
         </div>
+        
+        {/* ADDED: GitHub Button for Redirection (mt-auto pushes it to the bottom) */}
+        <button
+          onClick={handleGithubClick}
+          className="
+            flex items-center justify-center gap-2
+            px-4 py-2 mt-auto  
+            bg-[#2FA6B8] text-white
+            rounded-lg
+            font-semibold
+            hover:bg-[#268A98]
+            transition
+            text-sm
+            cursor-pointer
+          "
+        >
+          <Github className="w-5 h-5" />
+          View on GitHub
+        </button>
       </div>
     </div>
   );
 };
 
-
+// --- ProjectsPage Component (Multiple Filter Enabled) ---
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  
+  // 🔑 CHANGE 1: Use an array for multiple selections
+  const [selectedCategories, setSelectedCategories] = useState([]); 
 
   useEffect(() => {
+    // Uses the imported staticProjects array
     setTimeout(() => {
       setProjects(staticProjects);
       setLoading(false);
@@ -118,15 +117,46 @@ const ProjectsPage = () => {
   }, []);
 
   const categories = useMemo(() => {
-    const unique = [...new Set(staticProjects.map((p) => p.category))];
+    // Flatten the array of categories from all projects and use Set to ensure uniqueness
+    const allCategories = staticProjects.flatMap((p) => p.categories || []);
+    const unique = [...new Set(allCategories)];
+    // "All" is still the first option
     return ["All", ...unique];
   }, []);
 
+  // 🔑 NEW FUNCTION: Toggle categories in the array
+  const handleCategoryToggle = (category) => {
+    // If "All" is selected, clear all other filters
+    if (category === "All") {
+      setSelectedCategories([]);
+      return;
+    }
+
+    setSelectedCategories((prevCategories) => {
+      if (prevCategories.includes(category)) {
+        // If selected, remove it
+        return prevCategories.filter((c) => c !== category);
+      } else {
+        // If not selected, add it
+        return [...prevCategories, category];
+      }
+    });
+  };
+
+  // 🔑 UPDATED MEMO: Check if a project contains ALL selected categories
   const filteredProjects = useMemo(() => {
     let results = projects;
+    
+    const activeFilters = selectedCategories.length > 0; 
 
-    if (selectedCategory !== "All") {
-      results = results.filter((p) => p.category === selectedCategory);
+    if (activeFilters) {
+      // Filter projects that include ALL selected categories (AND logic)
+      results = results.filter((project) => {
+        // .every() checks if ALL elements in selectedCategories satisfy the condition
+        return selectedCategories.every((selectedCat) => 
+          project.categories && project.categories.includes(selectedCat)
+        );
+      });
     }
 
     if (searchTerm) {
@@ -134,12 +164,14 @@ const ProjectsPage = () => {
       results = results.filter(
         (p) =>
           p.title.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+          p.description.toLowerCase().includes(q) ||
+          p.author.toLowerCase().includes(q) 
       );
     }
 
     return results;
-  }, [projects, searchTerm, selectedCategory]);
+    
+  }, [projects, searchTerm, selectedCategories]); // Dependency updated
 
   return (
     <div className="min-h-screen bg-black font-sans">
@@ -162,7 +194,7 @@ const ProjectsPage = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#BFC7CC]" />
               <input
                 type="text"
-                placeholder="Search projects..."
+                placeholder="Search projects (title, description, or author)..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="
@@ -175,11 +207,12 @@ const ProjectsPage = () => {
               />
             </div>
 
-            {(searchTerm || selectedCategory !== "All") && (
+            {/* Clear Filters Button (Updated to check selectedCategories) */}
+            {(searchTerm || selectedCategories.length > 0) && (
               <button
                 onClick={() => {
                   setSearchTerm("");
-                  setSelectedCategory("All");
+                  setSelectedCategories([]); // Reset the array
                 }}
                 className="
                   flex items-center gap-2 px-4 py-2
@@ -197,24 +230,34 @@ const ProjectsPage = () => {
             )}
           </div>
 
-          {/* CATEGORY FILTERS */}
+          {/* CATEGORY FILTERS (Updated to handle multiple selection) */}
           <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`
-                  px-4 py-2 text-sm font-medium rounded-full uppercase tracking-wider border transition
-                  ${
-                    selectedCategory === category
-                      ? "bg-[#141F23] border-[#2FA6B8] text-white"
-                      : "bg-transparent border-[#1F3037] text-[#BFC7CC] hover:border-[#2FA6B8]"
-                  }
-                `}
-              >
-                {category}
-              </button>
-            ))}
+            {categories.map((category) => {
+              
+              const isAllButton = category === "All";
+              // "All" is active only when the selection array is empty.
+              // Other categories are active if they are included in the selection array.
+              const isActive = isAllButton 
+                ? selectedCategories.length === 0 
+                : selectedCategories.includes(category); 
+
+              return (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryToggle(category)} // Use new toggle function
+                  className={`
+                    px-4 py-2 text-sm font-medium rounded-full uppercase tracking-wider border transition
+                    ${
+                      isActive
+                        ? "bg-[#141F23] border-[#2FA6B8] text-white"
+                        : "bg-transparent border-[#1F3037] text-[#BFC7CC] hover:border-[#2FA6B8]"
+                    }
+                  `}
+                >
+                  {category}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -230,7 +273,7 @@ const ProjectsPage = () => {
         ) : (
           <div className="text-center py-20 bg-[#0E181C] border border-[#1F3037] rounded-xl">
             <TrendingUp className="w-12 h-12 text-[#BFC7CC] mx-auto mb-4" />
-            <p className="text-xl text-white">No projects found.</p>
+            <p className="text-xl text-white">No projects found matching the selected criteria.</p>
           </div>
         )}
 
