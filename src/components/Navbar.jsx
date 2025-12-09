@@ -9,7 +9,16 @@ import { Link, useLocation } from "react-router-dom";
 
 import Button from "./Button";
 
-const navItems = ["Home", "Events", "Join Us", "Teams", "About Us"];
+// ✅ CHANGE 1: ADD "Projects" and "Placements" to the navItems array
+const navItems = [
+  "Home",
+  "Events",
+  "Projects",
+  "Placements", // 🌟 NEW: Added Placements
+  "Join Us",
+  "Teams",
+  "About Us",
+];
 
 const NavBar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -78,6 +87,7 @@ const NavBar = () => {
     });
   }, [isNavVisible]);
 
+  // ✅ CHANGE 2: Add logic for "Projects" and "Placements" in the desktop navigation
   const renderNavItem = (item, index) => {
     if (item === "Home") {
       return (
@@ -85,6 +95,33 @@ const NavBar = () => {
           key={index}
           to="/"
           className="nav-hover-btn text-xl lg:text-[1rem] font-bold "
+          onClick={() => {
+            if (isMenuOpen) toggleMenu();
+          }}
+        >
+          {item}
+        </Link>
+      );
+    } else if (item === "Projects") {
+      return (
+        <Link
+          key={index}
+          to="/projects"
+          className="nav-hover-btn text-xl lg:text-[1rem] font-bold"
+          onClick={() => {
+            if (isMenuOpen) toggleMenu();
+          }}
+        >
+          {item}
+        </Link>
+      );
+    } else if (item === "Placements") {
+      // 🌟 NEW LOGIC FOR PLACEMENTS
+      return (
+        <Link
+          key={index}
+          to="/placements" // Route to the /placements page
+          className="nav-hover-btn text-xl lg:text-[1rem] font-bold"
           onClick={() => {
             if (isMenuOpen) toggleMenu();
           }}
@@ -182,6 +219,49 @@ const NavBar = () => {
           </Link>
         </li>
       );
+    } else if (item === "Projects") {
+      return (
+        <li
+          key={index}
+          className={clsx(
+            "text-5xl font-bold text-blue-50 transition-opacity duration-500",
+            {
+              "opacity-100 animate-rise": showMenuItems && !isUnmounting,
+              "opacity-0 animate-fall": isUnmounting,
+            }
+          )}
+          style={{
+            animationDelay: `${0.1 * index + 0.3}s`,
+            animationFillMode: "both",
+          }}
+        >
+          <Link to="/projects" onClick={toggleMenu}>
+            {item}
+          </Link>
+        </li>
+      );
+    } else if (item === "Placements") {
+      // 🌟 NEW LOGIC FOR MOBILE PLACEMENTS
+      return (
+        <li
+          key={index}
+          className={clsx(
+            "text-5xl font-bold text-blue-50 transition-opacity duration-500",
+            {
+              "opacity-100 animate-rise": showMenuItems && !isUnmounting,
+              "opacity-0 animate-fall": isUnmounting,
+            }
+          )}
+          style={{
+            animationDelay: `${0.1 * index + 0.3}s`,
+            animationFillMode: "both",
+          }}
+        >
+          <Link to="/placements" onClick={toggleMenu}>
+            {item}
+          </Link>
+        </li>
+      );
     } else if (item === "Join Us") {
       return (
         <li
@@ -245,7 +325,7 @@ const NavBar = () => {
           </Link>
         </li>
       );
-    }else if (item === "Events") {
+    } else if (item === "Events") {
       return (
         <li
           key={index}
@@ -282,7 +362,10 @@ const NavBar = () => {
             animationFillMode: "both",
           }}
         >
-          <a href={`#${item.toLowerCase().replace(" ", "-")}`} onClick={toggleMenu}>
+          <a
+            href={`#${item.toLowerCase().replace(" ", "-")}`}
+            onClick={toggleMenu}
+          >
             {item}
           </a>
         </li>
@@ -305,6 +388,7 @@ const NavBar = () => {
             </div>
 
             <div className="hidden md:flex h-full items-center gap-8">
+              {/* Desktop Navigation Items */}
               {navItems.map((item, index) => renderNavItem(item, index))}
 
               <button
@@ -331,10 +415,7 @@ const NavBar = () => {
               </button>
             </div>
 
-            <button
-              onClick={toggleMenu}
-              className="md:hidden text-white"
-            >
+            <button onClick={toggleMenu} className="md:hidden text-white">
               {isMenuOpen ? (
                 <IoMdClose size={30} className="text-white" />
               ) : (
@@ -349,13 +430,11 @@ const NavBar = () => {
       <div
         className={clsx(
           " fixed top-0 right-0 z-[999] h-screen w-full bg-black text-white px-10 py-20 transform transition-transform duration-500 ease-in-out md:hidden overflow-hidden",
-          
+
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
-        onWheel={(e)=>e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
       >
-
-         
         <button
           onClick={toggleMenu}
           className="absolute top-8 right-3 text-white z-[1001]"
@@ -366,14 +445,17 @@ const NavBar = () => {
 
         {(showMenuItems || isUnmounting) && (
           <ul className="mobile-nav-list flex flex-col items-center space-y-10 mt-16">
+            {/* Mobile Navigation Items */}
             {navItems.map((item, index) => renderMobileNavItem(item, index))}
           </ul>
-          
         )}
 
         <div className="toggle-audio-title absolute bottom-20 sm:bottom-32 left-0 right-0 px-10 flex items-center justify-between w-full">
           <p className="text-sm text-blue-50">BMSCE ACM STUDENT CHAPTER</p>
-          <button onClick={toggleAudioIndicator} className="flex items-center space-x-1">
+          <button
+            onClick={toggleAudioIndicator}
+            className="flex items-center space-x-1"
+          >
             <audio
               ref={audioElementRef}
               className="hidden"
@@ -393,8 +475,6 @@ const NavBar = () => {
             ))}
           </button>
         </div>
-
-        
       </div>
     </>
   );

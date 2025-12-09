@@ -41,11 +41,15 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Column 2 */}
+        {/* Column 2 - Quick Links */}
         <div className="hidden md:block pl-20">
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li><Link to="/event" className="hover:text-white transition">Events</Link></li>
+            {/* 🌟 NEW: Added Projects link */}
+            <li><Link to="/projects" className="hover:text-white transition">Projects</Link></li>
+            {/* 🌟 NEW: Added Placements link */}
+            <li><Link to="/placements" className="hover:text-white transition">Placements</Link></li>
             <li><Link to="/join-us" className="hover:text-white transition">Join Us</Link></li>
             <li><Link to="/team" className="hover:text-white transition">Team</Link></li>
             <li><Link to="/about-us" className="hover:text-white transition">About Us</Link></li>

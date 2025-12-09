@@ -1,4 +1,3 @@
-// App.js
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
@@ -28,6 +27,9 @@ const JoinUs = lazy(() => import("./pages/join-us"));
 const AboutUs = lazy(() => import("./pages/about-us"));
 const Team = lazy(() => import("./pages/team"));
 const Event = lazy(() => import("./pages/event"));
+const Projects = lazy(() => import("./pages/projects"));
+// 🌟 NEW: Lazy-loaded PlacementPage
+const PlacementPage = lazy(() => import("./pages/PlacementPage")); // Assuming your component is saved as ./pages/PlacementPage.jsx or .js
 
 const ease = "power4.inOut";
 
@@ -42,6 +44,8 @@ function AnimatedRoutes() {
   const [displayLocation, setDisplayLocation] = useState(location);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
+
+  const EXCLUDED_PATHS = ["/projects"];
 
   useEffect(() => {
     audioRef.current = new Audio(transitionSound);
@@ -169,11 +173,10 @@ function AnimatedRoutes() {
 
       {/* Main content */}
       <div key={displayLocation.key || displayLocation.pathname}>
+        {/* VVV --- CHANGE: Conditionally render the NavBar --- remove this to get the navbar in projects page VVV */}
         {!isTransitioning && <NavBar />}
         <Routes location={displayLocation}>
-          {/* Eager-loaded Home */}
           <Route path="/" element={<Home />} />
-          {/* Lazy-loaded others with Loader fallback */}
           <Route
             path="/join-us"
             element={
@@ -203,6 +206,23 @@ function AnimatedRoutes() {
             element={
               <Suspense fallback={<Loader />}>
                 <Event />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/projects"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Projects />
+              </Suspense>
+            }
+          />
+          {/* 🌟 NEW: Route for PlacementPage */}
+          <Route
+            path="/placements" // Use a descriptive path like /placements
+            element={
+              <Suspense fallback={<Loader />}>
+                <PlacementPage />
               </Suspense>
             }
           />
