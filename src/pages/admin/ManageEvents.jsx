@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Plus, Calendar, MapPin, Users, X, Edit, Trash2, 
   Link as LinkIcon, Image as ImageIcon, Loader2, 
-  ChevronLeft, ChevronRight 
+  ChevronLeft, ChevronRight, Star 
 } from 'lucide-react';
 import eventService from '../../api/eventService';
 import ImageUpload from '../../components/ImageUpload'; // ✅ Import Uploader
@@ -30,7 +30,8 @@ const ManageEvents = () => {
     location: 'Online',
     attendees: 0,
     image: '',
-    registration_link: ''
+    registration_link: '',
+    is_featured: false // ✅ New Field
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -85,8 +86,12 @@ const ManageEvents = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    // ✅ Handle Checkbox Logic
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }));
   };
 
   // --- 2. OPEN CREATE MODAL ---
@@ -104,13 +109,14 @@ const ManageEvents = () => {
     // Populate form with existing data
     setFormData({
         title: event.title,
-        date_str: formatDateForInput(event.date), // Convert back to string
+        date_str: formatDateForInput(event.date),
         description: event.description,
         fullDescription: event.fullDescription,
         location: event.location,
         attendees: event.attendees,
         image: event.image || '',
-        registration_link: event.registration_link || ''
+        registration_link: event.registration_link || '',
+        is_featured: event.is_featured || false // ✅ Load featured state
     });
     
     setIsFormOpen(true);
@@ -190,6 +196,13 @@ const ManageEvents = () => {
             {events.map((event) => (
             <div key={event.id || event._id} className="bg-[#0E181C] border border-[#1F3037] rounded-xl p-5 hover:border-[#2FA6B8] transition-all group relative">
                 
+                {/* Featured Badge */}
+                {event.is_featured && (
+                    <div className="absolute top-4 right-4 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10">
+                        <Star size={10} fill="currentColor" /> FEATURED
+                    </div>
+                )}
+
                 <div className="flex justify-between items-start mb-4">
                 <div className="bg-[#2FA6B8]/10 text-[#2FA6B8] p-2 rounded-lg">
                     <Calendar size={20} />
@@ -361,6 +374,21 @@ const ManageEvents = () => {
                     className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
                   />
                 </div>
+
+                {/* ✅ ADDED: Feature Toggle Checkbox */}
+                <div className="flex items-center gap-3 bg-black border border-[#1F3037] p-3 rounded-lg hover:border-[#2FA6B8] transition-colors">
+                <input 
+                  type="checkbox" 
+                  name="is_featured"
+                  checked={formData.is_featured}
+                  onChange={handleInputChange}
+                  className="w-5 h-5 accent-[#2FA6B8] cursor-pointer"
+                />
+                <div>
+                  <label className="text-white font-medium block">Feature in Carousel?</label>
+                  <p className="text-xs text-[#BFC7CC]">If checked, this event will appear in the main Hero section.</p>
+                </div>
+              </div>
 
               <div className="pt-6">
                 <button 

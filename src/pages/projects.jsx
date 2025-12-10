@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Github, Code, TrendingUp, Search, X, User } from 'lucide-react'; 
 import projectService from '../api/projectService'; 
+// ✅ ADDED: Imports
+import { getOptimizedImageUrl } from "../utils/imageHelper";
+import SEO from "../components/SEO";
 
 const ProjectCard = ({ project }) => {
   const handleGithubClick = (e) => {
@@ -12,14 +15,18 @@ const ProjectCard = ({ project }) => {
     <div className="bg-[#0E181C] border border-[#1F3037] rounded-xl shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] hover:border-[#2FA6B8] flex flex-col min-h-[500px]">
       <div className="relative h-48 sm:h-56 flex-shrink-0">
         <img
-          src={project.imageUrl || "https://placehold.co/600x400/0f172a/f8fafc?text=Project"}
+          // ✅ FIX 1: Optimized Image URL
+          src={getOptimizedImageUrl(project.imageUrl, 600)}
           alt={project.title}
+          // ✅ FIX 2: Lazy Load
+          loading="lazy"
           className="w-full h-full object-cover transition duration-300"
           onError={(e) => { e.target.src = "https://placehold.co/600x400/0f172a/f8fafc?text=Project"; }}
         />
       </div>
 
       <div className="p-5 flex flex-col flex-grow"> 
+        {/* ... (rest of card content remains same) ... */}
         <h3 className="text-2xl font-bebas-neue uppercase text-white mb-2 line-clamp-2">{project.title}</h3>
         <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-3">{project.description}</p>
         
@@ -52,6 +59,7 @@ const ProjectCard = ({ project }) => {
 };
 
 const ProjectsPage = () => {
+  // ... (State logic remains exactly the same) ...
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,8 +80,8 @@ const ProjectsPage = () => {
     fetchProjects();
   }, []);
 
+  // ... (Memo logic remains exactly the same) ...
   const categories = useMemo(() => {
-    // Dynamic category generation based on DB data
     const allCategories = projects.flatMap((p) => p.categories || []);
     const unique = [...new Set(allCategories)];
     return ["All", ...unique];
@@ -109,35 +117,42 @@ const ProjectsPage = () => {
 
   return (
     <div className="min-h-screen bg-black font-sans">
+      {/* ✅ FIX 3: Add SEO */}
+      <SEO 
+        title="Projects Showcase" 
+        description="Discover innovative projects built by students of ACM BMSCE." 
+      />
+
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
+         {/* ... (Header and Filters remain exactly the same) ... */}
         <header className="text-center mb-12 pt-16">
           <h1 className="text-5xl sm:text-7xl font-bebas-neue uppercase text-white mb-3 tracking-widest">Technical Projects</h1>
           <p className="text-xl text-white/80 font-light">Showcasing work in full-stack development, ML, and scalable architecture.</p>
         </header>
 
-        {/* Filter Panel */}
         <div className="mb-10 p-6 rounded-lg shadow-xl bg-[#0E181C] border border-[#1F3037]">
-          <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#BFC7CC]" />
-              <input type="text" placeholder="Search projects..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full py-3 pl-10 pr-4 bg-black text-white border border-[#1F3037] rounded-lg focus:ring-1 focus:ring-[#2FA6B8]" />
-            </div>
-            {(searchTerm || selectedCategories.length > 0) && (
-              <button onClick={() => { setSearchTerm(""); setSelectedCategories([]); }} className="flex items-center gap-2 px-4 py-2 bg-[#141F23] border border-[#1F3037] text-white rounded-lg hover:border-[#2FA6B8] transition">
-                <X className="w-5 h-5" /> Clear Filters
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category) => {
-              const isActive = category === "All" ? selectedCategories.length === 0 : selectedCategories.includes(category);
-              return (
-                <button key={category} onClick={() => handleCategoryToggle(category)} className={`px-4 py-2 text-sm font-medium rounded-full uppercase tracking-wider border transition ${isActive ? "bg-[#141F23] border-[#2FA6B8] text-white" : "bg-transparent border-[#1F3037] text-[#BFC7CC] hover:border-[#2FA6B8]"}`}>
-                  {category}
+            {/* ... (Filter Inputs logic) ... */}
+             <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
+                <div className="relative w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#BFC7CC]" />
+                <input type="text" placeholder="Search projects..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full py-3 pl-10 pr-4 bg-black text-white border border-[#1F3037] rounded-lg focus:ring-1 focus:ring-[#2FA6B8]" />
+                </div>
+                {(searchTerm || selectedCategories.length > 0) && (
+                <button onClick={() => { setSearchTerm(""); setSelectedCategories([]); }} className="flex items-center gap-2 px-4 py-2 bg-[#141F23] border border-[#1F3037] text-white rounded-lg hover:border-[#2FA6B8] transition">
+                    <X className="w-5 h-5" /> Clear Filters
                 </button>
-              );
-            })}
-          </div>
+                )}
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+                {categories.map((category) => {
+                const isActive = category === "All" ? selectedCategories.length === 0 : selectedCategories.includes(category);
+                return (
+                    <button key={category} onClick={() => handleCategoryToggle(category)} className={`px-4 py-2 text-sm font-medium rounded-full uppercase tracking-wider border transition ${isActive ? "bg-[#141F23] border-[#2FA6B8] text-white" : "bg-transparent border-[#1F3037] text-[#BFC7CC] hover:border-[#2FA6B8]"}`}>
+                    {category}
+                    </button>
+                );
+                })}
+            </div>
         </div>
 
         {/* Grid */}

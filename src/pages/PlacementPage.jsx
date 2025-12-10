@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { DaysCard } from "../components/days-card_placements";
 import { ImageCarousel } from "../components/image-carousel_placements";
 import { InsightsGrid } from "../components/insights-grid_placements";
-
-// API
 import placementService from "../api/placementService";
+// ✅ ADDED Imports
+import { getOptimizedImageUrl } from "../utils/imageHelper";
+import SEO from "../components/SEO";
 
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
@@ -14,18 +15,16 @@ export default function PlacementPage() {
     const fetchInsights = async () => {
       try {
         const response = await placementService.getInsights();
-        // Map backend fields to frontend component props if names differ
         const mappedData = response.data.map(item => ({
             id: item.id || item._id,
-            image: item.image,
+            // ✅ FIX 1: Optimize Image here
+            image: getOptimizedImageUrl(item.image, 200), // Small size for avatars
             name: item.personName,
-            // Backend stores "Role, Company" in description. 
-            // If you want to split them:
             job: item.description.split(',')[0], 
             company: item.description.split(',')[1] || "",
             link: item.insta_link,
-            year: "Alumni", // Or add this field to DB if needed
-            description: "Success story...", // You might want to add a 'quote' field to DB later
+            year: "Alumni", 
+            description: "Success story...", 
         }));
         setInsights(mappedData);
       } catch (error) {
@@ -47,7 +46,14 @@ export default function PlacementPage() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      {/* ✅ FIX 2: SEO */}
+      <SEO 
+        title="Placement Insights" 
+        description="Read success stories and placement insights from ACM BMSCE Alumni." 
+      />
+
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-20 mt-20">
+         {/* ... (Rest of the JSX remains exactly the same) ... */}
         <section className="mb-32">
           <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-sm">
             INSIGHT SERIES
@@ -68,7 +74,6 @@ export default function PlacementPage() {
           </div>
         </section>
 
-        {/* 100 Days of Code Section (Static for now) */}
         <section className="py-24 border-t border-white/10">
           <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-lg">
             100 DAYS OF CODE
