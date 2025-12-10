@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
-import eventData from "./Data2_event";
+// import eventData from "./Data2_event"; // ❌ DELETED
 import AnimatedTitle from "./AnimatedTitle";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,20 +35,29 @@ function getImgProgressState(index, overallProgress) {
   return (overallProgress - startTime) / config.speed;
 }
 
-export default function Spotlight({ setIsGridView }) {
+// 1. Accept events as a prop
+export default function Spotlight({ setIsGridView, events }) {
+  // 2. Safety Check: If no events, show nothing (prevents crash)
+  if (!events || events.length === 0) return <div className="text-white text-center pt-20">No Events to Display</div>;
+
   const spotlightRef = useRef();
   const titlesContainerRef = useRef();
   const introTextRefs = [useRef(), useRef()];
   const bgImgRef = useRef();
   const headerRef = useRef();
-  const imgRefs = useRef(eventData.map(() => React.createRef()));
+  
+  // 3. Use 'events' instead of 'eventData' for ref initialization
+  const imgRefs = useRef(events.map(() => React.createRef()));
+  
   const [activeModal, setActiveModal] = useState(null);
   const modalRef = useRef();
   const modalImageRef = useRef();
   const blurBgRef = useRef();
   const [activeTab, setActiveTab] = useState("Overview");
   const tabContentRef = useRef();
-  const [activeYear, setActiveYear] = useState(eventData[0].year);
+  
+  // 4. Set initial year safely
+  const [activeYear, setActiveYear] = useState(events[0]?.year || "2024");
 
   const [fullScreenImage, setFullScreenImage] = useState(null);
 
@@ -56,7 +65,6 @@ export default function Spotlight({ setIsGridView }) {
 
   useEffect(() => {
     if (!yearRef.current) return;
-
     gsap.fromTo(
       yearRef.current,
       { opacity: 0, y: 15 },
@@ -64,8 +72,6 @@ export default function Spotlight({ setIsGridView }) {
     );
   }, [activeYear]);
 
-
-  // Scroll and animation setup (unchanged)
   useEffect(() => {
     const lenis = new Lenis();
     lenis.on("scroll", ScrollTrigger.update);
@@ -74,8 +80,18 @@ export default function Spotlight({ setIsGridView }) {
     };
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
+    
     let currentActiveIndex = 0;
-    imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
+    
+    // Safety check for refs
+    if(imgRefs.current.length !== events.length) {
+        imgRefs.current = events.map(() => React.createRef());
+    }
+
+    imgRefs.current.forEach((img) => {
+        if(img.current) gsap.set(img.current, { opacity: 0 })
+    });
+
     const titleNodes = titlesContainerRef.current?.querySelectorAll("h1") || [];
     titleNodes.forEach((title, i) => {
       title.style.opacity = i === 0 ? "1" : "0.25";
@@ -83,10 +99,12 @@ export default function Spotlight({ setIsGridView }) {
     const viewportHeight = window.innerHeight;
     const titlesContainerHeight = titlesContainerRef.current?.scrollHeight || 0;
     const extraScroll = viewportHeight * 2;
-    const totalImages = eventData.length;
-    const totalAnimationDuration =
-      (totalImages - 1) * config.gap + config.speed;
+    
+    // 5. Use 'events.length'
+    const totalImages = events.length;
+    const totalAnimationDuration = (totalImages - 1) * config.gap + config.speed;
     const scrollEndExtra = (totalAnimationDuration / 0.7) * viewportHeight;
+    
     const trigger = ScrollTrigger.create({
       trigger: spotlightRef.current,
       start: "top top",
@@ -114,7 +132,9 @@ export default function Spotlight({ setIsGridView }) {
           gsap.set(bgImgRef.current?.querySelector("img"), {
             scale: 1.5 - animationProgress * 0.5,
           });
-          imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
+          imgRefs.current.forEach((img) => {
+             if(img.current) gsap.set(img.current, { opacity: 0 });
+          });
           if (headerRef.current) headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
             opacity: 0,
@@ -125,7 +145,9 @@ export default function Spotlight({ setIsGridView }) {
           gsap.set(bgImgRef.current, { scale: 1 });
           gsap.set(bgImgRef.current?.querySelector("img"), { scale: 1 });
           introTextRefs.forEach((el) => gsap.set(el.current, { opacity: 0 }));
-          imgRefs.current.forEach((img) => gsap.set(img.current, { opacity: 0 }));
+          imgRefs.current.forEach((img) => {
+            if(img.current) gsap.set(img.current, { opacity: 0 });
+          });
           if (headerRef.current) headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
             opacity: 1,
@@ -154,6 +176,7 @@ export default function Spotlight({ setIsGridView }) {
             { transform: `translateY(${currentY}px)` }
           );
           imgRefs.current.forEach((img, index) => {
+            if (!img.current) return;
             const imageProgress = getImgProgressState(index, overallImgProgress);
             if (imageProgress < 0 || imageProgress > 1) {
               gsap.set(img.current, { opacity: 0 });
@@ -189,12 +212,14 @@ export default function Spotlight({ setIsGridView }) {
               title.style.opacity = i === closestIndex ? "1" : "0.25";
             });
 
+            // 6. Use 'events' here
             const bgImageEl = bgImgRef.current?.querySelector("img");
-            if (bgImageEl && bgImageEl.getAttribute("src") !== eventData[closestIndex].image) {
-              bgImageEl.setAttribute("src", eventData[closestIndex].image);
+            if (bgImageEl && bgImageEl.getAttribute("src") !== events[closestIndex].image) {
+              bgImageEl.setAttribute("src", events[closestIndex].image);
             }
 
-            setActiveYear(eventData[closestIndex].year);  // ✅ Update the year dynamically
+            // Fallback for year if not present in DB
+            setActiveYear(events[closestIndex].year || "2025");
             currentActiveIndex = closestIndex;
           }
         } else if (progress >= 0.95) {
@@ -212,9 +237,9 @@ export default function Spotlight({ setIsGridView }) {
       gsap.ticker.remove(raf);
       lenis.destroy();
     };
-  }, []);
+  }, [events]); // Added events as dependency
 
-  // Modal animation & body scroll control
+  // Modal logic (Mostly unchanged, just ensuring activeModal is safe)
   useEffect(() => {
     if (activeModal !== null || fullScreenImage !== null) {
       document.body.style.overflow = "hidden";
@@ -223,10 +248,15 @@ export default function Spotlight({ setIsGridView }) {
     }
 
     if (activeModal !== null) {
-      // Only set active tab if not already set to avoid resetting on each render
       setActiveTab((tab) => (tab ? tab : "Overview"));
-      const imgEl = imgRefs.current[activeModal.index].current?.querySelector("img");
+      
+      const refIndex = activeModal.index;
+      // Safety check
+      if(!imgRefs.current[refIndex] || !imgRefs.current[refIndex].current) return;
+
+      const imgEl = imgRefs.current[refIndex].current.querySelector("img");
       if (!imgEl) return;
+      
       const imgRect = imgEl.getBoundingClientRect();
       gsap.set(blurBgRef.current, { opacity: 0, display: "block", backdropFilter: "blur(0px)" });
       gsap.to(blurBgRef.current, { opacity: 1, backdropFilter: "blur(8px)", duration: 0.4 });
@@ -263,7 +293,7 @@ export default function Spotlight({ setIsGridView }) {
     }
   }, [activeModal, fullScreenImage]);
 
-  // Animate tab content fade in on tab change
+  // Tab animation
   useEffect(() => {
     if (tabContentRef.current) {
       gsap.fromTo(tabContentRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
@@ -272,13 +302,21 @@ export default function Spotlight({ setIsGridView }) {
 
   const openModal = (item, index) => {
     setActiveModal({ ...item, index });
-    setActiveTab("Overview"); // Set tab to Overview on modal open
+    setActiveTab("Overview");
   };
 
   const closeModal = () => {
     if (!activeModal) return;
     gsap.to(modalImageRef.current?.querySelector(".modal-title"), { opacity: 0, duration: 0.2 });
-    const imgEl = imgRefs.current[activeModal.index].current?.querySelector("img");
+    
+    // Safety check
+    if(!imgRefs.current[activeModal.index] || !imgRefs.current[activeModal.index].current) {
+        setActiveModal(null);
+        gsap.set(modalRef.current, { display: "none" });
+        return;
+    }
+
+    const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");
     if (!imgEl) return;
     const imgRect = imgEl.getBoundingClientRect();
     gsap.to(modalRef.current, {
@@ -304,7 +342,7 @@ export default function Spotlight({ setIsGridView }) {
   };
 
   const openFullScreenImage = (imgUrl, e) => {
-    e.stopPropagation(); // Prevent bubbling to modal elements
+    e.stopPropagation();
     setFullScreenImage(imgUrl);
   };
 
@@ -323,20 +361,21 @@ export default function Spotlight({ setIsGridView }) {
       <section className="spotlight" ref={spotlightRef}>
 
         <div className="spotlight-bg-img" ref={bgImgRef}>
-          <img src={eventData[0].image} alt="" />
+          {/* Use event data here */}
+          <img src={events[0].image} alt="" />
         </div>
         <div className="spotlight-titles-container" ref={titlesContainerRef}>
           <div className="spotlight-titles">
-            {eventData.map((item) => (
-              <h1 key={item.id}>{item.title}</h1>
+            {events.map((item) => (
+              <h1 key={item.id || item._id}>{item.title}</h1>
             ))}
           </div>
         </div>
         <div className="spotlight-images">
-          {eventData.map((item, i) => (
+          {events.map((item, i) => (
             <div
               className="spotlight-img"
-              key={item.id}
+              key={item.id || item._id}
               ref={imgRefs.current[i]}
               onClick={() => openModal(item, i)}
             >
@@ -380,7 +419,7 @@ export default function Spotlight({ setIsGridView }) {
             <img src={activeModal.image} alt="" />
             <div className="modal-title">
               <h2>{activeModal.title}</h2>
-              <p>{activeModal.date}</p>
+              <p>{new Date(activeModal.date).toLocaleDateString()}</p>
             </div>
           </div>
           <div className="modal-navbar">
@@ -405,7 +444,7 @@ export default function Spotlight({ setIsGridView }) {
               <p style={{ textAlign: "justify" }}>{activeModal.fullDescription}</p>
             )}
             {activeTab === "Gallery" && (
-              activeModal.gallery.length > 0 ? (
+              activeModal.gallery && activeModal.gallery.length > 0 ? (
                 <div className="gallery-grid-responsive">
                   {activeModal.gallery.map((img, idx) => (
                     <img
@@ -446,7 +485,6 @@ export default function Spotlight({ setIsGridView }) {
         </div>
       )}
 
-      {/* Full screen image viewer */}
       {fullScreenImage && (
         <>
           <div

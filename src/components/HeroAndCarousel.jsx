@@ -1,4 +1,3 @@
-// HeroAndCarousel.js
 import React, { useEffect, useRef } from "react";
 import ImageCarousel from "./ImageCarousel";
 import AnimatedTitle from "./AnimatedTitle";
@@ -11,7 +10,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HeroAndCarousel({ setIsGridView, upcomingEvents }) {
+// 1. Accept pastEvents as a prop
+export default function HeroAndCarousel({ setIsGridView, upcomingEvents, pastEvents }) {
 
     const pastRef = useRef(null);
     const upcomingRef = useRef(null);
@@ -39,7 +39,6 @@ export default function HeroAndCarousel({ setIsGridView, upcomingEvents }) {
             );
         };
 
-        // Animate each section separately
         animateSection(pastRef.current);
         animateSection(upcomingRef.current);
         animateSection(funzoneRef.current);
@@ -58,10 +57,11 @@ export default function HeroAndCarousel({ setIsGridView, upcomingEvents }) {
 
                 <div className="flex flex-col items-center gap-6 w-full">
                     <div className="w-full max-w-4xl">
-                        <ImageCarousel />
+                        {/* 2. Pass dynamic data to the carousel */}
+                        {/* Note: You must update ImageCarousel.jsx to accept this prop too! */}
+                        <ImageCarousel events={pastEvents} />
                     </div>
 
-                    {/* Show only on desktop */}
                     <div className="hidden md:block">
                         <Button
                             id="realm-btn"
@@ -70,7 +70,6 @@ export default function HeroAndCarousel({ setIsGridView, upcomingEvents }) {
                         />
                     </div>
 
-                    {/* Mobile Swipe Text */}
                     <div className="md:hidden text-white text-2xl font-semibold tracking-wide mt-4 select-none">
                         <p className="animate-bounce">Swipe →</p>
                     </div>

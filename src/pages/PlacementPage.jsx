@@ -1,87 +1,42 @@
+import React, { useState, useEffect } from "react";
 import { DaysCard } from "../components/days-card_placements";
 import { ImageCarousel } from "../components/image-carousel_placements";
 import { InsightsGrid } from "../components/insights-grid_placements";
 
+// API
+import placementService from "../api/placementService";
+
 export default function PlacementPage() {
-  const insightsData = [
-    {
-      id: 7,
-      image: "/images/insight-7.png",
-      name: "M Naga Rajesh",
-      job: "Associate Software Engineer",
-      company: "Aclie",
-      link: "https://www.instagram.com/p/DMPwRPET5FR/",
-      year: "Class of 2020",
-      description:
-        "Success driven by 6 months of disciplined LeetCode/core CS prep. Fight back stronger after any rejections.",
-    },
-    {
-      id: 2,
-      image: "/images/insight-2.png",
-      name: "Manumohan A J V",
-      job: "Analyst",
-      company: "Deloitte",
-      link: "https://www.instagram.com/p/DM0Lz_xTEUv/",
-      year: "Class of 2020",
-      description:
-        "6 months of LeetCode and Google Cloud certifications. Stay positive and dedicated to coding practice.",
-    },
-    {
-      id: 3,
-      image: "/images/insight-3.png",
-      name: "Adithi Grao",
-      job: "Industrial Engineer",
-      company: "Andisk",
-      link: "https://www.instagram.com/p/DNLY_pQsiT1/",
-      year: "Class of 2020",
-      description:
-        "Rejected 10 times, but never gave up. Focus on technical basics and mock interviews.",
-    },
-    {
-      id: 4,
-      image: "/images/insight-4.png",
-      name: "Ankith L",
-      job: "Software Engineer",
-      company: "Confluent",
-      link: "https://www.instagram.com/p/DMFkjl6zknm/",
-      year: "Class of 2020",
-      description:
-        "Achieved success through two years of consistent DSA practice. Stay consistent and revise core subjects.",
-    },
-    {
-      id: 5,
-      image: "/images/insight-5.png",
-      name: "Adithya Giri",
-      job: "Software Engineer",
-      company: "Confluent",
-      link: "https://www.instagram.com/p/DMp7RQ7z3l3/",
-      year: "Class of 2020",
-      description:
-        "Prep began in the 3rd year (DSA/competitive coding). Revise core subjects and prepare for rejections.",
-    },
-    {
-      id: 6,
-      image: "/images/insight-6.png",
-      name: "Chethna Mundra",
-      job: "Graduate Analyst",
-      company: "Deutsche Bank",
-      link: "https://www.instagram.com/p/DMXxMUMMXIz/",
-      year: "Class of 2020",
-      description:
-        "Graduate Analyst role secured with 3 months of DSA/theory prep. Be confident and seek off-campus opportunities.",
-    },
-    {
-      id: 1,
-      image: "/images/insight-1.png",
-      name: "Aryaman Sharma",
-      job: "Masters from",
-      company: "Cornell University",
-      link: "https://www.instagram.com/p/DMiUiCmscVI/",
-      year: "Class of 2020",
-      description:
-        "MS application required 6 months of early prep (tests/SOPs). Start early because essays are critical.",
-    },
-  ];
+  const [insights, setInsights] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInsights = async () => {
+      try {
+        const response = await placementService.getInsights();
+        // Map backend fields to frontend component props if names differ
+        const mappedData = response.data.map(item => ({
+            id: item.id || item._id,
+            image: item.image,
+            name: item.personName,
+            // Backend stores "Role, Company" in description. 
+            // If you want to split them:
+            job: item.description.split(',')[0], 
+            company: item.description.split(',')[1] || "",
+            link: item.insta_link,
+            year: "Alumni", // Or add this field to DB if needed
+            description: "Success story...", // You might want to add a 'quote' field to DB later
+        }));
+        setInsights(mappedData);
+      } catch (error) {
+        console.error("Error fetching insights", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInsights();
+  }, []);
 
   const carouselImages = [
     "/images/c1.png",
@@ -92,15 +47,17 @@ export default function PlacementPage() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-     
-
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-20 mt-20">
         <section className="mb-32">
           <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-sm">
             INSIGHT SERIES
           </h2>
 
-          <InsightsGrid insights={insightsData} />
+          {loading ? (
+             <div className="text-center text-[#2FA6B8]">Loading Insights...</div>
+          ) : (
+             <InsightsGrid insights={insights} />
+          )}
 
           <div className="mt-12 max-w-2xl mx-auto text-center">
             <p className="text-white/70 text-base leading-relaxed font-impact">
@@ -111,6 +68,7 @@ export default function PlacementPage() {
           </div>
         </section>
 
+        {/* 100 Days of Code Section (Static for now) */}
         <section className="py-24 border-t border-white/10">
           <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-lg">
             100 DAYS OF CODE
@@ -130,7 +88,7 @@ export default function PlacementPage() {
                 <DaysCard
                   type="content"
                   title="About the Challenge"
-                  description="The BMSCE ACM Student Chapter is hosting a 100 Days of Code challenge dedicated to Mastering DSA. This intensive coding period runs from October 30th, 2025, to February 6th, 2026. The goal is consistent daily practice, symbolized by the motto: If you cheat, you are cheating yourself!! The challenge aims to help participants build strong coding habits and achieve Code Consistency."
+                  description="The BMSCE ACM Student Chapter is hosting a 100 Days of Code challenge dedicated to Mastering DSA..."
                   bgColor="rgba(125, 212, 238, 0.15)"
                   borderColor="#7dd4ee"
                   size="medium"
@@ -158,7 +116,6 @@ export default function PlacementPage() {
           </div>
         </section>
       </main>
-
     </div>
   );
 }

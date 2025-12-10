@@ -46,9 +46,7 @@ const Footer = () => {
           <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li><Link to="/event" className="hover:text-white transition">Events</Link></li>
-            {/* 🌟 NEW: Added Projects link */}
             <li><Link to="/projects" className="hover:text-white transition">Projects</Link></li>
-            {/* 🌟 NEW: Added Placements link */}
             <li><Link to="/placements" className="hover:text-white transition">Placements</Link></li>
             <li><Link to="/join-us" className="hover:text-white transition">Join Us</Link></li>
             <li><Link to="/team" className="hover:text-white transition">Team</Link></li>
@@ -85,8 +83,16 @@ const Footer = () => {
       </div>
 
       {/* Bottom */}
-      <div className="text-center text-xs text-gray-500 mt-10 border-t border-white/10 pt-6">
-        © {new Date().getFullYear()} BMSCE ACM Student Chapter. All rights reserved.
+      <div className="max-w-6xl mx-auto mt-10 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+        <p>© {new Date().getFullYear()} BMSCE ACM Student Chapter. All rights reserved.</p>
+        
+        {/* Admin Link - Now White and Visible */}
+        <Link 
+          to="/admin/login" 
+          className="mt-2 md:mt-0 text-white font-medium hover:text-[#2FA6B8] transition-all duration-300"
+        >
+          Admin Login
+        </Link>
       </div>
     </footer>
   );

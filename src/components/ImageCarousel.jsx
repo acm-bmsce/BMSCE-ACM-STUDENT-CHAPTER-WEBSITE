@@ -4,8 +4,8 @@ import "swiper/css";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { motion, AnimatePresence } from "framer-motion";
 
-import eventData from "./Data2_event";                 // MOBILE DATA
-import eventDataDesktop from "./Data2_events_desktop";  // DESKTOP DATA
+// ❌ DELETED: import eventData from "./Data2_event"; 
+// ❌ DELETED: import eventDataDesktop from "./Data2_events_desktop";
 
 // ---------------------------------------------------
 // Slide Item Component
@@ -44,8 +44,6 @@ function SlideItem({ src, title, alt, onClick }) {
             <div className="hidden md:flex absolute inset-0 bg-black/50 items-center justify-center text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition active:underline">
                 View Details
             </div>
-
-
         </motion.div>
     );
 }
@@ -53,7 +51,8 @@ function SlideItem({ src, title, alt, onClick }) {
 // ---------------------------------------------------
 // Main Carousel Component
 // ---------------------------------------------------
-export default function ImageCarousel() {
+// 1. Accept 'events' as a prop
+export default function ImageCarousel({ events }) {
     const swiperRef = useRef(null);
     const [swiperReady, setSwiperReady] = useState(false);
 
@@ -74,8 +73,13 @@ export default function ImageCarousel() {
         return () => window.removeEventListener("resize", check);
     }, []);
 
-    // Select dataset based on device
-    const activeData = isMobile ? eventData : eventDataDesktop;
+    // 2. Safety Check: If no events, show empty state
+    if (!events || events.length === 0) {
+        return <div className="text-white text-center py-10 opacity-50">No Past Events Found</div>;
+    }
+
+    // 3. Use the dynamic 'events' prop for data
+    const activeData = events;
 
     // Arrow controls
     const prev = () => swiperRef.current?.slidePrev(300);
@@ -99,9 +103,10 @@ export default function ImageCarousel() {
                 loop={false}
                 className="w-full py-10"
             >
+                {/* 4. Map over the dynamic activeData */}
                 {activeData.map((item) => (
                     <SwiperSlide
-                        key={item.id}
+                        key={item.id || item._id} // Handle Mongo ID or manual ID
                         style={{ width: "380px", display: "flex", justifyContent: "center" }}
                     >
                         <SlideItem
@@ -150,17 +155,7 @@ export default function ImageCarousel() {
                         className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-3"
                     >
                         {/* MODAL */}
-                        <div
-                            className="
-        relative bg-white rounded-2xl 
-        w-full 
-        max-w-[450px]       
-        md:max-w-[750px]    
-        lg:max-w-[900px]    
-        h-[85vh]             /* 🔥 FIXED HEIGHT */
-        overflow-hidden shadow-xl flex flex-col
-    "
-                        >
+                        <div className="relative bg-white rounded-2xl w-full max-w-[450px] md:max-w-[750px] lg:max-w-[900px] h-[85vh] overflow-hidden shadow-xl flex flex-col">
 
                             {/* CLOSE BUTTON */}
                             <button
@@ -182,7 +177,7 @@ export default function ImageCarousel() {
                                     <h2 className="text-2xl font-bold drop-shadow-lg">
                                         {popup.title}
                                     </h2>
-                                    <p className="text-sm opacity-90">{popup.date}</p>
+                                    <p className="text-sm opacity-90">{new Date(popup.date).toLocaleDateString()}</p>
                                 </div>
                             </div>
 
@@ -213,15 +208,19 @@ export default function ImageCarousel() {
                                 {/* GALLERY TAB */}
                                 {popupTab === "Gallery" && (
                                     <div className="grid grid-cols-2 gap-3">
-                                        {popup.gallery?.map((img, i) => (
-                                            <img
-                                                key={i}
-                                                src={img}
-                                                alt="gallery"
-                                                onClick={() => setFullImg(img)}
-                                                className="w-full h-28 object-cover rounded-md cursor-pointer hover:opacity-80 transition"
-                                            />
-                                        ))}
+                                        {popup.gallery && popup.gallery.length > 0 ? (
+                                            popup.gallery.map((img, i) => (
+                                                <img
+                                                    key={i}
+                                                    src={img}
+                                                    alt="gallery"
+                                                    onClick={() => setFullImg(img)}
+                                                    className="w-full h-28 object-cover rounded-md cursor-pointer hover:opacity-80 transition"
+                                                />
+                                            ))
+                                        ) : (
+                                            <div className="col-span-2 text-center text-gray-400 mt-10">No Gallery Images</div>
+                                        )}
                                     </div>
                                 )}
 
@@ -240,7 +239,7 @@ export default function ImageCarousel() {
 
                                         <div>
                                             <h4 className="font-bold">Outcome</h4>
-                                            <p>{popup.outcomes}</p>
+                                            <p>{popup.outcomes || "No outcomes listed."}</p>
                                         </div>
                                     </div>
                                 )}
@@ -250,10 +249,7 @@ export default function ImageCarousel() {
                 )}
             </AnimatePresence>
 
-
-            {/* -----------------------------------
-                🖼️ FULLSCREEN IMAGE VIEWER
-            ----------------------------------- */}
+            {/* 🖼️ FULLSCREEN IMAGE VIEWER */}
             <AnimatePresence>
                 {fullImg && (
                     <motion.div
@@ -263,18 +259,13 @@ export default function ImageCarousel() {
                         transition={{ duration: 0.25 }}
                         className="fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center p-4"
                     >
-                        {/* IMAGE WRAPPER */}
                         <div className="relative">
-
-                            {/* CLOSE BUTTON INSIDE IMAGE */}
                             <button
                                 onClick={() => setFullImg(null)}
                                 className="absolute top-3 right-3 text-white text-2xl bg-black/50 w-9 h-9 flex items-center justify-center rounded-full backdrop-blur-md hover:bg-black/70 transition"
                             >
                                 ×
                             </button>
-
-                            {/* IMAGE */}
                             <img
                                 src={fullImg}
                                 alt="Full View"
@@ -284,9 +275,6 @@ export default function ImageCarousel() {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-
-
         </div>
     );
 }
