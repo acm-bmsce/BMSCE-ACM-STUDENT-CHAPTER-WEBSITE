@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react"; // ✅ Import useMemo
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom"; 
-// ❌ REMOVED: import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
 import HeroAndCarousel from "../components/HeroAndCarousel";
@@ -9,9 +8,9 @@ import Spotlight from "../components/Spotlight";
 import Loader from "../components/Loader";
 import eventService from "../api/eventService";
 
-// ✅ ADDED: Helpers
+// Helpers
 import SEO from "../components/SEO";
-import { getOptimizedImageUrl } from "../utils/imageHelper";
+import { getOptimizedImageUrl } from "../utils/imageHelper"; 
 
 export default function EventPage() {
     const [isGridView, setIsGridView] = useState(false);
@@ -24,14 +23,13 @@ export default function EventPage() {
     const [allEvents, setAllEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // --- FETCH DATA (useEffect) ---
+    // --- FETCH DATA ---
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
                 
-                // 1. Fetch Featured for Carousel
-                // We optimize these for HIGHER quality (width 1200px) because they are big Hero banners
+                // 1. Fetch Featured (Carousel)
                 const featuredRes = await eventService.getEvents(10, 0, true);
                 const featuredOptimized = featuredRes.data.map(evt => ({
                     ...evt,
@@ -39,9 +37,9 @@ export default function EventPage() {
                 }));
                 setFeaturedEvents(featuredOptimized);
 
-                // 2. Fetch All for Grid
-                // We optimize these for LOWER quality (width 500px) because they are small thumbnails
-                const allRes = await eventService.getEvents(500, 0, null);
+                // 2. Fetch All (For Grid & Past Events)
+                // Increased limit to 100 to ensure we get enough history
+                const allRes = await eventService.getEvents(100, 0, null);
                 const allOptimized = allRes.data.map(evt => ({
                     ...evt,
                     image: getOptimizedImageUrl(evt.image, 500)
@@ -56,6 +54,16 @@ export default function EventPage() {
         };
         fetchData();
     }, []);
+
+    // --- 3. FILTER PAST EVENTS ---
+    // This splits 'allEvents' into 'past' based on the current date
+    const pastEvents = useMemo(() => {
+        const now = new Date();
+        return allEvents.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate < now; // If event date is before now, it's "Past"
+        });
+    }, [allEvents]);
 
     // --- LOGIC ---
     useEffect(() => {
@@ -87,7 +95,6 @@ export default function EventPage() {
 
     return (
         <div className="min-h-screen bg-black text-gray-900 antialiased overflow-x-hidden">
-            {/* ✅ ADDED: SEO */}
             <SEO 
                 title="Events" 
                 description="Explore upcoming workshops, hackathons, and seminars at ACM BMSCE." 
@@ -110,8 +117,8 @@ export default function EventPage() {
                         >
                             <HeroAndCarousel
                                 setIsGridView={handleOpenGrid}
-                                upcomingEvents={featuredEvents} // ✅ Pass Featured Only
-                                pastEvents={[]} 
+                                upcomingEvents={featuredEvents} 
+                                pastEvents={pastEvents} // ✅ FIXED: Passing the filtered list
                             />
                         </motion.section>
                     ) : (
@@ -126,10 +133,8 @@ export default function EventPage() {
                             <div className="flex flex-col items-center">
                                 <Spotlight 
                                     setIsGridView={handleCloseGrid} 
-                                    events={allEvents} // ✅ Pass All Events
+                                    events={allEvents} 
                                 />
-                                {/* Note: Pagination buttons removed for simplicity as per your request, 
-                                    but you can add them back using 'page' state logic if needed. */}
                             </div>
                         </motion.section>
                     )}

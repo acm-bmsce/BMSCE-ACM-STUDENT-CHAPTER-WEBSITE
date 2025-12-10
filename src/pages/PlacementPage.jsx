@@ -24,7 +24,7 @@ export default function PlacementPage() {
             company: item.description.split(',')[1] || "",
             link: item.insta_link,
             year: "Alumni", 
-            description: "Success story...", 
+            description: "Check the Instagram Post For More Details", 
         }));
         setInsights(mappedData);
       } catch (error) {
@@ -38,10 +38,10 @@ export default function PlacementPage() {
   }, []);
 
   const carouselImages = [
-    "/images/c1.png",
-    "/images/c2.png",
-    "/images/c3.png",
-    "/images/c4.png",
+    "/100DayOfCode/carousel1.webp",
+    "/100DayOfCode/carousel2.webp",
+    "/100DayOfCode/carousel3.webp",
+    "/100DayOfCode/carousel4.webp",
   ];
 
   return (
@@ -83,7 +83,7 @@ export default function PlacementPage() {
             <div className="grid grid-cols-2 gap-6 auto-rows-max">
               <DaysCard
                 type="image"
-                imageUrl="/images/poster.jpg"
+                imageUrl="/100DayOfCode/poster.webp"
                 bgColor="rgba(125, 212, 238, 0.1)"
                 borderColor="#7dd4ee"
                 size="tall"
