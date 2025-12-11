@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Calendar, FolderGit, Users, LogOut, Briefcase } from 'lucide-react';
 import authService from '../../api/authService';
+import NavBar from '../../components/Navbar';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const AdminLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-black text-white font-sans">
-      
+      <NavBar/>
       {/* SIDEBAR */}
       <aside className="w-64 bg-[#0E181C] border-r border-[#1F3037] flex flex-col fixed h-full z-20">
         <div className="p-6 border-b border-[#1F3037]">
