@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react"; // ✅ Import useMemo
+import React, { useState, useRef, useEffect, useMemo } from "react"; 
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom"; 
 import { Loader2 } from "lucide-react";
@@ -19,7 +19,7 @@ export default function EventPage() {
     const location = useLocation();
 
     // Data States
-    const [featuredEvents, setFeaturedEvents] = useState([]);
+    const [rawFeatured, setRawFeatured] = useState([]); 
     const [allEvents, setAllEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -29,16 +29,11 @@ export default function EventPage() {
             try {
                 setLoading(true);
                 
-                // 1. Fetch Featured (Carousel)
-                const featuredRes = await eventService.getEvents(10, 0, true);
-                const featuredOptimized = featuredRes.data.map(evt => ({
-                    ...evt,
-                    image: getOptimizedImageUrl(evt.image, 1200) 
-                }));
-                setFeaturedEvents(featuredOptimized);
+                // 1. Fetch Featured (Get all featured, regardless of date)
+                const featuredRes = await eventService.getEvents(20, 0, true);
+                setRawFeatured(featuredRes.data);
 
-                // 2. Fetch All (For Grid & Past Events)
-                // Increased limit to 100 to ensure we get enough history
+                // 2. Fetch All (For History/Past)
                 const allRes = await eventService.getEvents(100, 0, null);
                 const allOptimized = allRes.data.map(evt => ({
                     ...evt,
@@ -55,17 +50,36 @@ export default function EventPage() {
         fetchData();
     }, []);
 
-    // --- 3. FILTER PAST EVENTS ---
-    // This splits 'allEvents' into 'past' based on the current date
-    const pastEvents = useMemo(() => {
+    // --- FILTERING LOGIC ---
+    const { upcomingFeatured, featuredPastEvents, allPastEvents } = useMemo(() => {
         const now = new Date();
-        return allEvents.filter(event => {
-            const eventDate = new Date(event.date);
-            return eventDate < now; // If event date is before now, it's "Past"
-        });
-    }, [allEvents]);
 
-    // --- LOGIC ---
+        // 1. Upcoming Featured (For Hero Section)
+        const upcoming = rawFeatured
+            .filter(evt => new Date(evt.date) >= now)
+            .map(evt => ({
+                ...evt,
+                image: getOptimizedImageUrl(evt.image, 1200)
+            }));
+
+        // 2. All Past Events (For Grid View - Everything)
+        const allPast = allEvents.filter(evt => {
+            const eventDate = new Date(evt.date);
+            return eventDate < now;
+        });
+
+        // 3. Featured Past Events (For Initial Carousel - Only Highlights)
+        const featuredPast = allPast.filter(evt => evt.is_featured === true);
+
+        return { 
+            upcomingFeatured: upcoming, 
+            allPastEvents: allPast,
+            featuredPastEvents: featuredPast 
+        };
+    }, [rawFeatured, allEvents]);
+
+
+    // --- VIEW LOGIC ---
     useEffect(() => {
         setIsGridView(false);
         setIsReturning(false);
@@ -117,8 +131,9 @@ export default function EventPage() {
                         >
                             <HeroAndCarousel
                                 setIsGridView={handleOpenGrid}
-                                upcomingEvents={featuredEvents} 
-                                pastEvents={pastEvents} // ✅ FIXED: Passing the filtered list
+                                upcomingEvents={upcomingFeatured} 
+                                // ✅ Only show Featured Past events in the initial list
+                                pastEvents={featuredPastEvents} 
                             />
                         </motion.section>
                     ) : (
@@ -133,7 +148,8 @@ export default function EventPage() {
                             <div className="flex flex-col items-center">
                                 <Spotlight 
                                     setIsGridView={handleCloseGrid} 
-                                    events={allEvents} 
+                                    // ✅ Show ALL Past events when "View More" is clicked
+                                    events={allPastEvents} 
                                 />
                             </div>
                         </motion.section>
