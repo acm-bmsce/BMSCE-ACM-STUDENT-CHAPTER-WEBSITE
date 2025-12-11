@@ -55,7 +55,7 @@ export default function PlacementPage() {
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-20 mt-20">
          {/* ... (Rest of the JSX remains exactly the same) ... */}
         <section className="mb-32">
-          <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-sm">
+          <h2 className="text-center text-5xl sm:text-7xl font-robert-medium font-extrabold uppercase text-white mb-3 ">
             INSIGHT SERIES
           </h2>
 
@@ -66,7 +66,7 @@ export default function PlacementPage() {
           )}
 
           <div className="mt-12 max-w-2xl mx-auto text-center">
-            <p className="text-white/70 text-base leading-relaxed font-impact">
+            <p className="mt-8 mb-20 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
               The series aims to provide actionable guidance and motivation to
               current students pursuing higher studies or career goals by
               offering direct takeaways from alumni journeys.
@@ -75,7 +75,7 @@ export default function PlacementPage() {
         </section>
 
         <section className="py-24 border-t border-white/10">
-          <h2 className="text-center text-5xl md:text-6xl font-bold mb-16 tracking-widest bebas-neue text-white drop-shadow-lg">
+          <h2 className="text-center text-5xl sm:text-7xl font-robert-medium font-extrabold uppercase text-white mb-3 ">
             100 DAYS OF CODE
           </h2>
 

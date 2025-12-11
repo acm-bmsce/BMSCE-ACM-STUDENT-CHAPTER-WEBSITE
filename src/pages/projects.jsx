@@ -26,23 +26,23 @@ const ProjectCard = ({ project }) => {
       </div>
 
       <div className="p-5 flex flex-col flex-grow"> 
-        {/* ... (rest of card content remains same) ... */}
-        <h3 className="text-2xl font-bebas-neue uppercase text-white mb-2 line-clamp-2">{project.title}</h3>
-        <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-3">{project.description}</p>
+        {/* Changed font classes to use Tailwind config fonts */}
+        <h3 className="text-2xl font-robert-medium uppercase text-white mb-2 line-clamp-2">{project.title}</h3>
+        <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-3 font-robert-regular">{project.description}</p>
         
         <div className="flex items-center text-sm text-[#BFC7CC] mb-4">
           <User className="w-4 h-4 mr-2 text-[#2FA6B8]" />
-          <span className="font-medium">By: {project.author}</span>
+          <span className="font-robert-regular font-medium">By: {project.author}</span>
         </div>
         
         <div className="flex flex-wrap gap-2 mb-4">
           {project.categories && project.categories.map((category, index) => (
-            <span key={`cat-${index}`} className="px-3 py-1 text-xs font-medium text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]">
+            <span key={`cat-${index}`} className="px-3 py-1 text-xs font-robert-regular text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]">
               {category}
             </span>
           ))}
           {project.techStack && project.techStack.map((tech, index) => (
-            <span key={`tech-${index}`} className="px-3 py-1 text-xs font-medium text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]">
+            <span key={`tech-${index}`} className="px-3 py-1 text-xs font-robert-regular text-[#BFC7CC] bg-[#141F23] rounded-full border border-[#1F3037]">
               {tech}
             </span>
           ))}
@@ -116,7 +116,8 @@ const ProjectsPage = () => {
   }, [projects, searchTerm, selectedCategories]);
 
   return (
-    <div className="min-h-screen bg-black font-sans">
+    // Changed font-sans to font-general
+    <div className="min-h-screen bg-black font-general"> 
       {/* ✅ FIX 3: Add SEO */}
       <SEO 
         title="Projects Showcase" 
@@ -126,8 +127,9 @@ const ProjectsPage = () => {
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
          {/* ... (Header and Filters remain exactly the same) ... */}
         <header className="text-center mb-12 pt-16">
-          <h1 className="text-5xl sm:text-7xl font-bebas-neue uppercase text-white mb-3 tracking-widest">Technical Projects</h1>
-          <p className="text-xl text-white/80 font-light">Showcasing work in full-stack development, ML, and scalable architecture.</p>
+          {/* Changed font-bebas-neue to font-robert-medium */}
+          <h1 className="text-5xl sm:text-7xl font-robert-medium font-extrabold uppercase text-white mb-3 ">Technical Projects</h1>
+          <p className="mt-8 mb-20 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">Showcasing work in full-stack development, ML, and scalable architecture.</p>
         </header>
 
         <div className="mb-10 p-6 rounded-lg shadow-xl bg-[#0E181C] border border-[#1F3037]">
