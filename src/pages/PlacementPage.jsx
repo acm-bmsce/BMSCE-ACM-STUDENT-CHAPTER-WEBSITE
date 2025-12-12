@@ -55,7 +55,7 @@ export default function PlacementPage() {
         <section className="mb-20 md:mb-32 mt-10">
           <AnimatedTitle
           title="Insight Series"
-          containerClass="text-center !text-white !mb-0"
+          containerClass="text-center !text-white !mb-0 mt-20"
         />
 
           {loading ? (

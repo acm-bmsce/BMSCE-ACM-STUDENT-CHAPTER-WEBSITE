@@ -138,7 +138,7 @@ const ProjectsPage = () => {
           {/* Changed font-bebas-neue to font-robert-medium */}
           <AnimatedTitle
           title="Technical Projects"
-          containerClass="text-center !text-white !mb-0"
+          containerClass="text-center !text-white !mb-0 mt-14"
         />
           <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
           Discover innovative projects built by students of ACM BMSCE.
