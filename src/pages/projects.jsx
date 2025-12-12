@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Github, Code, TrendingUp, Search, X, User } from 'lucide-react'; 
 import projectService from '../api/projectService'; 
+import AnimatedTitle from '../components/AnimatedTitle';
 // ✅ ADDED: Imports
 import { getOptimizedImageUrl } from "../utils/imageHelper";
 import SEO from "../components/SEO";
@@ -123,13 +124,25 @@ const ProjectsPage = () => {
         title="Projects Showcase" 
         description="Discover innovative projects built by students of ACM BMSCE." 
       />
+      {/* <AnimatedTitle
+          title="Projects Showcase"
+          containerClass="text-center !text-white !mb-0"
+        />
+        <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+          Discover innovative projects built by students of ACM BMSCE.
+        </p> */}
 
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
          {/* ... (Header and Filters remain exactly the same) ... */}
         <header className="text-center mb-12 pt-16">
           {/* Changed font-bebas-neue to font-robert-medium */}
-          <h1 className="text-5xl sm:text-7xl font-robert-medium font-extrabold uppercase text-white mb-3 ">Technical Projects</h1>
-          <p className="mt-8 mb-20 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">Showcasing work in full-stack development, ML, and scalable architecture.</p>
+          <AnimatedTitle
+          title="Technical Projects"
+          containerClass="text-center !text-white !mb-0"
+        />
+          <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+          Discover innovative projects built by students of ACM BMSCE.
+        </p>
         </header>
 
         <div className="mb-10 p-6 rounded-lg shadow-xl bg-[#0E181C] border border-[#1F3037]">

@@ -63,7 +63,7 @@ export function DaysCard({
             {title}
           </h3>
           <p
-            className="text-sm text-white/70 leading-relaxed"
+            className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80"
             style={{ fontFamily: "Trispace" }}
           >
             {description}
