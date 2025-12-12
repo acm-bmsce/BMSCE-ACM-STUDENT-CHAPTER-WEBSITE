@@ -16,7 +16,7 @@ const navItems = [
   "Projects",
   "Placements", // 🌟 NEW: Added Placements
   "Join Us",
-  "Teams",
+  "Team",
   "About Us",
 ];
 
@@ -155,7 +155,7 @@ const NavBar = () => {
           {item}
         </Link>
       );
-    } else if (item === "Teams") {
+    } else if (item === "Team") {
       return (
         <Link
           key={index}
@@ -304,7 +304,7 @@ const NavBar = () => {
           </Link>
         </li>
       );
-    } else if (item === "Teams") {
+    } else if (item === "Team") {
       return (
         <li
           key={index}
@@ -387,7 +387,7 @@ const NavBar = () => {
               </Link>
             </div>
 
-            <div className="hidden md:flex h-full items-center gap-8">
+            <div className="hidden md:flex h-full items-center gap-3">
               {/* Desktop Navigation Items */}
               {navItems.map((item, index) => renderNavItem(item, index))}
 
