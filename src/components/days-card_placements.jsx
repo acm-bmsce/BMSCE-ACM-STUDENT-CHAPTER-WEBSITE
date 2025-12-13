@@ -14,12 +14,18 @@ export function DaysCard({
 }) {
   const sizeClasses = {
     small: "h-64",
-    medium: "h-72",
+    medium: "h-[346px]",
     tall: "h-[445px]",
-    wide: "h-72",
+    wide: "h-76",
   };
 
-  const baseClasses = `relative rounded-2xl border backdrop-blur-sm transition-all duration-300 overflow-hidden group ${sizeClasses[size]} flex flex-col justify-center items-center p-6`;
+  // For action cards, we want h-fit instead of fixed height
+  const getHeightClass = () => {
+    if (type === "action") return "h-fit";
+    return sizeClasses[size];
+  };
+
+  const baseClasses = `relative rounded-2xl border backdrop-blur-sm transition-all duration-300 overflow-hidden group ${getHeightClass()} flex flex-col justify-center items-center p-6`;
   const hoverClasses = "hover:border-white/40 hover:shadow-[0_0_30px_rgba(125,212,238,0.3)]";
 
   // Handle button click for type="action"
@@ -59,12 +65,12 @@ export function DaysCard({
         }}
       >
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-white bebas-neue tracking-widest mb-3 mt-4">
+          <h3 className="text-xl font-bold text-white bebas-neue tracking-widest mb-3">
             {title}
           </h3>
           <p
-            className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80"
-            style={{ fontFamily: "sans-serif" }}
+            className="text-sm text-white/70 leading-relaxed"
+            style={{ fontFamily: "'Trispace', monospace" }}
           >
             {description}
           </p>
@@ -76,22 +82,34 @@ export function DaysCard({
   if (type === "action") {
     return (
       <div
-        className={`${baseClasses} ${hoverClasses} h-fit`}
+        className={`${baseClasses} ${hoverClasses} py-8`}
         style={{
           backgroundColor: bgColor,
           borderColor: borderColor,
         }}
       >
         <div className="text-center flex flex-col items-center gap-4">
-          <h3 className="text-xl font-bold text-white bebas-neue tracking-widest">
+          <h3 className="text-xl font-bold text-white bebas-neue tracking-widest mb-2">
             {title}
           </h3>
-          <button
-            onClick={handleButtonClick}
-            className="border border-white/30 text-white/70 px-6 py-2 font-semibold hover:bg-white/5 hover:text-white hover:border-white/60 transition-all duration-300 rounded-full bebas-neue tracking-widest text-sm cursor-pointer"
-          >
-            {buttonText}
-          </button>
+          
+          <div className="flex flex-col items-center gap-2">
+            <button
+              onClick={handleButtonClick}
+              className="border border-white/30 text-white/70 px-6 py-2 font-semibold hover:bg-white/5 hover:text-white hover:border-white/60 transition-all duration-300 rounded-full bebas-neue tracking-widest text-sm cursor-pointer"
+            >
+              {buttonText}
+            </button>
+            
+            {description && (
+              <p
+                className="text-xs text-white/60 mt-1 leading-relaxed"
+                style={{ fontFamily: "'Trispace', monospace" }}
+              >
+                {description}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -120,7 +138,10 @@ export function DaysCard({
                 <p className="text-xs text-white/60 bebas-neue tracking-wide">
                   {stat.label}
                 </p>
-                <p className="text-sm text-white/70 leading-relaxed">
+                <p 
+                  className="text-sm text-white/70 leading-relaxed"
+                  style={{ fontFamily: "'Trispace', monospace" }}
+                >
                   {description}
                 </p>
               </div>
@@ -132,4 +153,4 @@ export function DaysCard({
   }
 
   return null;
-}
+} 
