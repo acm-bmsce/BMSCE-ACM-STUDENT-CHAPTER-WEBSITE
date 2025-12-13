@@ -57,25 +57,18 @@ export default function HeroAndCarousel({ setIsGridView, upcomingEvents, pastEve
 
                 <div className="flex flex-col items-center gap-6 w-full">
                     <div className="w-full max-w-4xl">
-                        {/* 2. Pass dynamic data to the carousel */}
-                        {/* Note: You must update ImageCarousel.jsx to accept this prop too! */}
                         <ImageCarousel events={pastEvents} />
                     </div>
 
-                    <div className="hidden md:block">
-                        <Button
-                            id="realm-btn"
-                            title="VIEW MORE"
-                            onClick={() => setIsGridView(true)}
-                        />
-                    </div>
-
-                    <div className="md:hidden text-white text-2xl font-semibold tracking-wide mt-4 select-none">
-                        <p className="animate-bounce">Swipe →</p>
-                    </div>
-
+                    {/* VIEW MORE → visible on all screens */}
+                    <Button
+                        id="realm-btn"
+                        title="VIEW MORE"
+                        onClick={() => setIsGridView(true)}
+                    />
                 </div>
             </section>
+
 
             {/* ---------- UPCOMING EVENTS ---------- */}
             <section className="mt-32" ref={upcomingRef}>
