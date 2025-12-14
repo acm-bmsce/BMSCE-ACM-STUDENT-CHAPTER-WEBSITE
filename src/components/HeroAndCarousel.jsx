@@ -60,11 +60,14 @@ export default function HeroAndCarousel({ setIsGridView, upcomingEvents, pastEve
                         <ImageCarousel events={pastEvents} />
                     </div>
 
+                    <div className="md:hidden text-white text-2xl font-semibold tracking-wide mt-4 select-none"> <p className="animate-bounce">Swipe →</p> </div>
+
                     {/* VIEW MORE → visible on all screens */}
                     <Button
                         id="realm-btn"
                         title="VIEW MORE"
                         onClick={() => setIsGridView(true)}
+
                     />
                 </div>
             </section>

@@ -45,32 +45,43 @@ export default function Spotlight({ setIsGridView, events }) {
   const introTextRefs = [useRef(), useRef()];
   const bgImgRef = useRef();
   const headerRef = useRef();
-  
+
   // 3. Use 'events' instead of 'eventData' for ref initialization
   const imgRefs = useRef(events.map(() => React.createRef()));
-  
+
   const [activeModal, setActiveModal] = useState(null);
   const modalRef = useRef();
   const modalImageRef = useRef();
   const blurBgRef = useRef();
   const [activeTab, setActiveTab] = useState("Overview");
   const tabContentRef = useRef();
-  
+
   // 4. Set initial year safely
-  const [activeYear, setActiveYear] = useState(events[0]?.year || "2024");
+  // Helper function (optional but clean)
+  const getYearFromDate = (date) =>
+    date ? new Date(date).getFullYear().toString() : "2024";
+
+  // ---------------- STATE ----------------
+  const [activeYear, setActiveYear] = useState(
+    getYearFromDate(events[0]?.date)
+  );
 
   const [fullScreenImage, setFullScreenImage] = useState(null);
 
-  const yearRef = useRef();
+  // ---------------- REF ----------------
+  const yearRef = useRef(null);
 
+  // ---------------- ANIMATION ----------------
   useEffect(() => {
     if (!yearRef.current) return;
+
     gsap.fromTo(
       yearRef.current,
       { opacity: 0, y: 15 },
       { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }
     );
   }, [activeYear]);
+
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -80,16 +91,16 @@ export default function Spotlight({ setIsGridView, events }) {
     };
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
-    
+
     let currentActiveIndex = 0;
-    
+
     // Safety check for refs
-    if(imgRefs.current.length !== events.length) {
-        imgRefs.current = events.map(() => React.createRef());
+    if (imgRefs.current.length !== events.length) {
+      imgRefs.current = events.map(() => React.createRef());
     }
 
     imgRefs.current.forEach((img) => {
-        if(img.current) gsap.set(img.current, { opacity: 0 })
+      if (img.current) gsap.set(img.current, { opacity: 0 })
     });
 
     const titleNodes = titlesContainerRef.current?.querySelectorAll("h1") || [];
@@ -99,12 +110,12 @@ export default function Spotlight({ setIsGridView, events }) {
     const viewportHeight = window.innerHeight;
     const titlesContainerHeight = titlesContainerRef.current?.scrollHeight || 0;
     const extraScroll = viewportHeight * 2;
-    
+
     // 5. Use 'events.length'
     const totalImages = events.length;
     const totalAnimationDuration = (totalImages - 1) * config.gap + config.speed;
     const scrollEndExtra = (totalAnimationDuration / 0.7) * viewportHeight;
-    
+
     const trigger = ScrollTrigger.create({
       trigger: spotlightRef.current,
       start: "top top",
@@ -133,7 +144,7 @@ export default function Spotlight({ setIsGridView, events }) {
             scale: 1.5 - animationProgress * 0.5,
           });
           imgRefs.current.forEach((img) => {
-             if(img.current) gsap.set(img.current, { opacity: 0 });
+            if (img.current) gsap.set(img.current, { opacity: 0 });
           });
           if (headerRef.current) headerRef.current.style.opacity = "0";
           gsap.set(titlesContainerRef.current, {
@@ -146,7 +157,7 @@ export default function Spotlight({ setIsGridView, events }) {
           gsap.set(bgImgRef.current?.querySelector("img"), { scale: 1 });
           introTextRefs.forEach((el) => gsap.set(el.current, { opacity: 0 }));
           imgRefs.current.forEach((img) => {
-            if(img.current) gsap.set(img.current, { opacity: 0 });
+            if (img.current) gsap.set(img.current, { opacity: 0 });
           });
           if (headerRef.current) headerRef.current.style.opacity = "1";
           gsap.set(titlesContainerRef.current, {
@@ -219,7 +230,8 @@ export default function Spotlight({ setIsGridView, events }) {
             }
 
             // Fallback for year if not present in DB
-            setActiveYear(events[closestIndex].year || "2025");
+            setActiveYear(getYearFromDate(events[closestIndex].date));
+
             currentActiveIndex = closestIndex;
           }
         } else if (progress >= 0.95) {
@@ -249,14 +261,14 @@ export default function Spotlight({ setIsGridView, events }) {
 
     if (activeModal !== null) {
       setActiveTab((tab) => (tab ? tab : "Overview"));
-      
+
       const refIndex = activeModal.index;
       // Safety check
-      if(!imgRefs.current[refIndex] || !imgRefs.current[refIndex].current) return;
+      if (!imgRefs.current[refIndex] || !imgRefs.current[refIndex].current) return;
 
       const imgEl = imgRefs.current[refIndex].current.querySelector("img");
       if (!imgEl) return;
-      
+
       const imgRect = imgEl.getBoundingClientRect();
       gsap.set(blurBgRef.current, { opacity: 0, display: "block", backdropFilter: "blur(0px)" });
       gsap.to(blurBgRef.current, { opacity: 1, backdropFilter: "blur(8px)", duration: 0.4 });
@@ -308,12 +320,12 @@ export default function Spotlight({ setIsGridView, events }) {
   const closeModal = () => {
     if (!activeModal) return;
     gsap.to(modalImageRef.current?.querySelector(".modal-title"), { opacity: 0, duration: 0.2 });
-    
+
     // Safety check
-    if(!imgRefs.current[activeModal.index] || !imgRefs.current[activeModal.index].current) {
-        setActiveModal(null);
-        gsap.set(modalRef.current, { display: "none" });
-        return;
+    if (!imgRefs.current[activeModal.index] || !imgRefs.current[activeModal.index].current) {
+      setActiveModal(null);
+      gsap.set(modalRef.current, { display: "none" });
+      return;
     }
 
     const imgEl = imgRefs.current[activeModal.index].current.querySelector("img");

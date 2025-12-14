@@ -22,7 +22,7 @@ function SlideItem({ src, title, alt, onClick }) {
             animate={{
                 opacity: isActive ? 1 : 0.4,
                 scale: isActive ? 1 : 0.9,
-                rotateY: isActive ? 0 : (slide.isPrev ? 8 : -8),
+                rotateY: isActive ? 0 : slide.isPrev ? 8 : -8,
             }}
             transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
             className="relative overflow-hidden group"
@@ -34,19 +34,33 @@ function SlideItem({ src, title, alt, onClick }) {
                 cursor: "pointer",
             }}
         >
+            {/* Image */}
             <img
                 src={src}
                 alt={alt}
                 className="w-full h-full object-cover pointer-events-none"
             />
 
-            {/* Hover Title (Desktop Only) */}
-            <div className="hidden md:flex absolute inset-0 bg-black/50 items-center justify-center text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition active:underline">
+            {/* Hover Overlay */}
+            <div className="hidden md:flex absolute inset-0 bg-black/50 items-center justify-center text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition">
                 View Details
+            </div>
+
+            {/* Bottom Title Overlay */}
+            <div className="absolute bottom-0 left-0 w-full bg-black/60 py-3 flex justify-center">
+                <p
+                    className={`text-white text-lg font-bold text-center transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-80"
+                        }`}
+                >
+                    {title}
+                </p>
             </div>
         </motion.div>
     );
 }
+
+
+
 
 // ---------------------------------------------------
 // Main Carousel Component
@@ -64,6 +78,11 @@ export default function ImageCarousel({ events }) {
 
     // ⭐ Fullscreen image viewer
     const [fullImg, setFullImg] = useState(null);
+
+    const [atStart, setAtStart] = useState(true);
+    const [atEnd, setAtEnd] = useState(false);
+
+
 
     // Detect screen size
     useEffect(() => {
@@ -92,9 +111,17 @@ export default function ImageCarousel({ events }) {
                 SWIPER
             ----------------------------------- */}
             <Swiper
-                onInit={(swiper) => {
+                onSwiper={(swiper) => {
                     swiperRef.current = swiper;
                     setSwiperReady(true);
+
+                    // initial state
+                    setAtStart(swiper.progress <= 0.01);
+                    setAtEnd(swiper.progress >= 0.99);
+                }}
+                onProgress={(swiper) => {
+                    setAtStart(swiper.progress <= 0.01);
+                    setAtEnd(swiper.progress >= 0.99);
                 }}
                 slidesPerView="auto"
                 centeredSlides
@@ -103,6 +130,8 @@ export default function ImageCarousel({ events }) {
                 loop={false}
                 className="w-full py-10"
             >
+
+
                 {/* 4. Map over the dynamic activeData */}
                 {activeData.map((item) => (
                     <SwiperSlide
@@ -122,24 +151,30 @@ export default function ImageCarousel({ events }) {
                 ))}
             </Swiper>
 
+
+
             {/* -----------------------------------
                 ARROWS (fixed)
             ----------------------------------- */}
-            <button
-                onClick={prev}
-                disabled={!swiperReady}
-                className="absolute z-20 left-1/2 -translate-x-[300px] top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow disabled:opacity-40"
-            >
-                <BsArrowLeft size={20} />
-            </button>
+            {!atStart && (
+                <button
+                    onClick={prev}
+                    disabled={!swiperReady}
+                    className="absolute z-20 left-1/2 -translate-x-[300px] top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow"
+                >
+                    <BsArrowLeft size={20} />
+                </button>
+            )}
 
-            <button
-                onClick={next}
-                disabled={!swiperReady}
-                className="absolute z-20 right-1/2 translate-x-[300px] top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow disabled:opacity-40"
-            >
-                <BsArrowRight size={20} />
-            </button>
+            {!atEnd && (
+                <button
+                    onClick={next}
+                    disabled={!swiperReady}
+                    className="absolute z-20 right-1/2 translate-x-[300px] top-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow"
+                >
+                    <BsArrowRight size={20} />
+                </button>
+            )}
 
 
             {/* -----------------------------------
