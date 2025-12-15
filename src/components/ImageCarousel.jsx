@@ -202,18 +202,24 @@ export default function ImageCarousel({ events }) {
 
                             {/* BANNER IMAGE */}
                             <div className="w-full h-[180px] relative overflow-hidden">
-                                <img
-                                    src={popup.image}
-                                    alt={popup.title}
-                                    className="w-full h-full object-cover"
-                                />
+                            <img
+                                src={popup.image}
+                                alt={popup.title}
+                                className="w-full h-full object-cover"
+                            />
 
-                                <div className="absolute bottom-4 left-4 text-white">
-                                    <h2 className="text-2xl font-bold drop-shadow-lg">
-                                        {popup.title}
-                                    </h2>
-                                    <p className="text-sm opacity-90">{new Date(popup.date).toLocaleDateString()}</p>
-                                </div>
+                            {/* 🔥 BLACK GRADIENT OVERLAY */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+                            {/* TEXT */}
+                            <div className="absolute bottom-4 left-4 z-10 text-white">
+                                <h2 className="text-2xl font-bold">
+                                {popup.title}
+                                </h2>
+                                <p className="text-sm opacity-90">
+                                {new Date(popup.date).toLocaleDateString()}
+                                </p>
+                            </div>
                             </div>
 
                             {/* TABS */}
@@ -250,7 +256,7 @@ export default function ImageCarousel({ events }) {
                                                     src={img}
                                                     alt="gallery"
                                                     onClick={() => setFullImg(img)}
-                                                    className="w-full h-28 object-cover rounded-md cursor-pointer hover:opacity-80 transition"
+                                                    className="w-full aspect-video object-contain bg-black/5 rounded-md cursor-pointer hover:opacity-80 transition"
                                                 />
                                             ))
                                         ) : (
