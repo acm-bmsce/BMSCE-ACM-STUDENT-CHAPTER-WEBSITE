@@ -55,8 +55,8 @@ export default function EventPage() {
         "ACM ROCS 2025",
         "Town Hall for ACM Students",
         "AGM 2025",
-        "DSA Course",
         "15 Days of Code",
+        "Mastering DSA",
         "CS Pathshala",
         "ESP: CryptoVerse"
     ];
