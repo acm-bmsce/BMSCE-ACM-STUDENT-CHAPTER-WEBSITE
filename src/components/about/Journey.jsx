@@ -13,7 +13,7 @@ const timelineData = [
     year: "2022",
     title: "Inauguration of BMSCE ACM Student Chapter",
     description:
-      "September 30: Officially launched with over 250 attendees, laying the foundation for innovation and collaboration.",
+      "February 22: Officially launched with over 250 attendees, laying the foundation for innovation and collaboration.",
   },
   {
     year: "2022",
