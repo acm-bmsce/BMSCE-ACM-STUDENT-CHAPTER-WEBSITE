@@ -157,13 +157,14 @@ const Glance = () => {
                             "absolute inset-0 h-full w-full left-[100px] object-cover object-left md:object-[60%] opacity-40 z-0"
                         )}
                         <div className='relative z-10 p-2'>
-                            <h3 className="special-font text-2xl text-white font-bold">Chapter Members</h3>
-                            <h1 className='plain-heading special-font text-blue-300 text-7xl md:text-8xl font-semibold'>
-                                <CountUp from={0} to={300} separator="," direction="up" duration={1} className="count-up-text" />
-                                <b>+</b>
+                            <h3 className="special-font text-2xl text-white font-bold">Inaugurated on</h3>
+                            <h1 className='mt-6 plain-heading special-font text-blue-300 text-6xl md:text-6xl font-semibold leading-none'>
+                                22 Feb, <br /> 2022
                             </h1>
                         </div>
                     </div>
+
+
 
                     {/* Card 2 */}
                     <div
@@ -173,10 +174,10 @@ const Glance = () => {
                     >
                         <div className='special-font text-black lg:text-[16rem] leading-none' style={{ position: 'relative', height: '390px' }}>
                             {isMobile ? (
-                                <span className="text-black font-semibold text-[12rem]">59+</span>
+                                <span className="text-black font-semibold text-[12rem]">300+</span>
                             ) : (
                                 <TextPressure
-                                    text="59+"
+                                    text="300+"
                                     flex={true}
                                     alpha={false}
                                     stroke={false}
@@ -190,7 +191,7 @@ const Glance = () => {
                             )}
                         </div>
                         <div className='p-2 md:p-5'>
-                            <h3 className='text-black text-3xl text-end font-bold opacity-100'>Global Members</h3>
+                            <h3 className='text-black text-3xl text-end font-bold opacity-100'>Active Members</h3>
                         </div>
                     </div>
 
@@ -205,7 +206,7 @@ const Glance = () => {
                                 <h3 className='text-black text-3xl text-start font-bold opacity-100'>Events Conducted</h3>
                             </div>
                             <h1 className='special-font text-black text-[12rem] md:text-[12rem] leading-none text-start'>
-                                <CountUp from={0} to={40} separator="," direction="up" duration={1} className="count-up-text font-semibold" />
+                                <CountUp from={0} to={45} separator="," direction="up" duration={1} className="count-up-text font-semibold" />
                                 <b>+</b>
                             </h1>
                         </div>
@@ -215,7 +216,7 @@ const Glance = () => {
                                 <div className='flex flex-col'>
                                     <h1 className='text-black font-montserat font-bold text-1xl md:text-1xl'>TOTAL PARTICIPANTS</h1>
                                     <h1 className='text-black font-montserat font-bold text-2xl md:text-2xl'>
-                                        2,603
+                                        3330
                                     </h1>
                                 </div>
                             </div>
@@ -224,7 +225,7 @@ const Glance = () => {
                                 <div className='flex flex-col'>
                                     <h1 className='text-yellow-300 font-montserat font-semibold text-1xl md:text-1xl'>TECHNICAL EVENTS</h1>
                                     <h1 className='text-yellow-300 font-montserat font-bold text-2xl md:text-2xl'>
-                                        24
+                                        28
                                     </h1>
                                 </div>
                             </div>
@@ -233,7 +234,7 @@ const Glance = () => {
                                 <div className='flex flex-col'>
                                     <h1 className='text-white font-montserat font-semibold text-1xl md:text-1xl'>NON-TECHNICAL AND OTHER EVENTS</h1>
                                     <h1 className='text-white font-montserat font-bold text-2xl md:text-2xl'>
-                                        16
+                                        18
                                     </h1>
                                 </div>
                             </div>
@@ -296,7 +297,7 @@ const Glance = () => {
                                 <h3 className='text-black text-start text-3xl lg:text-4xl font-semibold'>Our Online Community</h3>
                                 <h3 className='text-black text-start font-semibold opacity-70'>Instagram + LinkedIn</h3>
                             </div>
-                            <h1 className='plain-heading special-font text-black text-[9rem] px-4 md:text-[16rem] lg:text-[16rem] leading-none text-start'><b>2.8k</b>+</h1>
+                            <h1 className='plain-heading special-font text-black text-[9rem] px-4 md:text-[16rem] lg:text-[16rem] leading-none text-start'><b>3.2k</b>+</h1>
                             <h3 className='text-black text-end pr-2 font-semibold text-2xl opacity-70'>Followers</h3>
                         </div>
                     </div>

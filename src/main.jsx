@@ -1,10 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { HelmetProvider } from 'react-helmet-async' // ✅ Import SEO Provider
 import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <HelmetProvider> {/* ✅ Wrap App for SEO */}
+      <App />
+    </HelmetProvider>
   </StrictMode>,
-)
+) 

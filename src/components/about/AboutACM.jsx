@@ -39,9 +39,9 @@ const AboutACM = () => {
       <div className="container mx-auto">
         <AnimatedTitle
           title="About ACM"
-          containerClass="text-center !text-white"
+          containerClass="text-center !text-white !mb-0"
         />
-        <p className="mt-8 mb-20 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+        <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
           The Association for Computing Machinery (ACM) is the world's largest educational and scientific computing society, uniting computing educators, researchers, and professionals to inspire dialogue, share resources, and address the field's challenges.
         </p>
         <div className="flex justify-center items-center w-full mt-8 mb-12">

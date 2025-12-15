@@ -61,11 +61,11 @@ const FacultyAdvisorSection = ({ members }) => {
                 <div ref={headingRef}>
                     <AnimatedTitle
                         title="Faculty Core"
-                        containerClass="!text-blue-100 text-center text-3xl md:text-4xl lg:text-8xl"
+                        containerClass="!text-blue-100  text-center text-3xl md:text-4xl lg:text-8xl"
                     />
                 </div>
                 <div ref={descriptionRef}>
-                    <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mt-4">
+                    <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto pb-8">
                         Meet the esteemed faculty co-ordinators whose guidance and support are instrumental to the growth and success of our chapter.
                     </p>
                 </div>

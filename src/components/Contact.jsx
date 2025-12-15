@@ -99,7 +99,7 @@ const Contact = () => {
             className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
 
-          <a href="mailto:acm@bmsce.ac.in" className="mt-10">
+          <a href="mailto:acm@bmsce.ac.in" className="mt-24">
             <motion.button
               style={{ border, boxShadow }}
               whileHover={{ scale: 1.015 }}

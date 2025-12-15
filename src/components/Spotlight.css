@@ -207,6 +207,11 @@ body {
     transition: opacity 0.3s ease;
     z-index: 2;
     opacity: 0;
+    /* New styles for layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
 }
 
 
@@ -666,4 +671,192 @@ body {
 .spotlight-wrapper .outro p {
     font-size: 2rem;
     opacity: 0.8;
+}
+
+/* Add to your Spotlight.css file */
+
+/* --- Event Filter Buttons --- */
+.event-filter {
+    display: flex;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border-radius: 999px;
+    /* Pill shape */
+    backdrop-filter: blur(5px);
+}
+
+.event-filter button {
+    background: transparent;
+    border: none;
+    color: #ffffffb3;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.event-filter button:hover {
+    color: #ffffff;
+}
+
+.event-filter button.active {
+    background: #ffffff;
+    color: #000000;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for the message when no events are found */
+.no-events-message {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.no-events-message p {
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    /* ... (Keep existing media query rules) ... */
+
+    .spotlight-wrapper .spotlight-header {
+        /* Re-enable for mobile but adjust position */
+        display: flex;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 90%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column-reverse;
+        /* Put year below filters */
+    }
+
+    .event-filter button {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+
+.year-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.year-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.year-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.year-btn.active {
+    background: white;
+    color: black;
+    border-color: white;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.9;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.scroll-indicator span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+/* Mouse icon outline */
+.scroll-indicator .mouse {
+    width: 28px;
+    height: 44px;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 6px;
+    box-sizing: border-box;
+}
+
+/* Animated wheel */
+.scroll-indicator .wheel {
+    width: 4px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 4px;
+    animation: scroll 1.4s infinite ease-in-out;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(12px);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

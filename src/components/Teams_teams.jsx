@@ -139,7 +139,7 @@ const Teams = () => {
   const closeModal = () => setSelectedMember(null);
 
   return (
-    <section className="min-h-screen bg-black text-blue-100 p-5 space-y-10">
+    <section className="min-h-screen bg-black text-blue-100 p-5 space-y-10 mb-5">
       <div className="pt-20">
         {/* <div className="text-center mt-8">
           <p className="text-gray-400 max-w-2xl mx-auto">
