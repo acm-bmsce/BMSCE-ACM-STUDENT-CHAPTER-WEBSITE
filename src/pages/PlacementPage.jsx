@@ -6,6 +6,7 @@ import placementService from "../api/placementService";
 import { getOptimizedImageUrl } from "../utils/imageHelper";
 import SEO from "../components/SEO";
 import AnimatedTitle from "../components/AnimatedTitle";
+import { PlacementGuideSection } from "../components/placement-guide-section";
 
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
@@ -72,6 +73,12 @@ export default function PlacementPage() {
             </p>
           </div>
         </section>
+
+        {/* ADD PLACEMENT GUIDE SECTION HERE */}
+        <section className="mb-20 md:mb-32 pt-8 border-t border-white/10">
+          <PlacementGuideSection />
+        </section>
+
 
         {/* 100 DAYS OF CODE SECTION */}
         <section className="pt-12 md:pt-24 pb-12 md:pb-24 border-t border-white/10">
