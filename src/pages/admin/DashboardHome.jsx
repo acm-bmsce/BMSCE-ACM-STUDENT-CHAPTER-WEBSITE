@@ -26,10 +26,10 @@ const DashboardHome = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Total Events" value="42" icon={Calendar} color="bg-blue-500" />
-        <StatCard title="Projects" value="15" icon={FolderGit} color="bg-purple-500" />
-        <StatCard title="Members" value="128" icon={Users} color="bg-green-500" />
-        <StatCard title="Site Visits" value="2.4k" icon={Eye} color="bg-[#2FA6B8]" />
+        <StatCard title="Total Events" value="46+" icon={Calendar} color="bg-blue-500" />
+        <StatCard title="Projects" value="2" icon={FolderGit} color="bg-purple-500" />
+        <StatCard title="Members" value="315+" icon={Users} color="bg-green-500" />
+        <StatCard title="Site Visits" value="10k+" icon={Eye} color="bg-[#2FA6B8]" />
       </div>
 
       {/* Recent Activity Placeholder */}

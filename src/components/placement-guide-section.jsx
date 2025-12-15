@@ -342,7 +342,7 @@ export function PlacementGuideSection() {
                 <Icon className="w-6 h-6 text-cyan-400" />
                 <h3 className="text-2xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
               </div>
-              <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+              <p className="mt-2 mb-10 max-w-3xl mx-auto text-center bebas-neue text-lg text-blue-50/80">
                 {section.content.description}
               </p>
             </div>
@@ -369,7 +369,7 @@ export function PlacementGuideSection() {
             </div>
 
             <div className="text-center pt-8 border-t border-white/10">
-              <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">Select a section to begin exploring</p>
+              <p className="mt-2 mb-10 max-w-3xl mx-auto text-center bebas-neue text-lg text-blue-50/80">Select a section to begin exploring</p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {navigationItems.slice(1).map((item) => {
                   const NavIcon = item.icon;
@@ -396,7 +396,7 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {section.content.topics.map((topic, idx) => (
@@ -407,7 +407,7 @@ export function PlacementGuideSection() {
                   <h4 className="text-xl font-bold text-cyan-400 mb-4 bebas-neue tracking-wide">{topic.category}</h4>
                   <ul className="space-y-2">
                     {topic.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="flex items-start gap-2 text-white/80 font-general text-sm">
+                      <li key={itemIdx} className="flex items-start gap-2 text-white/80 bebas-neue text-sm">
                         <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                         {item}
                       </li>
@@ -423,7 +423,7 @@ export function PlacementGuideSection() {
                 {section.content.resources.map((resource, idx) => (
                   <div key={idx} className="p-4 bg-cyan-500/5 rounded-lg border border-cyan-500/20">
                     <h5 className="text-cyan-400 font-semibold mb-2">{resource.name}</h5>
-                    <p className="flex items-start gap-2 text-white/80 font-general text-sm">{resource.value}</p>
+                    <p className="flex items-start gap-2 text-white/80 bebas-neue text-sm">{resource.value}</p>
                   </div>
                 ))}
               </div>
@@ -438,7 +438,7 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-cyan-500/30 rounded-xl p-6">
               <h4 className="text-xl font-bold text-cyan-400 mb-4 bebas-neue tracking-wide">
@@ -450,7 +450,7 @@ export function PlacementGuideSection() {
                     <h5 className="text-white font-semibold mb-2">{layer.name}</h5>
                     <ul className="space-y-1">
                       {layer.points.map((point, pointIdx) => (
-                        <li key={pointIdx} className="flex items-start gap-2 text-white/80 font-general text-sm">
+                        <li key={pointIdx} className="flex items-start gap-2 text-white/80 bebas-neue text-sm">
                           <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                           {point}
                         </li>
@@ -473,7 +473,7 @@ export function PlacementGuideSection() {
                       <h5 className="text-white font-bold text-lg">{lang.name}</h5>
                       <span className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded">{lang.badge}</span>
                     </div>
-                    <p className="flex items-start gap-2 text-white/80 font-general text-sm">{lang.use}</p>
+                    <p className="flex items-start gap-2 text-white/80 bebas-neue text-sm">{lang.use}</p>
                   </div>
                 ))}
               </div>
@@ -518,7 +518,7 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {section.content.subjects.map((subject, idx) => (
@@ -529,7 +529,7 @@ export function PlacementGuideSection() {
                   <h4 className="text-xl font-bold text-cyan-400 mb-4 bebas-neue tracking-wide">{subject.name}</h4>
                   <ul className="space-y-2">
                     {subject.topics.map((topic, topicIdx) => (
-                      <li key={topicIdx} className="flex items-start gap-2 text-white/80 font-general text-sm">
+                      <li key={topicIdx} className="flex items-start gap-2 text-white/80 bebas-neue text-sm">
                         <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                         {topic}
                       </li>
@@ -565,13 +565,13 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/30 rounded-xl p-6">
               <h4 className="text-xl font-bold text-cyan-400 mb-4 bebas-neue tracking-wide">Key Principles</h4>
               <div className="space-y-2">
                 {section.content.principles.map((principle, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-white/80 font-general text-sm">
+                  <div key={idx} className="flex items-start gap-2 text-white/80 bebas-neue text-sm">
                     <ChevronRight className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                     <span>{principle}</span>
                   </div>
@@ -601,8 +601,8 @@ export function PlacementGuideSection() {
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Resume Tips</h4>
               <ul className="space-y-2">
                 {section.content.resume.map((tip, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-white/80 font-general text-sm">
-                    <ChevronRight className="flex items-start gap-2 text-white/80 font-general text-sm" />
+                  <li key={idx} className="flex items-start gap-2 text-white/80 bebas-neue text-sm">
+                    <ChevronRight className="flex items-start gap-2 text-white/80 bebas-neue text-sm" />
                     {tip}
                   </li>
                 ))}
@@ -618,7 +618,7 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {section.content.types.map((type, idx) => (
@@ -627,8 +627,8 @@ export function PlacementGuideSection() {
                   className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-cyan-500/30 rounded-xl p-5"
                 >
                   <h4 className="text-lg font-bold text-cyan-400 mb-2 bebas-neue tracking-wide">{type.name}</h4>
-                  <p className="flex items-start gap-2 text-white/80 font-general text-sm">{type.info}</p>
-                  <p className="flex items-start gap-2 text-white/80 font-general text-xs italic">{type.strategy}</p>
+                  <p className="flex items-start gap-2 text-white/80 bebas-neue text-sm">{type.info}</p>
+                  <p className="flex items-start gap-2 text-white/80 bebas-neue text-xs italic">{type.strategy}</p>
                 </div>
               ))}
             </div>
@@ -699,7 +699,7 @@ export function PlacementGuideSection() {
               <Icon className="w-8 h-8 text-cyan-400" />
               <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
             </div>
-            <p className="mt-2 mb-10 font-general text-lg text-blue-50/80">{section.content.description}</p>
+            <p className="mt-2 mb-10 bebas-neue text-lg text-blue-50/80">{section.content.description}</p>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {section.content.categories.map((category, idx) => (
@@ -830,10 +830,9 @@ export function PlacementGuideSection() {
                 Curated by Successfully Placed Seniors
               </h3>
               <p className="text-white/80 leading-relaxed">
-                This comprehensive guide is crafted by seniors who have secured positions at top MNCs like 
-                <span className="text-cyan-300 font-semibold"> Amazon, Microsoft, Google, Goldman Sachs</span>, and more. 
+                This comprehensive guide is crafted by seniors who have secured positions at top MNCs. 
                 Each individual's journey is unique, and preferences may vary. We've consolidated the most effective 
-                strategies, resources, and insights to create a single source of truth for your placement preparation.
+                strategies, resources, and insights to create a single source of truth for your placement preparation. Feel free to customize it according to your needs!
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full border border-cyan-500/30">
@@ -880,7 +879,7 @@ export function PlacementGuideSection() {
         </div>
 
         <div className="mt-12 text-center p-8 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/30 rounded-2xl">
-          <p className="flex items-start gap-2 text-white/80 font-general text-lg">
+          <p className="flex items-start gap-2 text-white/80 bebas-neue text-lg">
             This playbook transforms the bridge between academic knowledge and placement success into a highway. Master
             each pillar, stay consistent, and remember — your DSA language and development tech stack don't have to be
             the same. Stay flexible while keeping your preparation strong.

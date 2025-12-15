@@ -16,15 +16,15 @@ export default function PlacementPage() {
     const fetchInsights = async () => {
       try {
         const response = await placementService.getInsights();
-        const mappedData = response.data.map(item => ({
-            id: item.id || item._id,
-            image: getOptimizedImageUrl(item.image, 200),
-            name: item.personName,
-            job: item.description.split(',')[0],
-            company: item.description.split(',')[1] || "",
-            link: item.insta_link,
-            year: "Alumni",
-            description: "Check the Instagram Post For More Details",
+        const mappedData = response.data.map((item) => ({
+          id: item.id || item._id,
+          image: getOptimizedImageUrl(item.image, 200),
+          name: item.personName,
+          job: item.description.split(",")[0],
+          company: item.description.split(",")[1] || "",
+          link: item.insta_link,
+          year: "Alumni",
+          description: "Check the Instagram Post For More Details",
         }));
         setInsights(mappedData);
       } catch (error) {
@@ -55,37 +55,37 @@ export default function PlacementPage() {
         {/* INSIGHT SERIES SECTION - Moved down by 40px */}
         <section className="mb-20 md:mb-32 mt-10">
           <AnimatedTitle
-          title="Insight Series"
-          containerClass="text-center !text-white !mb-0 mt-20"
-        />
+            title="Insight Series"
+            containerClass="text-center !text-white !mb-0 mt-20"
+          />
+
+          {/* Moved Paragraph Here */}
+          <div className="mb-10 max-w-2xl mx-auto text-center px-4">
+            <p className="max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+              The series aims to provide actionable guidance and motivation to
+              current students pursuing higher studies or career goals by
+              offering direct takeaways from alumni journeys.
+            </p>
+          </div>
 
           {loading ? (
             <div className="text-center text-[#2FA6B8]">Loading Insights...</div>
           ) : (
             <InsightsGrid insights={insights} />
           )}
-
-          <div className="mt-8 md:mt-12 max-w-2xl mx-auto text-center px-4">
-            <p className="mt-2 mb-10 max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
-              The series aims to provide actionable guidance and motivation to
-              current students pursuing higher studies or career goals by
-              offering direct takeaways from alumni journeys.
-            </p>
-          </div>
         </section>
 
-        {/* ADD PLACEMENT GUIDE SECTION HERE */}
+        {/* PLACEMENT GUIDE SECTION */}
         <section className="mb-20 md:mb-32 pt-8 border-t border-white/10">
           <PlacementGuideSection />
         </section>
 
-
         {/* 100 DAYS OF CODE SECTION */}
         <section className="pt-12 md:pt-24 pb-12 md:pb-24 border-t border-white/10">
           <AnimatedTitle
-          title="100 Days Of Code"
-          containerClass="text-center !text-white !mb-0"
-        />
+            title="100 Days Of Code"
+            containerClass="text-center !text-white !mb-0"
+          />
 
           {/* MOBILE LAYOUT - Stacked 1 below the other (screens < 1024px) */}
           <div className="lg:hidden space-y-8 max-w-4xl mx-auto">
