@@ -159,7 +159,7 @@ const Glance = () => {
                         <div className='relative z-10 p-2'>
                             <h3 className="special-font text-2xl text-white font-bold">Inaugurated on</h3>
                             <h1 className='mt-6 plain-heading special-font text-blue-300 text-6xl md:text-6xl font-semibold leading-none'>
-                                22 Feb, <br /> 2022
+                                22 Feb <br /> 2022
                             </h1>
                         </div>
                     </div>
