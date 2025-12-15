@@ -202,24 +202,24 @@ export default function ImageCarousel({ events }) {
 
                             {/* BANNER IMAGE */}
                             <div className="w-full h-[180px] relative overflow-hidden">
-                            <img
-                                src={popup.image}
-                                alt={popup.title}
-                                className="w-full h-full object-cover"
-                            />
+                                <img
+                                    src={popup.image}
+                                    alt={popup.title}
+                                    className="w-full h-full object-cover"
+                                />
 
-                            {/* 🔥 BLACK GRADIENT OVERLAY */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                                {/* 🔥 BLACK GRADIENT OVERLAY */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                            {/* TEXT */}
-                            <div className="absolute bottom-4 left-4 z-10 text-white">
-                                <h2 className="text-2xl font-bold">
-                                {popup.title}
-                                </h2>
-                                <p className="text-sm opacity-90">
-                                {new Date(popup.date).toLocaleDateString()}
-                                </p>
-                            </div>
+                                {/* TEXT */}
+                                <div className="absolute bottom-4 left-4 z-10 text-white">
+                                    <h2 className="text-2xl font-bold">
+                                        {popup.title}
+                                    </h2>
+                                    <p className="text-sm opacity-90">
+                                        {new Date(popup.date).toLocaleDateString("en-GB")}
+                                    </p>
+                                </div>
                             </div>
 
                             {/* TABS */}

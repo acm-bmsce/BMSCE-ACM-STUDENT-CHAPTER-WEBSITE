@@ -431,9 +431,12 @@ export default function Spotlight({ setIsGridView, events }) {
             <img src={activeModal.image} alt="" />
             <div className="modal-title">
               <h2>{activeModal.title}</h2>
-              <p>{new Date(activeModal.date).toLocaleDateString()}</p>
+              <p>
+                {new Date(activeModal.date).toLocaleDateString("en-GB")}
+              </p>
             </div>
           </div>
+
           <div className="modal-navbar">
             {["Overview", "Gallery", "Highlights & Outcomes"].map((tab) => (
               <button

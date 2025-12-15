@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useMemo } from "react"; 
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useLocation } from "react-router-dom"; 
+import { useLocation } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 import HeroAndCarousel from "../components/HeroAndCarousel";
@@ -10,7 +10,7 @@ import eventService from "../api/eventService";
 
 // Helpers
 import SEO from "../components/SEO";
-import { getOptimizedImageUrl } from "../utils/imageHelper"; 
+import { getOptimizedImageUrl } from "../utils/imageHelper";
 
 export default function EventPage() {
     const [isGridView, setIsGridView] = useState(false);
@@ -19,7 +19,7 @@ export default function EventPage() {
     const location = useLocation();
 
     // Data States
-    const [rawFeatured, setRawFeatured] = useState([]); 
+    const [rawFeatured, setRawFeatured] = useState([]);
     const [allEvents, setAllEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -28,7 +28,7 @@ export default function EventPage() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                
+
                 // 1. Fetch Featured (Get all featured, regardless of date)
                 const featuredRes = await eventService.getEvents(20, 0, true);
                 setRawFeatured(featuredRes.data);
@@ -50,31 +50,49 @@ export default function EventPage() {
         fetchData();
     }, []);
 
+    const FEATURED_EVENT_ORDER = [
+        "ACM India Chapter Summit 2024",
+        "ACM ROCS 2025",
+        "Town Hall for ACM Students",
+        "AGM 2025",
+        "DSA Course",
+        "15 Days of Code",
+        "CS Pathshala",
+        "ESP: CryptoVerse"
+    ];
+
+
     // --- FILTERING LOGIC ---
     const { upcomingFeatured, featuredPastEvents, allPastEvents } = useMemo(() => {
         const now = new Date();
 
-        // 1. Upcoming Featured (For Hero Section)
+        // 1. Upcoming Featured → soonest first
         const upcoming = rawFeatured
             .filter(evt => new Date(evt.date) >= now)
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
             .map(evt => ({
                 ...evt,
                 image: getOptimizedImageUrl(evt.image, 1200)
             }));
 
-        // 2. All Past Events (For Grid View - Everything)
-        const allPast = allEvents.filter(evt => {
-            const eventDate = new Date(evt.date);
-            return eventDate < now;
-        });
+        // 2. All Past Events → newest first
+        const allPast = allEvents
+            .filter(evt => new Date(evt.date) < now)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        // 3. Featured Past Events (For Initial Carousel - Only Highlights)
-        const featuredPast = allPast.filter(evt => evt.is_featured === true);
+        // 3. Featured Past Events → newest first
+        const featuredPast = FEATURED_EVENT_ORDER
+            .map(title =>
+                allPast.find(
+                    evt => evt.is_featured === true && evt.title === title
+                )
+            )
+            .filter(Boolean);
 
-        return { 
-            upcomingFeatured: upcoming, 
+        return {
+            upcomingFeatured: upcoming,
             allPastEvents: allPast,
-            featuredPastEvents: featuredPast 
+            featuredPastEvents: featuredPast
         };
     }, [rawFeatured, allEvents]);
 
@@ -83,7 +101,7 @@ export default function EventPage() {
     useEffect(() => {
         setIsGridView(false);
         setIsReturning(false);
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, [location]);
 
     const handleOpenGrid = () => {
@@ -109,9 +127,9 @@ export default function EventPage() {
 
     return (
         <div className="min-h-screen bg-black text-gray-900 antialiased overflow-x-hidden">
-            <SEO 
-                title="Events" 
-                description="Explore upcoming workshops, hackathons, and seminars at ACM BMSCE." 
+            <SEO
+                title="Events"
+                description="Explore upcoming workshops, hackathons, and seminars at ACM BMSCE."
             />
 
             <main>
@@ -131,9 +149,9 @@ export default function EventPage() {
                         >
                             <HeroAndCarousel
                                 setIsGridView={handleOpenGrid}
-                                upcomingEvents={upcomingFeatured} 
+                                upcomingEvents={upcomingFeatured}
                                 // ✅ Only show Featured Past events in the initial list
-                                pastEvents={featuredPastEvents} 
+                                pastEvents={featuredPastEvents}
                             />
                         </motion.section>
                     ) : (
@@ -146,10 +164,10 @@ export default function EventPage() {
                             className="flex flex-col gap-20"
                         >
                             <div className="flex flex-col items-center">
-                                <Spotlight 
-                                    setIsGridView={handleCloseGrid} 
+                                <Spotlight
+                                    setIsGridView={handleCloseGrid}
                                     // ✅ Show ALL Past events when "View More" is clicked
-                                    events={allPastEvents} 
+                                    events={allPastEvents}
                                 />
                             </div>
                         </motion.section>
