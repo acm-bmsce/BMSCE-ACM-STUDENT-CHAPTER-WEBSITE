@@ -8,7 +8,7 @@ const TextPressure = ({
     width = true,
     weight = true,
     italic = false,
-    alpha = true,
+    alpha = false,
 
     flex = true,
     stroke = false,
@@ -19,7 +19,7 @@ const TextPressure = ({
     strokeWidth = 2,
     className = '',
 
-    minFontSize = 10,
+    minFontSize = 24,
 }) => {
     const containerRef = useRef(null);
     const titleRef = useRef(null);
@@ -74,7 +74,7 @@ const TextPressure = ({
 
         const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
 
-        let newFontSize = containerW / (chars.length / 1.5);
+        let newFontSize = containerW / (chars.length / 2);
         newFontSize = Math.max(newFontSize, minFontSize);
 
         setFontSize(newFontSize);
@@ -99,42 +99,60 @@ const TextPressure = ({
         return () => window.removeEventListener('resize', setSize);
     }, [scale, text]);
 
+    const hoverScaleRef = useRef(0);
+
     useEffect(() => {
         let rafId;
         const animate = () => {
-            if (!isHovering) return;
+            const targetScale = isHovering ? 1 : 0;
+            hoverScaleRef.current += (targetScale - hoverScaleRef.current) * 0.1;
 
-            mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-            mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
+            if (hoverScaleRef.current > 0.01 || isHovering) {
+                mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
+                mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
 
-            if (titleRef.current) {
-                const titleRect = titleRef.current.getBoundingClientRect();
-                const maxDist = titleRect.width / 2;
+                if (titleRef.current) {
+                    const titleRect = titleRef.current.getBoundingClientRect();
+                    const maxDist = titleRect.width / 2;
 
-                spansRef.current.forEach((span) => {
-                    if (!span) return;
+                    spansRef.current.forEach((span) => {
+                        if (!span) return;
 
-                    const rect = span.getBoundingClientRect();
-                    const charCenter = {
-                        x: rect.x + rect.width / 2,
-                        y: rect.y + rect.height / 2,
-                    };
+                        const rect = span.getBoundingClientRect();
+                        const charCenter = {
+                            x: rect.x + rect.width / 2,
+                            y: rect.y + rect.height / 2,
+                        };
 
-                    const d = dist(mouseRef.current, charCenter);
+                        const d = dist(mouseRef.current, charCenter);
 
-                    const getAttr = (distance, minVal, maxVal) => {
-                        const val = maxVal - Math.abs((maxVal * distance) / maxDist);
-                        return Math.max(minVal, val + minVal);
-                    };
+                        const getAttr = (distance, minVal, maxVal) => {
+                            const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+                            return Math.max(minVal, val + minVal);
+                        };
 
-                    const wdth = width ? Math.floor(getAttr(d, 5, 200)) : 100;
-                    const wght = weight ? Math.floor(getAttr(d, 500, 900)) : 400;
-                    const italVal = italic ? getAttr(d, 0, 1).toFixed(2) : 0;
-                    const alphaVal = alpha ? getAttr(d, 0, 1).toFixed(2) : 1;
+                        const proximity = Math.max(0, 1 - (d / maxDist));
 
-                    span.style.opacity = alphaVal;
-                    span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
-                });
+                        const targetWdth = width ? 50 + (proximity * 150) : 100;
+                        const targetWght = weight ? 100 + (proximity * 900) : 400;
+                        const targetItal = italic ? getAttr(d, 0, 1) : 0;
+
+                        // Alpha Logic Update:
+                        // Start at 0.5 (dimmed) and add up to 0.5 based on proximity.
+                        // Hovered = 1.0, Far away = 0.5
+                        const targetAlpha = alpha ? 0.3 + (proximity * 0.7) : 1;
+
+                        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+                        const finalWdth = lerp(70, targetWdth, hoverScaleRef.current);
+                        const finalWght = lerp(800, targetWght, hoverScaleRef.current);
+                        const finalItal = lerp(0, targetItal, hoverScaleRef.current);
+                        const finalAlpha = lerp(1, targetAlpha, hoverScaleRef.current);
+
+                        span.style.opacity = finalAlpha;
+                        span.style.fontVariationSettings = `'wght' ${finalWght}, 'wdth' ${finalWdth}, 'ital' ${finalItal}`;
+                    });
+                }
             }
 
             rafId = requestAnimationFrame(animate);
@@ -155,8 +173,7 @@ const TextPressure = ({
         @font-face {
           font-family: '${fontFamily}';
           src: url('${fontUrl}');
-          font-style: black;
-          
+          font-style: normal;
         }
         .stroke span {
           position: relative;
@@ -184,7 +201,6 @@ const TextPressure = ({
                     transform: `scale(1, ${scaleY})`,
                     transformOrigin: 'center top',
                     margin: 0,
-                    padding: 30,
                     fontWeight: 100,
                     color: stroke ? undefined : textColor,
                 }}
@@ -196,8 +212,8 @@ const TextPressure = ({
                         data-char={char}
                         className="inline-block"
                         style={{
-                            fontVariationSettings: `'wght' 800, 'wdth' 70, 'ital' 0`,
                             opacity: 1,
+                            fontVariationSettings: "'wght' 800, 'wdth' 70, 'ital' 0",
                         }}
                     >
                         {char}

@@ -169,17 +169,18 @@ const Glance = () => {
                     {/* Card 2 */}
                     <div
                         ref={addToRefs}
-                        className='flex border flex-col justify-between w-full h-[16rem] max-w-full lg:max-w-xl md:h-[30rem] lg:h-[26rem] border-neutral-700 p-2 bg-yellow-300 rounded-lg overflow-hidden card'
+                        className='flex border flex-col justify-between w-full h-[12rem] max-w-full lg:max-w-xl md:h-[30rem] lg:h-[26rem] border-neutral-700 p-2 bg-yellow-300 rounded-lg overflow-hidden card'
                         {...tiltHandlers}
                     >
-                        <div className='special-font text-black lg:text-[16rem] leading-none' style={{ position: 'relative', height: '390px' }}>
+                        {/* FIXED: Removed inline style for height. Added h-[60%] for mobile and md:h-[390px] for desktop */}
+                        <div className='special-font text-black lg:text-[16rem] leading-none relative h-[60%] md:h-[300px]'>
                             {isMobile ? (
-                                <span className="text-black font-semibold text-[12rem]">300+</span>
+                                <span className="text-black font-semibold text-[8rem]">300+</span>
                             ) : (
                                 <TextPressure
                                     text="300+"
                                     flex={true}
-                                    alpha={false}
+                                    alpha={true}
                                     stroke={false}
                                     width={true}
                                     weight={true}
@@ -194,6 +195,7 @@ const Glance = () => {
                             <h3 className='text-black text-3xl text-end font-bold opacity-100'>Active Members</h3>
                         </div>
                     </div>
+
 
                     {/* Card 3 */}
                     <div
