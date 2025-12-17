@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { DaysCard } from "../components/days-card_placements";
 import { ImageCarousel } from "../components/image-carousel_placements";
 import { InsightsGrid } from "../components/insights-grid_placements";
+import { PlacementGuideSection } from "../components/placement-guide-section";
 import placementService from "../api/placementService";
 import { getOptimizedImageUrl } from "../utils/imageHelper";
 import SEO from "../components/SEO";
 import AnimatedTitle from "../components/AnimatedTitle";
-import { PlacementGuideSection } from "../components/placement-guide-section";
 
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
@@ -16,15 +16,15 @@ export default function PlacementPage() {
     const fetchInsights = async () => {
       try {
         const response = await placementService.getInsights();
-        const mappedData = response.data.map((item) => ({
-          id: item.id || item._id,
-          image: getOptimizedImageUrl(item.image, 200),
-          name: item.personName,
-          job: item.description.split(",")[0],
-          company: item.description.split(",")[1] || "",
-          link: item.insta_link,
-          year: "Alumni",
-          description: "Check the Instagram Post For More Details",
+        const mappedData = response.data.map(item => ({
+            id: item.id || item._id,
+            image: getOptimizedImageUrl(item.image, 200),
+            name: item.personName,
+            job: item.description.split(',')[0],
+            company: item.description.split(',')[1] || "",
+            link: item.insta_link,
+            year: "Alumni",
+            description: "Check the Instagram Post For More Details",
         }));
         setInsights(mappedData);
       } catch (error) {
@@ -52,30 +52,29 @@ export default function PlacementPage() {
       />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-        {/* INSIGHT SERIES SECTION - Moved down by 40px */}
+        {/* INSIGHT SERIES SECTION */}
         <section className="mb-20 md:mb-32 mt-10">
           <AnimatedTitle
-            title="Insight Series"
-            containerClass="text-center !text-white !mb-0 mt-20"
-          />
-
-          {/* Moved Paragraph Here */}
-          <div className="mb-10 max-w-2xl mx-auto text-center px-4">
-            <p className="max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
-              The series aims to provide actionable guidance and motivation to
-              current students pursuing higher studies or career goals by
-              offering direct takeaways from alumni journeys.
-            </p>
-          </div>
+          title="Insight Series"
+          containerClass="text-center !text-white !mb-0"
+        />
 
           {loading ? (
             <div className="text-center text-[#2FA6B8]">Loading Insights...</div>
           ) : (
             <InsightsGrid insights={insights} />
           )}
+
+          <div className="mt-8 md:mt-12 max-w-2xl mx-auto text-center px-4">
+            <p className="mt-8 mb-12 md:mb-20 max-w-3xl mx-auto text-center font-general text-base md:text-lg text-blue-50/80">
+              The series aims to provide actionable guidance and motivation to
+              current students pursuing higher studies or career goals by
+              offering direct takeaways from alumni journeys.
+            </p>
+          </div>
         </section>
 
-        {/* PLACEMENT GUIDE SECTION */}
+        {/* ADD PLACEMENT GUIDE SECTION HERE */}
         <section className="mb-20 md:mb-32 pt-8 border-t border-white/10">
           <PlacementGuideSection />
         </section>
@@ -83,9 +82,9 @@ export default function PlacementPage() {
         {/* 100 DAYS OF CODE SECTION */}
         <section className="pt-12 md:pt-24 pb-12 md:pb-24 border-t border-white/10">
           <AnimatedTitle
-            title="100 Days Of Code"
-            containerClass="text-center !text-white !mb-0"
-          />
+          title="100 DAYS OF CODE"
+          containerClass="text-center !text-white !mb-0"
+        />
 
           {/* MOBILE LAYOUT - Stacked 1 below the other (screens < 1024px) */}
           <div className="lg:hidden space-y-8 max-w-4xl mx-auto">
@@ -122,18 +121,16 @@ export default function PlacementPage() {
             </div>
 
             {/* 4. Action Card */}
-            <div className="w-full">
-              <DaysCard
-                type="action"
-                title="Start Your Journey"
-                buttonText="LOG IN"
-                link="https://100daysofcode.pages.dev/"
-                description="*Available for registered users only"
-                bgColor="rgba(125, 212, 238, 0.12)"
-                borderColor="#7dd4ee"
-                size="wide"
-              />
-            </div>
+            <DaysCard
+              type="action"
+              title="Start Your Journey"
+              buttonText="LOG IN"
+              description="*Available for registered users only"
+              link="https://100daysofcode.pages.dev/"
+              bgColor="rgba(125, 212, 238, 0.12)"
+              borderColor="#7dd4ee"
+              size="wide"
+            />
           </div>
 
           {/* DESKTOP LAYOUT - EXACTLY YOUR ORIGINAL LAYOUT (screens ≥ 1024px) */}
@@ -154,7 +151,15 @@ export default function PlacementPage() {
                   <DaysCard
                     type="content"
                     title="About the Challenge"
-                    description="The BMSCE ACM Student Chapter is hosting a 100 Days of Code challenge dedicated to Mastering DSA. This intensive coding period runs from October 30th, 2025, to February 6th, 2026. The goal is consistent daily practice, symbolized by the motto: If you cheat, you are cheating yourself!! The challenge aims to help participants build strong coding habits and achieve Code Consistency."
+                    description={
+                      <>
+                        The BMSCE ACM Student Chapter is hosting a 100 Days of Code challenge dedicated to Mastering DSA. This intensive coding period runs from October 30th, 2025, to February 6th, 2026.
+                        <br /><br />
+                        The goal is consistent daily practice, symbolized by the motto: If you cheat, you are cheating yourself!!
+                        <br />
+                        The challenge aims to help participants build <br />strong coding habits and achieve Code Consistency.
+                      </>
+                    }
                     bgColor="rgba(125, 212, 238, 0.15)"
                     borderColor="#7dd4ee"
                     size="medium"
@@ -173,8 +178,8 @@ export default function PlacementPage() {
                     type="action"
                     title="Start Your Journey"
                     buttonText="LOG IN"
-                    link="https://100daysofcode.pages.dev/"
                     description="*Available for registered users only"
+                    link="https://100daysofcode.pages.dev/"
                     bgColor="rgba(125, 212, 238, 0.12)"
                     borderColor="#7dd4ee"
                     size="wide"
