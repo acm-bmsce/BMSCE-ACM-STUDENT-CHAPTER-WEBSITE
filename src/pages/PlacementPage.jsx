@@ -23,7 +23,7 @@ export default function PlacementPage() {
           job: item.description.split(",")[0],
           company: item.description.split(",")[1] || "",
           link: item.insta_link,
-          year: "Alumni",
+          year: item.year ? item.year : "Alumni",
           description: "Check the Instagram Post For More Details",
         }));
         setInsights(mappedData);
