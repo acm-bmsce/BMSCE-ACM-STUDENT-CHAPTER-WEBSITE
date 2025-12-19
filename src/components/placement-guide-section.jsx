@@ -28,17 +28,20 @@ export function PlacementGuideSection() {
 
   // Scroll handler for navigation buttons
   const handleNavClick = (sectionId) => {
-    setActiveSection(sectionId)
-    const container = scrollRef.current
-    const section = sectionRefs.current[sectionId]
-    
+    setActiveSection(sectionId);
+    const container = scrollRef.current;
+    const section = sectionRefs.current[sectionId];
+
     if (container && section) {
+      // ONLY Horizontal Scroll to section
       container.scrollTo({
         left: section.offsetLeft,
         behavior: 'smooth'
-      })
+      });
+      
+      // Vertical Reset logic has been removed from here
     }
-  }
+  };
 
   // Navigate to previous section
   const handlePrevClick = () => {
@@ -2114,7 +2117,7 @@ export function PlacementGuideSection() {
           </div>
           <p className="text-white/70 text-lg leading-relaxed max-w-3xl mx-auto">
             This playbook transforms the bridge between academic knowledge and placement success into a highway.
-            <span className="text-blue-300 font-semibold"> Remember — your DSA language and development tech stack don't have to be the same.</span>
+            <span className="text-blue-300 font-semibold"> Remember — your DSA language and development tech stack don't have to be the same . </span>
             Stay flexible while keeping your preparation strong. Choose the language you're most comfortable with for DSA,
             and later pick tech stacks based on what you want to build.
           </p>
@@ -2129,77 +2132,41 @@ export function PlacementGuideSection() {
           </div>
           
           {/* Keyboard Shortcut Hint */}
-          <div className="mt-6 pt-6 border-t border-white/10">
-            <p className="text-white/60 text-sm flex items-center justify-center gap-2">
-              <span>Tip: Use</span>
-              <kbd className="px-2 py-1 bg-white/10 text-white/80 text-xs rounded">←</kbd>
-              <span>and</span>
-              <kbd className="px-2 py-1 bg-white/10 text-white/80 text-xs rounded">→</kbd>
-              <span>keys to navigate between sections</span>
-            </p>
-          </div>
+          
         </div>
       </div>
 
       {/* Custom Scrollbar CSS */}
-      <style jsx>{`
-        .custom-scrollbar {
-          overflow-x: auto;
-          scrollbar-width: thin;
-          scrollbar-color: rgba(59,130,246,0.8) transparent;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar {
-          height: 8px;
-          background: transparent;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-          border-radius: 4px;
-          margin: 0 10px;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(
-            90deg,
-            rgba(59,130,246,0.8),
-            rgba(34,211,238,0.8)
-          );
-          border-radius: 4px;
-          border: 2px solid rgba(0,0,0,0.1);
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(
-            90deg,
-            rgba(96,165,250,0.9),
-            rgba(34,211,238,0.9)
-          );
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-thumb:active {
-          background: linear-gradient(
-            90deg,
-            rgba(147,197,253,1),
-            rgba(56,189,248,1)
-          );
-        }
-        
-        /* Animation for navigation buttons */
-        @keyframes pulse-glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
-          }
-        }
-        
-        .navigation-btn:hover {
-          animation: pulse-glow 2s infinite;
-        }
-      `}</style>
+    <style jsx>{`
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .placement-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .placement-scroll {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+      }
+
+      /* Ensure the content doesn't overflow vertically inside the horizontal container */
+      .min-w-full {
+        height: fit-content;
+        min-height: 600px;
+      }
+
+      .custom-scrollbar {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(59,130,246,0.8) transparent;
+      }
+      
+      /* Rest of your existing CSS... */
+    `}</style>
     </div>
   )
 }
