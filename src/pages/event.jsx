@@ -29,11 +29,11 @@ export default function EventPage() {
             try {
                 setLoading(true);
 
-                // 1. Fetch Featured (Get all featured, regardless of date)
+                // 1. Fetch Featured
                 const featuredRes = await eventService.getEvents(20, 0, true);
                 setRawFeatured(featuredRes.data);
 
-                // 2. Fetch All (For History/Past)
+                // 2. Fetch All
                 const allRes = await eventService.getEvents(100, 0, null);
                 const allOptimized = allRes.data.map(evt => ({
                     ...evt,
@@ -61,12 +61,11 @@ export default function EventPage() {
         "ESP: CryptoVerse"
     ];
 
-
     // --- FILTERING LOGIC ---
     const { upcomingFeatured, featuredPastEvents, allPastEvents } = useMemo(() => {
         const now = new Date();
 
-        // 1. Upcoming Featured → soonest first
+        // 1. Upcoming Featured
         const upcoming = rawFeatured
             .filter(evt => new Date(evt.date) >= now)
             .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -75,12 +74,12 @@ export default function EventPage() {
                 image: getOptimizedImageUrl(evt.image, 1200)
             }));
 
-        // 2. All Past Events → newest first
+        // 2. All Past Events
         const allPast = allEvents
             .filter(evt => new Date(evt.date) < now)
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        // 3. Featured Past Events → newest first
+        // 3. Featured Past Events
         const featuredPast = FEATURED_EVENT_ORDER
             .map(title =>
                 allPast.find(
@@ -96,7 +95,6 @@ export default function EventPage() {
         };
     }, [rawFeatured, allEvents]);
 
-
     // --- VIEW LOGIC ---
     useEffect(() => {
         setIsGridView(false);
@@ -104,9 +102,12 @@ export default function EventPage() {
         window.scrollTo(0, 0);
     }, [location]);
 
+    // ⚡ FIX 1: Scroll to top when opening Grid
     const handleOpenGrid = () => {
         scrollPositionRef.current = window.scrollY;
         setIsGridView(true);
+        // Instant scroll ensures we don't land in the middle of the grid
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     };
 
     const handleCloseGrid = () => {
@@ -126,13 +127,14 @@ export default function EventPage() {
     if (loading && !isGridView) return <Loader />;
 
     return (
-        <div className="min-h-screen bg-black text-gray-900 antialiased overflow-x-hidden">
+        // ⚡ FIX 2: Text color light (visible on black), full width constraints
+        <div className="min-h-screen w-full bg-black text-gray-100 antialiased overflow-x-hidden">
             <SEO
                 title="Events"
                 description="Explore upcoming workshops, hackathons, and seminars at ACM BMSCE."
             />
 
-            <main>
+            <main className="w-full relative">
                 <AnimatePresence mode="wait" initial={false}>
                     {!isGridView ? (
                         <motion.section
@@ -145,12 +147,12 @@ export default function EventPage() {
                                 ease: "easeInOut",
                                 delay: isReturning ? 0.6 : 0,
                             }}
-                            className="flex flex-col gap-20"
+                            // ⚡ FIX 3: Responsive gap (smaller on mobile) & bottom padding
+                            className="flex flex-col gap-10 md:gap-16 lg:gap-20 pb-12"
                         >
                             <HeroAndCarousel
                                 setIsGridView={handleOpenGrid}
                                 upcomingEvents={upcomingFeatured}
-                                // ✅ Only show Featured Past events in the initial list
                                 pastEvents={featuredPastEvents}
                             />
                         </motion.section>
@@ -161,12 +163,13 @@ export default function EventPage() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -50 }}
                             transition={{ duration: 0.8, ease: "easeInOut" }}
-                            className="flex flex-col gap-20"
+                            // ⚡ FIX 4: Responsive gap matching Hero section
+                            className="flex flex-col gap-10 md:gap-16 lg:gap-20 pb-12"
                         >
-                            <div className="flex flex-col items-center">
+                            {/* ⚡ FIX 5: Horizontal padding for mobile grid */}
+                            <div className="flex flex-col items-center w-full px-4 md:px-0">
                                 <Spotlight
                                     setIsGridView={handleCloseGrid}
-                                    // ✅ Show ALL Past events when "View More" is clicked
                                     events={allPastEvents}
                                 />
                             </div>
