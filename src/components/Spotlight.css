@@ -980,7 +980,7 @@ body {
         scroll-snap-align: center !important;
     }
 }
-/* --- MOBILE LAYOUT OVERRIDES (Positional Arch Curve) --- */
+/* --- MOBILE LAYOUT OVERRIDES (Fixed Cutoff & Spacers & Header Clearance) --- */
 
 @media screen and (max-width: 768px) {
     
@@ -993,7 +993,6 @@ body {
         background-color: black;
     }
 
-    /* 1. Background Image */
     .spotlight-wrapper .spotlight-bg-img {
         position: fixed; 
         top: 0;
@@ -1012,27 +1011,32 @@ body {
         object-fit: cover;
     }
 
-    /* 2. Hide Desktop Elements */
     .spotlight-wrapper .spotlight-titles-container,
     .spotlight-wrapper .spotlight-images {
         display: none !important;
     }
 
-    /* 3. Mobile Cards Container (Horizontal) */
+    /* 3. Mobile Cards Container */
     .mobile-cards-container {
         position: absolute;
-        top: 50%; /* Adjusted for better centering */
+        top: 0;
         left: 0;
-        transform: translateY(-40%);
         width: 100%;
-        height: auto;
+        height: 100%; /* Take full height */
         
         display: flex;
         flex-direction: row;
         gap: 20px;
-        padding: 0 10vw; 
         
-        align-items: center; /* Vertical Center */
+        align-items: center; 
+        
+        /* PADDING UPDATES:
+           Top: 120px -> Pushes the visual center down away from the header.
+           Bottom: 200px -> Prevents the "Arch" drop from clipping at bottom.
+        */
+        padding-top: 200px;
+        padding-bottom: 200px;
+        
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
@@ -1045,11 +1049,11 @@ body {
         display: none;
     }
     
-    /* Spacer for centering */
-    .mobile-scroll-spacer-h {
-        width: 50vw; 
-        height: 100%;
-        flex-shrink: 0;
+    /* Spacer logic: 50vw - (Half Card Width + Gap) */
+    /* 140px + 20px = 160px */
+    .carousel-spacer {
+        flex: 0 0 calc(50vw - 160px);
+        width: calc(50vw - 160px);
     }
 
     /* 4. Mobile Card Styling */
@@ -1063,7 +1067,7 @@ body {
         gap: 1rem;
         cursor: pointer;
         
-        /* Smooth transform handling */
+        scroll-snap-align: center;
         will-change: transform;
     }
 
@@ -1106,22 +1110,6 @@ body {
 }
 
 /* FIX FOR INVISIBLE MODAL TEXT */
-.event-modal {
-    color: #000000 !important;
-}
-
-.modal-content p,
-.modal-content h1,
-.modal-content h2,
-.modal-content h3,
-.modal-content h4,
-.modal-content span,
-.highlight-card p,
-.highlight-card h4 {
-    color: #1a1a1a !important; 
-}
-
-.modal-title h2, 
-.modal-title p {
-    color: #ffffff !important;
-}
+.event-modal { color: #000000 !important; }
+.modal-content p, .modal-content h1, .modal-content h2, .modal-content h3, .modal-content h4, .modal-content span, .highlight-card p, .highlight-card h4 { color: #1a1a1a !important; }
+.modal-title h2, .modal-title p { color: #ffffff !important; }
