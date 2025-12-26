@@ -1,51 +1,119 @@
 import { useState } from "react"
 import {
   FileText, ExternalLink, Globe, ChevronRight, Target, BookOpen, Sparkles,
-  Award, Zap, Brain,Book, Briefcase, TrendingUp, Code, Cpu, Database, Calendar,
+  Award, Zap, Brain, Book, Briefcase, TrendingUp, Code, Cpu, Database, Calendar,
   CheckCircle, AlertCircle, Users, BarChart, Cloud, Smartphone, Cog,
   Gamepad2, Network, GitBranch, Eye, MessageSquare, Filter, Clock, Star,
   Trophy, Search, Download, RefreshCw, Edit, Settings, FileCode, Layout,
-  Monitor, Server, Terminal, Type, Calculator, User
+  Monitor, Server, Terminal, Type, Calculator, User, ChevronLeft, ChevronRight as ChevronRightIcon
 } from 'lucide-react';
 import { useRef, useEffect } from "react";
 import AnimatedTitle from "./AnimatedTitle";
 
 export function PlacementGuideSection() {
   const [activeSection, setActiveSection] = useState("overview")
-  const [expandedProject, setExpandedProject] = useState(null)
+  const [expandedProjects, setExpandedProjects] = useState([]) // Changed to array for multiple expanded projects
   const scrollRef = useRef(null)
   const sectionRefs = useRef({})
-  useEffect(() => {
-  const container = scrollRef.current
-  if (!container) return
+  const navScrollRef = useRef(null)
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.dataset.section)
-        }
-      })
-    },
-    {
-      root: container,
-      threshold: 0.6,
-    }
-  )
-
-  Object.values(sectionRefs.current).forEach((el) => {
-    if (el) observer.observe(el)
-  })
-
-  return () => observer.disconnect()
-}, [])
-
-
-
-  // Function to handle project card click for popup
+  // Handle multiple project expansion
   const handleProjectClick = (projectId) => {
-    setExpandedProject(projectId === expandedProject ? null : projectId)
+    setExpandedProjects(prev => 
+      prev.includes(projectId) 
+        ? prev.filter(id => id !== projectId)
+        : [...prev, projectId]
+    )
   }
+
+  // Scroll handler for navigation buttons
+  const handleNavClick = (sectionId) => {
+    setActiveSection(sectionId);
+    const container = scrollRef.current;
+    const section = sectionRefs.current[sectionId];
+
+    if (container && section) {
+      // ONLY Horizontal Scroll to section
+      container.scrollTo({
+        left: section.offsetLeft,
+        behavior: 'smooth'
+      });
+      
+      // Vertical Reset logic has been removed from here
+    }
+  };
+
+  // Navigate to previous section
+  const handlePrevClick = () => {
+    const currentIndex = navigationItems.findIndex(item => item.id === activeSection)
+    if (currentIndex > 0) {
+      const prevSection = navigationItems[currentIndex - 1].id
+      handleNavClick(prevSection)
+    }
+  }
+
+  // Navigate to next section
+  const handleNextClick = () => {
+    const currentIndex = navigationItems.findIndex(item => item.id === activeSection)
+    if (currentIndex < navigationItems.length - 1) {
+      const nextSection = navigationItems[currentIndex + 1].id
+      handleNavClick(nextSection)
+    }
+  }
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        handlePrevClick()
+      } else if (e.key === 'ArrowRight') {
+        handleNextClick()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeSection])
+
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.dataset.section
+            setActiveSection(sectionId)
+            
+            // Update navigation scroll position
+            const navButton = document.querySelector(`[data-nav="${sectionId}"]`)
+            if (navButton && navScrollRef.current) {
+              const navContainer = navScrollRef.current
+              const buttonLeft = navButton.offsetLeft
+              const buttonWidth = navButton.offsetWidth
+              const containerWidth = navContainer.offsetWidth
+              
+              navContainer.scrollTo({
+                left: buttonLeft - (containerWidth / 2) + (buttonWidth / 2),
+                behavior: 'smooth'
+              })
+            }
+          }
+        })
+      },
+      {
+        root: container,
+        threshold: 0.6,
+      }
+    )
+
+    Object.values(sectionRefs.current).forEach((el) => {
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
 
   const sections = {
     overview: {
@@ -53,7 +121,7 @@ export function PlacementGuideSection() {
       icon: BookOpen,
       content: {
         subtitle: "Placement Playbook — CSE Edition",
-        description: "This guide is written for Computer Science & allied branches (CSE, IT, CS-AI, CS-DS, SE). If you're from the CSE cluster, this is your playbook — not a checklist, but a mentor standing beside you, showing exactly what to practise, when, and why.",
+        description: "",
         highlights: [
           {
             title: "On-Campus Placements",
@@ -390,22 +458,23 @@ export function PlacementGuideSection() {
           }
         ],
         interviewPractice: [
-          {
-            platform: "InterviewBit",
-            description: "Excellent subject-wise questions, from easy to hard. Includes useful cheatsheets.",
-            url: "https://www.interviewbit.com/technical-interview-questions/#mcqs"
-          },
-          {
-            platform: "PrepInsta",
-            description: "Technical interview questions preparation",
-            url: "https://prepinsta.com/interview-preparation/technical-interview-questions"
-          },
-          {
-            platform: "GeeksforGeeks",
-            description: "Comprehensive tutorials and practice problems",
-            url: "https://www.geeksforgeeks.org"
-          }
-        ]
+  {
+    platform: "InterviewBit",
+    description: "Excellent subject-wise questions, from easy to hard. Includes useful cheatsheets.",
+    url: "https://www.interviewbit.com/technical-interview-questions/#mcqs"
+  },
+  {
+    platform: "PrepInsta",
+    description: "Technical interview questions preparation",
+    url: "https://prepinsta.com/interview-preparation/technical-interview-questions"
+  },
+  {
+    platform: "GeeksforGeeks",
+    description: "Comprehensive tutorials and practice problems",
+    url: "https://www.geeksforgeeks.org"
+  }
+]
+        
       },
     },
     projects: {
@@ -700,7 +769,7 @@ export function PlacementGuideSection() {
           ],
           checkWebsites: ["jobscan.co", "enhancv.com", "novoresume.com"]
         },
-        templatePlatforms: 
+        templatePlatforms:
         [
           { name: "Canva", description: "Modern, clean templates", icon: Layout },
           { name: "FlowCV", description: "Professional, recruiter-friendly", icon: FileText },
@@ -1100,46 +1169,49 @@ export function PlacementGuideSection() {
               </p>
             </div>
 
-            {/* Highlights Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {section.content.highlights.map((highlight, idx) => (
-                <div
-                  key={idx}
-                  className="relative p-5 bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-white/10 rounded-xl hover:border-blue-400/30 transition-all text-center"
-                >
-                  <div className="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">{idx + 1}</span>
-                  </div>
-                 
-                  <div className="mt-3 mb-4">
-                    <h4 className="text-blue-400 font-bold text-lg mb-2">{highlight.title}</h4>
-                    <span className="text-white/70 text-sm">{highlight.description}</span>
-                  </div>
-                 
-                  <div className="h-0.5 w-12 mx-auto bg-gradient-to-r from-blue-500/50 to-cyan-500/50"></div>
-                </div>
-              ))}
-            </div>
+            
 
-            {/* Pillars Section */}
-            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
-                7 Pillars of Placement Success
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.content.pillars.map((pillar, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/10"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                      <span className="text-white font-bold text-xs">{idx + 1}</span>
-                    </div>
-                    <span className="text-white/80">{pillar}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Pillars Section - FIXED LAYOUT */}
+<div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
+  <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
+    7 Pillars of Placement Success
+  </h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {/* Left Column: Items 1-4 */}
+    <div className="space-y-4">
+      {section.content.pillars.slice(0, 4).map((pillar, idx) => (
+        <div
+          key={idx}
+          className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+        >
+          <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+            <span className="text-white font-bold text-xs">{idx + 1}</span>
+          </div>
+          <div className="ml-6 w-full">
+            <span className="text-white/80">{pillar}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    {/* Right Column: Items 5-7 */}
+    <div className="space-y-4">
+      {section.content.pillars.slice(4, 7).map((pillar, idx) => (
+        <div
+          key={idx + 4}
+          className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+        >
+          <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+            <span className="text-white font-bold text-xs">{idx + 5}</span>
+          </div>
+          <div className="ml-6 w-full">
+            <span className="text-white/80">{pillar}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
 
             <div className="text-center pt-8 border-t border-white/10">
               <p className="text-white/60 mb-4">Select a section to begin exploring</p>
@@ -1149,7 +1221,7 @@ export function PlacementGuideSection() {
                   return (
                     <button
                       key={item.id}
-                      onClick={() => setActiveSection(item.id)}
+                      onClick={() => handleNavClick(item.id)}
                       className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white/80 hover:text-white transition-all"
                     >
                       <NavIcon className="w-4 h-4" />
@@ -1301,26 +1373,22 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            {/* DSA Roadmap */}
+            {/* DSA Roadmap - FIXED */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
               <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">DSA Roadmap (A-Z)</h4>
              
-              <div className="relative pl-8 border-l border-blue-500/30">
+              <div className="relative pl-8 border-l-2 border-blue-500/30">
                 {section.content.roadmap.map((topic, idx) => (
                   <div key={idx} className="relative mb-6 last:mb-0">
-                    <div className="absolute -left-[33px] top-7 w-4 h-4 rounded-full bg-blue-500 border-4 border-blue-900"></div>
+                    {/* Circle positioned exactly on the line */}
+                    <div className="absolute -left-[43px] top-1/2 transform -translate-y-1/2 w-5 h-5 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-blue-900 z-10"></div>
                    
-                    <div className="p-3 bg-white/5 rounded-lg border border-blue-500/20">
+                    <div className="p-3 bg-white/5 rounded-lg border border-blue-500/20 ml-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-blue-400 font-mono text-lg font-bold">
-                          {(idx + 1).toString().padStart(2, "0")}
-                        </span>
                         <div>
                           <h5 className="text-white font-medium">{topic}</h5>
                           <div className="flex items-center gap-3 mt-1">
-                            <span className="text-blue-400/80 text-xs font-mono">Week {Math.floor(idx/3) + 1}</span>
-                            <span className="text-white/50 text-xs">•</span>
-                            <span className="text-white/50 text-xs">Practice: 5-10 problems</span>
+                            <span className="text-white/50 text-xs"></span>
                           </div>
                         </div>
                       </div>
@@ -1399,76 +1467,55 @@ export function PlacementGuideSection() {
                 </div>
               ))}
             </div>
-
-         
           </div>
         )
 
       case "fundamentals":
-        return (
-          <div className="space-y-8">
+  return (
+    <div className="space-y-8">
+      <div className="flex items-center gap-3 mb-4">
+        <Icon className="w-8 h-8 text-blue-400" />
+        <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+      </div>
+      <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+
+      {/* Subjects Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {section.content.subjects.map((subject, idx) => (
+          <div
+            key={idx}
+            className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
+          >
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              <subject.icon className="w-6 h-6 text-blue-400" />
+              <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">{subject.name}</h4>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
-
-            {/* Subjects Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {section.content.subjects.map((subject, idx) => (
-                <div
-                  key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <subject.icon className="w-6 h-6 text-blue-400" />
-                    <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">{subject.name}</h4>
-                  </div>
-                  <ul className="space-y-2 mb-4">
-                    {subject.topics.map((topic, topicIdx) => (
-                      <li key={topicIdx} className="flex items-start gap-2 text-white/70 text-sm">
-                        <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                        {topic}
-                      </li>
-                    ))}
-                  </ul>
-                  {subject.resource && (
-                    <a
-                      href={subject.resource}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      Resource Link
-                    </a>
-                  )}
-                </div>
+            <ul className="space-y-2 mb-4">
+              {subject.topics.map((topic, topicIdx) => (
+                <li key={topicIdx} className="flex items-start gap-2 text-white/70 text-sm">
+                  <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                  {topic}
+                </li>
               ))}
-            </div>
-
-            {/* Interview Practice */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Interview Practice Resources</h4>
-              <div className="space-y-3">
-                {section.content.interviewPractice.map((resource, idx) => (
-                  <a
-                    key={idx}
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block p-4 bg-blue-900/20 rounded-lg hover:bg-blue-900/30 transition-all group cursor-pointer border border-blue-500/70 hover:border-blue-500/80">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-white font-semibold group-hover:text-blue-400">{resource.platform}</span>
-                      <ExternalLink className="w-4 h-4 text-blue-400/50 group-hover:text-blue-400" />
-                    </div>
-                    <p className="text-white/70 text-sm">{resource.description}</p>
-                  </a>
-                ))}
-              </div>
-            </div>
+            </ul>
+            {subject.resource && (
+              <a
+                href={subject.resource}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
+              >
+                <ExternalLink className="w-3 h-3" />
+                Resource Link
+              </a>
+            )}
           </div>
-        )
+        ))}
+      </div>
+
+      
+    </div>
+  )
 
       case "projects":
         return (
@@ -1493,14 +1540,16 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            {/* All Projects Grid */}
+            {/* All Projects Grid - MULTIPLE EXPANSION ENABLED */}
             <div>
               <h4 className="text-2xl font-bold text-white mb-6 bebas-neue tracking-wide">Project Recommendations</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {section.content.allProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer"
+                    className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer ${
+                      expandedProjects.includes(project.id) ? 'border-blue-400/50' : ''
+                    }`}
                     onClick={() => handleProjectClick(project.id)}
                   >
                     {/* Project Header */}
@@ -1543,9 +1592,9 @@ export function PlacementGuideSection() {
                       </div>
                     </div>
 
-                    {/* Expanded View Popup */}
-                    {expandedProject === project.id && (
-                      <div className="p-5 border-t border-white/10 bg-black/50">
+                    {/* Expanded View Popup - Now shows for multiple projects */}
+                    {expandedProjects.includes(project.id) && (
+                      <div className="p-5 border-t border-white/10 bg-black/50 animate-fadeIn">
                         <div className="space-y-4">
                           {/* Tech Stack Details */}
                           <div>
@@ -1598,8 +1647,8 @@ export function PlacementGuideSection() {
                     {/* Expand/Collapse Button */}
                     <div className="p-3 border-t border-white/10 text-center">
                       <button className="text-blue-400 text-sm hover:text-blue-300 flex items-center justify-center gap-1 w-full">
-                        {expandedProject === project.id ? "Show Less" : "Click for Details"}
-                        <ChevronRight className={`w-4 h-4 transition-transform ${expandedProject === project.id ? "rotate-90" : ""}`} />
+                        {expandedProjects.includes(project.id) ? "Show Less" : "Click for Details"}
+                        <ChevronRight className={`w-4 h-4 transition-transform ${expandedProjects.includes(project.id) ? "rotate-90" : ""}`} />
                       </button>
                     </div>
                   </div>
@@ -1682,30 +1731,30 @@ export function PlacementGuideSection() {
 
             {/* Template Platforms */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-  <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
-    Resume Templates
-  </h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                Resume Templates
+              </h4>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {section.content.templatePlatforms.map((platform, idx) => (
-      <div
-        key={idx}
-        className="p-4 bg-white/5 rounded-lg"
-      >
-        <div className="flex items-center gap-2 mb-2">
-          <platform.icon className="w-4 h-4 text-blue-400" />
-          <h5 className="text-white font-semibold">
-            {platform.name}
-          </h5>
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {section.content.templatePlatforms.map((platform, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 bg-white/5 rounded-lg"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <platform.icon className="w-4 h-4 text-blue-400" />
+                      <h5 className="text-white font-semibold">
+                        {platform.name}
+                      </h5>
+                    </div>
 
-        <p className="text-white/70 text-sm">
-          {platform.description}
-        </p>
-      </div>
-    ))}
-  </div>
-</div>
+                    <p className="text-white/70 text-sm">
+                      {platform.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Resume Sections */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
@@ -1807,6 +1856,21 @@ export function PlacementGuideSection() {
           </div>
         )
 
+      case "strategy":
+        return (
+          <div className="space-y-8">
+            <div className="flex items-center gap-3 mb-4">
+              <Icon className="w-8 h-8 text-blue-400" />
+              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+            </div>
+            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+
+            {/* Strategy content would go here */}
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+              <p className="text-white/70">Strategy content goes here...</p>
+            </div>
+          </div>
+        )
 
       case "mindset":
         return (
@@ -1922,27 +1986,7 @@ export function PlacementGuideSection() {
               ))}
             </div>
 
-            {/* Download Resources */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Download Resources</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {section.content.downloadResources.map((resource, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/50 transition-all cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <resource.icon className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
-                      <h5 className="text-white font-semibold group-hover:text-blue-400">{resource.name}</h5>
-                    </div>
-                    <p className="text-white/70 text-sm">{resource.description}</p>
-                    <div className="mt-2 flex justify-end">
-                      <Download className="w-4 h-4 text-blue-400/50 group-hover:text-blue-400" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            
 
             {/* Mentor Tip */}
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
@@ -1960,13 +2004,17 @@ export function PlacementGuideSection() {
     }
   }
 
+  // Get current section index for navigation buttons
+  const currentSectionIndex = navigationItems.findIndex(item => item.id === activeSection)
+  const isFirstSection = currentSectionIndex === 0
+  const isLastSection = currentSectionIndex === navigationItems.length - 1
 
-    return (
-      <div className="w-full">
-        <AnimatedTitle
-          title="Placement Playbook"
-          containerClass="text-center !text-white !mb-0"
-        />
+  return (
+    <div className="w-full">
+      <AnimatedTitle
+        title="Placement Playbook"
+        containerClass="text-center !text-white !mb-0"
+      />
 
       {/* Disclaimer Banner */}
       <div className="max-w-4xl mx-auto mb-16">
@@ -1980,47 +2028,27 @@ export function PlacementGuideSection() {
                 Comprehensive CSE Placement Guide
               </h3>
               <p className="text-white/80 leading-relaxed mb-3">
-                This guide is written specifically for <span className="text-blue-300 font-semibold">Computer Science & allied branches (CSE, IT, CS-AI, CS-DS, SE)</span>.
-                It's not AI-generated but curated from real placement experiences. We cover everything from aptitude to projects,
-                with detailed tech stacks and practical strategies that actually work.
+                This guide is written for <span className="text-blue-300 font-semibold">Computer Science & allied branches (CSE, IT, CS-AI, CS-DS, SE)</span>. If you're from the CSE cluster, this is your playbook — not a checklist, but a mentor standing beside you, showing exactly what to practise, when, and why.
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full border border-blue-500/30">
-                  Complete Tech Stacks
-                </span>
-                <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full border border-cyan-500/30">
-                  8+ Project Types
-                </span>
-                <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full border border-green-500/30">
-                  HTML/CSS Included
-                </span>
-                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded-full border border-yellow-500/30">
-                  Detailed Roadmaps
-                </span>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto">
-        {/* Scrollable Navigation */}
+        {/* Scrollable Navigation - WITH VISIBLE CUSTOM SCROLLBAR */}
         <div className="mb-12">
-          <div className="flex overflow-x-auto pb-4 gap-2 px-2 placement-scroll"
->
+          <div 
+            ref={navScrollRef}
+            className="flex overflow-x-auto pb-6 gap-2 px-2 custom-scrollbar"
+          >
             {navigationItems.map((item) => {
               const NavIcon = item.icon
               return (
                 <button
                   key={item.id}
-                  onClick={() => {
-                  setActiveSection(item.id)
-                  sectionRefs.current[item.id]?.scrollIntoView({
-                  behavior: "smooth",
-                  inline: "start",
-                  })
-}}
-
+                  data-nav={item.id}
+                  onClick={() => handleNavClick(item.id)}
                   className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition-all duration-300 bebas-neue tracking-wider whitespace-nowrap ${
                     activeSection === item.id
                       ? "bg-blue-500/20 text-blue-400 border-2 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
@@ -2035,31 +2063,51 @@ export function PlacementGuideSection() {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Main Content Container */}
         <div className="relative">
+          {/* Horizontal Scroll Container - NO VERTICAL SCROLLBAR */}
+          <div
+            ref={scrollRef}
+            className="flex snap-x snap-mandatory overflow-x-auto placement-scroll"
+            style={{ 
+              scrollBehavior: 'smooth',
+              scrollSnapType: 'x mandatory'
+            }}
+          >
+            {navigationItems.map((item) => (
+              <div
+                key={item.id}
+                ref={(el) => (sectionRefs.current[item.id] = el)}
+                data-section={item.id}
+                className="min-w-full snap-start bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-white/10 rounded-2xl p-6 md:p-8 min-h-[600px] scroll-mt-4"
+              >
+                {activeSection === item.id && renderContent()}
+              </div>
+            ))}
+          </div>
 
-  {/* THIS is the new content container */}
-<div
-  ref={scrollRef}
-  className="flex snap-x snap-mandatory placement-scroll"
->
-    {navigationItems.map((item) => (
-      <div
-        key={item.id}
-        ref={(el) => (sectionRefs.current[item.id] = el)}
-        data-section={item.id}
-        className="min-w-full snap-start
-                   bg-gradient-to-br from-blue-900/10 to-cyan-900/10
-                   border border-white/10 rounded-2xl
-                   p-6 md:p-8 min-h-[600px]"
-      >
-        {activeSection === item.id && renderContent()}
-      </div>
-    ))}
 
-  </div>
-</div>
-
+          {/* Section Indicator */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <span className="text-white/60 text-sm">
+              Section {currentSectionIndex + 1} of {navigationItems.length}
+            </span>
+            <div className="flex gap-1">
+              {navigationItems.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleNavClick(navigationItems[idx].id)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    idx === currentSectionIndex
+                      ? 'w-6 bg-gradient-to-r from-blue-500 to-cyan-500'
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                  aria-label={`Go to section ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Footer Note */}
         <div className="mt-12 text-center p-8 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-2xl">
@@ -2069,7 +2117,7 @@ export function PlacementGuideSection() {
           </div>
           <p className="text-white/70 text-lg leading-relaxed max-w-3xl mx-auto">
             This playbook transforms the bridge between academic knowledge and placement success into a highway.
-            <span className="text-blue-300 font-semibold"> Remember — your DSA language and development tech stack don't have to be the same.</span>
+            <span className="text-blue-300 font-semibold"> Remember — your DSA language and development tech stack don't have to be the same . </span>
             Stay flexible while keeping your preparation strong. Choose the language you're most comfortable with for DSA,
             and later pick tech stacks based on what you want to build.
           </p>
@@ -2082,11 +2130,43 @@ export function PlacementGuideSection() {
             </span>
            
           </div>
+          
+          {/* Keyboard Shortcut Hint */}
+          
         </div>
       </div>
 
+      {/* Custom Scrollbar CSS */}
+    <style jsx>{`
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .placement-scroll::-webkit-scrollbar {
+        display: none;
+      }
 
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .placement-scroll {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+      }
 
+      /* Ensure the content doesn't overflow vertically inside the horizontal container */
+      .min-w-full {
+        height: fit-content;
+        min-height: 600px;
+      }
+
+      .custom-scrollbar {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(59,130,246,0.8) transparent;
+      }
+      
+      /* Rest of your existing CSS... */
+    `}</style>
     </div>
   )
-  }
+}
