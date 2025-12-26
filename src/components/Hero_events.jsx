@@ -15,9 +15,9 @@ const Hero_events = () => {
                 }}
             >
                 <AnimatedTitle
-                    title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
-                    containerClass="animated-title_joinus !text-white text-center mb-2"
-                />
+    title="A CURATED SERIES<br />OF TRANSFORMATIVE DAYS"
+    containerClass="animated-title_joinus !text-white text-center mb-2 !text-6xl md:!text-[6rem] leading-tight"
+/>
                 <p className="text-lg font-medium">
                     Learn, Connect, and Create — one event at a time.
                 </p>
