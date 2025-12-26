@@ -1,6 +1,7 @@
 html,
 body {
     overflow-x: hidden;
+    background-color: #000000; /* Added to ensure footer/bottom is black */
 }
 
 
@@ -23,6 +24,7 @@ body {
     overflow-x: hidden;
     background-color: #000000;
     /* 👈 ADD THIS LINE */
+    
 }
 
 
@@ -980,10 +982,15 @@ body {
         scroll-snap-align: center !important;
     }
 }
-/* --- MOBILE LAYOUT OVERRIDES (Fixed Cutoff & Spacers & Header Clearance) --- */
+/* --- MOBILE LAYOUT OVERRIDES --- */
 
 @media screen and (max-width: 768px) {
     
+    /* Ensure solid background so footer doesn't bleed through */
+    .spotlight-wrapper {
+        background-color: black;
+    }
+
     .spotlight-wrapper .spotlight {
         height: 100svh;
         overflow: hidden;
@@ -994,7 +1001,7 @@ body {
     }
 
     .spotlight-wrapper .spotlight-bg-img {
-        position: fixed; 
+        position: absolute !important; 
         top: 0;
         left: 0;
         width: 100%;
@@ -1017,7 +1024,7 @@ body {
     }
 
     /* 3. Mobile Cards Container */
-    .mobile-cards-container {
+     .mobile-cards-container {
         position: absolute;
         top: 0;
         left: 0;
@@ -1095,7 +1102,7 @@ body {
     }
 
     /* 5. Header */
-    .spotlight-wrapper .spotlight-header {
+   .spotlight-wrapper .spotlight-header {
         top: 15% !important;
         left: 5% !important;
         transform: none !important;
@@ -1106,6 +1113,47 @@ body {
         width: 90% !important;
         opacity: 1 !important;
         z-index: 50;
+    }
+    .highlight-cards {
+        display: flex !important;
+        flex-wrap: wrap !important;      /* Allow items to sit on the same row */
+        overflow-x: visible !important;  /* Disable horizontal scrolling */
+        gap: 10px !important;            /* Smaller gap */
+        padding-bottom: 0 !important;
+    }
+
+    /* 2. Cards: Force 50% width (minus half the gap) */
+    .highlight-card {
+        flex: 0 0 calc(50% - 5px) !important; /* 50% width minus half the 10px gap */
+        max-width: calc(50% - 5px) !important;
+        
+        /* Layout inside the card */
+        flex-direction: column !important;    /* Stack Icon above Text to save width */
+        align-items: flex-start !important;
+        text-align: left !important;
+        padding: 0.75rem !important;
+    }
+
+    /* 3. Text & Icon Sizing (Micro adjustments) */
+    .highlight-card h4 {
+        padding-left: 0 !important;      /* Remove padding since icon is now above */
+        margin-top: 0.5rem !important;
+        font-size: 0.9rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .highlight-card p {
+        font-size: 0.8rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .highlight-icon {
+        font-size: 1.5rem !important;
+    }
+    .modal-content p {
+        font-size: 1rem !important;      /* Reduced from 1.3rem */
+        line-height: 1.5 !important;     /* Tighter line height for mobile */
+        padding: 10px !important;        /* Reduce padding to save space */
     }
 }
 
