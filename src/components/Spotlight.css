@@ -1155,6 +1155,17 @@ body {
         line-height: 1.5 !important;     /* Tighter line height for mobile */
         padding: 10px !important;        /* Reduce padding to save space */
     }
+    .modal-title h2 {
+        font-size: 2rem !important;  /* Reduced from 3rem */
+        line-height: 1.1 !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* Decrease the Date/Subtitle size too for balance */
+    .modal-title p {
+        font-size: 1rem !important;
+        opacity: 0.9 !important;
+    }
 }
 
 /* FIX FOR INVISIBLE MODAL TEXT */
