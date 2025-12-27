@@ -429,4 +429,4 @@ export default function Spotlight({ setIsGridView, events }) {
       {fullScreenImage && ( <><div className="fullscreen-overlay" onClick={closeFullScreenImage}></div><div className="fullscreen-image-container" onClick={closeFullScreenImage}><img className="fullscreen-image" src={fullScreenImage} alt="Full Screen" /><button className="fullscreen-close-btn" onClick={closeFullScreenImage}>×</button></div></> )}
     </div>
   );
-} 
+}
