@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, AlertCircle, Loader2, Mail, ArrowLeft } from 'lucide-react';
 import authService from '../../api/authService';
+import NavBar from '../../components/Navbar';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-[#0E181C] border border-[#1F3037] p-8 rounded-xl shadow-2xl relative overflow-hidden">
-        
+        <NavBar/>
         {/* Top Glow Line */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#2FA6B8] to-transparent"></div>
 
