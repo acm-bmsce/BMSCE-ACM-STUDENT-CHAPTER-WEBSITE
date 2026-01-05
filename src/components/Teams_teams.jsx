@@ -87,7 +87,7 @@ const teamData = {
     name: "Dhruva G S",
     role1: "Treasurer",
     role2: "Treasurer",
-    image: "/img/Unknown_person.webp",
+    image: "/img/dhruva.webp",
     socials: {
       linkedin: "https://www.linkedin.com/in/dhruva-g-shankar-85a7911a5/",
       email: "dhruvagshankar.ai23@bmsce.ac.in"
