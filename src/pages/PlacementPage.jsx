@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DaysCard } from "../components/days-card_placements";
 import { ImageCarousel } from "../components/image-carousel_placements";
-import { InsightsGrid } from "../components/insights-grid_placements";
+import { InsightsGrid } from "../components/insights-grid_placements"; // Desktop Grid
+import InsightsCarousel from "../components/InsightsCarousel"; // Mobile Carousel
 import placementService from "../api/placementService";
 import { getOptimizedImageUrl } from "../utils/imageHelper";
 import SEO from "../components/SEO";
@@ -18,7 +19,8 @@ export default function PlacementPage() {
         const response = await placementService.getInsights();
         const mappedData = response.data.map((item) => ({
           id: item.id || item._id,
-          image: getOptimizedImageUrl(item.image, 200),
+          // Higher quality for mobile carousel (400) vs grid (200)
+          image: getOptimizedImageUrl(item.image, 400),
           name: item.personName,
           job: item.description.split(",")[0],
           company: item.description.split(",")[1] || "",
@@ -51,17 +53,18 @@ export default function PlacementPage() {
         description="Read success stories and placement insights from ACM BMSCE Alumni."
       />
 
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-        {/* INSIGHT SERIES SECTION - Moved down by 40px */}
-        <section className="mb-20 md:mb-32 mt-10">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-20">
+        
+        {/* INSIGHT SERIES SECTION */}
+        {/* Mobile: reduced margins | Desktop: Original large margins */}
+        <section className="mb-16 md:mb-32 mt-4 md:mt-10">
           <AnimatedTitle
             title="Insight Series"
-            containerClass="text-center !text-white !mb-0 mt-20"
+            containerClass="text-center !text-white !mb-0 mt-8 md:mt-20"
           />
 
-          {/* Moved Paragraph Here */}
-          <div className="mb-10 max-w-2xl mx-auto text-center px-4">
-            <p className="max-w-3xl mx-auto text-center font-general text-lg text-blue-50/80">
+          <div className="mb-8 md:mb-10 max-w-2xl mx-auto text-center px-4">
+            <p className="max-w-3xl mx-auto text-center font-general text-base md:text-lg text-blue-50/80">
               The series aims to provide actionable guidance and motivation to
               current students pursuing higher studies or career goals by
               offering direct takeaways from alumni journeys.
@@ -69,27 +72,36 @@ export default function PlacementPage() {
           </div>
 
           {loading ? (
-            <div className="text-center text-[#2FA6B8]">Loading Insights...</div>
+            <div className="text-center text-[#2FA6B8] animate-pulse">Loading Insights...</div>
           ) : (
-            <InsightsGrid insights={insights} />
+            <>
+              {/* --- MOBILE VIEW: CAROUSEL --- */}
+              <div className="md:hidden">
+                <InsightsCarousel insights={insights} />
+              </div>
+
+              {/* --- DESKTOP VIEW: GRID --- */}
+              <div className="hidden md:block">
+                <InsightsGrid insights={insights} />
+              </div>
+            </>
           )}
         </section>
 
         {/* PLACEMENT GUIDE SECTION */}
-        <section className="mb-20 md:mb-32 pt-8 border-t border-white/10">
+        <section className="mb-16 md:mb-32 pt-8 border-t border-white/10">
           <PlacementGuideSection />
         </section>
 
         {/* 100 DAYS OF CODE SECTION */}
-        <section className="pt-12 md:pt-24 pb-12 md:pb-24 border-t border-white/10">
+        <section className="pt-8 md:pt-24 pb-8 md:pb-24 border-t border-white/10">
           <AnimatedTitle
             title="100 Days Of Code"
             containerClass="text-center !text-white !mb-0"
           />
 
-          {/* MOBILE LAYOUT - Stacked 1 below the other (screens < 1024px) */}
-          <div className="lg:hidden space-y-8 max-w-4xl mx-auto">
-            {/* 1. Image Card */}
+          {/* --- MOBILE LAYOUT (Stacked) --- */}
+          <div className="lg:hidden space-y-6 max-w-4xl mx-auto mt-8">
             <div className="w-full">
               <DaysCard
                 type="image"
@@ -100,7 +112,6 @@ export default function PlacementPage() {
               />
             </div>
 
-            {/* 2. Content Card */}
             <div className="w-full">
               <DaysCard
                 type="content"
@@ -112,8 +123,7 @@ export default function PlacementPage() {
               />
             </div>
 
-            {/* 3. Carousel */}
-            <div className="w-full h-72">
+            <div className="w-full h-56 sm:h-72">
               <ImageCarousel
                 images={carouselImages}
                 bgColor="rgba(125, 212, 238, 0.1)"
@@ -121,7 +131,6 @@ export default function PlacementPage() {
               />
             </div>
 
-            {/* 4. Action Card */}
             <div className="w-full">
               <DaysCard
                 type="action"
@@ -136,11 +145,11 @@ export default function PlacementPage() {
             </div>
           </div>
 
-          {/* DESKTOP LAYOUT - EXACTLY YOUR ORIGINAL LAYOUT (screens ≥ 1024px) */}
-          <div className="hidden lg:block">
+          {/* --- DESKTOP LAYOUT (Grid) - EXACT COPY OF ORIGINAL --- */}
+          <div className="hidden lg:block mt-12">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-2 gap-6 auto-rows-max">
-                {/* Left column - Image card (tall) */}
+                {/* Left column */}
                 <DaysCard
                   type="image"
                   imageUrl="/100DayOfCode/poster.webp"
@@ -149,7 +158,7 @@ export default function PlacementPage() {
                   size="tall"
                 />
 
-                {/* Right column - Content + Carousel in column */}
+                {/* Right column */}
                 <div className="row-span-2 flex flex-col gap-6">
                   <DaysCard
                     type="content"
@@ -167,7 +176,7 @@ export default function PlacementPage() {
                   />
                 </div>
 
-                {/* Bottom row - Action button */}
+                {/* Bottom row */}
                 <div className="h-fit">
                   <DaysCard
                     type="action"

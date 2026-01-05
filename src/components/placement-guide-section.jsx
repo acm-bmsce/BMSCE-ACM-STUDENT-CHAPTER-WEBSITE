@@ -1161,8 +1161,10 @@ export function PlacementGuideSection() {
             {/* Compact Header */}
             <div className="text-center">
               <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-full border border-blue-500/30">
-                <Icon className="w-6 h-6 text-blue-400" />
-                <h3 className="text-2xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+                {/* Mobile: Bigger Icon (w-10), Desktop: Original (w-8) */}
+                <Icon className="w-10 h-10 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+                {/* Mobile: Adjusted text-xl, Desktop: Original text-2xl */}
+                <h3 className="text-xl md:text-2xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
               </div>
               <p className="text-white/70 text-lg leading-relaxed max-w-2xl mx-auto mb-8">
                 {section.content.description}
@@ -1238,26 +1240,38 @@ export function PlacementGuideSection() {
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 (48px) | DESKTOP: w-8 (32px - Original) */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl (Original) */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Daily Practice Tips */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="w-5 h-5 text-cyan-400" />
-                  <h4 className="text-lg font-bold text-white">Daily Practice</h4>
+                  <h4 className="text-lg font-bold text-white">
+                    Daily Practice
+                  </h4>
                 </div>
-                <p className="text-white/70 text-sm">{section.content.dailyPractice}</p>
+                <p className="text-white/70 text-sm">
+                  {section.content.dailyPractice}
+                </p>
               </div>
               <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <BookOpen className="w-5 h-5 text-cyan-400" />
                   <h4 className="text-lg font-bold text-white">Reading Tip</h4>
                 </div>
-                <p className="text-white/70 text-sm">{section.content.readingTip}</p>
+                <p className="text-white/70 text-sm">
+                  {section.content.readingTip}
+                </p>
               </div>
             </div>
 
@@ -1270,11 +1284,16 @@ export function PlacementGuideSection() {
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <topic.icon className="w-6 h-6 text-cyan-400" />
-                    <h4 className="text-xl font-bold text-cyan-400 bebas-neue tracking-wide">{topic.category}</h4>
+                    <h4 className="text-xl font-bold text-cyan-400 bebas-neue tracking-wide">
+                      {topic.category}
+                    </h4>
                   </div>
                   <ul className="space-y-2">
                     {topic.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="text-white/80 text-sm flex items-start gap-2">
+                      <li
+                        key={itemIdx}
+                        className="text-white/80 text-sm flex items-start gap-2"
+                      >
                         <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
                         {item}
                       </li>
@@ -1286,13 +1305,20 @@ export function PlacementGuideSection() {
 
             {/* Resources */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Recommended Resources</h4>
+              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
+                Recommended Resources
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.resources.map((resource, idx) => (
-                  <div key={idx} className="p-4 bg-blue-500/5 rounded-lg border border-blue-500/20">
+                  <div
+                    key={idx}
+                    className="p-4 bg-blue-500/5 rounded-lg border border-blue-500/20"
+                  >
                     <div className="flex items-center gap-2 mb-2">
                       <resource.icon className="w-4 h-4 text-blue-400" />
-                      <h5 className="text-blue-400 font-semibold">{resource.name}</h5>
+                      <h5 className="text-blue-400 font-semibold">
+                        {resource.name}
+                      </h5>
                     </div>
                     <p className="text-white/70 text-sm">{resource.value}</p>
                   </div>
@@ -1300,20 +1326,28 @@ export function PlacementGuideSection() {
               </div>
             </div>
           </div>
-        )
+        );
 
       case "coding":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Language Selection */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">Choose Your Language</h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
+                Choose Your Language
+              </h4>
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 {section.content.languages.map((lang, idx) => (
                   <div
@@ -1321,27 +1355,38 @@ export function PlacementGuideSection() {
                     className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20"
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <h5 className="text-white font-bold text-lg">{lang.name}</h5>
-                      <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">{lang.badge}</span>
+                      <h5 className="text-white font-bold text-lg">
+                        {lang.name}
+                      </h5>
+                      <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">
+                        {lang.badge}
+                      </span>
                     </div>
                     <p className="text-white/70 text-sm mb-3">{lang.use}</p>
                     <ul className="space-y-1 mb-3">
                       {lang.details.slice(0, 3).map((detail, i) => (
-                        <li key={i} className="text-white/60 text-xs flex items-start gap-1">
+                        <li
+                          key={i}
+                          className="text-white/60 text-xs flex items-start gap-1"
+                        >
                           <ChevronRight className="w-3 h-3 text-blue-400 mt-0.5 flex-shrink-0" />
                           {detail}
                         </li>
                       ))}
                     </ul>
                     <div className="text-xs text-white/50 border-t border-white/10 pt-2">
-                      <div className="font-semibold text-blue-300">Placement:</div>
+                      <div className="font-semibold text-blue-300">
+                        Placement:
+                      </div>
                       <div>{lang.placement.friendly}</div>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="mt-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
-                <p className="text-white/80 text-sm italic">{section.content.finalNote}</p>
+                <p className="text-white/80 text-sm italic">
+                  {section.content.finalNote}
+                </p>
               </div>
             </div>
 
@@ -1359,7 +1404,10 @@ export function PlacementGuideSection() {
                     </div>
                     <ul className="space-y-1 mb-3">
                       {layer.points.map((point, pointIdx) => (
-                        <li key={pointIdx} className="text-white/70 text-sm flex items-start gap-2">
+                        <li
+                          key={pointIdx}
+                          className="text-white/70 text-sm flex items-start gap-2"
+                        >
                           <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                           {point}
                         </li>
@@ -1375,14 +1423,16 @@ export function PlacementGuideSection() {
 
             {/* DSA Roadmap - FIXED */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">DSA Roadmap (A-Z)</h4>
-             
+              <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
+                DSA Roadmap (A-Z)
+              </h4>
+
               <div className="relative pl-8 border-l-2 border-blue-500/30">
                 {section.content.roadmap.map((topic, idx) => (
                   <div key={idx} className="relative mb-6 last:mb-0">
                     {/* Circle positioned exactly on the line */}
                     <div className="absolute -left-[43px] top-1/2 transform -translate-y-1/2 w-5 h-5 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-blue-900 z-10"></div>
-                   
+
                     <div className="p-3 bg-white/5 rounded-lg border border-blue-500/20 ml-4">
                       <div className="flex items-center gap-3">
                         <div>
@@ -1401,7 +1451,9 @@ export function PlacementGuideSection() {
             {/* Practice Platforms */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Practice Platforms</h4>
+                <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
+                  Practice Platforms
+                </h4>
                 <div className="space-y-3">
                   {section.content.practicePlatforms.map((platform, idx) => (
                     <div
@@ -1410,16 +1462,22 @@ export function PlacementGuideSection() {
                     >
                       <div className="flex items-center gap-3">
                         <platform.icon className="w-5 h-5 text-blue-400" />
-                        <span className="text-white font-semibold">{platform.name}</span>
+                        <span className="text-white font-semibold">
+                          {platform.name}
+                        </span>
                       </div>
-                      <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">{platform.tag}</span>
+                      <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">
+                        {platform.tag}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">YouTube Channels</h4>
+                <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
+                  YouTube Channels
+                </h4>
                 <div className="space-y-3">
                   {section.content.youtube.map((channel, idx) => (
                     <div
@@ -1427,26 +1485,38 @@ export function PlacementGuideSection() {
                       className="p-3 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg"
                     >
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-white font-semibold">{channel.name}</span>
-                        <span className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded">Free</span>
+                        <span className="text-white font-semibold">
+                          {channel.name}
+                        </span>
+                        <span className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded">
+                          Free
+                        </span>
                       </div>
-                      <span className="text-white/70 text-sm">{channel.focus}</span>
+                      <span className="text-white/70 text-sm">
+                        {channel.focus}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-        )
+        );
 
       case "sql":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Core Concepts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1455,10 +1525,15 @@ export function PlacementGuideSection() {
                   key={idx}
                   className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
                 >
-                  <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">{concept.category}</h4>
+                  <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                    {concept.category}
+                  </h4>
                   <ul className="space-y-2">
                     {concept.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="text-white/80 text-sm flex items-start gap-2">
+                      <li
+                        key={itemIdx}
+                        className="text-white/80 text-sm flex items-start gap-2"
+                      >
                         <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                         {item}
                       </li>
@@ -1468,73 +1543,96 @@ export function PlacementGuideSection() {
               ))}
             </div>
           </div>
-        )
+        );
 
       case "fundamentals":
-  return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-4">
-        <Icon className="w-8 h-8 text-blue-400" />
-        <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
-      </div>
-      <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
-
-      {/* Subjects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {section.content.subjects.map((subject, idx) => (
-          <div
-            key={idx}
-            className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
-          >
+        return (
+          <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <subject.icon className="w-6 h-6 text-blue-400" />
-              <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">{subject.name}</h4>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <ul className="space-y-2 mb-4">
-              {subject.topics.map((topic, topicIdx) => (
-                <li key={topicIdx} className="flex items-start gap-2 text-white/70 text-sm">
-                  <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                  {topic}
-                </li>
-              ))}
-            </ul>
-            {subject.resource && (
-              <a
-                href={subject.resource}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
-              >
-                <ExternalLink className="w-3 h-3" />
-                Resource Link
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
-      
-    </div>
-  )
+            {/* Subjects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {section.content.subjects.map((subject, idx) => (
+                <div
+                  key={idx}
+                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <subject.icon className="w-6 h-6 text-blue-400" />
+                    <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">
+                      {subject.name}
+                    </h4>
+                  </div>
+                  <ul className="space-y-2 mb-4">
+                    {subject.topics.map((topic, topicIdx) => (
+                      <li
+                        key={topicIdx}
+                        className="flex items-start gap-2 text-white/70 text-sm"
+                      >
+                        <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                        {topic}
+                      </li>
+                    ))}
+                  </ul>
+                  {subject.resource && (
+                    <a
+                      href={subject.resource}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Resource Link
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
 
       case "projects":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Principles */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">Key Principles</h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                Key Principles
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.principles.map((principle, idx) => (
                   <div key={idx} className="p-4 bg-white/5 rounded-lg">
-                    <div className="text-blue-400 font-bold text-lg mb-2">{idx + 1}</div>
-                    <h5 className="text-white font-semibold mb-1">{principle.title}</h5>
-                    <p className="text-white/70 text-sm">{principle.description}</p>
+                    <div className="text-blue-400 font-bold text-lg mb-2">
+                      {idx + 1}
+                    </div>
+                    <h5 className="text-white font-semibold mb-1">
+                      {principle.title}
+                    </h5>
+                    <p className="text-white/70 text-sm">
+                      {principle.description}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -1542,13 +1640,17 @@ export function PlacementGuideSection() {
 
             {/* All Projects Grid - MULTIPLE EXPANSION ENABLED */}
             <div>
-              <h4 className="text-2xl font-bold text-white mb-6 bebas-neue tracking-wide">Project Recommendations</h4>
+              <h4 className="text-2xl font-bold text-white mb-6 bebas-neue tracking-wide">
+                Project Recommendations
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {section.content.allProjects.map((project) => (
                   <div
                     key={project.id}
                     className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer ${
-                      expandedProjects.includes(project.id) ? 'border-blue-400/50' : ''
+                      expandedProjects.includes(project.id)
+                        ? "border-blue-400/50"
+                        : ""
                     }`}
                     onClick={() => handleProjectClick(project.id)}
                   >
@@ -1558,35 +1660,53 @@ export function PlacementGuideSection() {
                         <div className="flex items-center gap-3">
                           <project.icon className="w-6 h-6 text-blue-400" />
                           <div>
-                            <h5 className="text-white font-bold text-lg">{project.title}</h5>
-                            <p className="text-white/60 text-sm">{project.subtitle}</p>
+                            <h5 className="text-white font-bold text-lg">
+                              {project.title}
+                            </h5>
+                            <p className="text-white/60 text-sm">
+                              {project.subtitle}
+                            </p>
                           </div>
                         </div>
-                        <span className={`text-xs px-3 py-1 rounded-full ${
-                          project.priority === "must-have"
-                            ? "bg-red-500/20 text-red-400"
-                            : project.priority === "recommended"
-                            ? "bg-green-500/20 text-green-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                        }`}>
+                        <span
+                          className={`text-xs px-3 py-1 rounded-full ${
+                            project.priority === "must-have"
+                              ? "bg-red-500/20 text-red-400"
+                              : project.priority === "recommended"
+                                ? "bg-green-500/20 text-green-400"
+                                : "bg-yellow-500/20 text-yellow-400"
+                          }`}
+                        >
                           {project.priority}
                         </span>
                       </div>
-                      <p className="text-white/70 text-sm">{project.whyImportant}</p>
+                      <p className="text-white/70 text-sm">
+                        {project.whyImportant}
+                      </p>
                     </div>
 
                     {/* Tech Stack Preview */}
                     <div className="p-4">
-                      <h6 className="text-blue-400 font-semibold mb-2 text-sm">Tech Stack:</h6>
+                      <h6 className="text-blue-400 font-semibold mb-2 text-sm">
+                        Tech Stack:
+                      </h6>
                       <div className="flex flex-wrap gap-2">
-                        {Object.values(project.techStack).flat().slice(0, 5).map((tech, idx) => (
-                          <span key={idx} className="px-2 py-1 bg-white/5 text-white/70 text-xs rounded">
-                            {tech}
-                          </span>
-                        ))}
+                        {Object.values(project.techStack)
+                          .flat()
+                          .slice(0, 5)
+                          .map((tech, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2 py-1 bg-white/5 text-white/70 text-xs rounded"
+                            >
+                              {tech}
+                            </span>
+                          ))}
                         {Object.values(project.techStack).flat().length > 5 && (
                           <span className="px-2 py-1 bg-white/5 text-white/50 text-xs rounded">
-                            +{Object.values(project.techStack).flat().length - 5} more
+                            +
+                            {Object.values(project.techStack).flat().length - 5}{" "}
+                            more
                           </span>
                         )}
                       </div>
@@ -1598,29 +1718,43 @@ export function PlacementGuideSection() {
                         <div className="space-y-4">
                           {/* Tech Stack Details */}
                           <div>
-                            <h6 className="text-blue-400 font-semibold mb-2">Full Tech Stack:</h6>
+                            <h6 className="text-blue-400 font-semibold mb-2">
+                              Full Tech Stack:
+                            </h6>
                             <div className="space-y-2">
-                              {Object.entries(project.techStack).map(([category, items]) => (
-                                <div key={category}>
-                                  <p className="text-white/60 text-xs uppercase mb-1">{category}:</p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {items.map((item, idx) => (
-                                      <span key={idx} className="px-2 py-1 bg-blue-500/10 text-white/80 text-xs rounded">
-                                        {item}
-                                      </span>
-                                    ))}
+                              {Object.entries(project.techStack).map(
+                                ([category, items]) => (
+                                  <div key={category}>
+                                    <p className="text-white/60 text-xs uppercase mb-1">
+                                      {category}:
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                      {items.map((item, idx) => (
+                                        <span
+                                          key={idx}
+                                          className="px-2 py-1 bg-blue-500/10 text-white/80 text-xs rounded"
+                                        >
+                                          {item}
+                                        </span>
+                                      ))}
+                                    </div>
                                   </div>
-                                </div>
-                              ))}
+                                )
+                              )}
                             </div>
                           </div>
 
                           {/* Key Skills */}
                           <div>
-                            <h6 className="text-blue-400 font-semibold mb-2">Key Skills Demonstrated:</h6>
+                            <h6 className="text-blue-400 font-semibold mb-2">
+                              Key Skills Demonstrated:
+                            </h6>
                             <ul className="space-y-1">
                               {project.keySkills.map((skill, idx) => (
-                                <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
+                                <li
+                                  key={idx}
+                                  className="text-white/70 text-sm flex items-start gap-2"
+                                >
                                   <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                                   {skill}
                                 </li>
@@ -1630,10 +1764,15 @@ export function PlacementGuideSection() {
 
                           {/* Examples */}
                           <div>
-                            <h6 className="text-blue-400 font-semibold mb-2">Example Ideas:</h6>
+                            <h6 className="text-blue-400 font-semibold mb-2">
+                              Example Ideas:
+                            </h6>
                             <ul className="space-y-1">
                               {project.examples.map((example, idx) => (
-                                <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
+                                <li
+                                  key={idx}
+                                  className="text-white/70 text-sm flex items-start gap-2"
+                                >
                                   <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                                   {example}
                                 </li>
@@ -1647,8 +1786,12 @@ export function PlacementGuideSection() {
                     {/* Expand/Collapse Button */}
                     <div className="p-3 border-t border-white/10 text-center">
                       <button className="text-blue-400 text-sm hover:text-blue-300 flex items-center justify-center gap-1 w-full">
-                        {expandedProjects.includes(project.id) ? "Show Less" : "Click for Details"}
-                        <ChevronRight className={`w-4 h-4 transition-transform ${expandedProjects.includes(project.id) ? "rotate-90" : ""}`} />
+                        {expandedProjects.includes(project.id)
+                          ? "Show Less"
+                          : "Click for Details"}
+                        <ChevronRight
+                          className={`w-4 h-4 transition-transform ${expandedProjects.includes(project.id) ? "rotate-90" : ""}`}
+                        />
                       </button>
                     </div>
                   </div>
@@ -1658,10 +1801,15 @@ export function PlacementGuideSection() {
 
             {/* Extra Tips */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">Extra Tips</h4>
+              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
+                Extra Tips
+              </h4>
               <div className="space-y-2">
                 {section.content.extraTips.map((tip, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-white/70">
+                  <div
+                    key={idx}
+                    className="flex items-start gap-2 text-white/70"
+                  >
                     <ChevronRight className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                     <span>{tip}</span>
                   </div>
@@ -1671,34 +1819,49 @@ export function PlacementGuideSection() {
 
             {/* Interview Preparation */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">Interview Preparation</h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                Interview Preparation
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.content.interviewPreparation.map((prep, idx) => (
                   <div key={idx} className="p-4 bg-white/5 rounded-lg">
-                    <h5 className="text-white font-semibold mb-2">{prep.aspect}</h5>
+                    <h5 className="text-white font-semibold mb-2">
+                      {prep.aspect}
+                    </h5>
                     <p className="text-white/70 text-sm">{prep.description}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        )
+        );
 
       case "resume":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Key Tips */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">Key Tips</h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                Key Tips
+              </h4>
               <div className="space-y-2">
                 {section.content.keyTips.map((tip, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-white/70">
+                  <div
+                    key={idx}
+                    className="flex items-start gap-2 text-white/70"
+                  >
                     <ChevronRight className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                     <span>{tip}</span>
                   </div>
@@ -1708,10 +1871,15 @@ export function PlacementGuideSection() {
 
             {/* ATS Explanation */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">{section.content.atsExplanation.title}</h4>
+              <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
+                {section.content.atsExplanation.title}
+              </h4>
               <ul className="space-y-2 mb-4">
                 {section.content.atsExplanation.points.map((point, idx) => (
-                  <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
+                  <li
+                    key={idx}
+                    className="text-white/70 text-sm flex items-start gap-2"
+                  >
                     <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                     {point}
                   </li>
@@ -1720,11 +1888,16 @@ export function PlacementGuideSection() {
               <div>
                 <p className="text-white/80 mb-2">Check ATS Score on:</p>
                 <div className="flex flex-wrap gap-2">
-                  {section.content.atsExplanation.checkWebsites.map((site, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-blue-500/10 text-blue-400 text-sm rounded">
-                      {site}
-                    </span>
-                  ))}
+                  {section.content.atsExplanation.checkWebsites.map(
+                    (site, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-blue-500/10 text-blue-400 text-sm rounded"
+                      >
+                        {site}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -1737,10 +1910,7 @@ export function PlacementGuideSection() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.content.templatePlatforms.map((platform, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 bg-white/5 rounded-lg"
-                  >
+                  <div key={idx} className="p-4 bg-white/5 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <platform.icon className="w-4 h-4 text-blue-400" />
                       <h5 className="text-white font-semibold">
@@ -1758,15 +1928,21 @@ export function PlacementGuideSection() {
 
             {/* Resume Sections */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">Resume Sections</h4>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                Resume Sections
+              </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.content.sections.map((sectionItem, idx) => (
                   <div key={idx} className="p-4 bg-white/5 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <sectionItem.icon className="w-4 h-4 text-blue-400" />
-                      <h5 className="text-white font-semibold">{sectionItem.name}</h5>
+                      <h5 className="text-white font-semibold">
+                        {sectionItem.name}
+                      </h5>
                     </div>
-                    <p className="text-white/70 text-sm">{sectionItem.content}</p>
+                    <p className="text-white/70 text-sm">
+                      {sectionItem.content}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -1781,16 +1957,22 @@ export function PlacementGuideSection() {
               <p className="text-white/80">{section.content.mentorTip}</p>
             </div>
           </div>
-        )
+        );
 
       case "process":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Rounds Timeline */}
             <div className="space-y-4">
@@ -1805,30 +1987,47 @@ export function PlacementGuideSection() {
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center justify-between mb-2">
-                        <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">{round.name}</h4>
+                        <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
+                          {round.name}
+                        </h4>
                         <span className="text-xs px-2 py-1 bg-white/10 text-white/70 rounded">
                           Round {idx + 1}
                         </span>
                       </div>
-                     
+
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div>
-                          <h5 className="text-white/90 text-sm font-semibold mb-1">Purpose</h5>
-                          <p className="text-white/70 text-sm">{round.purpose}</p>
+                          <h5 className="text-white/90 text-sm font-semibold mb-1">
+                            Purpose
+                          </h5>
+                          <p className="text-white/70 text-sm">
+                            {round.purpose}
+                          </p>
                         </div>
                         <div>
-                          <h5 className="text-white/90 text-sm font-semibold mb-1">Format</h5>
-                          <p className="text-white/70 text-sm">{round.format}</p>
+                          <h5 className="text-white/90 text-sm font-semibold mb-1">
+                            Format
+                          </h5>
+                          <p className="text-white/70 text-sm">
+                            {round.format}
+                          </p>
                         </div>
                         <div>
-                          <h5 className="text-white/90 text-sm font-semibold mb-1">Preparation</h5>
-                          <p className="text-white/70 text-sm">{round.preparation}</p>
+                          <h5 className="text-white/90 text-sm font-semibold mb-1">
+                            Preparation
+                          </h5>
+                          <p className="text-white/70 text-sm">
+                            {round.preparation}
+                          </p>
                         </div>
                       </div>
-                     
+
                       <div className="mt-3 p-3 bg-white/5 rounded-lg">
                         <span className="text-white/80 text-sm">
-                          <span className="text-blue-400 font-semibold">Note:</span> {round.variation}
+                          <span className="text-blue-400 font-semibold">
+                            Note:
+                          </span>{" "}
+                          {round.variation}
                         </span>
                       </div>
                     </div>
@@ -1839,14 +2038,23 @@ export function PlacementGuideSection() {
 
             {/* STAR Method */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">STAR Method for Behavioral Rounds</h4>
-              <p className="text-white/70 mb-4">{section.content.starMethod.description}</p>
+              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
+                STAR Method for Behavioral Rounds
+              </h4>
+              <p className="text-white/70 mb-4">
+                {section.content.starMethod.description}
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {section.content.starMethod.components.map((component, idx) => {
                   const [letter, description] = component.split(": ");
                   return (
-                    <div key={idx} className="p-4 bg-white/5 rounded-lg text-center">
-                      <div className="text-3xl font-bold text-blue-400 mb-2">{letter}</div>
+                    <div
+                      key={idx}
+                      className="p-4 bg-white/5 rounded-lg text-center"
+                    >
+                      <div className="text-3xl font-bold text-blue-400 mb-2">
+                        {letter}
+                      </div>
                       <p className="text-white/80 text-sm">{description}</p>
                     </div>
                   );
@@ -1854,32 +2062,44 @@ export function PlacementGuideSection() {
               </div>
             </div>
           </div>
-        )
+        );
 
       case "strategy":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Strategy content would go here */}
             <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
               <p className="text-white/70">Strategy content goes here...</p>
             </div>
           </div>
-        )
+        );
 
       case "mindset":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Key Points Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1892,7 +2112,9 @@ export function PlacementGuideSection() {
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
                       <span className="text-white font-bold">{idx + 1}</span>
                     </div>
-                    <h4 className="text-lg font-bold text-white">{point.point}</h4>
+                    <h4 className="text-lg font-bold text-white">
+                      {point.point}
+                    </h4>
                   </div>
                   <p className="text-white/70 text-sm">{point.description}</p>
                 </div>
@@ -1908,16 +2130,22 @@ export function PlacementGuideSection() {
               <p className="text-white/80">{section.content.finalNote}</p>
             </div>
           </div>
-        )
+        );
 
       case "tracking":
         return (
           <div className="space-y-8">
             <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-blue-400" />
-              <h3 className="text-3xl font-bold text-white bebas-neue tracking-wider">{section.content.subtitle}</h3>
+              {/* MOBILE: w-12 | DESKTOP: w-8 */}
+              <Icon className="w-12 h-12 md:w-8 md:h-8 text-blue-400 flex-shrink-0" />
+              {/* MOBILE: text-2xl | DESKTOP: text-3xl */}
+              <h3 className="text-2xl md:text-3xl font-bold text-white bebas-neue tracking-wider">
+                {section.content.subtitle}
+              </h3>
             </div>
-            <p className="text-white/70 text-lg leading-relaxed">{section.content.description}</p>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {section.content.description}
+            </p>
 
             {/* Tracking Methods */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1926,15 +2154,24 @@ export function PlacementGuideSection() {
                   key={idx}
                   className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5"
                 >
-                  <h4 className="text-xl font-bold text-blue-400 mb-3 bebas-neue tracking-wide">{method.method}</h4>
-                  <p className="text-white/70 text-sm mb-4">{method.description}</p>
-                 
+                  <h4 className="text-xl font-bold text-blue-400 mb-3 bebas-neue tracking-wide">
+                    {method.method}
+                  </h4>
+                  <p className="text-white/70 text-sm mb-4">
+                    {method.description}
+                  </p>
+
                   {method.metrics && (
                     <div className="space-y-2">
-                      <h5 className="text-white font-semibold text-sm">Metrics to Track:</h5>
+                      <h5 className="text-white font-semibold text-sm">
+                        Metrics to Track:
+                      </h5>
                       <div className="flex flex-wrap gap-2">
                         {method.metrics.map((metric, i) => (
-                          <span key={i} className="px-2 py-1 bg-white/5 text-white/70 text-xs rounded">
+                          <span
+                            key={i}
+                            className="px-2 py-1 bg-white/5 text-white/70 text-xs rounded"
+                          >
                             {metric}
                           </span>
                         ))}
@@ -1944,10 +2181,15 @@ export function PlacementGuideSection() {
 
                   {method.structure && (
                     <div className="mt-3 space-y-2">
-                      <h5 className="text-white font-semibold text-sm">Structure:</h5>
+                      <h5 className="text-white font-semibold text-sm">
+                        Structure:
+                      </h5>
                       <ul className="space-y-1">
                         {method.structure.map((item, i) => (
-                          <li key={i} className="text-white/70 text-sm flex items-start gap-2">
+                          <li
+                            key={i}
+                            className="text-white/70 text-sm flex items-start gap-2"
+                          >
                             <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                             {item}
                           </li>
@@ -1958,10 +2200,15 @@ export function PlacementGuideSection() {
 
                   {method.categories && (
                     <div className="mt-3">
-                      <h5 className="text-white font-semibold text-sm mb-2">Categories:</h5>
+                      <h5 className="text-white font-semibold text-sm mb-2">
+                        Categories:
+                      </h5>
                       <div className="flex flex-wrap gap-2">
                         {method.categories.map((category, i) => (
-                          <span key={i} className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">
+                          <span
+                            key={i}
+                            className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded"
+                          >
                             {category}
                           </span>
                         ))}
@@ -1971,10 +2218,15 @@ export function PlacementGuideSection() {
 
                   {method.reflectionPoints && (
                     <div className="mt-3 space-y-1">
-                      <h5 className="text-white font-semibold text-sm">Reflection Points:</h5>
+                      <h5 className="text-white font-semibold text-sm">
+                        Reflection Points:
+                      </h5>
                       <ul className="space-y-1">
                         {method.reflectionPoints.map((point, i) => (
-                          <li key={i} className="text-white/70 text-sm flex items-start gap-2">
+                          <li
+                            key={i}
+                            className="text-white/70 text-sm flex items-start gap-2"
+                          >
                             <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
                             {point}
                           </li>
@@ -1986,8 +2238,6 @@ export function PlacementGuideSection() {
               ))}
             </div>
 
-            
-
             {/* Mentor Tip */}
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-3">
@@ -1997,7 +2247,7 @@ export function PlacementGuideSection() {
               <p className="text-white/80">{section.content.mentorTip}</p>
             </div>
           </div>
-        )
+        );
 
       default:
         return null
