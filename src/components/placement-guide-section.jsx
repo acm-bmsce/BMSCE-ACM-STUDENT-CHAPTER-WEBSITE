@@ -19,8 +19,8 @@ export function PlacementGuideSection() {
 
   // Handle multiple project expansion
   const handleProjectClick = (projectId) => {
-    setExpandedProjects(prev => 
-      prev.includes(projectId) 
+    setExpandedProjects(prev =>
+      prev.includes(projectId)
         ? prev.filter(id => id !== projectId)
         : [...prev, projectId]
     )
@@ -38,7 +38,7 @@ export function PlacementGuideSection() {
         left: section.offsetLeft,
         behavior: 'smooth'
       });
-      
+
       // Vertical Reset logic has been removed from here
     }
   };
@@ -85,7 +85,7 @@ export function PlacementGuideSection() {
           if (entry.isIntersecting) {
             const sectionId = entry.target.dataset.section
             setActiveSection(sectionId)
-            
+
             // Update navigation scroll position
             const navButton = document.querySelector(`[data-nav="${sectionId}"]`)
             if (navButton && navScrollRef.current) {
@@ -93,7 +93,7 @@ export function PlacementGuideSection() {
               const buttonLeft = navButton.offsetLeft
               const buttonWidth = navButton.offsetWidth
               const containerWidth = navContainer.offsetWidth
-              
+
               navContainer.scrollTo({
                 left: buttonLeft - (containerWidth / 2) + (buttonWidth / 2),
                 behavior: 'smooth'
@@ -458,23 +458,23 @@ export function PlacementGuideSection() {
           }
         ],
         interviewPractice: [
-  {
-    platform: "InterviewBit",
-    description: "Excellent subject-wise questions, from easy to hard. Includes useful cheatsheets.",
-    url: "https://www.interviewbit.com/technical-interview-questions/#mcqs"
-  },
-  {
-    platform: "PrepInsta",
-    description: "Technical interview questions preparation",
-    url: "https://prepinsta.com/interview-preparation/technical-interview-questions"
-  },
-  {
-    platform: "GeeksforGeeks",
-    description: "Comprehensive tutorials and practice problems",
-    url: "https://www.geeksforgeeks.org"
-  }
-]
-        
+          {
+            platform: "InterviewBit",
+            description: "Excellent subject-wise questions, from easy to hard. Includes useful cheatsheets.",
+            url: "https://www.interviewbit.com/technical-interview-questions/#mcqs"
+          },
+          {
+            platform: "PrepInsta",
+            description: "Technical interview questions preparation",
+            url: "https://prepinsta.com/interview-preparation/technical-interview-questions"
+          },
+          {
+            platform: "GeeksforGeeks",
+            description: "Comprehensive tutorials and practice problems",
+            url: "https://www.geeksforgeeks.org"
+          }
+        ]
+
       },
     },
     projects: {
@@ -770,11 +770,11 @@ export function PlacementGuideSection() {
           checkWebsites: ["jobscan.co", "enhancv.com", "novoresume.com"]
         },
         templatePlatforms:
-        [
-          { name: "Canva", description: "Modern, clean templates", icon: Layout },
-          { name: "FlowCV", description: "Professional, recruiter-friendly", icon: FileText },
-          { name: "Overleaf (LaTeX)", description: "Great for technical resumes", icon: Type }
-        ],
+          [
+            { name: "Canva", description: "Modern, clean templates", icon: Layout },
+            { name: "FlowCV", description: "Professional, recruiter-friendly", icon: FileText },
+            { name: "Overleaf (LaTeX)", description: "Great for technical resumes", icon: Type }
+          ],
         sections: [
           {
             name: "Header",
@@ -941,91 +941,91 @@ export function PlacementGuideSection() {
             ],
             recommendation: "Having another project is highly recommended to stand out",
             outcome: "Fully interview-ready with clarity, speed, confidence, and strong project knowledge"
-            }
-          ],
-          offCampusStrategy: {
-            title: "Off-Campus Strategy — Roadmap to Get Interviews Faster",
-            goal: "Build credibility → Increase visibility → Unlock interview calls → Crack offers",
-            steps: [
-              {
-                step: "1. Optimize Your LinkedIn Profile",
-                actions: [
-                  "Use clear headline: 'Software Developer | Java | React | AWS | DSA'",
-                  "Add 2-3 strong projects with GitHub links",
-                  "Stay active — recruiters check profile activity"
-                ]
-              },
-              {
-                step: "2. Strengthen Your LeetCode/GFG Profile",
-                actions: [
-                  "Maintain 20-40 day streak for visibility",
-                  "Add LeetCode/GFG link to LinkedIn + Resume"
-                ]
-              },
-              {
-                step: "3. Build Portfolio Website",
-                actions: [
-                  "Show projects, tech stack, achievements",
-                  "Helps recruiters evaluate in 30 seconds"
-                ]
-              },
-              {
-                step: "4. Apply Through All Key Portals Daily",
-                actions: [
-                  "LinkedIn Jobs, Naukri, Indeed, AngelList",
-                  "Company Careers Pages, Internshala"
-                ]
-              },
-              {
-                step: "5. Use Referral Power (10× Higher Chances)",
-                actions: [
-                  "Networking > cold applying",
-                  "Send 3-line referral request: Who you are + Role + Resume link",
-                  "Aim for 5-10 referrals per week"
-                ]
-              },
-              {
-                step: "6. Open-Source Contributions",
-                actions: [
-                  "Even 2-3 PRs in beginner repositories help",
-                  "Shows initiative and teamwork"
-                ]
-              },
-              {
-                step: "7. Build 1-2 Good Personal Projects",
-                actions: [
-                  "AI, Web Dev, Cloud, or Full-Stack projects",
-                  "Preferably with backend + database + deployment"
-                ]
-              },
-              {
-                step: "8. Post Weekly LinkedIn Updates",
-                actions: [
-                  "Project features added",
-                  "Concepts learned",
-                  "Coding milestones",
-                  "Open-source contributions"
-                ]
-              },
-              {
-                step: "9. Track All Applications",
-                actions: [
-                  "Use spreadsheet or tools like Huntr",
-                  "Track: Job link, Company, Date applied, Status, Follow-up"
-                ]
-              },
-              {
-                step: "10. Prepare for ATS",
-                actions: [
-                  "Use correct keywords",
-                  "Match resume with job description",
-                  "Clean formatting (no images/fancy designs)"
-                ]
-              }
-            ]
           }
+        ],
+        offCampusStrategy: {
+          title: "Off-Campus Strategy — Roadmap to Get Interviews Faster",
+          goal: "Build credibility → Increase visibility → Unlock interview calls → Crack offers",
+          steps: [
+            {
+              step: "1. Optimize Your LinkedIn Profile",
+              actions: [
+                "Use clear headline: 'Software Developer | Java | React | AWS | DSA'",
+                "Add 2-3 strong projects with GitHub links",
+                "Stay active — recruiters check profile activity"
+              ]
+            },
+            {
+              step: "2. Strengthen Your LeetCode/GFG Profile",
+              actions: [
+                "Maintain 20-40 day streak for visibility",
+                "Add LeetCode/GFG link to LinkedIn + Resume"
+              ]
+            },
+            {
+              step: "3. Build Portfolio Website",
+              actions: [
+                "Show projects, tech stack, achievements",
+                "Helps recruiters evaluate in 30 seconds"
+              ]
+            },
+            {
+              step: "4. Apply Through All Key Portals Daily",
+              actions: [
+                "LinkedIn Jobs, Naukri, Indeed, AngelList",
+                "Company Careers Pages, Internshala"
+              ]
+            },
+            {
+              step: "5. Use Referral Power (10× Higher Chances)",
+              actions: [
+                "Networking > cold applying",
+                "Send 3-line referral request: Who you are + Role + Resume link",
+                "Aim for 5-10 referrals per week"
+              ]
+            },
+            {
+              step: "6. Open-Source Contributions",
+              actions: [
+                "Even 2-3 PRs in beginner repositories help",
+                "Shows initiative and teamwork"
+              ]
+            },
+            {
+              step: "7. Build 1-2 Good Personal Projects",
+              actions: [
+                "AI, Web Dev, Cloud, or Full-Stack projects",
+                "Preferably with backend + database + deployment"
+              ]
+            },
+            {
+              step: "8. Post Weekly LinkedIn Updates",
+              actions: [
+                "Project features added",
+                "Concepts learned",
+                "Coding milestones",
+                "Open-source contributions"
+              ]
+            },
+            {
+              step: "9. Track All Applications",
+              actions: [
+                "Use spreadsheet or tools like Huntr",
+                "Track: Job link, Company, Date applied, Status, Follow-up"
+              ]
+            },
+            {
+              step: "10. Prepare for ATS",
+              actions: [
+                "Use correct keywords",
+                "Match resume with job description",
+                "Clean formatting (no images/fancy designs)"
+              ]
+            }
+          ]
         }
-      },
+      }
+    },
     mindset: {
       title: "Mindset & Attitude",
       icon: Brain,
@@ -1171,49 +1171,49 @@ export function PlacementGuideSection() {
               </p>
             </div>
 
-            
+
 
             {/* Pillars Section - FIXED LAYOUT */}
-<div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
-  <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
-    7 Pillars of Placement Success
-  </h4>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {/* Left Column: Items 1-4 */}
-    <div className="space-y-4">
-      {section.content.pillars.slice(0, 4).map((pillar, idx) => (
-        <div
-          key={idx}
-          className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
-        >
-          <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
-            <span className="text-white font-bold text-xs">{idx + 1}</span>
-          </div>
-          <div className="ml-6 w-full">
-            <span className="text-white/80">{pillar}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-    
-    {/* Right Column: Items 5-7 */}
-    <div className="space-y-4">
-      {section.content.pillars.slice(4, 7).map((pillar, idx) => (
-        <div
-          key={idx + 4}
-          className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
-        >
-          <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
-            <span className="text-white font-bold text-xs">{idx + 5}</span>
-          </div>
-          <div className="ml-6 w-full">
-            <span className="text-white/80">{pillar}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
+            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
+              <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
+                7 Pillars of Placement Success
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column: Items 1-4 */}
+                <div className="space-y-4">
+                  {section.content.pillars.slice(0, 4).map((pillar, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+                    >
+                      <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+                        <span className="text-white font-bold text-xs">{idx + 1}</span>
+                      </div>
+                      <div className="ml-6 w-full">
+                        <span className="text-white/80">{pillar}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right Column: Items 5-7 */}
+                <div className="space-y-4">
+                  {section.content.pillars.slice(4, 7).map((pillar, idx) => (
+                    <div
+                      key={idx + 4}
+                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+                    >
+                      <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+                        <span className="text-white font-bold text-xs">{idx + 5}</span>
+                      </div>
+                      <div className="ml-6 w-full">
+                        <span className="text-white/80">{pillar}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             <div className="text-center pt-8 border-t border-white/10">
               <p className="text-white/60 mb-4">Select a section to begin exploring</p>
@@ -1647,11 +1647,10 @@ export function PlacementGuideSection() {
                 {section.content.allProjects.map((project) => (
                   <div
                     key={project.id}
-                    className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer ${
-                      expandedProjects.includes(project.id)
+                    className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer ${expandedProjects.includes(project.id)
                         ? "border-blue-400/50"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleProjectClick(project.id)}
                   >
                     {/* Project Header */}
@@ -1669,13 +1668,12 @@ export function PlacementGuideSection() {
                           </div>
                         </div>
                         <span
-                          className={`text-xs px-3 py-1 rounded-full ${
-                            project.priority === "must-have"
+                          className={`text-xs px-3 py-1 rounded-full ${project.priority === "must-have"
                               ? "bg-red-500/20 text-red-400"
                               : project.priority === "recommended"
                                 ? "bg-green-500/20 text-green-400"
                                 : "bg-yellow-500/20 text-yellow-400"
-                          }`}
+                            }`}
                         >
                           {project.priority}
                         </span>
@@ -2278,7 +2276,7 @@ export function PlacementGuideSection() {
                 Comprehensive CSE Placement Guide
               </h3>
               <p className="text-white/80 leading-relaxed mb-3">
-                This guide is written for <span className="text-blue-300 font-semibold">Computer Science & allied branches (CSE, IT, CS-AI, CS-DS, SE)</span>. If you're from the CSE cluster, this is your playbook — not a checklist, but a mentor standing beside you, showing exactly what to practise, when, and why.
+                This guide is written for <span className="text-blue-300 font-semibold">Computer Science & allied branches (CSE, IT, CS-AI, CS-DS, SE)</span>. If you're from the CSE cluster, this is your playbook — not a checklist, but a mentor standing beside you, showing exactly what to practise, when and why. The resources, strategies and insights shared here are carefully curated from the real placement journeys of our seniors and alumni who are currently placed in reputed companies. Their experiences, mistakes and learnings have been distilled to help you navigate placements with clarity and confidence.
               </p>
             </div>
           </div>
@@ -2288,7 +2286,7 @@ export function PlacementGuideSection() {
       <div className="max-w-7xl mx-auto">
         {/* Scrollable Navigation - WITH VISIBLE CUSTOM SCROLLBAR */}
         <div className="mb-12">
-          <div 
+          <div
             ref={navScrollRef}
             className="flex overflow-x-auto pb-6 gap-2 px-2 custom-scrollbar"
           >
@@ -2299,11 +2297,10 @@ export function PlacementGuideSection() {
                   key={item.id}
                   data-nav={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition-all duration-300 bebas-neue tracking-wider whitespace-nowrap ${
-                    activeSection === item.id
+                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition-all duration-300 bebas-neue tracking-wider whitespace-nowrap ${activeSection === item.id
                       ? "bg-blue-500/20 text-blue-400 border-2 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
                       : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20"
-                  }`}
+                    }`}
                 >
                   <NavIcon className="w-4 h-4" />
                   {item.label}
@@ -2319,7 +2316,7 @@ export function PlacementGuideSection() {
           <div
             ref={scrollRef}
             className="flex snap-x snap-mandatory overflow-x-auto placement-scroll"
-            style={{ 
+            style={{
               scrollBehavior: 'smooth',
               scrollSnapType: 'x mandatory'
             }}
@@ -2347,11 +2344,10 @@ export function PlacementGuideSection() {
                 <button
                   key={idx}
                   onClick={() => handleNavClick(navigationItems[idx].id)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    idx === currentSectionIndex
+                  className={`w-2 h-2 rounded-full transition-all ${idx === currentSectionIndex
                       ? 'w-6 bg-gradient-to-r from-blue-500 to-cyan-500'
                       : 'bg-white/30 hover:bg-white/50'
-                  }`}
+                    }`}
                   aria-label={`Go to section ${idx + 1}`}
                 />
               ))}
@@ -2378,16 +2374,16 @@ export function PlacementGuideSection() {
             <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10">
               Based on Real Placement Experiences
             </span>
-           
+
           </div>
-          
+
           {/* Keyboard Shortcut Hint */}
-          
+
         </div>
       </div>
 
       {/* Custom Scrollbar CSS */}
-    <style jsx>{`
+      <style jsx>{`
       /* Hide scrollbar for Chrome, Safari and Opera */
       .placement-scroll::-webkit-scrollbar {
         display: none;
