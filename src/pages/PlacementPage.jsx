@@ -8,10 +8,14 @@ import { getOptimizedImageUrl } from "../utils/imageHelper";
 import SEO from "../components/SEO";
 import AnimatedTitle from "../components/AnimatedTitle";
 import { PlacementGuideSection } from "../components/placement-guide-section";
+import InsightModal from "../components/InsightModal"; // The shared modal component
 
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // State to manage which profile is currently shown in the Modal
+  const [selectedInsight, setSelectedInsight] = useState(null);
 
   useEffect(() => {
     const fetchInsights = async () => {
@@ -46,6 +50,16 @@ export default function PlacementPage() {
     "/100DayOfCode/carousel4.webp",
   ];
 
+  // Handler to open the modal
+  const handleOpenProfile = (profile) => {
+    setSelectedInsight(profile);
+  };
+
+  // Handler to close the modal
+  const handleCloseModal = () => {
+    setSelectedInsight(null);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <SEO
@@ -53,10 +67,17 @@ export default function PlacementPage() {
         description="Read success stories and placement insights from ACM BMSCE Alumni."
       />
 
+      {/* GLOBAL MODAL: Renders when a profile is selected */}
+      {selectedInsight && (
+        <InsightModal 
+          profile={selectedInsight} 
+          onClose={handleCloseModal} 
+        />
+      )}
+
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-20">
         
         {/* INSIGHT SERIES SECTION */}
-        {/* Mobile: reduced margins | Desktop: Original large margins */}
         <section className="mb-16 md:mb-32 mt-4 md:mt-10">
           <AnimatedTitle
             title="Insight Series"
@@ -77,12 +98,18 @@ export default function PlacementPage() {
             <>
               {/* --- MOBILE VIEW: CAROUSEL --- */}
               <div className="md:hidden">
-                <InsightsCarousel insights={insights} />
+                <InsightsCarousel 
+                  insights={insights} 
+                  onViewProfile={handleOpenProfile} 
+                />
               </div>
 
               {/* --- DESKTOP VIEW: GRID --- */}
               <div className="hidden md:block">
-                <InsightsGrid insights={insights} />
+                <InsightsGrid 
+                  insights={insights} 
+                  onViewProfile={handleOpenProfile}
+                />
               </div>
             </>
           )}
@@ -100,7 +127,7 @@ export default function PlacementPage() {
             containerClass="text-center !text-white !mb-0"
           />
 
-          {/* --- MOBILE LAYOUT (Stacked) --- */}
+           {/* --- MOBILE LAYOUT (Stacked) --- */}
           <div className="lg:hidden space-y-6 max-w-4xl mx-auto mt-8">
             <div className="w-full">
               <DaysCard
@@ -123,6 +150,7 @@ export default function PlacementPage() {
               />
             </div>
 
+            {/* IMAGE CAROUSEL */}
             <div className="w-full h-56 sm:h-72">
               <ImageCarousel
                 images={carouselImages}
@@ -131,6 +159,10 @@ export default function PlacementPage() {
               />
             </div>
 
+            {/* SPACE BETWEEN IMAGE CAROUSEL AND LOGIN CARD */}
+            <div className="h-10"></div> 
+
+            {/* LOGIN ACTION CARD */}
             <div className="w-full">
               <DaysCard
                 type="action"
@@ -145,7 +177,7 @@ export default function PlacementPage() {
             </div>
           </div>
 
-          {/* --- DESKTOP LAYOUT (Grid) - EXACT COPY OF ORIGINAL --- */}
+          {/* --- DESKTOP LAYOUT (Grid) --- */}
           <div className="hidden lg:block mt-12">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-2 gap-6 auto-rows-max">

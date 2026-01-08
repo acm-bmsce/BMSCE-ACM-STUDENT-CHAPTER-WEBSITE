@@ -1,7 +1,7 @@
 import React from "react";
 import { InsightProfileCard } from "./insight-profile-card_placements";
 
-export function InsightsGrid({ insights }) {
+export function InsightsGrid({ insights, onViewProfile }) {
   const displayedInsights = insights.slice(0, 7);
 
   return (
@@ -27,6 +27,7 @@ export function InsightsGrid({ insights }) {
               link={insight.link}
               year={insight.year}
               description={insight.description}
+              onViewProfile={onViewProfile} // Pass the handler down to the card
             />
           </div>
         ))}
