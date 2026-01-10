@@ -142,7 +142,7 @@ export function PlacementGuideSection() {
           "Aptitude Skills - your ability to think fast, reason clearly, and handle numbers without fear",
           "Coding Ability - not just syntax, but structured problem-solving that helps you in the long run",
           "CS Fundamentals - the foundation every cs engineer must carry confidently",
-          "Projects & Resume Quality - proof that you can build, not just read",
+          "Projects & Resume Quality - proof that you can build, not just read, by showcasing practical application",
           "General Placement Process Overview - understanding each round thoroughly",
           "On & Off-Campus Placements Strategies - targeted approaches for different placement types",
           "How to track your progress - systematic measurement and improvement"
@@ -297,10 +297,10 @@ export function PlacementGuideSection() {
             tip: "Always restate the problem in your own words. It improves clarity and thinking speed."
           },
           {
-            name: "2. Approach Building (The Real Skill)",
+            name: "2. Approach Building",
             icon: Cog,
             points: [
-              "Patterns (two pointers, sliding window, hashing, DP, recursion)",
+              "Patterns (two pointers, hashing, DP, recursion)",
               "Edge cases analysis",
               "Trade-off between time vs space",
               "How to simplify a problem before optimizing"
@@ -343,17 +343,17 @@ export function PlacementGuideSection() {
           "Sorting & Searching"
         ],
         practicePlatforms: [
-          { name: "Strivers DSA A-Z sheet", tag: "Must Do", icon: Trophy },
-          { name: "LeetCode", tag: "Provides lot of problems", icon: Code },
-          { name: "NeetCode.io", tag: "Structured roadmap", icon: Layout },
-          { name: "GeeksForGeeks", tag: "Concept understanding", icon: FileText },
-          { name: "CodeChef", tag: "Contests", icon: Users },
-          { name: "HackerRank", tag: "Beginners", icon: Star }
+          { name: "Strivers DSA A-Z sheet", tag: "Must Do", icon: Trophy, url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" },
+          { name: "LeetCode", tag: "Provides lot of problems", icon: Code, url: "https://leetcode.com" },
+          { name: "NeetCode.io", tag: "Structured roadmap", icon: Layout, url: "https://neetcode.io" },
+          { name: "GeeksForGeeks", tag: "Concept understanding", icon: FileText, url: "https://geeksforgeeks.org" },
+          { name: "CodeChef", tag: "Contests", icon: Users, url: "https://codechef.com" },
+          { name: "HackerRank", tag: "Beginners", icon: Star, url: "https://hackerrank.com" }
         ],
         youtube: [
-          { name: "Take U Forward", focus: "DSA" },
-          { name: "Kunal Kushwaha", focus: "DSA + Dev" },
-          { name: "Harkirat Singh", focus: "Web Dev + DSA" }
+          { name: "Striver", focus: "DSA", url: "https://youtube.com/@striver_79" },
+          { name: "Kunal Kushwaha", focus: "DSA + Dev", url: "https://youtube.com/@KunalKushwaha" },
+          { name: "Harkirat Singh", focus: "Web Dev + DSA", url: "https://youtube.com/@harkirat1" }
         ],
         importantNote: "Coding ability is tested in three layers: Problem Understanding, Approach Building, and Clean Code Implementation. Your coding ability is what separates you from other candidates."
       },
@@ -362,9 +362,8 @@ export function PlacementGuideSection() {
       title: "SQL & Databases",
       icon: Database,
       content: {
-        subtitle: "Database Skills Every Developer Needs",
-        description: "SQL is equally important to DSA for most backend and data-related roles. Mastering SQL and database concepts shows you understand data persistence, management, and can work with real-world data systems.",
-        importance: "SQL is crucial for backend roles and data-related positions. It's tested in almost every technical interview for developer roles. Strong SQL skills demonstrate your ability to work with databases, write efficient queries, and understand data relationships.",
+        subtitle: "Why SQL?",
+        description: "SQL is crucial for backend roles and data-related positions. It's tested in almost every technical interview for developer roles. Strong SQL skills demonstrate your ability to work with databases, write efficient queries, and understand data relationships.",
         coreConcepts: [
           {
             category: "1. Core Concepts to Master",
@@ -394,7 +393,7 @@ export function PlacementGuideSection() {
             ]
           },
           {
-            category: "3. Query Optimization Concepts",
+            category: "3. Query Optimization",
             icon: Zap,
             items: [
               "Understanding execution plans",
@@ -407,11 +406,11 @@ export function PlacementGuideSection() {
         ],
         practiceRoutine: "Practice 3 SQL queries/day with revisiting old ones after 15 days for retention",
         practicePlatforms: [
-          { name: "HackerRank SQL Section", tag: "Practice", url: "#", icon: Terminal },
-          { name: "LeetCode Database Problems", tag: "Advanced", url: "#", icon: Code },
-          { name: "GeeksforGeeks SQL", tag: "Concepts", url: "#", icon: FileText }
+          { name: "HackerRank SQL Section", tag: "Practice", url: "https://www.hackerrank.com/domains/sql", icon: Terminal },
+          { name: "LeetCode Database Problems", tag: "Advanced", url: "https://leetcode.com/problemset/database/", icon: Code },
+          { name: "GeeksforGeeks SQL", tag: "Concepts", url: "https://www.geeksforgeeks.org/sql-tutorial/", icon: FileText }
         ],
-        tip: "SQL is equally important as DSA for most backend roles. Companies test SQL to ensure you can work with databases efficiently."
+        tip: "Mastering SQL and database concepts shows you understand data persistence, management, and can work with real-world data systems."
       }
     },
     fundamentals: {
@@ -788,12 +787,16 @@ export function PlacementGuideSection() {
             "The score depends on keyword matching, clean formatting, no fancy designs/images, and using standard section titles (Education, Skills, Work Experience, Projects)",
             "Examples websites to check Ats score: jobscan.co, enhancv.com, novoresume.com"
           ],
-          checkWebsites: ["jobscan.co", "enhancv.com", "novoresume.com"]
+          checkWebsites: [
+            { name: "jobscan.co", url: "https://www.jobscan.co" },
+            { name: "enhancv.com", url: "https://enhancv.com" },
+            { name: "novoresume.com", url: "https://novoresume.com" }
+          ]
         },
         templatePlatforms: [
-          { name: "Canva", description: "Modern, clean templates", icon: Layout },
-          { name: "FlowCV", description: "Professional, recruiter-friendly", icon: FileText },
-          { name: "Overleaf (LaTeX)", description: "Great for technical resumes", icon: Type }
+          { name: "Canva", description: "Modern, clean templates", icon: Layout, url: "https://www.canva.com/resumes/" },
+          { name: "FlowCV", description: "Professional, recruiter-friendly", icon: FileText, url: "https://flowcv.com" },
+          { name: "Overleaf (LaTeX)", description: "Great for technical resumes", icon: Type, url: "https://www.overleaf.com/latex/templates/tagged/cv" }
         ],
         sections: [
           {
@@ -974,7 +977,7 @@ export function PlacementGuideSection() {
               category: "1: Build Your Online Visibility",
               steps: [
                 {
-                  step: "1️⃣ Optimize Your LinkedIn Profile",
+                  step: " Optimize Your LinkedIn Profile",
                   details: [
                     "Use a clear headline: 'Software Developer | Java | React | AWS | DSA'",
                     "Add 2–3 strong projects (with GitHub links)",
@@ -982,7 +985,7 @@ export function PlacementGuideSection() {
                   ]
                 },
                 {
-                  step: "2️⃣ Strengthen Your LeetCode / GFG Profile",
+                  step: "Strengthen Your LeetCode / GFG Profile",
                   details: [
                     "Your coding activity acts as a public skill tracker",
                     "Try maintaining a 20-40 day streak to improve profile visibility",
@@ -990,7 +993,7 @@ export function PlacementGuideSection() {
                   ]
                 },
                 {
-                  step: "3️⃣ Build or Update Your Portfolio Website",
+                  step: "Build or Update Your Portfolio Website",
                   details: [
                     "Show your projects, tech stack, achievements, certifications",
                     "Helps recruiters evaluate you in 30 seconds"
@@ -1002,7 +1005,7 @@ export function PlacementGuideSection() {
               category: "2: Apply Smart, Not Hard",
               steps: [
                 {
-                  step: "4️⃣ Apply Through All Key Portals (Daily)",
+                  step: "Apply Through All Key Portals (Daily)",
                   details: [
                     "LinkedIn Jobs",
                     "Naukri",
@@ -1014,7 +1017,7 @@ export function PlacementGuideSection() {
                   note: "Apply using a clean ATS resume + short message"
                 },
                 {
-                  step: "5️⃣ Use Referral Power (10× Higher Chances)",
+                  step: "Use Referral Power (10× Higher Chances)",
                   details: [
                     "Networking > cold applying",
                     "Send a 3-line referral request: Who you are + What role you're applying for + Resume + portfolio link",
@@ -1027,14 +1030,14 @@ export function PlacementGuideSection() {
               category: "3: Stand Out With Work (Parallel Activity)",
               steps: [
                 {
-                  step: "6️⃣ Open-Source Contributions",
+                  step: "Open-Source Contributions",
                   details: [
                     "Even 2–3 PRs in beginner repositories make your profile stronger",
                     "Shows initiative, learning ability, and teamwork"
                   ]
                 },
                 {
-                  step: "7️⃣ Build 1–2 Good Personal Projects",
+                  step: "Build 1–2 Good Personal Projects",
                   details: [
                     "AI, Web Dev, Cloud, or Full-Stack projects",
                     "Preferably with backend + database + deployment",
@@ -1047,14 +1050,14 @@ export function PlacementGuideSection() {
               category: "4: Track + Improve (Continuous)",
               steps: [
                 {
-                  step: "8️⃣ Post Weekly LinkedIn Updates",
+                  step: "Post Weekly LinkedIn Updates",
                   details: [
                     "Post about: A project feature you added, A concept you learned, A coding milestone, An open-source contribution",
                     "Consistency = visibility"
                   ]
                 },
                 {
-                  step: "9️⃣ Track All Applications (very important)",
+                  step: "Track All Applications (very important)",
                   details: [
                     "Use a spreadsheet or tools like Huntr",
                     "Track: Job link, Company name, Date applied, Status, Follow-up date",
@@ -1062,7 +1065,7 @@ export function PlacementGuideSection() {
                   ]
                 },
                 {
-                  step: "🔟 Prepare for ATS",
+                  step: "Prepare for ATS",
                   details: [
                     "Use correct keywords",
                     "Add project achievements",
@@ -1084,35 +1087,35 @@ export function PlacementGuideSection() {
         description: "Technical skills are important, but your mindset during placements can make or break your success. Placement success is a marathon, not a sprint.",
         keyPoints: [
           {
-            point: "1. Be Consistent",
+            point: " Be Consistent",
             description: "Show up daily — even 1 hour a day beats studying 4-5 hours once a week"
           },
           {
-            point: "2. Handle Rejections Maturely",
+            point: "Handle Rejections Maturely",
             description: "Treat every rejection as feedback, not failure"
           },
           {
-            point: "3. Have a Learning Mindset",
+            point: "Have a Learning Mindset",
             description: "Be curious, open to new concepts, and willing to say 'I can learn this'"
           },
           {
-            point: "4. Trust the Process",
+            point: "Trust the Process",
             description: "Believe in your preparation process, stay confident even when others get placed before you. Your day will come, keep improving, and don't lose focus"
           },
           {
-            point: "5. Show Ownership",
+            point: "Show Ownership",
             description: "Understand your projects end-to-end and take responsibility for decisions"
           },
           {
-            point: "6. Stay Positive & Professional",
+            point: "Stay Positive & Professional",
             description: "Confident but not arrogant; respectful tone; honest answers"
           },
           {
-            point: "7. Be Organised",
+            point: "Be Organised",
             description: "Track your prep, maintain notes, follow a schedule, track job applications"
           },
           {
-            point: "8. Maintain Discipline",
+            point: "Maintain Discipline",
             description: "During preparation AND interviews — it's not just about answering questions; how you think, how you structure answers, and how you drive the interview with clarity and confidence matters the most"
           }
         ],
@@ -1223,7 +1226,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Types of Placements - NEW SECTION */}
-            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
                 Types of Placements
               </h4>
@@ -1231,7 +1234,7 @@ export function PlacementGuideSection() {
                 {section.content.highlights.map((item, idx) => (
                   <div
                     key={idx}
-                    className="bg-gradient-to-br from-white/5 to-transparent rounded-xl p-5 border border-white/10 hover:border-blue-400/30 transition-all duration-300"
+                    className="bg-gradient-to-br from-white/5 to-transparent rounded-xl p-5 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
@@ -1245,7 +1248,7 @@ export function PlacementGuideSection() {
               </div>
               
               {/* Why it Matters Section */}
-              <div className="mt-8 p-5 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20">
+              <div className="mt-8 p-5 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/30 transition-all duration-300">
                 <div className="flex items-center gap-3 mb-3">
                   <Target className="w-6 h-6 text-cyan-400" />
                   <h5 className="text-lg font-bold text-cyan-400">Why This Matters for CSE Cluster</h5>
@@ -1257,7 +1260,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Pillars Section */}
-            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-6 text-center bebas-neue tracking-wide">
                 7 Pillars of Placement Success
               </h4>
@@ -1267,10 +1270,10 @@ export function PlacementGuideSection() {
                   {section.content.pillars.slice(0, 4).map((pillar, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-[1.01] relative"
                     >
-                      <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
-                        <span className="text-white font-bold text-xs">{idx + 1}</span>
+                      <div className="absolute -left-3 top-6 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+                        <span className="text-white font-bold text-sm">{idx + 1}</span>
                       </div>
                       <div className="ml-6 w-full">
                         <span className="text-white/80">{pillar}</span>
@@ -1284,10 +1287,10 @@ export function PlacementGuideSection() {
                   {section.content.pillars.slice(4, 7).map((pillar, idx) => (
                     <div
                       key={idx + 4}
-                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 relative"
+                      className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-[1.01] relative"
                     >
-                      <div className="absolute -left-3 top-4 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
-                        <span className="text-white font-bold text-xs">{idx + 5}</span>
+                      <div className="absolute -left-3 top-6 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center z-10">
+                        <span className="text-white font-bold text-sm">{idx + 5}</span>
                       </div>
                       <div className="ml-6 w-full">
                         <span className="text-white/80">{pillar}</span>
@@ -1298,24 +1301,25 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            <div className="text-center pt-8 border-t border-white/10">
-              <p className="text-white/60 mb-4">Select a section to begin exploring</p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {navigationItems.slice(1).map((item) => {
-                  const NavIcon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => handleNavClick(item.id)}
-                      className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white/80 hover:text-white transition-all"
-                    >
-                      <NavIcon className="w-4 h-4" />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Cleaner Navigation Section */}
+<div className="text-center pt-8 border-t border-white/10">
+  <p className="text-white/70 mb-6 text-lg font-medium">Select a section to begin exploring</p>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto">
+    {navigationItems.slice(1).map((item) => {
+      const NavIcon = item.icon;
+      return (
+        <button
+          key={item.id}
+          onClick={() => handleNavClick(item.id)}
+          className="flex flex-col items-center gap-2 p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/80 hover:text-white transition-all duration-300 hover:border-blue-400/40 hover:scale-[1.03]"
+        >
+          <NavIcon className="w-6 h-6" />
+          <span className="text-sm font-medium">{item.label}</span>
+        </button>
+      );
+    })}
+  </div>
+</div>
           </div>
         )
 
@@ -1334,7 +1338,7 @@ export function PlacementGuideSection() {
 
             {/* Daily Practice Tips */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4">
+              <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="w-5 h-5 text-cyan-400" />
                   <h4 className="text-lg font-bold text-white">Daily Practice</h4>
@@ -1343,7 +1347,7 @@ export function PlacementGuideSection() {
                   {section.content.dailyPractice}
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4">
+              <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-4 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
                 <div className="flex items-center gap-2 mb-2">
                   <BookOpen className="w-5 h-5 text-cyan-400" />
                   <h4 className="text-lg font-bold text-white">Reading Tip</h4>
@@ -1359,11 +1363,13 @@ export function PlacementGuideSection() {
               {section.content.topics.map((topic, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5"
+                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <topic.icon className="w-6 h-6 text-cyan-400" />
-                    <h4 className="text-xl font-bold text-cyan-400 bebas-neue tracking-wide">
+                    <div className=" w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                      <topic.icon className="w-4 h-4 text-cyan-400" />
+                    </div>
+                    <h4 className="text-lg font-bold text-cyan-400 bebas-neue tracking-wide">
                       {topic.category.split("—")[0]}
                     </h4>
                   </div>
@@ -1389,7 +1395,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Resources */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                 Recommended Resources
               </h4>
@@ -1397,11 +1403,13 @@ export function PlacementGuideSection() {
                 {section.content.resources.map((resource, idx) => (
                   <div
                     key={idx}
-                    className="p-4 bg-blue-500/5 rounded-lg border border-blue-500/20"
+                    className="p-4 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-lg border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300"
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <resource.icon className="w-4 h-4 text-blue-400" />
-                      <h5 className="text-blue-400 font-semibold">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                        <resource.icon className="w-4 h-4 text-cyan-400" />
+                      </div>
+                      <h5 className="text-cyan-400 font-bold">
                         {resource.name}
                       </h5>
                     </div>
@@ -1427,7 +1435,7 @@ export function PlacementGuideSection() {
             </p>
 
             {/* Language Selection */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
                 Choosing Your Coding Language: What Each One Is Actually Used For?
               </h4>
@@ -1435,7 +1443,7 @@ export function PlacementGuideSection() {
                 {section.content.languages.map((lang, idx) => (
                   <div
                     key={idx}
-                    className="p-5 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300"
+                    className="p-5 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <div className="flex justify-between items-start mb-3">
                       <h5 className="text-white font-bold text-xl">
@@ -1481,7 +1489,7 @@ export function PlacementGuideSection() {
                 ))}
               </div>
               
-              <div className="mt-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+              <div className="mt-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/30 hover:border-blue-400/40 transition-all duration-300">
                 <div className="flex items-center gap-2 mb-2">
                   <AlertCircle className="w-5 h-5 text-blue-400" />
                   <h5 className="text-white font-semibold">Final Note on Choosing Your Language</h5>
@@ -1493,15 +1501,17 @@ export function PlacementGuideSection() {
             </div>
 
             {/* DSA Layers */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
                 Your coding ability is tested in three layers:
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.dsaLayers.map((layer, idx) => (
-                  <div key={idx} className="p-5 bg-white/5 rounded-lg border border-blue-500/20">
+                  <div key={idx} className="p-5 bg-white/5 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
                     <div className="flex items-center gap-3 mb-4">
-                      <layer.icon className="w-6 h-6 text-blue-400" />
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                        <layer.icon className="w-5 h-5 text-blue-400" />
+                      </div>
                       <h5 className="text-white font-semibold text-lg">{layer.name}</h5>
                     </div>
                     <ul className="space-y-2 mb-4">
@@ -1523,8 +1533,8 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            {/* DSA Roadmap - ORIGINAL TIMELINE DESIGN */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            {/* DSA Roadmap - Fixed Center Alignment */}
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
                 DSA Roadmap (A-Z)
               </h4>
@@ -1532,17 +1542,13 @@ export function PlacementGuideSection() {
               <div className="relative pl-8 border-l-2 border-blue-500/30">
                 {section.content.roadmap.map((topic, idx) => (
                   <div key={idx} className="relative mb-6 last:mb-0">
-                    {/* Circle positioned exactly on the line */}
-                    <div className="absolute -left-[43px] top-1/2 transform -translate-y-1/2 w-5 h-5 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-blue-900 z-10"></div>
+                    <div className="absolute -left-[48px] top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 border-4 border-blue-900 z-10 flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">{idx + 1}</span>
+                    </div>
 
-                    <div className="p-3 bg-white/5 rounded-lg border border-blue-500/20 ml-4">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <h5 className="text-white font-medium">{topic}</h5>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-white/50 text-xs"></span>
-                          </div>
-                        </div>
+                    <div className="p-4 bg-white/5 rounded-lg border border-blue-500/20 ml-6 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.01]">
+                      <div className="flex items-center">
+                        <h5 className="text-white font-medium">{topic}</h5>
                       </div>
                     </div>
                   </div>
@@ -1550,17 +1556,20 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            {/* Practice Platforms & YouTube */}
+            {/* Practice Platforms & YouTube - Fixed YouTube Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
                 <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                   Practice Platforms
                 </h4>
                 <div className="space-y-3">
                   {section.content.practicePlatforms.map((platform, idx) => (
-                    <div
+                    <a
                       key={idx}
-                      className="flex items-center justify-between p-3 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg hover:bg-blue-900/30 transition-all duration-300"
+                      href={platform.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-3 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg hover:bg-blue-900/30 transition-all duration-300 hover:scale-[1.01] border border-transparent hover:border-blue-400/40"
                     >
                       <div className="flex items-center gap-3">
                         <platform.icon className="w-5 h-5 text-blue-400" />
@@ -1568,36 +1577,44 @@ export function PlacementGuideSection() {
                           <span className="text-white font-semibold">
                             {platform.name}
                           </span>
-                          <p className="text-white/60 text-xs mt-1"></p>
+                          <p className="text-white/60 text-xs mt-1">{platform.tag}</p>
                         </div>
                       </div>
-                    </div>
+                      <ExternalLink className="w-4 h-4 text-white/40" />
+                    </a>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
                 <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                   YouTube Channels
                 </h4>
                 <div className="space-y-3">
                   {section.content.youtube.map((channel, idx) => (
-                    <div
+                    <a
                       key={idx}
-                      className="p-3 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg hover:bg-blue-900/30 transition-all duration-300"
+                      href={channel.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-3 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg hover:bg-blue-900/30 transition-all duration-300 hover:scale-[1.01] border border-transparent hover:border-blue-400/40"
                     >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-white font-semibold">
-                          {channel.name}
-                        </span>
+                      <div className="flex items-center gap-3">
+                        <Users className="w-5 h-5 text-cyan-400" />
+                        <div>
+                          <span className="text-white font-semibold">
+                            {channel.name}
+                          </span>
+                          <p className="text-white/60 text-xs mt-1">Focus: {channel.focus}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
                         <span className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded">
                           Free
                         </span>
+                        <ExternalLink className="w-4 h-4 text-white/40" />
                       </div>
-                      <span className="text-white/70 text-sm">
-                        Focus: {channel.focus}
-                      </span>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -1616,26 +1633,22 @@ export function PlacementGuideSection() {
             </div>
             
             {/* SQL Importance Banner */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-5">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-5 hover:border-blue-400 transition-all duration-300">
               <div className="flex items-start gap-4">
                 <AlertCircle className="w-6 h-6 text-blue-400 mt-1 flex-shrink-0" />
                 <div>
                   <h4 className="text-lg font-bold text-blue-300 mb-2">
-                    SQL is equally important to DSA
+                    Why SQL is Crucial for Backend & Data Roles
                   </h4>
                   <p className="text-white/80 text-sm leading-relaxed">
-                    {section.content.importance}
+                    {section.content.description}
                   </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-white/70 text-lg leading-relaxed">
-              {section.content.description}
-            </p>
-
             {/* Practice Routine */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
               <div className="flex items-center gap-3 mb-3">
                 <Clock className="w-5 h-5 text-blue-400" />
                 <h5 className="text-lg font-bold text-white">Practice Routine</h5>
@@ -1645,47 +1658,61 @@ export function PlacementGuideSection() {
               </p>
             </div>
 
-            {/* Core Concepts */}
+            {/* Core Concepts - Fixed Headings */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {section.content.coreConcepts.map((concept, idx) => (
-                <div
-                  key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <concept.icon className="w-6 h-6 text-blue-400" />
-                    <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">
-                      {concept.category.split(".")[0]}
-                    </h4>
+              {section.content.coreConcepts.map((concept, idx) => {
+                const [number, ...titleParts] = concept.category.split(". ");
+                const title = titleParts.join(". ");
+                
+                return (
+                  <div
+                    key={idx}
+                    className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                        <concept.icon className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
+                            {number}
+                          </span>
+                          <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
+                            {title}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    <ul className="space-y-2">
+                      {concept.items.map((item, itemIdx) => (
+                        <li
+                          key={itemIdx}
+                          className="text-white/80 text-sm flex items-start gap-2"
+                        >
+                          <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="text-white/70 text-sm mb-3 italic">
-                    {concept.category.split(".")[1]}
-                  </p>
-                  <ul className="space-y-2">
-                    {concept.items.map((item, itemIdx) => (
-                      <li
-                        key={itemIdx}
-                        className="text-white/80 text-sm flex items-start gap-2"
-                      >
-                        <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Practice Platforms */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                 Practice Platforms
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.practicePlatforms.map((platform, idx) => (
-                  <div
+                  <a
                     key={idx}
-                    className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20"
+                    href={platform.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <platform.icon className="w-4 h-4 text-blue-400" />
@@ -1697,13 +1724,13 @@ export function PlacementGuideSection() {
                       <span className="text-white/70 text-sm">{platform.tag}</span>
                       <ExternalLink className="w-3 h-3 text-white/40" />
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
 
             {/* Final Tip */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300">
               <div className="flex items-center gap-3">
                 <Lightbulb className="w-5 h-5 text-yellow-400" />
                 <p className="text-white/80">
@@ -1728,7 +1755,7 @@ export function PlacementGuideSection() {
             </p>
 
             {/* Study Tip */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-5">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-5 hover:border-blue-400 transition-all duration-300">
               <div className="flex items-start gap-3">
                 <Lightbulb className="w-6 h-6 text-yellow-400 mt-1 flex-shrink-0" />
                 <div>
@@ -1744,11 +1771,13 @@ export function PlacementGuideSection() {
               {section.content.subjects.map((subject, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6"
+                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <subject.icon className="w-6 h-6 text-blue-400" />
-                    <h4 className="text-xl font-bold text-blue-400 bebas-neue tracking-wide">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                      <subject.icon className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
                       {subject.name}
                     </h4>
                   </div>
@@ -1768,7 +1797,7 @@ export function PlacementGuideSection() {
                       href={subject.resource}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
+                      className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300 hover:scale-105 transition-all"
                     >
                       <ExternalLink className="w-3 h-3" />
                       Resource Link
@@ -1779,15 +1808,18 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Interview Practice */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                 Interview Question Practice
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.interviewPractice.map((practice, idx) => (
-                  <div
+                  <a
                     key={idx}
-                    className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20"
+                    href={practice.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <h5 className="text-white font-semibold mb-2">
                       {practice.platform}
@@ -1795,16 +1827,11 @@ export function PlacementGuideSection() {
                     <p className="text-white/70 text-sm mb-3">
                       {practice.description}
                     </p>
-                    <a
-                      href={practice.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300"
-                    >
+                    <div className="inline-flex items-center gap-1 text-blue-400 text-sm hover:text-blue-300">
                       <ExternalLink className="w-3 h-3" />
                       Visit Platform
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -1825,15 +1852,15 @@ export function PlacementGuideSection() {
             </p>
 
             {/* Principles */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
                 Key Principles
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.principles.map((principle, idx) => (
-                  <div key={idx} className="p-4 bg-white/5 rounded-lg">
-                    <div className="text-blue-400 font-bold text-lg mb-2">
-                      {idx + 1}
+                  <div key={idx} className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-3">
+                      <span className="text-white font-bold">{idx + 1}</span>
                     </div>
                     <h5 className="text-white font-semibold mb-1">
                       {principle.title}
@@ -1855,17 +1882,20 @@ export function PlacementGuideSection() {
                 {section.content.allProjects.map((project) => (
                   <div
                     key={project.id}
-                    className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-400/50 transition-all cursor-pointer ${expandedProjects.includes(project.id)
+                    className={`bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl overflow-hidden transition-all cursor-pointer hover:border-blue-400/50 hover:scale-[1.01] ${
+                      expandedProjects.includes(project.id)
                         ? "border-blue-400/50"
                         : ""
-                      }`}
+                    }`}
                     onClick={() => handleProjectClick(project.id)}
                   >
                     {/* Project Header */}
                     <div className="p-5 border-b border-white/10">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center gap-3">
-                          <project.icon className="w-6 h-6 text-blue-400" />
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                            <project.icon className="w-5 h-5 text-blue-400" />
+                          </div>
                           <div>
                             <h5 className="text-white font-bold text-lg">
                               {project.title}
@@ -1876,14 +1906,15 @@ export function PlacementGuideSection() {
                           </div>
                         </div>
                         <span
-                          className={`text-xs px-3 py-1 rounded-full ${project.priority === "must-have"
+                          className={`text-xs px-3 py-1 rounded-full ${
+                            project.priority === "must-have"
                               ? "bg-red-500/20 text-red-400"
                               : project.priority === "recommended"
                                 ? "bg-green-500/20 text-green-400"
                                 : project.priority === "highly-recommended"
                                   ? "bg-blue-500/20 text-blue-400"
                                   : "bg-yellow-500/20 text-yellow-400"
-                            }`}
+                          }`}
                         >
                           {project.priority}
                         </span>
@@ -1993,12 +2024,14 @@ export function PlacementGuideSection() {
 
                     {/* Expand/Collapse Button */}
                     <div className="p-3 border-t border-white/10 text-center">
-                      <button className="text-blue-400 text-sm hover:text-blue-300 flex items-center justify-center gap-1 w-full">
+                      <button className="text-blue-400 text-sm hover:text-blue-300 flex items-center justify-center gap-1 w-full transition-all hover:scale-105">
                         {expandedProjects.includes(project.id)
                           ? "Show Less"
                           : "Click for Details"}
                         <ChevronRight
-                          className={`w-4 h-4 transition-transform ${expandedProjects.includes(project.id) ? "rotate-90" : ""}`}
+                          className={`w-4 h-4 transition-transform ${
+                            expandedProjects.includes(project.id) ? "rotate-90" : ""
+                          }`}
                         />
                       </button>
                     </div>
@@ -2008,7 +2041,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Extra Tips */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                 Extra Tips
               </h4>
@@ -2018,7 +2051,9 @@ export function PlacementGuideSection() {
                     key={idx}
                     className="flex items-start gap-2 text-white/70"
                   >
-                    <ChevronRight className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <span className="text-blue-400 text-xs">{idx + 1}</span>
+                    </div>
                     <span>{tip}</span>
                   </div>
                 ))}
@@ -2026,13 +2061,16 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Interview Preparation */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 mt-8">
               <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
                 Interview Preparation
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.content.interviewPreparation.map((prep, idx) => (
-                  <div key={idx} className="p-4 bg-white/5 rounded-lg">
+                  <div key={idx} className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-3">
+                      <span className="text-white font-bold text-sm">{idx + 1}</span>
+                    </div>
                     <h5 className="text-white font-semibold mb-2">
                       {prep.aspect}
                     </h5>
@@ -2058,7 +2096,7 @@ export function PlacementGuideSection() {
             </p>
 
             {/* Key Tips */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
                 Key Tips
               </h4>
@@ -2068,7 +2106,9 @@ export function PlacementGuideSection() {
                     key={idx}
                     className="flex items-start gap-2 text-white/70"
                   >
-                    <ChevronRight className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <span className="text-white font-bold text-xs">{idx + 1}</span>
+                    </div>
                     <span>{tip}</span>
                   </div>
                 ))}
@@ -2076,7 +2116,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* ATS Explanation */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300">
               <h4 className="text-xl font-bold text-white mb-4 bebas-neue tracking-wide">
                 {section.content.atsExplanation.title}
               </h4>
@@ -2096,12 +2136,15 @@ export function PlacementGuideSection() {
                 <div className="flex flex-wrap gap-2">
                   {section.content.atsExplanation.checkWebsites.map(
                     (site, idx) => (
-                      <span
+                      <a
                         key={idx}
-                        className="px-3 py-1 bg-blue-500/10 text-blue-400 text-sm rounded"
+                        href={site.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1 bg-blue-500/10 text-blue-400 text-sm rounded hover:bg-blue-500/20 hover:scale-105 transition-all"
                       >
-                        {site}
-                      </span>
+                        {site.name}
+                      </a>
                     )
                   )}
                 </div>
@@ -2109,13 +2152,19 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Template Platforms */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
                 Recommended Platforms for Resume Templates
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {section.content.templatePlatforms.map((platform, idx) => (
-                  <div key={idx} className="p-4 bg-white/5 rounded-lg">
+                  <a
+                    key={idx}
+                    href={platform.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
+                  >
                     <div className="flex items-center gap-2 mb-2">
                       <platform.icon className="w-4 h-4 text-blue-400" />
                       <h5 className="text-white font-semibold">
@@ -2125,22 +2174,24 @@ export function PlacementGuideSection() {
                     <p className="text-white/70 text-sm">
                       {platform.description}
                     </p>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
 
             {/* Resume Sections */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 mt-8">
               <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
                 Want to make one from scratch without a template?
               </h4>
               <p className="text-white/70 text-sm mb-4">These are the sections to include:</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {section.content.sections.map((sectionItem, idx) => (
-                  <div key={idx} className="p-4 bg-white/5 rounded-lg">
+                  <div key={idx} className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]">
                     <div className="flex items-center gap-2 mb-2">
-                      <sectionItem.icon className="w-4 h-4 text-blue-400" />
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                        <sectionItem.icon className="w-3 h-3 text-blue-400" />
+                      </div>
                       <h5 className="text-white font-semibold">
                         {sectionItem.name}
                       </h5>
@@ -2154,7 +2205,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Mentor Tip */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 mt-6">
               <div className="flex items-center gap-3 mb-3">
                 <Award className="w-6 h-6 text-blue-400" />
                 <h5 className="text-white font-bold">Mentor Tip</h5>
@@ -2177,8 +2228,8 @@ export function PlacementGuideSection() {
               {section.content.description}
             </p>
 
-            {/* Rounds Table */}
-            <div className="overflow-x-auto rounded-xl border border-blue-500/30">
+            {/* Rounds Table - Added Number Circles */}
+            <div className="overflow-x-auto rounded-xl border border-blue-500/30 hover:border-blue-400/40 transition-all duration-300">
               <table className="w-full">
                 <thead>
                   <tr className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20">
@@ -2192,12 +2243,14 @@ export function PlacementGuideSection() {
                   {section.content.rounds.map((round, idx) => (
                     <tr 
                       key={idx} 
-                      className={`border-t border-white/10 ${idx % 2 === 0 ? 'bg-white/5' : 'bg-white/3'}`}
+                      className={`border-t border-white/10 hover:bg-white/10 transition-all duration-200 ${
+                        idx % 2 === 0 ? 'bg-white/5' : 'bg-white/3'
+                      }`}
                     >
                       <td className="p-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">{idx + 1}</span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center flex-shrink-0">
+                            <span className="text-white text-sm font-bold">{idx + 1}</span>
                           </div>
                           <span className="text-white font-semibold">{round.name}</span>
                         </div>
@@ -2211,31 +2264,51 @@ export function PlacementGuideSection() {
               </table>
             </div>
 
-            {/* STAR Method */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-xl font-bold text-blue-400 mb-4 bebas-neue tracking-wide">
-                STAR Method for Behavioral Rounds
-              </h4>
-              <p className="text-white/70 mb-4">
-                {section.content.starMethod.description}
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {section.content.starMethod.components.map((component, idx) => {
-                  const [letter, description] = component.split(": ");
-                  return (
-                    <div
-                      key={idx}
-                      className="p-4 bg-white/5 rounded-lg text-center"
-                    >
-                      <div className="text-3xl font-bold text-blue-400 mb-2">
-                        {letter}
-                      </div>
-                      <p className="text-white/80 text-sm">{description}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            {/* STAR Method - Improved Design */}
+<div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
+  <h4 className="text-xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
+    STAR Method for Behavioral Rounds
+  </h4>
+  <p className="text-white/70 mb-6 text-center">
+    {section.content.starMethod.description}
+  </p>
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    {section.content.starMethod.components.map((component, idx) => {
+      const [letter, description] = component.split(" – ");
+      const colors = [
+        "from-blue-500 to-blue-600",
+        "from-cyan-500 to-cyan-600",
+        "from-blue-600 to-cyan-600",
+        "from-cyan-600 to-blue-500"
+      ];
+      
+      return (
+        <div
+          key={idx}
+          className="p-5 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-xl text-center border border-white/10 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
+        >
+          <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${colors[idx]} flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+            <span className="text-white text-2xl font-bold bebas-neue tracking-wider">
+              {letter}
+            </span>
+          </div>
+          <h5 className="text-blue-300 font-bold text-lg mb-2 bebas-neue tracking-wide">
+            {letter} – {description.split(":")[0]}
+          </h5>
+          <p className="text-white/80 text-sm leading-relaxed">{description.split(": ")[1] || description}</p>
+        </div>
+      );
+    })}
+  </div>
+  <div className="mt-8 p-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-lg border border-blue-500/20">
+    <div className="flex items-center gap-3">
+      <Lightbulb className="w-5 h-5 text-yellow-400" />
+      <p className="text-white/80 text-sm">
+        <span className="font-semibold text-blue-300">Pro Tip:</span> Practice 2-3 STAR stories for common questions like "Tell me about a time you faced a challenge" or "Describe a team conflict you resolved"
+      </p>
+    </div>
+  </div>
+</div>
           </div>
         );
 
@@ -2252,17 +2325,17 @@ export function PlacementGuideSection() {
               {section.content.description}
             </p>
 
-            {/* On-Campus Roadmap */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            {/* On-Campus Roadmap - Separated Phases with Dividers */}
+            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <h4 className="text-2xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
                 On-Campus/Off-Campus Roadmap
               </h4>
               
               {/* Phase 1 */}
-              <div className="mb-8">
+              <div className="mb-12 border-b border-white/10 pb-12">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                    <span className="text-white font-bold">1</span>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">1</span>
                   </div>
                   <div>
                     <h5 className="text-xl font-bold text-white">PHASE 1 — Foundation Phase (4-6 Weeks)</h5>
@@ -2276,7 +2349,9 @@ export function PlacementGuideSection() {
                     <ul className="space-y-1">
                       {section.content.phases[0].dailyPlan.map((item, idx) => (
                         <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <span className="text-blue-400 text-xs">{idx + 1}</span>
+                          </div>
                           {item}
                         </li>
                       ))}
@@ -2293,7 +2368,7 @@ export function PlacementGuideSection() {
                   </div>
                 </div>
                 
-                <div className="mt-4 p-3 bg-blue-500/10 rounded-lg">
+                <div className="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300">
                   <p className="text-white/80 text-sm italic">{section.content.phases[0].note}</p>
                 </div>
                 
@@ -2305,10 +2380,10 @@ export function PlacementGuideSection() {
               </div>
               
               {/* Phase 2 */}
-              <div className="mb-8">
+              <div className="mb-12 border-b border-white/10 pb-12">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                    <span className="text-white font-bold">2</span>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">2</span>
                   </div>
                   <div>
                     <h5 className="text-xl font-bold text-white">PHASE 2 — Strengthening Phase (8 Weeks)</h5>
@@ -2322,7 +2397,9 @@ export function PlacementGuideSection() {
                     <ul className="space-y-1">
                       {section.content.phases[1].dailyPlan.map((item, idx) => (
                         <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <span className="text-blue-400 text-xs">{idx + 1}</span>
+                          </div>
                           {item}
                         </li>
                       ))}
@@ -2345,8 +2422,8 @@ export function PlacementGuideSection() {
               {/* Phase 3 */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                    <span className="text-white font-bold">3</span>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">3</span>
                   </div>
                   <div>
                     <h5 className="text-xl font-bold text-white">PHASE 3 — Revision + Interview Phase (3-4 Weeks)</h5>
@@ -2360,7 +2437,9 @@ export function PlacementGuideSection() {
                     <ul className="space-y-1">
                       {section.content.phases[2].activities.map((item, idx) => (
                         <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <span className="text-blue-400 text-xs">{idx + 1}</span>
+                          </div>
                           {item}
                         </li>
                       ))}
@@ -2372,7 +2451,9 @@ export function PlacementGuideSection() {
                     <ul className="space-y-1 mt-1">
                       {section.content.phases[2].projectOptions.map((option, idx) => (
                         <li key={idx} className="text-white/70 text-sm flex items-start gap-2">
-                          <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <span className="text-blue-400 text-xs">{idx + 1}</span>
+                          </div>
                           {option}
                         </li>
                       ))}
@@ -2391,44 +2472,59 @@ export function PlacementGuideSection() {
               </div>
             </div>
 
-            {/* Off-Campus Strategy */}
-            <div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
-              <h4 className="text-2xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
-                {section.content.offCampusStrategy.title}
-              </h4>
-              <p className="text-white/70 text-lg mb-6">
-                <span className="text-blue-300 font-semibold">Goal:</span> {section.content.offCampusStrategy.goal}
-              </p>
-              
-              {section.content.offCampusStrategy.steps.map((category, catIdx) => (
-                <div key={catIdx} className="mb-6">
-                  <h5 className="text-xl font-bold text-blue-300 mb-4">
-                    {category.category}
-                  </h5>
-                  <div className="space-y-4">
-                    {category.steps.map((step, stepIdx) => (
-                      <div key={stepIdx} className="p-4 bg-white/5 rounded-lg">
-                        <h6 className="text-lg font-bold text-white mb-2">{step.step}</h6>
-                        <ul className="space-y-1">
-                          {step.details.map((detail, detailIdx) => (
-                            <li key={detailIdx} className="text-white/70 text-sm flex items-start gap-2">
-                              <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                              {detail}
-                            </li>
-                          ))}
-                        </ul>
-                        {step.note && (
-                          <p className="text-white/50 text-xs mt-2 italic">{step.note}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+            {/* Off-Campus Strategy - Improved with Number Circles */}
+<div className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300 mt-8">
+  <h4 className="text-2xl font-bold text-blue-400 mb-6 bebas-neue tracking-wide">
+    {section.content.offCampusStrategy.title}
+  </h4>
+  <p className="text-white/70 text-lg mb-6">
+    <span className="text-blue-300 font-semibold">Goal:</span> {section.content.offCampusStrategy.goal}
+  </p>
+  
+  {section.content.offCampusStrategy.steps.map((category, catIdx) => (
+    <div key={catIdx} className="mb-8">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
+          <span className="text-white font-bold">{catIdx + 1}</span>
+        </div>
+        <h5 className="text-xl font-bold text-blue-300">
+          {category.category}
+        </h5>
+      </div>
+      <div className="space-y-4 ml-4">
+        {category.steps.map((step, stepIdx) => {
+          // Extract the step text (remove the emoji number if present)
+          const stepText = step.step.replace(/^[0-9]+️⃣\s*/, '');
+          
+          return (
+            <div key={stepIdx} className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.01]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-blue-400 font-bold text-sm">{stepIdx + 1}</span>
                 </div>
-              ))}
+                <h6 className="text-lg font-bold text-white">{stepText}</h6>
+              </div>
+              <ul className="space-y-1 ml-11">
+                {step.details.map((detail, detailIdx) => (
+                  <li key={detailIdx} className="text-white/70 text-sm flex items-start gap-2">
+                    <ChevronRight className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+              {step.note && (
+                <div className="mt-3 ml-11 p-2 bg-blue-500/10 rounded border border-blue-500/20">
+                  <p className="text-white/50 text-xs italic">{step.note}</p>
+                </div>
+              )}
             </div>
-            
-            {/* Download Resources */}
-            
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>
+                
           </div>
         );
 
@@ -2450,11 +2546,11 @@ export function PlacementGuideSection() {
               {section.content.keyPoints.map((point, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5"
+                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
-                      <span className="text-white font-bold">{idx + 1}</span>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">{idx + 1}</span>
                     </div>
                     <h4 className="text-lg font-bold text-white">
                       {point.point}
@@ -2466,7 +2562,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Final Note */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <div className="flex items-center gap-3 mb-3">
                 <Sparkles className="w-6 h-6 text-blue-400" />
                 <h5 className="text-white font-bold">Final Note</h5>
@@ -2494,11 +2590,16 @@ export function PlacementGuideSection() {
               {section.content.trackingMethods.map((method, idx) => (
                 <div
                   key={idx}
-                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5"
+                  className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                 >
-                  <h4 className="text-xl font-bold text-blue-400 mb-3 bebas-neue tracking-wide">
-                    {method.method}
-                  </h4>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{idx + 1}</span>
+                    </div>
+                    <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
+                      {method.method}
+                    </h4>
+                  </div>
                   <p className="text-white/70 text-sm mb-4">
                     {method.description}
                   </p>
@@ -2591,7 +2692,7 @@ export function PlacementGuideSection() {
             </div>
 
             {/* Mentor Tip */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6">
+            <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-6 hover:border-blue-400/40 transition-all duration-300">
               <div className="flex items-center gap-3 mb-3">
                 <Award className="w-6 h-6 text-blue-400" />
                 <h5 className="text-white font-bold">Mentor Tip</h5>
@@ -2619,7 +2720,7 @@ export function PlacementGuideSection() {
 
       {/* Disclaimer Banner */}
       <div className="max-w-4xl mx-auto mb-16">
-        <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-6">
+        <div className="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-l-4 border-blue-500 rounded-r-lg p-6 hover:border-blue-400 transition-all duration-300">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               <Award className="w-7 h-7" />
@@ -2637,7 +2738,7 @@ export function PlacementGuideSection() {
       </div>
 
       <div className="max-w-7xl mx-auto">
-        {/* Scrollable Navigation */}
+        {/* Scrollable Navigation - Reduced Hover Effect */}
         <div className="mb-12">
           <div
             ref={navScrollRef}
@@ -2650,10 +2751,11 @@ export function PlacementGuideSection() {
                   key={item.id}
                   data-nav={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition-all duration-300 bebas-neue tracking-wider whitespace-nowrap ${activeSection === item.id
+                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-semibold transition-all duration-300 bebas-neue tracking-wider whitespace-nowrap ${
+                    activeSection === item.id
                       ? "bg-blue-500/20 text-blue-400 border-2 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-                      : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20"
-                    }`}
+                      : "bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white/90"
+                  }`}
                 >
                   <NavIcon className="w-4 h-4" />
                   {item.label}
@@ -2679,7 +2781,7 @@ export function PlacementGuideSection() {
                 key={item.id}
                 ref={(el) => (sectionRefs.current[item.id] = el)}
                 data-section={item.id}
-                className="min-w-full snap-start bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-white/10 rounded-2xl p-6 md:p-8 min-h-[600px] scroll-mt-4"
+                className="min-w-full snap-start bg-gradient-to-br from-blue-900/10 to-cyan-900/10 border border-white/10 rounded-2xl p-6 md:p-8 min-h-[600px] scroll-mt-4 hover:border-blue-400/20 transition-all duration-300"
               >
                 {activeSection === item.id && renderContent()}
               </div>
@@ -2696,10 +2798,11 @@ export function PlacementGuideSection() {
                 <button
                   key={idx}
                   onClick={() => handleNavClick(navigationItems[idx].id)}
-                  className={`w-2 h-2 rounded-full transition-all ${idx === currentSectionIndex
+                  className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${
+                    idx === currentSectionIndex
                       ? 'w-6 bg-gradient-to-r from-blue-500 to-cyan-500'
                       : 'bg-white/30 hover:bg-white/50'
-                    }`}
+                  }`}
                   aria-label={`Go to section ${idx + 1}`}
                 />
               ))}
@@ -2708,7 +2811,7 @@ export function PlacementGuideSection() {
         </div>
 
         {/* Footer Note */}
-        <div className="mt-12 text-center p-8 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-2xl">
+        <div className="mt-12 text-center p-8 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-2xl hover:border-blue-400/40 transition-all duration-300">
           <div className="flex items-center justify-center gap-3 mb-4">
             <AlertCircle className="w-6 h-6 text-yellow-400" />
             <p className="text-white/80 text-lg font-semibold">Important Reminder</p>
@@ -2720,25 +2823,20 @@ export function PlacementGuideSection() {
             and later pick tech stacks based on what you want to build.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10">
+            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10 hover:border-blue-400/40 hover:scale-105 transition-all duration-300">
               For CSE Cluster Students
             </span>
-            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10">
+            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10 hover:border-blue-400/40 hover:scale-105 transition-all duration-300">
               Based on Real Placement Experiences
             </span>
-            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10">
+            <span className="px-4 py-2 bg-white/5 text-white/70 text-sm rounded-full border border-white/10 hover:border-blue-400/40 hover:scale-105 transition-all duration-300">
               Complete Guide for On/Off Campus
             </span>
-          </div>
-
-          {/* Keyboard Shortcut Hint */}
-          <div className="mt-6 flex items-center justify-center gap-2 text-white/50 text-sm">
-            <span></span>
           </div>
         </div>
       </div>
 
-      {/* Custom Scrollbar CSS */}
+      {/* Custom Scrollbar CSS with Rounded Ends */}
       <style jsx>{`
         .placement-scroll::-webkit-scrollbar {
           display: none;
@@ -2759,6 +2857,21 @@ export function PlacementGuideSection() {
           overflow-x: auto;
           scrollbar-width: thin;
           scrollbar-color: rgba(59,130,246,0.8) transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          height: 6px;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to right, rgba(59, 130, 246, 0.5), rgba(6, 182, 212, 0.5));
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(6, 182, 212, 0.7));
         }
       `}</style>
     </div>
