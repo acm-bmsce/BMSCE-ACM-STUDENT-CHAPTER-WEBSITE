@@ -974,7 +974,7 @@ export function PlacementGuideSection() {
           goal: "Build credibility → Increase visibility → Unlock interview calls → Crack offers",
           steps: [
             {
-              category: "1: Build Your Online Visibility",
+              category: "Build Your Online Visibility",
               steps: [
                 {
                   step: " Optimize Your LinkedIn Profile",
@@ -1002,7 +1002,7 @@ export function PlacementGuideSection() {
               ]
             },
             {
-              category: "2: Apply Smart, Not Hard",
+              category: "Apply Smart, Not Hard",
               steps: [
                 {
                   step: "Apply Through All Key Portals (Daily)",
@@ -1027,7 +1027,7 @@ export function PlacementGuideSection() {
               ]
             },
             {
-              category: "3: Stand Out With Work (Parallel Activity)",
+              category: "Stand Out With Work (Parallel Activity)",
               steps: [
                 {
                   step: "Open-Source Contributions",
@@ -1047,7 +1047,7 @@ export function PlacementGuideSection() {
               ]
             },
             {
-              category: "4: Track + Improve (Continuous)",
+              category: "Track + Improve (Continuous)",
               steps: [
                 {
                   step: "Post Weekly LinkedIn Updates",
@@ -2499,7 +2499,7 @@ export function PlacementGuideSection() {
           return (
             <div key={stepIdx} className="p-4 bg-white/5 rounded-lg border border-transparent hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.01]">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center flex-shrink-0">
                   <span className="text-blue-400 font-bold text-sm">{stepIdx + 1}</span>
                 </div>
                 <h6 className="text-lg font-bold text-white">{stepText}</h6>
@@ -2593,7 +2593,7 @@ export function PlacementGuideSection() {
                   className="bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-xl p-5 hover:border-blue-400/40 transition-all duration-300 hover:scale-[1.02]"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-bold text-sm">{idx + 1}</span>
                     </div>
                     <h4 className="text-lg font-bold text-blue-400 bebas-neue tracking-wide">
