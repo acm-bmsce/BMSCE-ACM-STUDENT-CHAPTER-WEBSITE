@@ -67,16 +67,15 @@ export default function EventPage() {
   const [monthOffset, setMonthOffset] = useState(0);
   const today = new Date();
 
-  // Smart Backend Polling
   // Smart Backend Polling & Body Styles
   useEffect(() => {
     let isMounted = true;
     
-    // 1. Save original background colors in case user leaves this page
+    // Save original background colors
     const originalHtmlBg = document.documentElement.style.backgroundColor;
     const originalBodyBg = document.body.style.backgroundColor;
 
-    // 2. Ensure document scrolls normally AND force the background to be black
+    // Ensure document scrolls normally AND force background black
     document.documentElement.style.overflowY = 'auto';
     document.body.style.overflowY = 'auto';
     document.documentElement.style.backgroundColor = '#000000';
@@ -110,7 +109,7 @@ export default function EventPage() {
 
     fetchAllData();
 
-    // 3. Cleanup function when user leaves the events page
+    // Cleanup
     return () => { 
       isMounted = false; 
       document.documentElement.style.backgroundColor = originalHtmlBg;
@@ -118,7 +117,6 @@ export default function EventPage() {
     };
   }, []);
 
-  // Safely derive all data for child components
   const derived = useMemo(() => {
     const normalized = allEvents.map((evt, index) => ({
       ...evt,
@@ -140,7 +138,6 @@ export default function EventPage() {
     const monthAnchor = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
     const cells = buildCalendarCells(monthAnchor, normalized, feat?.title, today);
 
-    // Prepare Hero Component Data safely
     const featuredCard = feat ? {
       ...feat,
       imageSecondary: normalized[1]?.image,
@@ -153,7 +150,6 @@ export default function EventPage() {
       cells,
       monthLabel: monthAnchor.toLocaleDateString("en-IN", { month: "long", year: "numeric" }).toUpperCase(),
       semesterLabel: "ACADEMIC CALENDAR",
-      // If your child components fetch their own data, they won't need these, but we pass them just in case
       sessionCards: upcoming,
       pastSessionCards: past,
       spotlight: feat,
@@ -161,16 +157,14 @@ export default function EventPage() {
   }, [monthOffset, allEvents]);
 
   return (
-    <main className="relative min-h-screen w-full bg-[#030303] text-white selection:bg-[#7DD4EF] selection:text-black font-['General_Sans'] overflow-x-hidden">
+    <main className="relative min-h-screen w-full bg-[#030303] text-white selection:bg-[#7DD4EF] selection:text-black font-general overflow-x-hidden">
       <SEO title="Events | BMSCE ACM" description="View our featured events, academic calendar, and upcoming technical sessions." />
 
-      {/* Global Background Ambiance */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-[40vw] h-[40vw] bg-[#7DD4EF]/5 blur-[150px] rounded-full mix-blend-screen" />
         <div className="absolute bottom-0 right-0 w-[50vw] h-[50vw] bg-blue-900/5 blur-[150px] rounded-full mix-blend-screen" />
       </div>
 
-      {/* Global Loading / Waking Screen */}
       {fetchStatus === "loading" || fetchStatus === "waking" ? (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
           <div className="relative w-20 h-20 mb-8">
@@ -180,22 +174,22 @@ export default function EventPage() {
               <div className="w-2 h-2 bg-[#7DD4EF] rounded-full animate-ping"></div>
             </div>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter uppercase font-['Impact'] text-center drop-shadow-[0_0_15px_rgba(125,212,239,0.3)]">
+          <h2 className="text-4xl md:text-6xl font-normal text-white mb-4 tracking-tighter uppercase font-bebas-neue text-center drop-shadow-[0_0_15px_rgba(125,212,239,0.3)]">
             {fetchStatus === "waking" ? "System Booting" : "Syncing Nodes"}
           </h2>
           {fetchStatus === "waking" && (
-            <p className="text-[#7DD4EF] text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-center max-w-md animate-pulse">
+            <p className="text-[#7DD4EF] text-xs md:text-sm font-general tracking-[0.3em] uppercase text-center max-w-md animate-pulse">
               Establishing secure connection...
             </p>
           )}
         </div>
       ) : fetchStatus === "error" ? (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-          <p className="text-4xl font-black text-[#ff6b6b] uppercase font-['Impact'] tracking-tighter text-center">Connection Terminated</p>
-          <p className="text-gray-400 mt-4 text-sm tracking-widest uppercase">The backend server is unresponsive.</p>
+          <p className="text-5xl font-normal text-[#ff6b6b] uppercase font-bebas-neue tracking-tighter text-center">Connection Terminated</p>
+          <p className="text-gray-400 mt-4 text-sm font-general tracking-widest uppercase">The backend server is unresponsive.</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="mt-10 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-2xl uppercase tracking-[0.2em] text-xs font-bold transition-all"
+            className="mt-10 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-2xl uppercase tracking-[0.2em] font-general text-xs transition-all"
           >
             Reboot Sequence
           </button>
@@ -203,23 +197,13 @@ export default function EventPage() {
       ) : (
         <div className="relative z-10 flex flex-col">
           
-          {/* Hero Section */}
-          <motion.section 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
-            className="relative w-full"
-          >
+          <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="relative w-full">
             <EventTitleSection featured={derived.featuredCard} />
           </motion.section>
 
-          {/* Cinematic Divider */}
           <div className="w-full max-w-5xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
 
-          {/* Calendar Section */}
-          <motion.section 
-            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
-            className="relative w-full py-16"
-          >
-            {/* Note: If your Calendar fetches its own data, you don't need to pass props. If it needs them, they are provided here. */}
+          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full py-16">
             <EventCalendarSection
               monthLabel={derived.monthLabel}
               semesterLabel={derived.semesterLabel}
@@ -230,34 +214,21 @@ export default function EventPage() {
             />
           </motion.section>
 
-          {/* Featured Events */}
-          <motion.section 
-            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
-            className="relative w-full"
-          >
+          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full">
             <EventFeaturedSection />
           </motion.section>
 
-          {/* Upcoming Sessions */}
-          <motion.section 
-            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
-            className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
-          >
+          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
             <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
           </motion.section>
 
-          {/* Past Sessions */}
-          <motion.section 
-            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
-            className="relative w-full bg-[#0A0A0A]"
-          >
+          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full bg-[#0A0A0A]">
             <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
           </motion.section>
 
-          {/* Footer Cap */}
           <div className="py-24 text-center bg-[#0A0A0A]">
             <div className="w-2 h-2 bg-[#7DD4EF]/50 rounded-full mx-auto mb-4 animate-pulse" />
-            <p className="text-gray-600 text-[9px] uppercase tracking-[0.5em] font-bold">End of Directory</p>
+            <p className="text-gray-600 text-[9px] uppercase tracking-[0.5em] font-general">End of Directory</p>
           </div>
 
         </div>
