@@ -34,18 +34,32 @@ const CSS = `
   }
 
   .ec-page {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    aspect-ratio: 16 / 9;
-    max-height: 100vh;
-    display: flex;
-    align-items: stretch;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;   /* 🔥 mobile first */
+  align-items: stretch;
+
+  padding: 16px;
+  gap: 16px;
+
+  background: var(--bg);
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .ec-page {
+    flex-direction: row;
     padding: clamp(24px, 2.4vw, 56px);
     gap: 2vw;
+
+    aspect-ratio: 16 / 9;     /* only desktop */
+    max-height: 100vh;
     overflow: hidden;
-    background: var(--bg);
   }
+}
 
   .ec-pill {
     display: inline-flex;
@@ -295,11 +309,18 @@ const CSS = `
   }
 
   .ec-aside {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .ec-aside {
     width: 22vw;
     flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
   }
+}
 
   .ec-evt-card {
     background: var(--s1);
