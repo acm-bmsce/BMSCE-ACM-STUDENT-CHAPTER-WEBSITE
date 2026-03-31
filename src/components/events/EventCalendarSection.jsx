@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import mockData from "../../../mock_events.json";
+import React, { useState, useEffect, useMemo } from "react";
+import eventService from "../../api/eventService"; 
 
 const CSS = `
 
@@ -456,9 +456,6 @@ const CSS = `
   }
 `;
 
-const calendarDefaults =
-  (mockData && mockData.eventPage && mockData.eventPage.calendarDefaults) || {};
-
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function useInjectStyles(css, id) {
@@ -475,121 +472,33 @@ function useInjectStyles(css, id) {
   }, [css, id]);
 }
 
-function IconChevronLeft() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path d="M7.5 2L4 6l3.5 4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
-function IconChevronRight() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path d="M4.5 2L8 6l-3.5 4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+function IconChevronLeft() { return (<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L4 6l3.5 4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" /></svg>); }
+function IconChevronRight() { return (<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2L8 6l-3.5 4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" /></svg>); }
+function IconClock() { return (<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.2" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" /><path d="M5.5 3v2.5l1.7 1.3" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" strokeLinecap="round" /></svg>); }
+function IconPin() { return (<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1C3.8 1 2.5 2.3 2.5 4c0 2.1 3 6 3 6s3-3.9 3-6c0-1.7-1.3-3-3-3Z" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" /><circle cx="5.5" cy="4" r="0.9" fill="rgba(240,238,233,0.45)" /></svg>); }
 
-function IconClock() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-      <circle cx="5.5" cy="5.5" r="4.2" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" />
-      <path d="M5.5 3v2.5l1.7 1.3" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" strokeLinecap="round" />
-    </svg>
-  );
-}
 
-function IconPin() {
+function Pill() { return (<div className="ec-pill"><span className="ec-pill-dot" />Academic Calendar</div>); }
+function NavButton({ label, disabled, onClick, children }) {
   return (
-    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-      <path d="M5.5 1C3.8 1 2.5 2.3 2.5 4c0 2.1 3 6 3 6s3-3.9 3-6c0-1.7-1.3-3-3-3Z" stroke="rgba(240,238,233,0.45)" strokeWidth="0.8" />
-      <circle cx="5.5" cy="4" r="0.9" fill="rgba(240,238,233,0.45)" />
-    </svg>
-  );
-}
-
-function Pill() {
-  return (
-    <div className="ec-pill">
-      <span className="ec-pill-dot" />
-      Academic Calendar
-    </div>
-  );
-}
-
-function NavButton({ label, onClick, children }) {
-  return (
-    <button className="ec-nav-btn" aria-label={label} onClick={onClick} type="button">
+    <button className="ec-nav-btn" aria-label={label} onClick={onClick} disabled={disabled} type="button" style={{ opacity: disabled ? 0.3 : 1, cursor: disabled ? "default" : "pointer" }}>
       {children}
     </button>
   );
 }
-
-function EventPip({ label }) {
-  return (
-    <div className="ec-epip">
-      <span className="ec-pip" />
-      {label}
-    </div>
-  );
-}
-
-function EmptyCell({ isWeekend }) {
-  const cls = isWeekend ? "ec-c ec-c--empty ec-c--weekend" : "ec-c ec-c--empty";
-  return <div className={cls} />;
-}
-
-function RegularCell({ day, isWeekend, events }) {
-  const cls = isWeekend ? "ec-c ec-c--weekend" : "ec-c";
-  return (
-    <div className={cls}>
-      <div className="ec-cnum">{day}</div>
-      {events?.[0] !== undefined && <EventPip label={events[0]} />}
-    </div>
-  );
-}
-
-function TodayCell({ day, events }) {
-  return (
-    <div className="ec-c ec-c--today">
-      <div className="ec-today-wrap">
-        <span className="ec-cnum--accent">{day}</span>
-        <span className="ec-today-label">Today</span>
-      </div>
-      {events?.[0] !== undefined && <EventPip label={events[0]} />}
-      <span className="ec-today-line" />
-    </div>
-  );
-}
-
-function FocusCell({ day, focusLabel }) {
-  return (
-    <div className="ec-c ec-c--focus">
-      <div className="ec-focus-top">
-        <span className="ec-cnum--accent">{day}</span>
-        <span className="ec-focus-tag">Focus</span>
-      </div>
-      {focusLabel !== undefined && <span className="ec-focus-title">{focusLabel}</span>}
-      <span className="ec-focus-bar" />
-    </div>
-  );
-}
-
+function EventPip({ label }) { return (<div className="ec-epip"><span className="ec-pip" />{label}</div>); }
+function EmptyCell({ isWeekend }) { const cls = isWeekend ? "ec-c ec-c--empty ec-c--weekend" : "ec-c ec-c--empty"; return <div className={cls} />; }
+function RegularCell({ day, isWeekend, events }) { const cls = isWeekend ? "ec-c ec-c--weekend" : "ec-c"; return (<div className={cls}><div className="ec-cnum">{day}</div>{events?.[0] !== undefined && <EventPip label={events[0]} />}</div>); }
+function TodayCell({ day, events }) { return (<div className="ec-c ec-c--today"><div className="ec-today-wrap"><span className="ec-cnum--accent">{day}</span><span className="ec-today-label">Today</span></div>{events?.[0] !== undefined && <EventPip label={events[0]} />}<span className="ec-today-line" /></div>); }
+function FocusCell({ day, focusLabel }) { return (<div className="ec-c ec-c--focus"><div className="ec-focus-top"><span className="ec-cnum--accent">{day}</span><span className="ec-focus-tag">Focus</span></div>{focusLabel !== undefined && <span className="ec-focus-title">{focusLabel}</span>}<span className="ec-focus-bar" /></div>); }
 function DayCell({ cell }) {
-  if (cell.type === "empty") {
-    return <EmptyCell isWeekend={cell.isWeekend} />;
-  }
-  if (cell.isToday === true) {
-    return <TodayCell day={cell.day} events={cell.events} />;
-  }
-  if (cell.isFocus === true) {
-    return <FocusCell day={cell.day} focusLabel={cell.focusLabel} />;
-  }
+  if (cell.type === "empty") return <EmptyCell isWeekend={cell.isWeekend} />;
+  if (cell.isToday === true) return <TodayCell day={cell.day} events={cell.events} />;
+  if (cell.isFocus === true) return <FocusCell day={cell.day} focusLabel={cell.focusLabel} />;
   return <RegularCell day={cell.day} isWeekend={cell.isWeekend} events={cell.events} />;
 }
-
-function CalendarTopBar({ monthLabel, semesterLabel, onPrevMonth, onNextMonth }) {
+function CalendarTopBar({ monthLabel, semesterLabel, isLoading, onPrevMonth, onNextMonth }) {
   return (
     <div className="ec-cal-top">
       <div className="ec-cal-top-inner">
@@ -599,59 +508,44 @@ function CalendarTopBar({ monthLabel, semesterLabel, onPrevMonth, onNextMonth })
           <div className="ec-month-sub">{semesterLabel}</div>
         </div>
         <div className="ec-navs">
-          <NavButton label="Previous month" onClick={onPrevMonth}>
-            <IconChevronLeft />
-          </NavButton>
-          <NavButton label="Next month" onClick={onNextMonth}>
-            <IconChevronRight />
-          </NavButton>
+          <NavButton label="Previous month" disabled={isLoading} onClick={onPrevMonth}><IconChevronLeft /></NavButton>
+          <NavButton label="Next month" disabled={isLoading} onClick={onNextMonth}><IconChevronRight /></NavButton>
         </div>
       </div>
     </div>
   );
 }
-
-function WeekdayHeaderRow() {
-  return (
-    <div className="ec-wdrow">
-      {WEEKDAYS.map((day) => (
-        <div key={day} className="ec-wd">
-          {day}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DayGrid({ cells }) {
-  return (
-    <div className="ec-cgrid">
-      {cells.map((cell, index) => (
-        <DayCell key={index} cell={cell} />
-      ))}
-    </div>
-  );
-}
-
-function CalendarCard({ monthLabel, semesterLabel, cells, onPrevMonth, onNextMonth }) {
+function WeekdayHeaderRow() { return (<div className="ec-wdrow">{WEEKDAYS.map((day) => (<div key={day} className="ec-wd">{day}</div>))}</div>); }
+function DayGrid({ cells }) { return (<div className="ec-cgrid">{cells.map((cell, index) => (<DayCell key={index} cell={cell} />))}</div>); }
+function CalendarCard({ monthLabel, semesterLabel, cells, isLoading, fetchStatus, onPrevMonth, onNextMonth }) {
   return (
     <div className="ec-cal-card">
-      <CalendarTopBar
-        monthLabel={monthLabel}
-        semesterLabel={semesterLabel}
-        onPrevMonth={onPrevMonth}
-        onNextMonth={onNextMonth}
-      />
+      <CalendarTopBar monthLabel={monthLabel} semesterLabel={semesterLabel} isLoading={isLoading} onPrevMonth={onPrevMonth} onNextMonth={onNextMonth} />
       <WeekdayHeaderRow />
-      <DayGrid cells={cells} />
+      
+      
+      {fetchStatus === "loading" || fetchStatus === "waking" ? (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "var(--ac)" }}>
+           <div style={{ width: 24, height: 24, border: "2px solid var(--ac)", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite", marginBottom: 12 }} />
+           <p style={{ fontSize: '0.8vw', letterSpacing: '0.1em' }}>
+             {fetchStatus === "waking" ? "Waking up server..." : "Loading events..."}
+           </p>
+           <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+        </div>
+      ) : fetchStatus === "error" ? (
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "#ff6b6b", fontSize: '0.8vw' }}>
+          <p>Failed to load calendar data. Please try again.</p>
+        </div>
+      ) : (
+        <DayGrid cells={cells} />
+      )}
     </div>
   );
 }
-
 function EventImageSection({ imageUrl, alt, badge, day, monthLabel }) {
   return (
     <div className="ec-evt-img">
-      <img className="ec-evt-img-el" src={imageUrl} alt={alt} />
+      <img className="ec-evt-img-el" src={imageUrl} alt={alt} onError={(e) => { e.target.src = "https://placehold.co/600x400/0f172a/f8fafc?text=Event"; }} />
       <div className="ec-evt-overlay" />
       <div className="ec-evt-badge">{badge}</div>
       <div className="ec-evt-datestamp">
@@ -661,27 +555,11 @@ function EventImageSection({ imageUrl, alt, badge, day, monthLabel }) {
     </div>
   );
 }
-
-function MetaRow({ icon, label, value }) {
-  return (
-    <div className="ec-meta-row">
-      <div className="ec-meta-icon">{icon}</div>
-      <div>
-        <div className="ec-meta-label">{label}</div>
-        <div className="ec-meta-val">{value}</div>
-      </div>
-    </div>
-  );
-}
-
+function MetaRow({ icon, label, value }) { return (<div className="ec-meta-row"><div className="ec-meta-icon">{icon}</div><div><div className="ec-meta-label">{label}</div><div className="ec-meta-val">{value}</div></div></div>); }
 function EventBodySection({ titleLine1, titleLine2, description, time, location }) {
   return (
     <div className="ec-evt-body">
-      <div className="ec-evt-title">
-        {titleLine1}
-        <br />
-        {titleLine2}
-      </div>
+      <div className="ec-evt-title">{titleLine1}<br />{titleLine2}</div>
       <p className="ec-evt-desc">{description}</p>
       <div className="ec-evt-meta">
         <MetaRow icon={<IconClock />} label="Time" value={time} />
@@ -690,47 +568,185 @@ function EventBodySection({ titleLine1, titleLine2, description, time, location 
     </div>
   );
 }
-
 function EventCard({ spotlight }) {
   return (
     <div className="ec-evt-card">
-      <EventImageSection
-        imageUrl={spotlight.imageUrl}
-        alt={`${spotlight.titleLine1} ${spotlight.titleLine2}`}
-        badge={spotlight.badge}
-        day={spotlight.day}
-        monthLabel={spotlight.monthLabel}
-      />
-      <EventBodySection
-        titleLine1={spotlight.titleLine1}
-        titleLine2={spotlight.titleLine2}
-        description={spotlight.description}
-        time={spotlight.time}
-        location={spotlight.location}
-      />
+      <EventImageSection imageUrl={spotlight.imageUrl} alt={`${spotlight.titleLine1} ${spotlight.titleLine2}`} badge={spotlight.badge} day={spotlight.day} monthLabel={spotlight.monthLabel} />
+      <EventBodySection titleLine1={spotlight.titleLine1} titleLine2={spotlight.titleLine2} description={spotlight.description} time={spotlight.time} location={spotlight.location} />
     </div>
   );
 }
 
-export default function EventCalendar({
-  monthLabel = calendarDefaults.monthLabel || "April 2025",
-  semesterLabel = calendarDefaults.semesterLabel || "Spring Semester - Week 14",
-  cells = calendarDefaults.cells || [],
-  spotlight = calendarDefaults.spotlight || {
-    day: 1,
-    monthLabel: "TBD - Campus",
-    badge: "Upcoming",
-    titleLine1: "Upcoming",
-    titleLine2: "Event",
-    description: "Details will be announced soon.",
-    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-    time: "10:00 AM",
-    location: "Campus",
-  },
-  onPrevMonth,
-  onNextMonth,
-}) {
+
+export default function EventCalendar() {
   useInjectStyles(CSS, "event-calendar-styles");
+
+  
+  const [allEvents, setAllEvents] = useState([]);
+  const [fetchStatus, setFetchStatus] = useState("loading"); // 'loading' | 'waking' | 'success' | 'error'
+  const [viewDate, setViewDate] = useState(new Date());
+
+  
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchAllEvents = async () => {
+      let attempts = 0;
+      const maxAttempts = 15; 
+
+      while (attempts < maxAttempts && isMounted) {
+        try {
+          if (attempts === 1) setFetchStatus("waking");
+
+          
+          const response = await eventService.getEvents(100, 0); 
+          
+          if (isMounted) {
+            
+            const eventsData = response.data?.events || response.data?.data || response.data || [];
+            setAllEvents(Array.isArray(eventsData) ? eventsData : []);
+            setFetchStatus("success");
+          }
+          return;
+        } catch (error) {
+          attempts++;
+          console.warn(`Server sleeping... Retrying request (${attempts}/${maxAttempts})`);
+          
+          if (attempts >= maxAttempts && isMounted) {
+            console.error("Calendar fetch failed: Backend unresponsive.");
+            setFetchStatus("error");
+            return;
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+      }
+    };
+
+    fetchAllEvents();
+    return () => { isMounted = false; };
+  }, []);
+
+  
+  const handlePrevMonth = () => {
+    setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+  };
+  const handleNextMonth = () => {
+    setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+  };
+
+  
+  const { cells, spotlightEvents } = useMemo(() => {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+    
+    
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    
+    let startOffset = firstDay.getDay() - 1;
+    if (startOffset < 0) startOffset = 6; 
+
+    
+    const currentMonthEvents = allEvents.filter(ev => {
+      const evDate = new Date(ev.date || ev.startDate || ev.createdAt);
+      return evDate.getFullYear() === year && evDate.getMonth() === month;
+    });
+
+    const generatedCells = [];
+    const today = new Date();
+
+    
+    for (let i = 0; i < startOffset; i++) {
+      generatedCells.push({ type: "empty", isWeekend: i >= 5 });
+    }
+
+    
+    for (let d = 1; d <= daysInMonth; d++) {
+      const currentCellDate = new Date(year, month, d);
+      const dayOfWeek = currentCellDate.getDay();
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+      const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
+
+      
+      const dayEvents = currentMonthEvents.filter(ev => new Date(ev.date || ev.startDate || ev.createdAt).getDate() === d);
+      const eventTitles = dayEvents.map(e => e.title || "Event");
+
+      generatedCells.push({
+        type: "day",
+        day: d,
+        isWeekend,
+        isToday,
+        isFocus: dayEvents.length > 0, 
+        focusLabel: eventTitles[0],
+        events: eventTitles
+      });
+    }
+
+    
+    while (generatedCells.length % 7 !== 0) {
+      generatedCells.push({ type: "empty", isWeekend: generatedCells.length % 7 >= 5 });
+    }
+
+    return { cells: generatedCells, spotlightEvents: currentMonthEvents };
+  }, [viewDate, allEvents]);
+
+
+  
+  const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
+  const monthLabel = monthFormatter.format(viewDate);
+  const semesterLabel = "BMSCE Chapter Calendar";
+
+  
+  let spotlightConfig;
+  if (fetchStatus !== "success") {
+    spotlightConfig = {
+      day: "-",
+      monthLabel: "TBD",
+      badge: fetchStatus === "loading" || fetchStatus === "waking" ? "Loading..." : "Error",
+      titleLine1: "Fetching",
+      titleLine2: "Events...",
+      description: "Please hold on while we sync the latest schedule.",
+      imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      time: "--:--",
+      location: "Campus",
+    };
+  } else if (spotlightEvents.length > 0) {
+    
+    const nextEv = spotlightEvents[0];
+    const evDate = new Date(nextEv.date || nextEv.startDate || nextEv.createdAt);
+    
+
+    const titleWords = (nextEv.title || "Upcoming Event").split(" ");
+    const line1 = titleWords.length > 1 ? titleWords.slice(0, Math.ceil(titleWords.length / 2)).join(" ") : titleWords[0];
+    const line2 = titleWords.length > 1 ? titleWords.slice(Math.ceil(titleWords.length / 2)).join(" ") : "";
+
+    spotlightConfig = {
+      day: evDate.getDate(),
+      monthLabel: new Intl.DateTimeFormat('en-US', { month: 'short' }).format(evDate),
+      badge: nextEv.tag || "Spotlight",
+      titleLine1: line1,
+      titleLine2: line2,
+      description: nextEv.description || "Join us for this upcoming session.",
+      imageUrl: nextEv.imageUrl || "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      time: nextEv.time || "TBD",
+      location: nextEv.location || "TBD",
+    };
+  } else {
+    
+    spotlightConfig = {
+      day: "-",
+      monthLabel: new Intl.DateTimeFormat('en-US', { month: 'short' }).format(viewDate),
+      badge: "Quiet Month",
+      titleLine1: "No Events",
+      titleLine2: "Scheduled",
+      description: "There are no events planned for this month yet. Check back later!",
+      imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+      time: "--:--",
+      location: "TBD",
+    };
+  }
 
   return (
     <div className="ec-page">
@@ -738,11 +754,13 @@ export default function EventCalendar({
         monthLabel={monthLabel}
         semesterLabel={semesterLabel}
         cells={cells}
-        onPrevMonth={onPrevMonth}
-        onNextMonth={onNextMonth}
+        isLoading={fetchStatus === "loading" || fetchStatus === "waking"}
+        fetchStatus={fetchStatus}
+        onPrevMonth={handlePrevMonth}
+        onNextMonth={handleNextMonth}
       />
       <aside className="ec-aside">
-        <EventCard spotlight={spotlight} />
+        <EventCard spotlight={spotlightConfig} />
       </aside>
     </div>
   );

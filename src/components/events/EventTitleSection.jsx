@@ -1,5 +1,6 @@
+import React, { useState, useEffect } from "react";
 import AnimatedTitle from "../AnimatedTitle";
-import mockData from "../../../mock_events.json";
+import eventService from "../../api/eventService"; 
 
 const fallbackImages = {
   primary:
@@ -53,16 +54,56 @@ const ICONS = [
 ];
 
 export default function EventTitleSection({ featured, sectionTitle = "EVENTS" }) {
-  const pageData = mockData?.eventPage || {};
-  const images = pageData.featuredImages || fallbackImages;
-  const stats = pageData.stats || fallbackStats;
-  const pillars = pageData.pillars || fallbackPillars;
+  const [pageData, setPageData] = useState(null);
+  const [fetchStatus, setFetchStatus] = useState("loading"); // 'loading' | 'waking' | 'success' | 'error'
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPageInfo = async () => {
+      let attempts = 0;
+      const maxAttempts = 15; 
+
+      while (attempts < maxAttempts && isMounted) {
+        try {
+          if (attempts === 1) setFetchStatus("waking");
+
+          
+          const response = await eventService.getPageInfo(); 
+          
+          if (isMounted) {
+            setPageData(response.data);
+            setFetchStatus("success");
+          }
+          return;
+        } catch (error) {
+          attempts++;
+          console.warn(`Server sleeping... Retrying request (${attempts}/${maxAttempts})`);
+          
+          if (attempts >= maxAttempts && isMounted) {
+            console.error("Failed to fetch page info: Backend unresponsive.", error);
+            setFetchStatus("error");
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+        }
+      }
+    };
+
+    fetchPageInfo();
+    return () => { isMounted = false; };
+  }, []);
+
+  
+  const images = pageData?.images || fallbackImages;
+  const stats = pageData?.stats || fallbackStats;
+  const pillars = pageData?.pillars || fallbackPillars;
 
   const img1 = images.primary || fallbackImages.primary;
   const img2 = images.secondary || fallbackImages.secondary;
   const img3 = images.tertiary || fallbackImages.tertiary;
 
-  const { title, registrationLink } = featured || {};
+  const { title } = featured || {};
 
   return (
     <section className="relative pb-14 pt-28 bg-black overflow-hidden">
@@ -74,12 +115,21 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
       </div>
 
       <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6">
-        {/* Stack to single col on mobile, side-by-side on lg+ */}
+        
+        
+        {(fetchStatus === "loading" || fetchStatus === "waking") && (
+          <div className="flex items-center justify-center gap-3 mb-4 text-[#7DD4EF] text-sm animate-pulse">
+            <div className="w-4 h-4 border-2 border-[#7DD4EF] border-t-transparent rounded-full animate-spin"></div>
+            {fetchStatus === "waking" ? "Waking up server..." : "Loading chapter info..."}
+          </div>
+        )}
+
+        
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-0 rounded-2xl border border-white/[0.08] bg-black overflow-hidden">
 
-          {/* Left: image mosaic */}
+          
           <div className="grid grid-rows-[auto_auto] border-b lg:border-b-0 lg:border-r border-white/[0.08]">
-            {/* Primary image */}
+            
             <div className="relative overflow-hidden h-48 sm:h-64 lg:h-auto lg:min-h-[280px]">
               <img
                 src={img1}
@@ -91,7 +141,7 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
               />
             </div>
 
-            {/* Secondary images row — hidden on very small, shown sm+ */}
+            
             <div className="hidden sm:grid grid-cols-2 border-t border-white/[0.08]">
               <div className="relative overflow-hidden h-32 sm:h-40 md:h-44 border-r border-white/[0.08]">
                 <img
@@ -110,9 +160,9 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
             </div>
           </div>
 
-          {/* Right: info panel */}
+          
           <div className="flex flex-col bg-black">
-            {/* Brand header */}
+            
             <div className="border-b border-white/[0.08] px-6 sm:px-8 py-6 sm:py-8">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7DD4EF]/30 bg-[#7DD4EF]/10 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.28em] text-[#7DD4EF]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7DD4EF]" />
@@ -131,7 +181,7 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
               </p>
             </div>
 
-            {/* Stats row — scroll on very small screens */}
+            
             <div className="grid border-b border-white/[0.08] overflow-x-auto"
               style={{ gridTemplateColumns: `repeat(${stats.length}, minmax(80px, 1fr))` }}
             >
@@ -150,7 +200,7 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
               ))}
             </div>
 
-            {/* Pillars */}
+            
             <div className="flex flex-col divide-y divide-white/[0.06] flex-1">
               {pillars.map(({ heading, body }, index) => (
                 <div key={heading} className="flex items-start gap-4 px-6 sm:px-8 py-4 sm:py-5">
@@ -165,7 +215,7 @@ export default function EventTitleSection({ featured, sectionTitle = "EVENTS" })
               ))}
             </div>
 
-            {/* Footer */}
+            
             <div className="border-t border-white/[0.08] px-6 sm:px-8 py-5 sm:py-6 flex items-center gap-3">
               <div className="ml-auto flex-shrink-0">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#7DD4EF]/25 bg-[#7DD4EF]/10">

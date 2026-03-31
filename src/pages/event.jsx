@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import SEO from "../components/SEO";
-import mockData from "../../mock_events.json";
 import { getOptimizedImageUrl } from "../utils/imageHelper";
+import eventService from "../api/eventService"; 
 
 import EventTitleSection from "../components/events/EventTitleSection";
 import EventFeaturedSection from "../components/events/EventFeaturedSection";
@@ -24,7 +24,7 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
 
   const eventCounts = new Map();
   events
-    .map((evt) => parseDate(evt.date))
+    .map((evt) => parseDate(evt.date || evt.startDate || evt.createdAt))
     .filter((d) => d !== null)
     .filter((d) => d.getFullYear() === year && d.getMonth() === month)
     .forEach((d) => {
@@ -33,7 +33,7 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
     });
 
   const focusDate = events
-    .map((evt) => parseDate(evt.date))
+    .map((evt) => parseDate(evt.date || evt.startDate || evt.createdAt))
     .filter((d) => d !== null)
     .find((d) => d.getFullYear() === year && d.getMonth() === month);
 
@@ -67,10 +67,49 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
 };
 
 export default function EventPage() {
+  const [allEvents, setAllEvents] = useState([]);
+  const [fetchStatus, setFetchStatus] = useState("loading"); 
   const [monthOffset, setMonthOffset] = useState(0);
   const today = new Date();
 
+  
   useEffect(() => {
+    let isMounted = true;
+
+    
+    const fetchAllData = async () => {
+      let attempts = 0;
+      const maxAttempts = 15;
+
+      while (attempts < maxAttempts && isMounted) {
+        try {
+          if (attempts === 1) setFetchStatus("waking");
+
+          const response = await eventService.getEvents(100, 0); 
+          
+          if (isMounted) {
+            const data = response.data?.events || response.data?.data || response.data || [];
+            setAllEvents(Array.isArray(data) ? data : []);
+            setFetchStatus("success");
+          }
+          return;
+        } catch (error) {
+          attempts++;
+          console.warn(`Server sleeping... Retrying request (${attempts}/${maxAttempts})`);
+          
+          if (attempts >= maxAttempts && isMounted) {
+            console.error("Failed to load events: Backend unresponsive.");
+            setFetchStatus("error");
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+        }
+      }
+    };
+
+    fetchAllData();
+
+    
     const html = document.documentElement;
     const body = document.body;
 
@@ -116,6 +155,7 @@ export default function EventPage() {
     body.style.background = "#000";
 
     return () => {
+      isMounted = false;
       html.style.overflow = prev.htmlOverflow;
       html.style.overflowX = prev.htmlOverflowX;
       html.style.overflowY = prev.htmlOverflowY;
@@ -138,19 +178,18 @@ export default function EventPage() {
   }, []);
 
   const derived = useMemo(() => {
-    const events = Array.isArray(mockData) ? mockData : mockData.events || [];
-    const pageData = (mockData && mockData.eventPage) || {};
+    const pageData = {}; 
 
-    const normalized = events.map((evt, index) => ({
+    const normalized = allEvents.map((evt, index) => ({
       ...evt,
       _id: evt._id || evt.id || `event-${index}`,
       title: evt.title,
-      date: evt.date,
+      date: evt.date || evt.startDate || evt.createdAt,
       description: evt.description,
       location: evt.location || "BMSCE Campus",
-      image: evt.image,
-      is_featured: evt.is_featured,
-      parsedDate: parseDate(evt.date),
+      image: evt.imageUrl || evt.image,
+      is_featured: evt.is_featured || evt.featured || false,
+      parsedDate: parseDate(evt.date || evt.startDate || evt.createdAt),
     }));
 
     const sorted = normalized
@@ -165,7 +204,9 @@ export default function EventPage() {
       typeof feat?.attendees === "number"
         ? feat.attendees
         : Number(feat?.attendees) || undefined;
+        
     const featuredImages = (pageData && pageData.featuredImages) || {};
+    
     const featuredCard = {
       title: feat?.title?.split(" ").slice(0, 2).join(" ") || "ACM",
       titleAccent: feat?.title?.split(" ").slice(2).join(" "),
@@ -175,7 +216,7 @@ export default function EventPage() {
       speakers: "Industry Experts",
       capacity: "Limited",
       image: getOptimizedImageUrl(feat?.image, 1200),
-      registrationLink: feat?.registration_link || "#",
+      registrationLink: feat?.registrationLink || feat?.registration_link || "#",
       attendancePercent: attendance ? Math.min(100, Math.round((attendance / 250) * 100)) : 72,
       attendanceLabel: attendance ? `${attendance} attending` : "180 attending",
       imageSecondary: featuredImages.secondary,
@@ -198,7 +239,7 @@ export default function EventPage() {
           titleLine1: spotlightEvt.title.split(" ")[0],
           titleLine2: spotlightEvt.title.split(" ").slice(1).join(" ") || "Session",
           description: spotlightEvt.description,
-          imageUrl: spotlightEvt.image,
+          imageUrl: spotlightEvt.image || "https://images.unsplash.com/photo-1518770660439-4636190af475",
           time: spotlightEvt.parsedDate
             ? spotlightEvt.parsedDate.toLocaleTimeString("en-IN", {
                 hour: "2-digit",
@@ -216,13 +257,14 @@ export default function EventPage() {
       month: item.parsedDate.toLocaleDateString("en-IN", { month: "short" }),
       title: item.title,
       description: item.description || "Technical session by BMSCE ACM.",
-      tag: item.tag || "Workshop",
+      tag: item.tag || item.categories?.[0] || "Workshop",
       location: item.location || "BMSCE",
       time: item.parsedDate.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
       }),
       image: item.image,
+      registrationLink: item.registrationLink || "#"
     }));
 
     const pastSessionCards = past.slice(0, maxPast).map((item) => ({
@@ -230,7 +272,7 @@ export default function EventPage() {
       month: item.parsedDate.toLocaleDateString("en-IN", { month: "short" }),
       title: item.title,
       description: item.description || "ACM event highlight.",
-      tag: item.tag || "Past Event",
+      tag: item.tag || item.categories?.[0] || "Past Event",
       location: item.location || "BMSCE",
       dateLabel: item.parsedDate.toLocaleDateString("en-IN", {
         day: "2-digit",
@@ -251,7 +293,7 @@ export default function EventPage() {
       cells,
       semesterLabel: pageData?.semesterLabel || "ACADEMIC CALENDAR",
     };
-  }, [monthOffset]);
+  }, [monthOffset, allEvents]);
 
   return (
     <main className="relative block min-h-screen w-full bg-black overflow-x-hidden overflow-y-visible">
@@ -260,39 +302,64 @@ export default function EventPage() {
         description="View our featured events, academic calendar, and upcoming technical sessions."
       />
 
-      <div className="flex flex-col gap-0">
-        {/* Title + hero mosaic */}
-        <section className="relative w-full">
-          <EventTitleSection featured={derived.featuredCard} sectionTitle="EVENTS" />
-        </section>
+      {/* Global Loading / Waking Screen */}
+      {fetchStatus === "loading" || fetchStatus === "waking" ? (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-black px-4">
+          <div className="w-14 h-14 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin mb-8"></div>
+          <h2 className="text-3xl md:text-5xl font-bold text-[#EAF7FF] mb-4 tracking-widest uppercase font-['Impact'] text-center">
+            {fetchStatus === "waking" ? "Waking Up Server" : "Loading Schedule"}
+          </h2>
+          {fetchStatus === "waking" && (
+            <p className="text-[#7DD4EF] text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-center max-w-md">
+              Please hold on, this may take up to a minute...
+            </p>
+          )}
+        </div>
+      ) : fetchStatus === "error" ? (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-black px-4">
+          <p className="text-3xl font-bold text-[#ff6b6b] uppercase font-['Impact'] tracking-wide">Failed to load events</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-8 px-8 py-3 border border-[#7DD4EF] text-[#7DD4EF] rounded-full uppercase tracking-[0.2em] text-xs font-bold hover:bg-[#7DD4EF] hover:text-black transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-0">
+          
+          <section className="relative w-full">
+            <EventTitleSection featured={derived.featuredCard} sectionTitle="EVENTS" />
+          </section>
 
-        {/* Calendar — reduced vertical padding on mobile */}
-        <section className="relative w-full py-10 sm:py-14 md:py-20 px-0 bg-black">
-          <EventCalendarSection
-            monthLabel={derived.monthLabel}
-            semesterLabel={derived.semesterLabel}
-            cells={derived.cells}
-            spotlight={derived.spotlight}
-            onPrevMonth={() => setMonthOffset((prev) => prev - 1)}
-            onNextMonth={() => setMonthOffset((prev) => prev + 1)}
-          />
-        </section>
+          
+          <section className="relative w-full py-10 sm:py-14 md:py-20 px-0 bg-black">
+            <EventCalendarSection
+              monthLabel={derived.monthLabel}
+              semesterLabel={derived.semesterLabel}
+              cells={derived.cells}
+              spotlight={derived.spotlight}
+              onPrevMonth={() => setMonthOffset((prev) => prev - 1)}
+              onNextMonth={() => setMonthOffset((prev) => prev + 1)}
+            />
+          </section>
 
-        {/* Featured events grid */}
-        <section className="relative w-full">
-          <EventFeaturedSection />
-        </section>
+          
+          <section className="relative w-full">
+            <EventFeaturedSection />
+          </section>
 
-        {/* Past sessions */}
-        <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
-          <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
-        </section>
 
-        {/* Upcoming sessions */}
-        <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
-          <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
-        </section>
-      </div>
+          <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
+            <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
+          </section>
+
+          
+          <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
+            <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
+          </section>
+        </div>
+      )}
     </main>
   );
 }

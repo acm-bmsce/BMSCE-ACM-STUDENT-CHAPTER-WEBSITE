@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight, Calendar, MapPin } from "lucide-react";
+import eventService from "../../api/eventService";  
 
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80",
@@ -14,9 +15,68 @@ const isHighRes = (url) =>
   typeof url === "string" && url.startsWith("http") && !url.includes("placehold.co");
 
 export default function EventPastSessions({
-  sessions = [],
   locationLabel = "BMSCE Campus",
 }) {
+  const [sessions, setSessions] = useState([]);
+  const [fetchStatus, setFetchStatus] = useState("loading");
+  const [pageIndex, setPageIndex] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPastEvents = async () => {
+      let attempts = 0;
+      const maxAttempts = 15;
+
+      while (attempts < maxAttempts && isMounted) {
+        try {
+          if (attempts === 1) setFetchStatus("waking");
+
+          
+          const response = await eventService.getEvents(20, 0); 
+          
+          if (isMounted) {
+            const eventsData = response.data?.events || response.data?.data || response.data || [];
+            
+            
+            const mappedData = eventsData.map(item => {
+              const eventDate = new Date(item.date || item.startDate || item.createdAt || Date.now());
+              return {
+                title: item.title,
+                description: item.description,
+                day: item.day || eventDate.getDate(),
+                month: item.month || new Intl.DateTimeFormat('en-US', { month: 'short' }).format(eventDate),
+                dateLabel: item.dateLabel || eventDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                location: item.location || "BMSCE Campus",
+                tag: item.tag || item.categories?.[0] || "Past Event",
+                image: item.imageUrl || item.image
+              };
+            });
+
+            setSessions(mappedData);
+            setFetchStatus("success");
+          }
+          return;
+        } catch (error) {
+          attempts++;
+          console.warn(`Server sleeping... Retrying request (${attempts}/${maxAttempts})`);
+          
+          if (attempts >= maxAttempts && isMounted) {
+            console.error("Error fetching past events: Backend unresponsive.", error);
+            setFetchStatus("error");
+            return;
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+      }
+    };
+
+    fetchPastEvents();
+    return () => { isMounted = false; };
+  }, []);
+
+  
   const resolvedSessions = sessions.map((session, index) => ({
     ...session,
     image: isHighRes(session.image)
@@ -25,8 +85,8 @@ export default function EventPastSessions({
   }));
 
   const limited = resolvedSessions.slice(0, 6);
-  const pages = [limited.slice(0, 3), limited.slice(3, 6)];
-  const [pageIndex, setPageIndex] = useState(0);
+  
+  const pages = [limited.slice(0, 3), limited.slice(3, 6)].filter(page => page.length > 0);
   const activePage = pages[pageIndex] || [];
   const [featured, ...rest] = activePage;
 
@@ -71,18 +131,18 @@ export default function EventPastSessions({
             </h2>
           </div>
 
-          {/* Pagination */}
+          
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button
               onClick={() => setPageIndex((p) => Math.max(0, p - 1))}
-              disabled={pageIndex === 0}
+              disabled={pageIndex === 0 || fetchStatus !== "success"}
               style={{
                 width: 40, height: 40,
                 border: "1px solid rgba(234,247,255,0.2)",
                 background: "transparent",
-                color: pageIndex === 0 ? "rgba(234,247,255,0.2)" : "#7DD4EF",
+                color: pageIndex === 0 || fetchStatus !== "success" ? "rgba(234,247,255,0.2)" : "#7DD4EF",
                 borderRadius: 999,
-                cursor: pageIndex === 0 ? "default" : "pointer",
+                cursor: pageIndex === 0 || fetchStatus !== "success" ? "default" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
@@ -97,18 +157,18 @@ export default function EventPastSessions({
                 textAlign: "center",
               }}
             >
-              {pageIndex + 1} / {pages.length}
+              {pages.length > 0 ? `${pageIndex + 1} / ${pages.length}` : '0 / 0'}
             </span>
             <button
               onClick={() => setPageIndex((p) => Math.min(pages.length - 1, p + 1))}
-              disabled={pageIndex >= pages.length - 1}
+              disabled={pageIndex >= pages.length - 1 || fetchStatus !== "success"}
               style={{
                 width: 40, height: 40,
                 border: "1px solid rgba(234,247,255,0.2)",
                 background: "transparent",
-                color: pageIndex >= pages.length - 1 ? "rgba(234,247,255,0.2)" : "#7DD4EF",
+                color: pageIndex >= pages.length - 1 || fetchStatus !== "success" ? "rgba(234,247,255,0.2)" : "#7DD4EF",
                 borderRadius: 999,
-                cursor: pageIndex >= pages.length - 1 ? "default" : "pointer",
+                cursor: pageIndex >= pages.length - 1 || fetchStatus !== "success" ? "default" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
@@ -117,11 +177,29 @@ export default function EventPastSessions({
           </div>
         </div>
 
-        {/* Magazine layout */}
-        {activePage.length > 0 && (
+        
+        {fetchStatus === "loading" || fetchStatus === "waking" ? (
+          <div className="flex flex-col items-center justify-center bg-[#1A1410] mb-0.5" style={{ minHeight: "clamp(320px, 40vw, 520px)" }}>
+            <div className="w-10 h-10 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-lg text-gray-200 font-medium">
+              {fetchStatus === "waking" 
+                ? "Waking up the server... please hold on! ☕" 
+                : "Loading Archive..."}
+            </p>
+          </div>
+        ) : fetchStatus === "error" ? (
+          <div className="flex flex-col items-center justify-center bg-[#1A1410] mb-0.5 border border-[#ff6b6b]" style={{ minHeight: "clamp(320px, 40vw, 520px)" }}>
+            <p className="text-xl text-[#ff6b6b] font-medium">Failed to load past events.</p>
+          </div>
+        ) : activePage.length === 0 ? (
+          <div className="flex flex-col items-center justify-center bg-[#1A1410] mb-0.5" style={{ minHeight: "clamp(320px, 40vw, 520px)" }}>
+            <p className="text-xl text-[rgba(234,247,255,0.5)] font-medium">No past events to display.</p>
+          </div>
+        ) : (
+          
           <div className="grid grid-cols-1 md:grid-cols-[1fr_340px] gap-0.5 mb-0.5">
 
-            {/* Hero card */}
+            
             {featured && (
               <div
                 className="group relative overflow-hidden cursor-pointer bg-[#1A1410]"
