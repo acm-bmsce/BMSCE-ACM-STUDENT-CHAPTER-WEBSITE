@@ -254,19 +254,20 @@ export default function EventPage() {
   }, [monthOffset]);
 
   return (
-    <main className="relative block min-h-screen w-full bg-black overflow-y-visible">
-      <section className="relative overflow-hidden pb-14 pt-[3vh] bg-black"></section>
+    <main className="relative block min-h-screen w-full bg-black overflow-x-hidden overflow-y-visible">
       <SEO
         title="Events | BMSCE ACM"
         description="View our featured events, academic calendar, and upcoming technical sessions."
       />
 
       <div className="flex flex-col gap-0">
+        {/* Title + hero mosaic */}
         <section className="relative w-full">
           <EventTitleSection featured={derived.featuredCard} sectionTitle="EVENTS" />
         </section>
 
-        <section className="relative w-full py-20 px-4 bg-black">
+        {/* Calendar — reduced vertical padding on mobile */}
+        <section className="relative w-full py-10 sm:py-14 md:py-20 px-0 bg-black">
           <EventCalendarSection
             monthLabel={derived.monthLabel}
             semesterLabel={derived.semesterLabel}
@@ -277,15 +278,18 @@ export default function EventPage() {
           />
         </section>
 
+        {/* Featured events grid */}
         <section className="relative w-full">
           <EventFeaturedSection />
         </section>
 
-        <section className="relative w-full pb-32">
+        {/* Past sessions */}
+        <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
           <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
         </section>
 
-        <section className="relative w-full pb-32">
+        {/* Upcoming sessions */}
+        <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
           <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
         </section>
       </div>
