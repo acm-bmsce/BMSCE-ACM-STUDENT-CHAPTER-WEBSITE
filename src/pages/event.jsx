@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
-import { getOptimizedImageUrl } from "../utils/imageHelper";
 import eventService from "../api/eventService"; 
 
 import EventTitleSection from "../components/events/EventTitleSection";
@@ -61,6 +60,14 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   });
 };
 
+// Framer Motion viewport settings for smooth scroll reveals
+const scrollRevealConfig = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-50px" },
+  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } // Custom easing for premium feel
+};
+
 export default function EventPage() {
   const [allEvents, setAllEvents] = useState([]);
   const [fetchStatus, setFetchStatus] = useState("loading"); 
@@ -71,11 +78,9 @@ export default function EventPage() {
   useEffect(() => {
     let isMounted = true;
     
-    // Save original background colors
     const originalHtmlBg = document.documentElement.style.backgroundColor;
     const originalBodyBg = document.body.style.backgroundColor;
 
-    // Ensure document scrolls normally AND force background black
     document.documentElement.style.overflowY = 'auto';
     document.body.style.overflowY = 'auto';
     document.documentElement.style.backgroundColor = '#000000';
@@ -109,7 +114,6 @@ export default function EventPage() {
 
     fetchAllData();
 
-    // Cleanup
     return () => { 
       isMounted = false; 
       document.documentElement.style.backgroundColor = originalHtmlBg;
@@ -157,13 +161,17 @@ export default function EventPage() {
   }, [monthOffset, allEvents]);
 
   return (
-    <main className="relative min-h-screen w-full bg-[#030303] text-white selection:bg-[#7DD4EF] selection:text-black font-general overflow-x-hidden">
+    <main className="relative min-h-screen w-full bg-[#000000] text-white selection:bg-[#7DD4EF] selection:text-black font-general overflow-x-hidden">
       <SEO title="Events | BMSCE ACM" description="View our featured events, academic calendar, and upcoming technical sessions." />
 
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-[40vw] h-[40vw] bg-[#7DD4EF]/5 blur-[150px] rounded-full mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-[50vw] h-[50vw] bg-blue-900/5 blur-[150px] rounded-full mix-blend-screen" />
-      </div>
+      {/* 🚀 HIGH PERFORMANCE BACKGROUND (Replaces the slow blur/mix-blend-mode) */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none" 
+        style={{ 
+          background: 'radial-gradient(circle at 20% 0%, rgba(125, 212, 239, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 100%, rgba(30, 58, 138, 0.08) 0%, transparent 40%)',
+          transform: 'translateZ(0)' // Forces Hardware Acceleration
+        }} 
+      />
 
       {fetchStatus === "loading" || fetchStatus === "waking" ? (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
@@ -197,13 +205,18 @@ export default function EventPage() {
       ) : (
         <div className="relative z-10 flex flex-col">
           
-          <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="relative w-full">
+          <motion.section 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ duration: 0.8 }} 
+            className="relative w-full will-change-transform will-change-opacity"
+          >
             <EventTitleSection featured={derived.featuredCard} />
           </motion.section>
 
-          <div className="w-full max-w-5xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
+          <div className="w-full max-w-5xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-4 md:my-10" />
 
-          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full py-16">
+          <motion.section {...scrollRevealConfig} className="relative w-full py-16 will-change-transform will-change-opacity">
             <EventCalendarSection
               monthLabel={derived.monthLabel}
               semesterLabel={derived.semesterLabel}
@@ -214,15 +227,15 @@ export default function EventPage() {
             />
           </motion.section>
 
-          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full">
+          <motion.section {...scrollRevealConfig} className="relative w-full will-change-transform will-change-opacity">
             <EventFeaturedSection />
           </motion.section>
 
-          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+          <motion.section {...scrollRevealConfig} className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] will-change-transform will-change-opacity">
             <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
           </motion.section>
 
-          <motion.section initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }} className="relative w-full bg-[#0A0A0A]">
+          <motion.section {...scrollRevealConfig} className="relative w-full bg-[#0A0A0A] will-change-transform will-change-opacity">
             <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
           </motion.section>
 

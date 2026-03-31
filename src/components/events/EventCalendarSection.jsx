@@ -19,9 +19,9 @@ const CSS = `
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 20px;
-    font-family: 'General Sans', sans-serif;
+    gap: 16px; /* Tighter gap on mobile */
+    padding: 16px 12px;
+    font-family: 'general', sans-serif;
   }
 
   @media (min-width: 1024px) {
@@ -29,6 +29,7 @@ const CSS = `
       flex-direction: row;
       align-items: stretch;
       padding: 40px 20px;
+      gap: 24px;
     }
   }
 
@@ -37,47 +38,57 @@ const CSS = `
     flex: 1;
     background: var(--panel-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 32px;
+    border-radius: 24px; /* Slightly softer radius on mobile */
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  @media (min-width: 1024px) {
+    .ec-main-panel { border-radius: 32px; }
   }
 
   .ec-header {
-    padding: 32px;
+    padding: 20px 16px; /* Less padding on mobile */
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--glass-border);
   }
 
+  @media (min-width: 768px) {
+    .ec-header { padding: 32px; }
+  }
+
   .ec-spot-tag {
     color: var(--accent);
-    font-size: 0.65rem;
+    font-size: 0.55rem;
     font-weight: 800;
     letter-spacing: 0.3em;
     text-transform: uppercase;
   }
 
   .ec-title-group h2 {
-    font-family: 'Impact', sans-serif;
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-family: 'bebas-neue', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 4rem); /* Scales beautifully down to mobile */
     text-transform: uppercase;
-    letter-spacing: -0.02em;
-    margin: 4px 0 0 0;
+    letter-spacing: 0.02em;
+    margin: 0;
     color: var(--text-main);
+    line-height: 1;
+    font-weight: normal;
   }
 
   .ec-nav-group {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
   .ec-nav-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
+    width: 36px; /* Smaller buttons on mobile */
+    height: 36px;
+    border-radius: 12px;
     border: 1px solid var(--glass-border);
     background: var(--glass);
     color: var(--text-main);
@@ -86,6 +97,10 @@ const CSS = `
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .ec-nav-btn { width: 44px; height: 44px; }
   }
 
   .ec-nav-btn:hover {
@@ -98,12 +113,12 @@ const CSS = `
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     background: rgba(255,255,255,0.02);
-    padding: 16px 0;
+    padding: 10px 0;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     color: var(--text-dim);
   }
 
@@ -111,19 +126,28 @@ const CSS = `
   .ec-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    background: var(--glass-border); /* Acts as the border color */
-    gap: 1px; /* Creates 1px borders between cells perfectly */
+    background: var(--glass-border); 
+    gap: 1px; 
     border-top: 1px solid var(--glass-border);
   }
 
   .ec-day {
-    background: var(--panel-bg); /* Covers the grid background */
-    padding: 16px;
+    background: var(--panel-bg); 
+    padding: 6px; /* Crucial fix: Tiny padding on mobile so numbers fit */
     position: relative;
     transition: all 0.2s ease;
-    min-height: 100px;
+    min-height: 60px; /* Crucial fix: Shorter cells on mobile */
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center horizontally on mobile */
+  }
+
+  @media (min-width: 768px) {
+    .ec-day { 
+      padding: 16px; 
+      min-height: 100px; 
+      align-items: flex-start; /* Align left on desktop */
+    }
   }
 
   .ec-day.ec-empty {
@@ -136,10 +160,14 @@ const CSS = `
   }
 
   .ec-day-num {
-    font-family: 'Impact', sans-serif;
-    font-size: 1.5rem;
+    font-family: 'bebas-neue', sans-serif;
+    font-size: 1.2rem; /* Smaller on mobile */
     color: var(--text-dim);
     line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .ec-day-num { font-size: 1.8rem; }
   }
 
   .ec-day.active .ec-day-num {
@@ -147,26 +175,35 @@ const CSS = `
   }
 
   .ec-event-indicator {
-    margin-top: 8px;
-    width: 8px;
-    height: 8px;
+    margin-top: auto;
+    margin-bottom: 4px;
+    width: 6px;
+    height: 6px;
     background: var(--accent);
     border-radius: 50%;
-    box-shadow: 0 0 12px var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  @media (min-width: 768px) {
+    .ec-event-indicator { width: 8px; height: 8px; margin-bottom: 0; margin-top: 8px; }
   }
 
   .ec-today-pill {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 0.55rem;
+    top: 4px;
+    right: 4px;
+    font-size: 0.45rem;
     background: var(--accent);
     color: #000;
-    padding: 4px 8px;
-    border-radius: 6px;
+    padding: 2px 4px;
+    border-radius: 4px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+  }
+
+  @media (min-width: 768px) {
+    .ec-today-pill { top: 12px; right: 12px; font-size: 0.55rem; padding: 4px 8px; }
   }
 
   /* --- RIGHT PANEL: SPOTLIGHT --- */
@@ -174,7 +211,7 @@ const CSS = `
     width: 100%;
     background: var(--panel-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 32px;
+    border-radius: 24px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -182,13 +219,17 @@ const CSS = `
   }
 
   @media (min-width: 1024px) {
-    .ec-spotlight { width: 380px; }
+    .ec-spotlight { width: 380px; border-radius: 32px; }
   }
 
   .ec-spot-img-wrap {
-    height: 260px;
+    height: 200px; /* Shorter on mobile */
     position: relative;
     flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .ec-spot-img-wrap { height: 260px; }
   }
 
   .ec-spot-img {
@@ -198,44 +239,53 @@ const CSS = `
   }
 
   .ec-spot-content {
-    padding: 32px;
+    padding: 24px; /* Less padding on mobile */
     display: flex;
     flex-direction: column;
     flex: 1;
   }
 
+  @media (min-width: 768px) {
+    .ec-spot-content { padding: 32px; }
+  }
+
   .ec-spot-title {
-    font-family: 'Impact', sans-serif;
-    font-size: 2.2rem;
-    line-height: 1.1;
+    font-family: 'bebas-neue', sans-serif;
+    font-size: 2.5rem;
+    line-height: 1;
     color: var(--text-main);
-    margin: 8px 0 16px 0;
+    margin: 8px 0 12px 0;
     text-transform: uppercase;
+    font-weight: normal;
   }
 
   .ec-spot-desc {
     color: var(--text-dim);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 24px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
   }
 
   .ec-meta-box {
     margin-top: auto;
     background: rgba(255,255,255,0.03);
-    padding: 24px;
-    border-radius: 24px;
+    padding: 16px;
+    border-radius: 20px;
     border: 1px solid var(--glass-border);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) {
+    .ec-meta-box { padding: 24px; gap: 16px; }
   }
 
   .ec-meta-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-dim);
     font-weight: 600;
     text-transform: uppercase;
@@ -250,12 +300,13 @@ const CSS = `
     background: var(--accent);
     color: #000;
     border: none;
-    padding: 16px;
-    border-radius: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    font-family: 'general', sans-serif;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -310,7 +361,6 @@ export default function EventCalendarSection() {
     const firstDay = new Date(year, month, 1);
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
-    // Shift so Monday is index 0
     let startOffset = firstDay.getDay() - 1;
     if (startOffset < 0) startOffset = 6; 
     
@@ -321,12 +371,10 @@ export default function EventCalendarSection() {
 
     const gridCells = [];
     
-    // 1. Padding before the 1st
     for (let i = 0; i < startOffset; i++) {
       gridCells.push({ type: "empty" });
     }
 
-    // 2. The actual days
     for (let d = 1; d <= daysInMonth; d++) {
       const dayEvents = currentMonthEvents.filter(ev => new Date(ev.date || ev.startDate).getDate() === d);
       gridCells.push({
@@ -336,7 +384,6 @@ export default function EventCalendarSection() {
       });
     }
 
-    // 3. Padding after the 31st (Fixes the dates falling out of the box)
     const remainder = gridCells.length % 7;
     if (remainder !== 0) {
       for (let i = 0; i < 7 - remainder; i++) {
@@ -347,7 +394,6 @@ export default function EventCalendarSection() {
     return { cells: gridCells, monthEvents: currentMonthEvents };
   }, [viewDate, allEvents]);
 
-  // Default spotlight logic
   const spotlight = hoveredEvent || monthEvents[0] || null;
 
   return (
@@ -365,10 +411,10 @@ export default function EventCalendarSection() {
           </div>
           <div className="ec-nav-group">
             <button className="ec-nav-btn" onClick={() => setViewDate(new Date(viewDate.setMonth(viewDate.getMonth() - 1)))}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             </button>
             <button className="ec-nav-btn" onClick={() => setViewDate(new Date(viewDate.setMonth(viewDate.getMonth() + 1)))}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
         </div>
@@ -378,9 +424,9 @@ export default function EventCalendarSection() {
         </div>
 
         {fetchStatus === "loading" || fetchStatus === "waking" ? (
-          <div className="flex-1 flex flex-col items-center justify-center min-h-[400px]">
-            <div className="w-10 h-10 border-4 border-[#7DD4EF]/20 border-t-[#7DD4EF] rounded-full animate-spin mb-4" />
-            <p className="text-[#7DD4EF] text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
+          <div className="flex-1 flex flex-col items-center justify-center min-h-[300px]">
+            <div className="w-8 h-8 border-4 border-[#7DD4EF]/20 border-t-[#7DD4EF] rounded-full animate-spin mb-4" />
+            <p className="text-[#7DD4EF] text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase animate-pulse">
               {fetchStatus === "waking" ? "Waking Servers..." : "Syncing Calendar..."}
             </p>
           </div>
@@ -391,15 +437,13 @@ export default function EventCalendarSection() {
                 key={i} 
                 className={`ec-day ${cell.type === 'empty' ? 'ec-empty' : ''} ${cell.events?.length ? 'active' : ''}`}
                 onMouseEnter={() => cell.events?.length && setHoveredEvent(cell.events[0])}
+                onClick={() => cell.events?.length && setHoveredEvent(cell.events[0])} // Fix: Allows mobile users to tap the date
               >
                 {cell.day && <span className="ec-day-num">{cell.day}</span>}
                 {cell.isToday && <span className="ec-today-pill">Today</span>}
                 
-                {/* Visual Indicator for events */}
                 {cell.events?.length > 0 && (
-                  <div className="mt-auto">
-                    <div className="ec-event-indicator" />
-                  </div>
+                  <div className="ec-event-indicator" />
                 )}
               </div>
             ))}
@@ -415,8 +459,8 @@ export default function EventCalendarSection() {
               <img src={spotlight.image || spotlight.imageUrl || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"} className="ec-spot-img" alt="Spotlight" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0A0A0A, transparent)' }} />
               
-              <div style={{ position: 'absolute', top: 20, left: 20 }}>
-                 <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[#7DD4EF] border border-[#7DD4EF]/30 text-[10px] font-black uppercase tracking-widest rounded-lg">
+              <div style={{ position: 'absolute', top: 16, left: 16 }}>
+                 <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[#7DD4EF] border border-[#7DD4EF]/30 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-lg">
                    {spotlight.tag || "Featured"}
                  </span>
               </div>
@@ -424,7 +468,7 @@ export default function EventCalendarSection() {
 
             <div className="ec-spot-content">
               <h3 className="ec-spot-title">{spotlight.title}</h3>
-              <p className="ec-spot-desc">{spotlight.description?.substring(0, 150)}{spotlight.description?.length > 150 ? '...' : ''}</p>
+              <p className="ec-spot-desc">{spotlight.description?.substring(0, 120)}{spotlight.description?.length > 120 ? '...' : ''}</p>
               
               <div className="ec-meta-box">
                 <div className="ec-meta-item">
@@ -447,10 +491,10 @@ export default function EventCalendarSection() {
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-white/[0.02]">
-            <CalendarIcon size={48} className="text-white/10 mb-6" />
-            <h3 className="text-xl font-black text-white uppercase font-['Impact'] mb-2">No Events Selected</h3>
-            <p className="text-[#7DD4EF] text-xs font-bold uppercase tracking-widest">
-              Hover over a date<br/>to view details
+            <CalendarIcon size={40} className="text-white/10 mb-4" />
+            <h3 className="text-2xl font-normal text-white uppercase font-bebas-neue mb-2 tracking-wide">No Events Selected</h3>
+            <p className="text-[#7DD4EF] text-[10px] font-bold uppercase tracking-widest">
+              Tap or hover a date<br/>to view details
             </p>
           </div>
         )}
