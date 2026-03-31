@@ -1,0 +1,201 @@
+[
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d0",
+    "title": "ACM India Chapter Summit 2024",
+    "description": "A national summit bringing together ACM chapters from across India to share knowledge, innovations, and collaborations.",
+    "date": "2024-11-15T09:00:00",
+    "image": "https://placehold.co/1200x600?text=ACM+India+Chapter+Summit+2024",
+    "fullDescription": "The ACM India Chapter Summit 2024 was a landmark event that united ACM student chapters from across India. The summit featured keynote talks by industry leaders, panel discussions on emerging technologies, and networking sessions. Delegates explored topics ranging from AI/ML to systems design, fostering inter-chapter collaboration and community building.",
+    "outcomes": "Over 300 attendees from 40+ chapters. Established inter-chapter collaboration framework. Published joint research proposals.",
+    "gallery": [
+      "https://placehold.co/800x500?text=Summit+Gallery+1",
+      "https://placehold.co/800x500?text=Summit+Gallery+2",
+      "https://placehold.co/800x500?text=Summit+Gallery+3"
+    ],
+    "location": "BMSCE Auditorium, Bengaluru",
+    "attendees": 320,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d1",
+    "title": "ACM ROCS 2025",
+    "description": "Regional Open Computing Symposium — a platform for students to present research, projects, and papers in computing.",
+    "date": "2025-02-08T10:00:00",
+    "image": "https://placehold.co/1200x600?text=ACM+ROCS+2025",
+    "fullDescription": "ACM ROCS 2025 (Regional Open Computing Symposium) provided a stage for undergraduate and postgraduate students to showcase their computing research and projects. The event included paper presentations, poster sessions, and project demos judged by faculty and industry professionals. Winners received cash prizes and publication opportunities.",
+    "outcomes": "65 papers submitted, 28 accepted. Best paper award won by a team from BMSCE. Industry mentorship sessions held post-event.",
+    "gallery": [
+      "https://placehold.co/800x500?text=ROCS+Gallery+1",
+      "https://placehold.co/800x500?text=ROCS+Gallery+2"
+    ],
+    "location": "Seminar Hall, BMSCE",
+    "attendees": 180,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d2",
+    "title": "Town Hall for ACM Students",
+    "description": "An open forum for ACM BMSCE members to discuss chapter direction, goals, and upcoming initiatives.",
+    "date": "2025-01-20T17:00:00",
+    "image": "https://placehold.co/1200x600?text=Town+Hall+ACM+Students",
+    "fullDescription": "The Town Hall for ACM Students was an inclusive open-mic-style event where chapter members voiced opinions on club activities, proposed new initiatives, and interacted directly with the executive committee. Key agenda items included the annual roadmap, membership benefits, and inter-department collaborations.",
+    "outcomes": "Finalized roadmap for 2025. Introduced new SIG (Special Interest Groups) structure. Member engagement increased by 40%.",
+    "gallery": [
+      "https://placehold.co/800x500?text=Town+Hall+Gallery+1"
+    ],
+    "location": "CS Seminar Room, BMSCE",
+    "attendees": 95,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d3",
+    "title": "AGM 2025",
+    "description": "Annual General Meeting of ACM BMSCE — electing the new executive committee and reviewing the year's achievements.",
+    "date": "2025-03-10T14:00:00",
+    "image": "https://placehold.co/1200x600?text=AGM+2025",
+    "fullDescription": "The Annual General Meeting 2025 marked a pivotal moment for ACM BMSCE as the chapter elected its new executive committee. The outgoing team presented a comprehensive report on events, finances, and impact. Nominations were accepted and voting conducted transparently. The new team was welcomed with an orientation session.",
+    "outcomes": "New executive committee elected. Annual impact report published. Budget for 2025-26 approved.",
+    "gallery": [
+      "https://placehold.co/800x500?text=AGM+Gallery+1",
+      "https://placehold.co/800x500?text=AGM+Gallery+2"
+    ],
+    "location": "Conference Room, BMSCE",
+    "attendees": 110,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d4",
+    "title": "15 Days of Code",
+    "description": "A 15-day competitive programming challenge designed to sharpen problem-solving and coding skills.",
+    "date": "2024-12-01T08:00:00",
+    "image": "https://placehold.co/1200x600?text=15+Days+of+Code",
+    "fullDescription": "15 Days of Code was an intensive coding challenge where participants tackled daily algorithmic problems across increasing difficulty levels. Problems spanned arrays, graphs, dynamic programming, and system design. A live leaderboard kept competition fierce, and top performers were awarded certificates and goodies.",
+    "outcomes": "200+ participants. 15 problems across 4 difficulty tiers. Top 3 winners received Amazon vouchers.",
+    "gallery": [
+      "https://placehold.co/800x500?text=15DoC+Gallery+1",
+      "https://placehold.co/800x500?text=15DoC+Gallery+2"
+    ],
+    "location": "Online (HackerRank)",
+    "attendees": 215,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d5",
+    "title": "Mastering DSA",
+    "description": "A structured workshop series on Data Structures and Algorithms aimed at placement preparation.",
+    "date": "2024-10-05T10:00:00",
+    "image": "https://placehold.co/1200x600?text=Mastering+DSA",
+    "fullDescription": "Mastering DSA was a multi-session workshop series covering core data structures (arrays, linked lists, trees, graphs) and algorithms (sorting, searching, greedy, DP). Each session included theory, live coding demos, and practice problems. The series culminated in a mock interview round conducted by senior students and alumni.",
+    "outcomes": "8 sessions over 4 weeks. 150 attendees. Mock interview round helped 30+ students with placement prep.",
+    "gallery": [
+      "https://placehold.co/800x500?text=DSA+Gallery+1",
+      "https://placehold.co/800x500?text=DSA+Gallery+2",
+      "https://placehold.co/800x500?text=DSA+Gallery+3"
+    ],
+    "location": "Lab Block, BMSCE",
+    "attendees": 150,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d6",
+    "title": "CS Pathshala",
+    "description": "A beginner-friendly initiative to introduce first-year students to the world of Computer Science.",
+    "date": "2024-09-12T11:00:00",
+    "image": "https://placehold.co/1200x600?text=CS+Pathshala",
+    "fullDescription": "CS Pathshala was ACM BMSCE's flagship orientation program for first-year students. The event covered career paths in CS, how to get started with programming, open source contributions, and what the ACM chapter offers. Senior students and alumni shared their journeys, and students had a chance to ask questions in an informal Q&A.",
+    "outcomes": "120 freshers attended. 80+ joined the ACM chapter post-event. Mentorship program initiated for 1st years.",
+    "gallery": [
+      "https://placehold.co/800x500?text=Pathshala+Gallery+1"
+    ],
+    "location": "Main Auditorium, BMSCE",
+    "attendees": 120,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d7",
+    "title": "ESP: CryptoVerse",
+    "description": "An event combining cryptography puzzles, blockchain basics, and a capture-the-flag style challenge.",
+    "date": "2024-08-22T09:30:00",
+    "image": "https://placehold.co/1200x600?text=ESP+CryptoVerse",
+    "fullDescription": "CryptoVerse, part of the ESP (Emerging Security Practices) series, took participants on a journey through the world of cryptography and blockchain. Sessions covered symmetric/asymmetric encryption, hashing, and smart contracts. The event concluded with a CTF (Capture The Flag) challenge where teams competed to break ciphers and solve security puzzles.",
+    "outcomes": "90 participants. CTF had 20 teams. Winning team solved 12/15 challenges in record time.",
+    "gallery": [
+      "https://placehold.co/800x500?text=CryptoVerse+Gallery+1",
+      "https://placehold.co/800x500?text=CryptoVerse+Gallery+2"
+    ],
+    "location": "CS Lab 3, BMSCE",
+    "attendees": 90,
+    "registration_link": null,
+    "is_featured": true
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d8",
+    "title": "Web Dev Bootcamp",
+    "description": "A hands-on two-day bootcamp covering HTML, CSS, JavaScript, and React fundamentals.",
+    "date": "2024-07-18T10:00:00",
+    "image": "https://placehold.co/500x300?text=Web+Dev+Bootcamp",
+    "fullDescription": "The Web Dev Bootcamp was an intensive two-day session where students built a fully functional web app from scratch. Day 1 covered HTML/CSS layouts and responsive design. Day 2 focused on JavaScript DOM manipulation and an introduction to React. Participants left with a personal portfolio project.",
+    "outcomes": "75 participants. Every attendee completed a mini-project. 20+ pushed their projects to GitHub.",
+    "gallery": [
+      "https://placehold.co/800x500?text=WebDev+Gallery+1"
+    ],
+    "location": "Online (Zoom)",
+    "attendees": 75,
+    "registration_link": null,
+    "is_featured": false
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9d9",
+    "title": "Open Source Fiesta",
+    "description": "A day-long event to introduce students to open source contribution through guided GitHub workshops.",
+    "date": "2024-06-05T09:00:00",
+    "image": "https://placehold.co/500x300?text=Open+Source+Fiesta",
+    "fullDescription": "Open Source Fiesta demystified the world of open source for students. Participants learned Git workflows, how to read codebases, write good issues, and submit pull requests. Mentors from the ACM chapter guided attendees to make their first real open source contribution during the event.",
+    "outcomes": "60 participants. 40+ first-time open source contributors. 15 pull requests merged to real projects.",
+    "gallery": [
+      "https://placehold.co/800x500?text=OSF+Gallery+1"
+    ],
+    "location": "Lab Block, BMSCE",
+    "attendees": 60,
+    "registration_link": null,
+    "is_featured": false
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9da",
+    "title": "AI/ML Study Circle — Session 1",
+    "description": "Kickoff session of the ACM AI/ML Study Circle, covering fundamentals of machine learning.",
+    "date": "2024-05-14T16:00:00",
+    "image": "https://placehold.co/500x300?text=AI+ML+Study+Circle",
+    "fullDescription": "The AI/ML Study Circle's inaugural session introduced participants to core machine learning concepts: supervised vs unsupervised learning, model training, overfitting, and evaluation metrics. The session used hands-on Jupyter notebooks and real datasets. A Q&A with a 4th-year ML enthusiast wrapped up the evening.",
+    "outcomes": "55 attendees. Notebooks shared on GitHub. Follow-up sessions planned for CNN, NLP, and Reinforcement Learning.",
+    "gallery": [],
+    "location": "Seminar Room 2, BMSCE",
+    "attendees": 55,
+    "registration_link": null,
+    "is_featured": false
+  },
+  {
+    "_id": "64a1f2b3c8d4e5f6a7b8c9db",
+    "title": "Hacknight 3.0",
+    "description": "An overnight 12-hour hackathon challenging teams to build innovative solutions to real-world problems.",
+    "date": "2024-04-27T18:00:00",
+    "image": "https://placehold.co/500x300?text=Hacknight+3.0",
+    "fullDescription": "Hacknight 3.0 was ACM BMSCE's most ambitious hackathon yet — a 12-hour overnight coding sprint. Teams of 2-4 chose problem statements across tracks like HealthTech, EdTech, and Sustainability. Mentors circulated through the venue offering guidance. The event ended with demo presentations judged by alumni and industry professionals.",
+    "outcomes": "25 teams participated. 3 tracks judged. Winning HealthTech project received incubation support from the college.",
+    "gallery": [
+      "https://placehold.co/800x500?text=Hacknight+Gallery+1",
+      "https://placehold.co/800x500?text=Hacknight+Gallery+2"
+    ],
+    "location": "Innovation Lab, BMSCE",
+    "attendees": 100,
+    "registration_link": null,
+    "is_featured": false
+  }
+]
