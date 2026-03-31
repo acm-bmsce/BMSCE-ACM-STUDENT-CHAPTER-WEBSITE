@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import { getOptimizedImageUrl } from "../utils/imageHelper";
 import eventService from "../api/eventService"; 
@@ -14,19 +15,21 @@ const parseDate = (date) => {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 };
 
+// Calendar Math Helper
 const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   const year = monthAnchor.getFullYear();
   const month = monthAnchor.getMonth();
   const firstOfMonth = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const startIndex = (firstOfMonth.getDay() + 6) % 7;
+  let startIndex = firstOfMonth.getDay() - 1;
+  if (startIndex < 0) startIndex = 6;
+  
   const totalCells = Math.ceil((startIndex + daysInMonth) / 7) * 7;
-
   const eventCounts = new Map();
+  
   events
     .map((evt) => parseDate(evt.date || evt.startDate || evt.createdAt))
-    .filter((d) => d !== null)
-    .filter((d) => d.getFullYear() === year && d.getMonth() === month)
+    .filter((d) => d !== null && d.getFullYear() === year && d.getMonth() === month)
     .forEach((d) => {
       const day = d.getDate();
       eventCounts.set(day, (eventCounts.get(day) || 0) + 1);
@@ -40,19 +43,11 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   return Array.from({ length: totalCells }, (_, index) => {
     const dayNumber = index - startIndex + 1;
     const isWeekend = index % 7 >= 5;
-    if (dayNumber < 1 || dayNumber > daysInMonth) {
-      return { type: "empty", isWeekend };
-    }
+    if (dayNumber < 1 || dayNumber > daysInMonth) return { type: "empty", isWeekend };
 
-    const isToday =
-      today.getFullYear() === year &&
-      today.getMonth() === month &&
-      today.getDate() === dayNumber;
-
+    const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === dayNumber;
     const isFocus = Boolean(focusDate) && focusDate.getDate() === dayNumber && !isToday;
-
     const count = eventCounts.get(dayNumber) || 0;
-    const eventsLabel = count > 0 ? [`${count} event${count > 1 ? "s" : ""}`] : undefined;
 
     return {
       type: "day",
@@ -61,7 +56,7 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
       isToday,
       isFocus,
       focusLabel: isFocus ? focusLabel : undefined,
-      events: eventsLabel,
+      events: count > 0 ? [`${count} event${count > 1 ? "s" : ""}`] : undefined,
     };
   });
 };
@@ -72,11 +67,21 @@ export default function EventPage() {
   const [monthOffset, setMonthOffset] = useState(0);
   const today = new Date();
 
-  
+  // Smart Backend Polling
+  // Smart Backend Polling & Body Styles
   useEffect(() => {
     let isMounted = true;
-
     
+    // 1. Save original background colors in case user leaves this page
+    const originalHtmlBg = document.documentElement.style.backgroundColor;
+    const originalBodyBg = document.body.style.backgroundColor;
+
+    // 2. Ensure document scrolls normally AND force the background to be black
+    document.documentElement.style.overflowY = 'auto';
+    document.body.style.overflowY = 'auto';
+    document.documentElement.style.backgroundColor = '#000000';
+    document.body.style.backgroundColor = '#000000';
+
     const fetchAllData = async () => {
       let attempts = 0;
       const maxAttempts = 15;
@@ -84,7 +89,6 @@ export default function EventPage() {
       while (attempts < maxAttempts && isMounted) {
         try {
           if (attempts === 1) setFetchStatus("waking");
-
           const response = await eventService.getEvents(100, 0); 
           
           if (isMounted) {
@@ -95,10 +99,7 @@ export default function EventPage() {
           return;
         } catch (error) {
           attempts++;
-          console.warn(`Server sleeping... Retrying request (${attempts}/${maxAttempts})`);
-          
           if (attempts >= maxAttempts && isMounted) {
-            console.error("Failed to load events: Backend unresponsive.");
             setFetchStatus("error");
             return;
           }
@@ -109,231 +110,116 @@ export default function EventPage() {
 
     fetchAllData();
 
-    
-    const html = document.documentElement;
-    const body = document.body;
-
-    const prev = {
-      htmlOverflow: html.style.overflow,
-      htmlOverflowX: html.style.overflowX,
-      htmlOverflowY: html.style.overflowY,
-      htmlHeight: html.style.height,
-      htmlMinHeight: html.style.minHeight,
-      htmlDisplay: html.style.display,
-      htmlAlignItems: html.style.alignItems,
-      htmlJustifyContent: html.style.justifyContent,
-      htmlBackground: html.style.background,
-      bodyBackground: body.style.background,
-      bodyOverflow: body.style.overflow,
-      bodyOverflowX: body.style.overflowX,
-      bodyOverflowY: body.style.overflowY,
-      bodyHeight: body.style.height,
-      bodyMinHeight: body.style.minHeight,
-      bodyDisplay: body.style.display,
-      bodyAlignItems: body.style.alignItems,
-      bodyJustifyContent: body.style.justifyContent,
-    };
-
-    html.style.display = "block";
-    html.style.height = "auto";
-    html.style.minHeight = "100%";
-    html.style.overflow = "auto";
-    html.style.overflowX = "hidden";
-    html.style.overflowY = "auto";
-    html.style.alignItems = "stretch";
-    html.style.justifyContent = "initial";
-    html.style.background = "#000";
-
-    body.style.display = "block";
-    body.style.height = "auto";
-    body.style.minHeight = "100%";
-    body.style.overflow = "auto";
-    body.style.overflowX = "hidden";
-    body.style.overflowY = "auto";
-    body.style.alignItems = "stretch";
-    body.style.justifyContent = "initial";
-    body.style.background = "#000";
-
-    return () => {
-      isMounted = false;
-      html.style.overflow = prev.htmlOverflow;
-      html.style.overflowX = prev.htmlOverflowX;
-      html.style.overflowY = prev.htmlOverflowY;
-      html.style.height = prev.htmlHeight;
-      html.style.minHeight = prev.htmlMinHeight;
-      html.style.display = prev.htmlDisplay;
-      html.style.alignItems = prev.htmlAlignItems;
-      html.style.justifyContent = prev.htmlJustifyContent;
-      html.style.background = prev.htmlBackground;
-      body.style.background = prev.bodyBackground;
-      body.style.overflow = prev.bodyOverflow;
-      body.style.overflowX = prev.bodyOverflowX;
-      body.style.overflowY = prev.bodyOverflowY;
-      body.style.height = prev.bodyHeight;
-      body.style.minHeight = prev.bodyMinHeight;
-      body.style.display = prev.bodyDisplay;
-      body.style.alignItems = prev.bodyAlignItems;
-      body.style.justifyContent = prev.bodyJustifyContent;
+    // 3. Cleanup function when user leaves the events page
+    return () => { 
+      isMounted = false; 
+      document.documentElement.style.backgroundColor = originalHtmlBg;
+      document.body.style.backgroundColor = originalBodyBg;
     };
   }, []);
 
+  // Safely derive all data for child components
   const derived = useMemo(() => {
-    const pageData = {}; 
-
     const normalized = allEvents.map((evt, index) => ({
       ...evt,
       _id: evt._id || evt.id || `event-${index}`,
-      title: evt.title,
-      date: evt.date || evt.startDate || evt.createdAt,
-      description: evt.description,
+      title: evt.title || "Elite Tech Session",
+      date: evt.date || evt.startDate || evt.createdAt || Date.now(),
+      description: evt.description || "Join our flagship ACM event.",
       location: evt.location || "BMSCE Campus",
-      image: evt.imageUrl || evt.image,
+      image: evt.imageUrl || evt.image || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4",
       is_featured: evt.is_featured || evt.featured || false,
-      parsedDate: parseDate(evt.date || evt.startDate || evt.createdAt),
+      parsedDate: parseDate(evt.date || evt.startDate || evt.createdAt || Date.now()),
     }));
 
-    const sorted = normalized
-      .filter((item) => item.parsedDate !== null)
-      .sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
-
+    const sorted = normalized.filter((item) => item.parsedDate !== null).sort((a, b) => a.parsedDate - b.parsedDate);
     const upcoming = sorted.filter((item) => item.parsedDate >= today);
     const past = [...sorted].filter((item) => item.parsedDate < today).reverse();
-
     const feat = normalized.find((e) => e.is_featured) || upcoming[0] || normalized[0];
-    const attendance =
-      typeof feat?.attendees === "number"
-        ? feat.attendees
-        : Number(feat?.attendees) || undefined;
-        
-    const featuredImages = (pageData && pageData.featuredImages) || {};
-    
-    const featuredCard = {
-      title: feat?.title?.split(" ").slice(0, 2).join(" ") || "ACM",
-      titleAccent: feat?.title?.split(" ").slice(2).join(" "),
-      description: feat?.description || "Join our flagship ACM event.",
-      dateLabel: feat?.date || "",
-      location: feat?.location || "BMSCE Campus",
-      speakers: "Industry Experts",
-      capacity: "Limited",
-      image: getOptimizedImageUrl(feat?.image, 1200),
-      registrationLink: feat?.registrationLink || feat?.registration_link || "#",
-      attendancePercent: attendance ? Math.min(100, Math.round((attendance / 250) * 100)) : 72,
-      attendanceLabel: attendance ? `${attendance} attending` : "180 attending",
-      imageSecondary: featuredImages.secondary,
-      imageTertiary: featuredImages.tertiary,
-    };
-
-    const spotlightEvt = upcoming[0] || past[0] || sorted[0];
-    const focusLabel = spotlightEvt?.title?.split(" ").slice(0, 2).join(" ") || undefined;
 
     const monthAnchor = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
-    const cells = buildCalendarCells(monthAnchor, normalized, focusLabel, today);
+    const cells = buildCalendarCells(monthAnchor, normalized, feat?.title, today);
 
-    const spotlight = spotlightEvt
-      ? {
-          day: spotlightEvt.parsedDate?.getDate() || 1,
-          monthLabel: `${spotlightEvt.parsedDate?.toLocaleDateString("en-IN", {
-            month: "short",
-          })} - ${spotlightEvt.location || "BMSCE Campus"}`,
-          badge: spotlightEvt.parsedDate >= today ? "Upcoming" : "Recent",
-          titleLine1: spotlightEvt.title.split(" ")[0],
-          titleLine2: spotlightEvt.title.split(" ").slice(1).join(" ") || "Session",
-          description: spotlightEvt.description,
-          imageUrl: spotlightEvt.image || "https://images.unsplash.com/photo-1518770660439-4636190af475",
-          time: spotlightEvt.parsedDate
-            ? spotlightEvt.parsedDate.toLocaleTimeString("en-IN", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "10:00 AM",
-          location: spotlightEvt.location || "BMSCE Campus",
-        }
-      : pageData?.calendarDefaults?.spotlight;
-
-    const maxUpcoming = pageData?.upcomingCount || 3;
-    const maxPast = pageData?.pastCount || 3;
-    const sessionCards = upcoming.slice(0, maxUpcoming).map((item) => ({
-      day: item.parsedDate.getDate().toString().padStart(2, "0"),
-      month: item.parsedDate.toLocaleDateString("en-IN", { month: "short" }),
-      title: item.title,
-      description: item.description || "Technical session by BMSCE ACM.",
-      tag: item.tag || item.categories?.[0] || "Workshop",
-      location: item.location || "BMSCE",
-      time: item.parsedDate.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      image: item.image,
-      registrationLink: item.registrationLink || "#"
-    }));
-
-    const pastSessionCards = past.slice(0, maxPast).map((item) => ({
-      day: item.parsedDate.getDate().toString().padStart(2, "0"),
-      month: item.parsedDate.toLocaleDateString("en-IN", { month: "short" }),
-      title: item.title,
-      description: item.description || "ACM event highlight.",
-      tag: item.tag || item.categories?.[0] || "Past Event",
-      location: item.location || "BMSCE",
-      dateLabel: item.parsedDate.toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
-      image: item.image,
-    }));
+    // Prepare Hero Component Data safely
+    const featuredCard = feat ? {
+      ...feat,
+      imageSecondary: normalized[1]?.image,
+      imageTertiary: normalized[2]?.image,
+      registrationLink: feat.registrationLink || feat.registration_link || "#",
+    } : null;
 
     return {
       featuredCard,
-      monthLabel: monthAnchor
-        .toLocaleDateString("en-IN", { month: "long", year: "numeric" })
-        .toUpperCase(),
-      spotlight,
-      sessionCards,
-      pastSessionCards,
       cells,
-      semesterLabel: pageData?.semesterLabel || "ACADEMIC CALENDAR",
+      monthLabel: monthAnchor.toLocaleDateString("en-IN", { month: "long", year: "numeric" }).toUpperCase(),
+      semesterLabel: "ACADEMIC CALENDAR",
+      // If your child components fetch their own data, they won't need these, but we pass them just in case
+      sessionCards: upcoming,
+      pastSessionCards: past,
+      spotlight: feat,
     };
   }, [monthOffset, allEvents]);
 
   return (
-    <main className="relative block min-h-screen w-full bg-black overflow-x-hidden overflow-y-visible">
-      <SEO
-        title="Events | BMSCE ACM"
-        description="View our featured events, academic calendar, and upcoming technical sessions."
-      />
+    <main className="relative min-h-screen w-full bg-[#030303] text-white selection:bg-[#7DD4EF] selection:text-black font-['General_Sans'] overflow-x-hidden">
+      <SEO title="Events | BMSCE ACM" description="View our featured events, academic calendar, and upcoming technical sessions." />
+
+      {/* Global Background Ambiance */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-[40vw] h-[40vw] bg-[#7DD4EF]/5 blur-[150px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-[50vw] h-[50vw] bg-blue-900/5 blur-[150px] rounded-full mix-blend-screen" />
+      </div>
 
       {/* Global Loading / Waking Screen */}
       {fetchStatus === "loading" || fetchStatus === "waking" ? (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black px-4">
-          <div className="w-14 h-14 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin mb-8"></div>
-          <h2 className="text-3xl md:text-5xl font-bold text-[#EAF7FF] mb-4 tracking-widest uppercase font-['Impact'] text-center">
-            {fetchStatus === "waking" ? "Waking Up Server" : "Loading Schedule"}
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+          <div className="relative w-20 h-20 mb-8">
+            <div className="absolute inset-0 border-4 border-white/10 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-2 h-2 bg-[#7DD4EF] rounded-full animate-ping"></div>
+            </div>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter uppercase font-['Impact'] text-center drop-shadow-[0_0_15px_rgba(125,212,239,0.3)]">
+            {fetchStatus === "waking" ? "System Booting" : "Syncing Nodes"}
           </h2>
           {fetchStatus === "waking" && (
-            <p className="text-[#7DD4EF] text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-center max-w-md">
-              Please hold on, this may take up to a minute...
+            <p className="text-[#7DD4EF] text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-center max-w-md animate-pulse">
+              Establishing secure connection...
             </p>
           )}
         </div>
       ) : fetchStatus === "error" ? (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black px-4">
-          <p className="text-3xl font-bold text-[#ff6b6b] uppercase font-['Impact'] tracking-wide">Failed to load events</p>
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+          <p className="text-4xl font-black text-[#ff6b6b] uppercase font-['Impact'] tracking-tighter text-center">Connection Terminated</p>
+          <p className="text-gray-400 mt-4 text-sm tracking-widest uppercase">The backend server is unresponsive.</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="mt-8 px-8 py-3 border border-[#7DD4EF] text-[#7DD4EF] rounded-full uppercase tracking-[0.2em] text-xs font-bold hover:bg-[#7DD4EF] hover:text-black transition-colors"
+            className="mt-10 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-2xl uppercase tracking-[0.2em] text-xs font-bold transition-all"
           >
-            Try Again
+            Reboot Sequence
           </button>
         </div>
       ) : (
-        <div className="flex flex-col gap-0">
+        <div className="relative z-10 flex flex-col">
           
-          <section className="relative w-full">
-            <EventTitleSection featured={derived.featuredCard} sectionTitle="EVENTS" />
-          </section>
+          {/* Hero Section */}
+          <motion.section 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
+            className="relative w-full"
+          >
+            <EventTitleSection featured={derived.featuredCard} />
+          </motion.section>
 
-          
-          <section className="relative w-full py-10 sm:py-14 md:py-20 px-0 bg-black">
+          {/* Cinematic Divider */}
+          <div className="w-full max-w-5xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10" />
+
+          {/* Calendar Section */}
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
+            className="relative w-full py-16"
+          >
+            {/* Note: If your Calendar fetches its own data, you don't need to pass props. If it needs them, they are provided here. */}
             <EventCalendarSection
               monthLabel={derived.monthLabel}
               semesterLabel={derived.semesterLabel}
@@ -342,22 +228,38 @@ export default function EventPage() {
               onPrevMonth={() => setMonthOffset((prev) => prev - 1)}
               onNextMonth={() => setMonthOffset((prev) => prev + 1)}
             />
-          </section>
+          </motion.section>
 
-          
-          <section className="relative w-full">
+          {/* Featured Events */}
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
+            className="relative w-full"
+          >
             <EventFeaturedSection />
-          </section>
+          </motion.section>
 
-
-          <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
-            <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
-          </section>
-
-          
-          <section className="relative w-full pb-16 sm:pb-24 md:pb-32">
+          {/* Upcoming Sessions */}
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
+            className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
+          >
             <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
-          </section>
+          </motion.section>
+
+          {/* Past Sessions */}
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
+            className="relative w-full bg-[#0A0A0A]"
+          >
+            <EventPastSessions sessions={derived.pastSessionCards} locationLabel="BMSCE Campus" />
+          </motion.section>
+
+          {/* Footer Cap */}
+          <div className="py-24 text-center bg-[#0A0A0A]">
+            <div className="w-2 h-2 bg-[#7DD4EF]/50 rounded-full mx-auto mb-4 animate-pulse" />
+            <p className="text-gray-600 text-[9px] uppercase tracking-[0.5em] font-bold">End of Directory</p>
+          </div>
+
         </div>
       )}
     </main>
