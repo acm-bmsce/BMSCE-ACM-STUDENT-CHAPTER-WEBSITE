@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import eventService from "../api/eventService";
 
-// --- 🚀 Reusable "View More" Text Component ---
+
 const ExpandableText = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 250; 
@@ -74,10 +74,10 @@ export default function ArchivePage() {
     return () => { isMounted = false; };
   }, []);
 
-  // Scroll Lock - Cleanest Implementation
+  
  useEffect(() => {
     if (selectedEvent || fullscreenIdx !== null) {
-      // Prevents background from moving
+      
       document.body.style.overflow = 'hidden';
       document.body.style.height = '100vh'; 
     } else {
@@ -98,7 +98,7 @@ export default function ArchivePage() {
 
   return (
     <main className="min-h-screen bg-[#030303] pt-32 pb-20 px-6 font-general text-white">
-      {/* Background */}
+      
       <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,_rgba(125,212,239,0.05)_0%,_transparent_50%)]" />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -146,12 +146,12 @@ export default function ArchivePage() {
         )}
       </div>
 
-      {/* 🎯 The Clean Modal Portal - FIXED SCROLLING */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {selectedEvent && (
             <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-12 overflow-hidden">
-              {/* Backdrop */}
+              
               <motion.div 
                 initial={{ opacity: 0 }} 
                 animate={{ opacity: 1 }} 
@@ -160,16 +160,16 @@ export default function ArchivePage() {
                 className="absolute inset-0 bg-black/95 backdrop-blur-sm" 
               />
 
-              {/* Modal Box */}
+              
               <motion.div 
                 initial={{ opacity: 0, y: 20, scale: 0.98 }} 
                 animate={{ opacity: 1, y: 0, scale: 1 }} 
                 exit={{ opacity: 0, y: 20, scale: 0.98 }}
-                // 🚀 FIXED: Added stopPropagation to prevent clicks/scrolls from hitting background
+                
                 onClick={(e) => e.stopPropagation()}
                 className="relative w-full max-w-5xl bg-[#0A0A0A] border border-white/10 rounded-[32px] overflow-hidden flex flex-col md:flex-row h-full max-h-[85vh] z-10 shadow-2xl"
               >
-                {/* Close Button */}
+                
                 <button 
                   onClick={() => setSelectedEvent(null)} 
                   className="absolute top-6 right-6 z-50 p-2 bg-black/50 text-white rounded-full border border-white/10 hover:bg-[#7DD4EF] hover:text-black transition-all"
@@ -177,7 +177,7 @@ export default function ArchivePage() {
                   <X size={20} />
                 </button>
                 
-                {/* Left Side: Static Image */}
+                
                 <div className="md:w-2/5 h-48 md:h-full relative shrink-0 bg-[#070707] border-b md:border-b-0 md:border-r border-white/5">
                   <img 
                     src={selectedEvent.imageUrl || selectedEvent.image} 
@@ -187,10 +187,10 @@ export default function ArchivePage() {
                   <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0A0A0A] via-transparent to-transparent opacity-90" />
                 </div>
 
-                {/* Right Side: SCROLLABLE CONTENT */}
+                
                 <div 
                   className="flex-1 overflow-y-auto custom-scrollbar flex flex-col"
-                  // 🚀 FIXED: This prevents the scroll event from "bubbling" to the background
+                  
                   onWheel={(e) => e.stopPropagation()}
                 >
                   <div className="p-8 md:p-12">

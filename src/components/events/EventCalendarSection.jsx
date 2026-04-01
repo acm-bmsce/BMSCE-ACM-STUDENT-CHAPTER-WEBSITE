@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import eventService from "../../api/eventService";
 
-// --- 🚀 Reusable Expandable Text Component ---
+
 const ExpandableText = ({ text, isSpotlight = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = isSpotlight ? 120 : 250; 
@@ -187,7 +187,7 @@ export default function EventCalendarSection() {
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const [fetchStatus, setFetchStatus] = useState("loading");
 
-  // State for Modal and Lightbox
+
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [fullscreenPhotoIndex, setFullscreenPhotoIndex] = useState(null);
 
@@ -225,7 +225,7 @@ export default function EventCalendarSection() {
   const showPrevPhoto = (e) => { e.stopPropagation(); setFullscreenPhotoIndex((prev) => (prev > 0 ? prev - 1 : galleryPhotos.length - 1)); };
   const showNextPhoto = (e) => { e.stopPropagation(); setFullscreenPhotoIndex((prev) => (prev < galleryPhotos.length - 1 ? prev + 1 : 0)); };
 
-  // Scroll Lock handling
+  
   useEffect(() => {
     if (selectedEvent || fullscreenPhotoIndex !== null) {
       document.body.style.overflow = 'hidden';
@@ -267,7 +267,7 @@ export default function EventCalendarSection() {
     <div className="ec-container font-general">
       <style>{CSS}</style>
 
-      {/* Main Calendar Panel */}
+      
       <div className="ec-main-panel">
         <div className="ec-header">
           <div>
@@ -313,7 +313,7 @@ export default function EventCalendarSection() {
         )}
       </div>
 
-      {/* Right Spotlight Panel */}
+      
       <aside className="ec-spotlight">
         {spotlight ? (
           <>
@@ -353,7 +353,7 @@ export default function EventCalendarSection() {
         )}
       </aside>
 
-      {/* 🎯 Breathable Details Modal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {selectedEvent && (
@@ -377,7 +377,7 @@ export default function EventCalendarSection() {
                   </div>
                   <ExpandableText text={selectedEvent.fullDescription || selectedEvent.description} />
                   
-                  {/* Gallery in Modal */}
+                  
                   {galleryPhotos.length > 0 && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2"><Camera size={20} className="text-[#7DD4EF]"/> Event Gallery</h4>
@@ -416,7 +416,7 @@ export default function EventCalendarSection() {
         document.body
       )}
 
-      {/* 🎯 Uncompressed Fullscreen Lightbox */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {fullscreenPhotoIndex !== null && (

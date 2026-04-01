@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Terminal, Code2, Users } from "lucide-react"; // 🚀 Removed ArrowRight since we removed the fake button
+import { Terminal, Code2, Users } from "lucide-react";
 
 export default function EventTitleSection({ featured }) {
-  // Crisp, linear animations for the initial load
+  
   const containerVars = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
@@ -19,7 +19,7 @@ export default function EventTitleSection({ featured }) {
   const mainImg = featured?.image || fallbackMain;
   const secondaryImg = featured?.imageSecondary || fallbackSecondary;
 
-  // Safely format the date for the info card
+  
   const displayDate = featured?.parsedDate instanceof Date && !isNaN(featured.parsedDate)
     ? featured.parsedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
     : "UPCOMING";
@@ -27,7 +27,7 @@ export default function EventTitleSection({ featured }) {
   return (
     <section className="relative w-full min-h-[100svh] flex flex-col justify-center items-center bg-[#030303] overflow-hidden pt-32 pb-20 lg:pt-20 lg:pb-0 font-general">
       
-      {/* Subtle, Hardware-Accelerated Ambient Glow */}
+      
       <div 
         className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] pointer-events-none z-0" 
         style={{ 
@@ -41,7 +41,7 @@ export default function EventTitleSection({ featured }) {
         
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
           
-          {/* Left Column: Typography & Content */}
+          
           <motion.div 
             className="flex flex-col items-center text-center lg:items-start lg:text-left will-change-transform"
             variants={containerVars}
@@ -79,7 +79,7 @@ export default function EventTitleSection({ featured }) {
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Disciplined Overlap Composition */}
+          
           <div className="hidden lg:flex justify-end items-center w-full">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
@@ -88,7 +88,7 @@ export default function EventTitleSection({ featured }) {
               className="relative w-full max-w-[500px] aspect-square will-change-transform"
             >
               
-              {/* Back Image (Large) */}
+              
               <div className="absolute top-0 right-0 w-[80%] h-[80%] rounded-[2rem] border border-white/10 overflow-hidden bg-gray-900 shadow-2xl z-10">
                 <img 
                   src={mainImg} 
@@ -99,9 +99,9 @@ export default function EventTitleSection({ featured }) {
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#030303] via-transparent to-transparent" />
               </div>
 
-              {/* Front Image (Smaller, overlapping left) */}
+
               <motion.div 
-                // Subtle continuous float animation to give it life without glitching
+                
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute bottom-[5%] left-0 w-[60%] h-[60%] rounded-[2rem] border border-white/10 overflow-hidden bg-[#0A0A0A] shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-20 will-change-transform"
@@ -114,7 +114,7 @@ export default function EventTitleSection({ featured }) {
                 />
               </motion.div>
 
-              {/* 🚀 Pure Information Node (NO fake button!) */}
+              
               <motion.div 
                 animate={{ y: [0, 6, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -127,7 +127,7 @@ export default function EventTitleSection({ featured }) {
                 <p className="text-white font-bebas-neue text-3xl tracking-wide max-w-[150px] truncate leading-none">
                   {featured?.title || "Upcoming"}
                 </p>
-                {/* Clean, unclickable date info */}
+                
                 <p className="text-[#7DD4EF] text-xs font-bold uppercase tracking-widest mt-1">
                   {displayDate}
                 </p>
@@ -139,7 +139,7 @@ export default function EventTitleSection({ featured }) {
         </div>
       </div>
       
-      {/* Bottom fade to blend cleanly into the next section */}
+      
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#030303] to-transparent z-20 pointer-events-none" />
     </section>
   );

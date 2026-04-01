@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-// 🚀 FIX: Added Maximize icon to indicate the images can be tapped to go fullscreen
+
 import { ArrowUpRight, Calendar, MapPin, X, ExternalLink, Clock, Users, ArrowLeft, ChevronDown, ChevronUp, Camera, ChevronLeft, ChevronRight, Maximize } from "lucide-react";
 import eventService from "../../api/eventService";
 
-// --- Reusable "View More" Text Component ---
+
 const ExpandableText = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 250; 
@@ -38,7 +38,7 @@ const ExpandableText = ({ text }) => {
   );
 };
 
-// --- FRAMER MOTION VARIANTS ---
+
 const containerVars = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
@@ -63,10 +63,10 @@ export default function EventPastSessions() {
   const [sessions, setSessions] = useState([]);
   const [fetchStatus, setFetchStatus] = useState("loading");
   
-  // State for Main Modal
+  
   const [selectedEvent, setSelectedEvent] = useState(null);
   
-  // State for Fullscreen Gallery Lightbox
+  
   const [fullscreenPhotoIndex, setFullscreenPhotoIndex] = useState(null);
 
   useEffect(() => {
@@ -118,10 +118,10 @@ export default function EventPastSessions() {
     setFullscreenPhotoIndex(null);
   };
 
-  // Extract gallery photos securely
+  
   const galleryPhotos = selectedEvent ? (selectedEvent.gallery || selectedEvent.images || selectedEvent.photos || []) : [];
 
-  // Lightbox Navigation
+  
   const showPrevPhoto = (e) => {
     e.stopPropagation(); 
     setFullscreenPhotoIndex((prev) => (prev > 0 ? prev - 1 : galleryPhotos.length - 1));
@@ -132,7 +132,7 @@ export default function EventPastSessions() {
     setFullscreenPhotoIndex((prev) => (prev < galleryPhotos.length - 1 ? prev + 1 : 0));
   };
 
-  // Scroll Lock
+  
   useEffect(() => {
     if (selectedEvent || fullscreenPhotoIndex !== null) {
       document.body.style.overflow = 'hidden';
@@ -147,7 +147,7 @@ export default function EventPastSessions() {
     };
   }, [selectedEvent, fullscreenPhotoIndex]);
 
-  // Keyboard Escape and Arrows
+  
   useEffect(() => {
     if (selectedEvent === null) return; 
 
@@ -286,7 +286,7 @@ export default function EventPastSessions() {
         </div>
       </div>
 
-      {/* 🎯 Main Event Modal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {selectedEvent && (
@@ -316,7 +316,7 @@ export default function EventPastSessions() {
                   <X size={18} />
                 </button>
 
-                {/* 🎯 RESTORED: Original Single Image Left Column */}
+                
                 <div className="w-full md:w-[35%] h-48 md:h-auto relative shrink-0 bg-[#070707] border-b md:border-b-0 md:border-r border-white/5">
                   <img 
                     src={selectedEvent.imageUrl || selectedEvent.image || placeholderImg} 
@@ -326,7 +326,7 @@ export default function EventPastSessions() {
                   <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0A0A0A] via-transparent to-transparent opacity-90" />
                 </div>
 
-                {/* Right Column: Breathable Content Area */}
+                
                 <div 
                   className="w-full md:w-[65%] p-6 md:p-12 flex flex-col overflow-y-auto custom-scrollbar overscroll-contain flex-1 min-h-0 relative"
                   onWheel={(e) => e.stopPropagation()} 
@@ -363,7 +363,7 @@ export default function EventPastSessions() {
 
                   <ExpandableText text={selectedEvent.fullDescription || selectedEvent.description} />
 
-                  {/* 🎯 RESTORED: Horizontal Gallery placed cleanly within the description area */}
+                  
                   {galleryPhotos.length > 0 && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2">
@@ -383,7 +383,7 @@ export default function EventPastSessions() {
                               decoding="async"
                               className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
                             />
-                            {/* Hover overlay with expand icon */}
+                            
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                <div className="bg-black/60 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 backdrop-blur-sm border border-white/10">
                                   <Maximize size={18} className="text-white"/>
@@ -456,7 +456,7 @@ export default function EventPastSessions() {
         document.body
       )}
 
-      {/* 🎯 Uncompressed Fullscreen Photo Lightbox via Portal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {fullscreenPhotoIndex !== null && (
@@ -490,7 +490,7 @@ export default function EventPastSessions() {
                 exit="exit"
                 className="relative w-full h-full flex items-center justify-center z-[20001] pointer-events-none"
               >
-                {/* 🎯 'object-contain' guarantees NO compression, NO stretching, NO cropping. Pure original ratio. */}
+                
                 <img 
                   src={galleryPhotos[fullscreenPhotoIndex] || placeholderImg} 
                   alt={`Full Screen Gallery ${fullscreenPhotoIndex + 1}`} 

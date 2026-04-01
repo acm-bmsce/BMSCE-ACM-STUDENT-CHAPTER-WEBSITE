@@ -14,7 +14,7 @@ const parseDate = (date) => {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 };
 
-// Calendar Math Helper
+
 const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   const year = monthAnchor.getFullYear();
   const month = monthAnchor.getMonth();
@@ -60,7 +60,7 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   });
 };
 
-// 🚀 OPTIMIZED: Smoother, lighter easing curve to prevent scroll-wobble
+
 const scrollRevealConfig = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
@@ -74,7 +74,7 @@ export default function EventPage() {
   const [monthOffset, setMonthOffset] = useState(0);
   const today = new Date();
 
-  // 🚀 OPTIMIZED: Progressive Fetching & Body Styles
+  
   useEffect(() => {
     let isMounted = true;
     
@@ -89,7 +89,7 @@ export default function EventPage() {
     const fetchProgressively = async () => {
       try {
         let skip = 0;
-        const limit = 20; // 🚀 Load first 20 instantly, then background sync the rest
+        const limit = 20; 
         let hasMore = true;
         
         if (isMounted) setFetchStatus("waking");
@@ -101,12 +101,12 @@ export default function EventPage() {
           if (data.length > 0 && isMounted) {
             setAllEvents(prev => {
               const combined = [...prev, ...data];
-              // Prevent duplicates if backend shifts data
+              
               const uniqueEvents = Array.from(new Map(combined.map(item => [item._id || item.id, item])).values());
               return uniqueEvents;
             });
             
-            setFetchStatus("success"); // Instantly clears loading screen after batch 1
+            setFetchStatus("success"); 
             skip += limit;
           }
 
@@ -127,7 +127,7 @@ export default function EventPage() {
       document.documentElement.style.backgroundColor = originalHtmlBg;
       document.body.style.backgroundColor = originalBodyBg;
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   const derived = useMemo(() => {
     const normalized = allEvents.map((evt, index) => ({

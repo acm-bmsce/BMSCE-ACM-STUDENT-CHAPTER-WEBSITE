@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-// 🚀 FIX: Added Camera, Maximize, ChevronLeft, and ChevronRight for the gallery/lightbox
+
 import { Calendar, MapPin, X, ExternalLink, Clock, Users, ArrowUpRight, ChevronDown, ChevronUp, Camera, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import eventService from "../../api/eventService"; 
 
 const ExpandableText = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxLength = 250; // How many characters to show before cutting off
+  const maxLength = 250; 
 
   if (!text) return null;
   const isLong = text.length > maxLength;
@@ -36,7 +36,7 @@ const ExpandableText = ({ text }) => {
   );
 };
 
-// --- FRAMER MOTION VARIANTS FOR LIGHTBOX ---
+
 const lightboxVars = {
   hidden: { opacity: 0, scale: 0.95 },
   show: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: "easeOut" } },
@@ -48,7 +48,7 @@ export default function EventFeaturedSection() {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [fetchStatus, setFetchStatus] = useState("loading"); 
 
-  // 🎯 State for Fullscreen Gallery Lightbox
+  
   const [fullscreenPhotoIndex, setFullscreenPhotoIndex] = useState(null);
 
   const closeModal = () => {
@@ -60,10 +60,10 @@ export default function EventFeaturedSection() {
     setFullscreenPhotoIndex(null);
   };
 
-  // Extract gallery photos securely
+  
   const galleryPhotos = selectedEvent ? (selectedEvent.gallery || selectedEvent.images || selectedEvent.photos || []) : [];
 
-  // Lightbox Navigation
+  
   const showPrevPhoto = (e) => {
     e.stopPropagation(); 
     setFullscreenPhotoIndex((prev) => (prev > 0 ? prev - 1 : galleryPhotos.length - 1));
@@ -74,7 +74,7 @@ export default function EventFeaturedSection() {
     setFullscreenPhotoIndex((prev) => (prev < galleryPhotos.length - 1 ? prev + 1 : 0));
   };
 
-  // Bulletproof Background Scroll Lock (Handles both Modal and Lightbox)
+  
   useEffect(() => {
     if (selectedEvent || fullscreenPhotoIndex !== null) {
       document.body.style.overflow = 'hidden';
@@ -89,7 +89,7 @@ export default function EventFeaturedSection() {
     };
   }, [selectedEvent, fullscreenPhotoIndex]);
 
-  // Modal Keyboard Escape & Lightbox Arrows
+  
   useEffect(() => {
     if (!selectedEvent) return; 
 
@@ -106,7 +106,7 @@ export default function EventFeaturedSection() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [selectedEvent, fullscreenPhotoIndex, galleryPhotos.length]);
 
-  // Data Fetching
+  
   useEffect(() => {
     let isMounted = true;
     const fetchFeaturedEvents = async () => {
@@ -160,14 +160,14 @@ export default function EventFeaturedSection() {
     <section className="w-full py-12 px-4 md:px-8 bg-black relative font-general text-white">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
         
-        {/* Section Header */}
+        
         <div className="flex items-center justify-between">
           <h2 className="text-3xl md:text-4xl font-normal text-gray-100 tracking-tight font-bebas-neue uppercase">
             FEATURED EVENTS
           </h2>
         </div>
 
-        {/* Loading / Error / Data States */}
+        
         {fetchStatus === "loading" || fetchStatus === "waking" ? (
           <div className="flex flex-col items-center justify-center min-h-[300px] border border-white/10 rounded-3xl bg-[#0A0A0A]">
             <div className="w-10 h-10 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -187,7 +187,7 @@ export default function EventFeaturedSection() {
                 onClick={() => setSelectedEvent(event)} 
                 className="group flex flex-col bg-[#0A0A0A] border border-white/10 rounded-3xl overflow-hidden hover:border-[#7DD4EF]/40 transition-colors duration-300 hover:shadow-[0_10px_30px_rgba(125,212,239,0.1)] cursor-pointer will-change-transform"
               >
-                {/* Card Image */}
+                
                 <div className="relative h-56 w-full overflow-hidden shrink-0 bg-gray-900">
                   <img
                     src={event.image}
@@ -199,7 +199,7 @@ export default function EventFeaturedSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent pointer-events-none" />
                 </div>
 
-                {/* Card Content */}
+                
                 <div className="p-6 md:p-8 flex flex-col flex-1">
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[#7DD4EF] text-[9px] font-black uppercase tracking-widest border border-[#7DD4EF]/30 bg-[#7DD4EF]/10 px-3 py-1 rounded-md">
@@ -238,13 +238,13 @@ export default function EventFeaturedSection() {
         )}
       </div>
 
-      {/* 🎯 Breathable, De-clustered Glassmorphic Modal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {selectedEvent && (
             <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-12 font-general text-white">
               
-              {/* Backdrop */}
+              
               <motion.div 
                 initial={{ opacity: 0 }} 
                 animate={{ opacity: 1 }} 
@@ -253,7 +253,7 @@ export default function EventFeaturedSection() {
                 className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" 
               />
 
-              {/* Modal Box */}
+              
               <motion.div
                 layout
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
@@ -263,7 +263,7 @@ export default function EventFeaturedSection() {
                 className="relative w-full max-w-5xl bg-[#0A0A0A] border border-white/10 rounded-[24px] md:rounded-[32px] overflow-hidden shadow-2xl z-[10000] flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh]"
               >
                 
-                {/* Close Button */}
+                
                 <button 
                   onClick={closeModal} 
                   className="absolute top-4 right-4 z-50 p-2.5 bg-black/40 hover:bg-white/10 text-white rounded-full transition-colors border border-white/10 backdrop-blur-md"
@@ -271,7 +271,7 @@ export default function EventFeaturedSection() {
                   <X size={18} />
                 </button>
 
-                {/* Left Column: Image */}
+                
                 <div className="w-full md:w-[35%] h-48 md:h-auto relative shrink-0 bg-[#070707] border-b md:border-b-0 md:border-r border-white/5">
                   <img 
                     src={selectedEvent.image || selectedEvent.imageUrl || placeholderImg} 
@@ -281,14 +281,14 @@ export default function EventFeaturedSection() {
                   <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0A0A0A] via-transparent to-transparent opacity-90" />
                 </div>
 
-                {/* Right Column: Breathable Content Area */}
+                
                 <div 
                   className="w-full md:w-[65%] p-6 md:p-12 flex flex-col overflow-y-auto custom-scrollbar overscroll-contain flex-1 min-h-0 relative"
                   onWheel={(e) => e.stopPropagation()} 
                   onTouchMove={(e) => e.stopPropagation()}
                 >
                   
-                  {/* Title & Tags */}
+                  
                   <div className="shrink-0 min-w-0 mb-6 md:mb-8">
                     <span className="inline-block px-3 py-1 mb-4 bg-[#7DD4EF]/10 text-[#7DD4EF] text-[10px] font-bold uppercase tracking-widest rounded-full">
                       {selectedEvent.tag || selectedEvent.categories?.[0] || "Event"}
@@ -298,7 +298,7 @@ export default function EventFeaturedSection() {
                     </h3>
                   </div>
                   
-                  {/* Clean, Minimalist Meta Info Row */}
+                  
                   <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pb-8 mb-8 border-b border-white/10 shrink-0">
                     <div className="flex items-center gap-2 text-gray-400">
                       <Calendar size={16} className="text-[#7DD4EF]" />
@@ -320,7 +320,7 @@ export default function EventFeaturedSection() {
 
                   <ExpandableText text={selectedEvent.fullDescription || selectedEvent.description} />
 
-                  {/* 🎯 Horizontal Gallery Section */}
+                  
                   {galleryPhotos.length > 0 && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2">
@@ -340,7 +340,7 @@ export default function EventFeaturedSection() {
                               decoding="async"
                               className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
                             />
-                            {/* Hover overlay with expand icon */}
+                            
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                <div className="bg-black/60 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 backdrop-blur-sm border border-white/10">
                                   <Maximize size={18} className="text-white"/>
@@ -352,7 +352,7 @@ export default function EventFeaturedSection() {
                     </div>
                   )}
 
-                  {/* Clean Outcomes */}
+                  
                   {selectedEvent.outcomes && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase">Key Outcomes</h4>
@@ -370,7 +370,7 @@ export default function EventFeaturedSection() {
                     </div>
                   )}
 
-                  {/* Minimalist Speakers */}
+
                   {selectedEvent.speakers && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2">
@@ -385,7 +385,7 @@ export default function EventFeaturedSection() {
                     </div>
                   )}
 
-                  {/* Call to Action Buttons */}
+                  
                   <div className="mt-auto pt-8 flex flex-col sm:flex-row gap-4 shrink-0 border-t border-white/10">
                     {(selectedEvent.registrationLink && selectedEvent.registrationLink !== "#") || (selectedEvent.recapLink && selectedEvent.recapLink !== "#") ? (
                       <button 
@@ -416,7 +416,7 @@ export default function EventFeaturedSection() {
         document.body
       )}
 
-      {/* 🎯 Uncompressed Fullscreen Photo Lightbox via Portal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {fullscreenPhotoIndex !== null && (
@@ -450,7 +450,7 @@ export default function EventFeaturedSection() {
                 exit="exit"
                 className="relative w-full h-full flex items-center justify-center z-[20001] pointer-events-none"
               >
-                {/* 🎯 'object-contain' guarantees NO compression, NO stretching, NO cropping. */}
+                
                 <img 
                   src={galleryPhotos[fullscreenPhotoIndex] || placeholderImg} 
                   alt={`Full Screen Gallery ${fullscreenPhotoIndex + 1}`} 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-// 🚀 FIX: Added Camera, Maximize, ChevronLeft, and ChevronRight to imports
+
 import { Clock, MapPin, Ticket, CalendarPlus, Zap, ArrowRight, X, ExternalLink, Users, ChevronDown, ChevronUp, Camera, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import eventService from "../../api/eventService"; 
 
-// --- 🚀 Reusable "View More" Text Component ---
+
 const ExpandableText = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 250; 
@@ -38,7 +38,7 @@ const ExpandableText = ({ text }) => {
   );
 };
 
-// --- FRAMER MOTION VARIANTS ---
+
 const containerVars = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
@@ -69,10 +69,10 @@ export default function EventUpcomingSessions({
   };
   const closeLightbox = () => setFullscreenPhotoIndex(null);
 
-  // Gallery extraction
+  
   const galleryPhotos = selectedEvent ? (selectedEvent.gallery || selectedEvent.images || selectedEvent.photos || []) : [];
 
-  // Lightbox Navigation
+  
   const showPrevPhoto = (e) => {
     e.stopPropagation(); 
     setFullscreenPhotoIndex((prev) => (prev > 0 ? prev - 1 : galleryPhotos.length - 1));
@@ -82,7 +82,7 @@ export default function EventUpcomingSessions({
     setFullscreenPhotoIndex((prev) => (prev < galleryPhotos.length - 1 ? prev + 1 : 0));
   };
 
-  // Scroll Lock handling for Modal & Lightbox
+  
   useEffect(() => {
     if (selectedEvent || fullscreenPhotoIndex !== null) {
       document.body.style.overflow = 'hidden';
@@ -97,7 +97,7 @@ export default function EventUpcomingSessions({
     };
   }, [selectedEvent, fullscreenPhotoIndex]);
 
-  // Key Listeners
+  
   useEffect(() => {
     if (!selectedEvent) return; 
     const handleKeyDown = (e) => {
@@ -261,7 +261,7 @@ export default function EventUpcomingSessions({
         </div>
       </div>
 
-      {/* 🎯 Main Detail Modal */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {selectedEvent && (
@@ -296,7 +296,7 @@ export default function EventUpcomingSessions({
                   </div>
                   <ExpandableText text={selectedEvent.fullDescription || selectedEvent.description} />
                   
-                  {/* 🎯 NEW: Horizontal Gallery in Detail View */}
+                  
                   {galleryPhotos.length > 0 && (
                     <div className="shrink-0 min-w-0 mb-8">
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2"><Camera size={20} className="text-[#7DD4EF]"/> Event Gallery</h4>
@@ -349,7 +349,7 @@ export default function EventUpcomingSessions({
         document.body
       )}
 
-      {/* 🎯 Uncompressed Fullscreen Lightbox */}
+      
       {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {fullscreenPhotoIndex !== null && (
