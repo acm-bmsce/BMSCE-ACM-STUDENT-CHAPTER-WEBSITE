@@ -190,8 +190,8 @@ export default function EventUpcomingSessions({
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_3.5fr] gap-10">
-          <div className="hidden lg:block relative">
-            <div className="sticky top-32 space-y-6">
+          <div className="relative mb-8 lg:mb-0">
+  <div className="lg:sticky lg:top-32 space-y-6">
               <p className="text-gray-500 text-xs leading-relaxed font-bold uppercase tracking-widest border-l-2 border-[#7DD4EF]/30 pl-4">
                 Secure your spot in our upcoming technical sessions. Registrations are limited to ensure quality interaction.
               </p>
@@ -303,9 +303,20 @@ export default function EventUpcomingSessions({
                       <h4 className="text-white font-bebas-neue text-2xl mb-4 tracking-wide uppercase flex items-center gap-2"><Camera size={20} className="text-[#7DD4EF]"/> Event Gallery</h4>
                       <div className="flex overflow-x-auto gap-4 pb-4 snap-x custom-scrollbar">
                         {galleryPhotos.map((photo, idx) => (
-                          <div key={idx} onClick={() => setFullscreenPhotoIndex(idx)} className="relative w-48 md:w-56 aspect-[4/3] shrink-0 snap-start rounded-xl overflow-hidden border border-white/10 bg-[#050505] group cursor-pointer">
+                          <div 
+                            key={idx} 
+                            onClick={() => setFullscreenPhotoIndex(idx)} 
                             
-                            <img src={photo} alt={`Gallery ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-105" />
+                            className="relative w-48 md:w-56 aspect-[4/3] shrink-0 snap-start rounded-xl overflow-hidden border border-white/10 bg-[#050505] group cursor-pointer isolate"
+                            style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+                          >
+                            <img 
+                              src={photo} 
+                              alt={`Gallery ${idx + 1}`} 
+                              loading="lazy" 
+                              decoding="async" 
+                              className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-105" 
+                            />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                <div className="bg-black/60 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 backdrop-blur-sm border border-white/10">
                                   <Maximize size={18} className="text-white"/>
