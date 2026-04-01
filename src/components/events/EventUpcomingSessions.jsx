@@ -83,7 +83,7 @@ export default function EventUpcomingSessions({
   };
 
   return (
-    <section className="bg-[#050505] py-24 relative overflow-hidden font-['General_Sans']">
+    <section className="bg-[#050505] py-24 relative overflow-hidden font-general">
       
       {/* Background Glow */}
       <div className="absolute top-40 right-0 w-[500px] h-[500px] bg-[#7DD4EF]/5 blur-[150px] rounded-full pointer-events-none" />
@@ -95,18 +95,20 @@ export default function EventUpcomingSessions({
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <span className="w-8 h-[1px] bg-[#7DD4EF]"></span>
-              <span className="text-[#7DD4EF] text-[10px] font-bold tracking-[0.4em] uppercase">
+              <span className="text-[#7DD4EF] text-[10px] font-general tracking-[0.4em] uppercase">
                 {locationLabel} / Roadmap
               </span>
             </div>
-            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter uppercase font-['Impact'] italic">
+            <h2 className="text-6xl md:text-8xl font-normal text-white leading-[0.85] tracking-tighter uppercase font-bebas-neue italic">
               Next <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(125,212,239,0.5)" }}>Up</span>
             </h2>
           </div>
           
           <div className="text-right hidden md:block">
-            <p className="text-gray-500 text-sm font-bold uppercase tracking-widest">Active Schedule</p>
-            <p className="text-white text-3xl font-black font-['Impact']">{fetchStatus === "success" ? sessions.length : "0"} <span className="text-[#7DD4EF] text-lg">NODES</span></p>
+            <p className="text-gray-500 text-sm font-general uppercase tracking-widest">Active Schedule</p>
+            <p className="text-white text-3xl font-normal font-bebas-neue">
+              {fetchStatus === "success" ? sessions.length : "0"} <span className="text-[#7DD4EF] text-lg">NODES</span>
+            </p>
           </div>
         </header>
 
@@ -116,14 +118,14 @@ export default function EventUpcomingSessions({
           {/* Left: Sticky Info Column */}
           <div className="hidden lg:block relative">
             <div className="sticky top-32 space-y-6">
-              <p className="text-gray-500 text-xs leading-relaxed font-medium uppercase tracking-widest border-l-2 border-[#7DD4EF]/30 pl-4">
+              <p className="text-gray-500 text-xs leading-relaxed font-general uppercase tracking-widest border-l-2 border-[#7DD4EF]/30 pl-4">
                 Secure your spot in our upcoming technical sessions. Registrations are limited to ensure quality interaction.
               </p>
               
               <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
                  <Ticket size={24} className="text-[#7DD4EF] mb-4" />
-                 <h4 className="text-white font-bold mb-2">Claim Your Ticket</h4>
-                 <p className="text-gray-500 text-xs">Events fill up fast. Use the register links to reserve your digital pass.</p>
+                 <h4 className="text-white font-general mb-2">Claim Your Ticket</h4>
+                 <p className="text-gray-500 text-xs font-general">Events fill up fast. Use the register links to reserve your digital pass.</p>
               </div>
             </div>
           </div>
@@ -139,18 +141,18 @@ export default function EventUpcomingSessions({
             {fetchStatus === "loading" || fetchStatus === "waking" ? (
               <div className="flex flex-col items-center justify-center py-32 bg-white/5 border border-white/10 rounded-3xl">
                 <div className="w-10 h-10 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin mb-6"></div>
-                <p className="text-[#7DD4EF] text-xs font-bold tracking-[0.3em] uppercase animate-pulse">
+                <p className="text-[#7DD4EF] text-xs font-general tracking-[0.3em] uppercase animate-pulse">
                   {fetchStatus === "waking" ? "Waking Backend Servers..." : "Syncing Future Events..."}
                 </p>
               </div>
             ) : fetchStatus === "error" ? (
               <div className="py-32 text-center bg-red-900/10 border border-red-500/20 rounded-3xl">
-                <p className="text-red-400 font-bold uppercase tracking-widest text-sm">Failed to connect to timeline.</p>
+                <p className="text-red-400 font-general uppercase tracking-widest text-sm">Failed to connect to timeline.</p>
               </div>
             ) : sessions.length === 0 ? (
               <div className="py-32 text-center border border-dashed border-white/10 rounded-3xl">
-                <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No future events scheduled.</p>
-                <p className="text-gray-600 text-xs mt-2">Systems are currently on standby.</p>
+                <p className="text-gray-500 font-general uppercase tracking-widest text-sm">No future events scheduled.</p>
+                <p className="text-gray-600 text-xs mt-2 font-general">Systems are currently on standby.</p>
               </div>
             ) : (
               <motion.div variants={containerVars} initial="hidden" animate="show" className="space-y-8">
@@ -166,8 +168,8 @@ export default function EventUpcomingSessions({
                       {/* Left: Date Stub */}
                       <div className="flex md:flex-col justify-between md:justify-center items-center bg-white/5 md:w-32 p-6 md:p-0 border-b md:border-b-0 md:border-r border-dashed border-white/20 relative">
                         <div className="text-center">
-                          <span className="block text-4xl md:text-5xl font-black text-white font-['Impact']">{session.day}</span>
-                          <span className="block text-xs font-bold text-[#7DD4EF] uppercase tracking-widest mt-1">{session.month}</span>
+                          <span className="block text-4xl md:text-5xl font-normal text-white font-bebas-neue">{session.day}</span>
+                          <span className="block text-xs font-general text-[#7DD4EF] uppercase tracking-widest mt-1">{session.month}</span>
                         </div>
                         {/* Semi-circle cutouts for ticket effect */}
                         <div className="hidden md:block absolute -top-3 -right-3 w-6 h-6 bg-[#050505] rounded-full border-b border-white/10" />
@@ -179,27 +181,27 @@ export default function EventUpcomingSessions({
                         
                         {/* Tags / Urgency */}
                         <div className="flex flex-wrap items-center gap-3 mb-4">
-                          <span className="px-3 py-1 bg-white/10 text-white text-[9px] font-black uppercase tracking-widest rounded-md">
+                          <span className="px-3 py-1 bg-white/10 text-white text-[9px] font-general uppercase tracking-widest rounded-md">
                             {session.tag}
                           </span>
                           {session.isSoon && (
-                            <span className="flex items-center gap-1 px-3 py-1 bg-[#7DD4EF]/20 border border-[#7DD4EF]/50 text-[#7DD4EF] text-[9px] font-black uppercase tracking-widest rounded-md animate-pulse">
+                            <span className="flex items-center gap-1 px-3 py-1 bg-[#7DD4EF]/20 border border-[#7DD4EF]/50 text-[#7DD4EF] text-[9px] font-general uppercase tracking-widest rounded-md animate-pulse">
                               <Zap size={10} /> Happening Soon
                             </span>
                           )}
                         </div>
 
-                        <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight group-hover:text-[#7DD4EF] transition-colors">
+                        <h3 className="text-2xl md:text-3xl font-normal text-white mb-3 tracking-tight group-hover:text-[#7DD4EF] transition-colors font-bebas-neue uppercase">
                           {session.title}
                         </h3>
-                        <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2 max-w-2xl font-medium">
+                        <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2 max-w-2xl font-general">
                           {session.description}
                         </p>
 
                         {/* Metadata & Actions */}
                         <div className="mt-auto flex flex-col xl:flex-row xl:items-center justify-between gap-6 pt-6 border-t border-white/5">
                           
-                          <div className="flex flex-wrap items-center gap-6 text-gray-400 text-xs font-bold uppercase tracking-wider">
+                          <div className="flex flex-wrap items-center gap-6 text-gray-400 text-xs font-general uppercase tracking-wider">
                             <span className="flex items-center gap-2"><Clock size={14} className="text-[#7DD4EF]" /> {session.time}</span>
                             <span className="flex items-center gap-2"><MapPin size={14} className="text-[#7DD4EF]" /> {session.location}</span>
                           </div>
@@ -210,7 +212,7 @@ export default function EventUpcomingSessions({
                             </button>
                             <button 
                               onClick={() => window.open(session.registrationLink, "_blank")}
-                              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-[#7DD4EF] hover:bg-white text-black font-black uppercase text-[10px] tracking-widest rounded-xl transition-all duration-300"
+                              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-[#7DD4EF] hover:bg-white text-black font-general uppercase text-[10px] tracking-widest rounded-xl transition-all duration-300"
                             >
                               Reserve Seat <ArrowRight size={14} />
                             </button>

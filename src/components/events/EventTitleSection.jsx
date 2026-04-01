@@ -42,31 +42,31 @@ export default function EventTitleSection({ featured }) {
           >
             <motion.div variants={itemVars} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
               <Terminal size={12} className="text-[#7DD4EF]" />
-              <span className="text-[10px] sm:text-xs font-bold text-gray-300 tracking-[0.2em] uppercase">
+              <span className="text-[10px] sm:text-xs font-bold text-gray-300 tracking-[0.2em] uppercase font-general">
                 BMSCE ACM CHAPTER
               </span>
             </motion.div>
             
-            <motion.h1 variants={itemVars} className="text-[4rem] sm:text-6xl md:text-7xl lg:text-[8rem] font-black text-white leading-[0.9] tracking-tighter mb-6 font-['Impact'] uppercase">
+            <motion.h1 variants={itemVars} className="text-[4rem] sm:text-6xl md:text-7xl lg:text-[8rem] font-normal text-white leading-[0.9] tracking-tighter mb-6 font-bebas-neue uppercase">
               Chapter <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-white">
                 Events.
               </span>
             </motion.h1>
 
-            <motion.p variants={itemVars} className="text-gray-400 text-sm sm:text-base md:text-lg max-w-md leading-relaxed mb-10 font-medium">
+            <motion.p variants={itemVars} className="text-gray-400 text-sm sm:text-base md:text-lg max-w-md leading-relaxed mb-10 font-general">
               Discover our lineup of hackathons, expert-led workshops, and technical symposiums. Experience the vibrant tech culture and secure your spot in our upcoming sessions.
             </motion.p>
 
             {/* Static Value Props */}
             <motion.div variants={itemVars} className="flex flex-wrap justify-center lg:justify-start gap-6">
-              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest font-general">
                 <Code2 size={16} className="text-[#7DD4EF]" /> Build
               </div>
-              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest font-general">
                 <Users size={16} className="text-[#7DD4EF]" /> Network
               </div>
-              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest font-general">
                 <Terminal size={16} className="text-[#7DD4EF]" /> Innovate
               </div>
             </motion.div>

@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  width: 100dvw;
+  /* width: 100vw; */
   overflow-x: hidden;
   background-color: blue-75;
   font-family: "General Sans", sans-serif;
