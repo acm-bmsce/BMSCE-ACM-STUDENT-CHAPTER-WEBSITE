@@ -228,7 +228,8 @@ export default function EventPastSessions() {
                     src={session.image || session.imageUrl || placeholderImg}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                    
+                    className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-700 group-hover:scale-110"
                     alt={session.title}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent pointer-events-none" />
@@ -373,7 +374,7 @@ export default function EventPastSessions() {
                         {galleryPhotos.map((photo, idx) => (
                           <div 
                             key={idx} 
-                            onClick={() => setFullscreenPhotoIndex(idx)} // Tap opens lightbox
+                            onClick={() => setFullscreenPhotoIndex(idx)} 
                             className="relative w-48 md:w-56 aspect-[4/3] shrink-0 snap-start rounded-xl overflow-hidden border border-white/10 bg-[#050505] group cursor-pointer"
                           >
                             <img 
@@ -381,7 +382,8 @@ export default function EventPastSessions() {
                               alt={`Gallery ${idx + 1}`} 
                               loading="lazy"
                               decoding="async"
-                              className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                              
+                              className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-105"
                             />
                             
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">

@@ -194,7 +194,8 @@ export default function EventFeaturedSection() {
                     alt={event.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                    
+                    className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent pointer-events-none" />
                 </div>
@@ -303,7 +304,7 @@ export default function EventFeaturedSection() {
                     <div className="flex items-center gap-2 text-gray-400">
                       <Calendar size={16} className="text-[#7DD4EF]" />
                       <span className="text-sm">
-                        {selectedEvent.parsedDate && !Number.isNaN(selectedEvent.parsedDate.getTime()) ? selectedEvent.parsedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : selectedEvent.date}
+                        {selectedEvent.parsedDate ? selectedEvent.parsedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : selectedEvent.date}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-400">
@@ -338,7 +339,8 @@ export default function EventFeaturedSection() {
                               alt={`Gallery ${idx + 1}`} 
                               loading="lazy"
                               decoding="async"
-                              className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                              
+                              className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-105"
                             />
                             
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
@@ -483,7 +485,7 @@ export default function EventFeaturedSection() {
 
       <style dangerouslySetInnerHTML={{__html: `
         .custom-scrollbar { -webkit-overflow-scrolling: touch; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }

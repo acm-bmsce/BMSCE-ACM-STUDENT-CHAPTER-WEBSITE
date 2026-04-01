@@ -229,7 +229,8 @@ export default function EventUpcomingSessions({
                       onClick={() => setSelectedEvent(session)} 
                       className="group flex flex-col md:flex-row bg-[#0A0A0A] border border-white/10 hover:border-[#7DD4EF]/40 rounded-3xl overflow-hidden transition-all duration-300 shadow-2xl hover:shadow-[0_20px_40px_-15px_rgba(125,212,239,0.1)] hover:-translate-y-1 cursor-pointer will-change-transform"
                     >
-                      <div className="flex md:flex-col justify-between md:justify-center items-center bg-white/5 md:w-32 p-6 md:p-0 border-b md:border-b-0 md:border-r border-dashed border-white/20 relative">
+                      
+                      <div className="flex md:flex-col justify-between md:justify-center items-center bg-white/5 md:w-32 p-6 md:p-0 border-b md:border-b-0 md:border-r border-dashed border-white/20 relative grayscale-0 group-hover:grayscale transition-all duration-700">
                         <div className="text-center">
                           <span className="block text-4xl md:text-5xl font-normal text-white font-bebas-neue">{session.day}</span>
                           <span className="block text-xs font-bold text-[#7DD4EF] uppercase tracking-widest mt-1">{session.month}</span>
@@ -238,7 +239,7 @@ export default function EventUpcomingSessions({
                       <div className="flex-1 p-6 md:p-8 flex flex-col justify-center relative">
                         <div className="flex flex-wrap items-center gap-3 mb-4">
                           <span className="px-3 py-1 bg-white/10 text-white text-[9px] font-bold uppercase tracking-widest rounded-md">{session.tag}</span>
-                          {session.isSoon && <span className="flex items-center gap-1 px-3 py-1 bg-[#7DD4EF]/20 border border-[#7DD4EF]/50 text-[#7DD4EF] text-[9px] font-bold uppercase tracking-widest rounded-md animate-pulse"><Zap size={10} /> Happening Soon</span>}
+                          {session.isSoon && <span className="flex items-center gap-1 px-3 py-1 bg-[#7DD4EF]/20 border border-[#7DD4EF]/50 text-[#7DD4EF] text-[9px] font-black uppercase tracking-widest rounded-md animate-pulse"><Zap size={10} /> Happening Soon</span>}
                         </div>
                         <h3 className="text-2xl md:text-3xl font-normal text-white mb-3 group-hover:text-[#7DD4EF] transition-colors font-bebas-neue uppercase">{session.title}</h3>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2 max-w-2xl font-general">{session.description}</p>
@@ -303,7 +304,8 @@ export default function EventUpcomingSessions({
                       <div className="flex overflow-x-auto gap-4 pb-4 snap-x custom-scrollbar">
                         {galleryPhotos.map((photo, idx) => (
                           <div key={idx} onClick={() => setFullscreenPhotoIndex(idx)} className="relative w-48 md:w-56 aspect-[4/3] shrink-0 snap-start rounded-xl overflow-hidden border border-white/10 bg-[#050505] group cursor-pointer">
-                            <img src={photo} alt={`Gallery ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
+                            
+                            <img src={photo} alt={`Gallery ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-105" />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                <div className="bg-black/60 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 backdrop-blur-sm border border-white/10">
                                   <Maximize size={18} className="text-white"/>

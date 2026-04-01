@@ -314,11 +314,16 @@ export default function EventCalendarSection() {
       </div>
 
       
-      <aside className="ec-spotlight">
+      <aside className="ec-spotlight group"> 
         {spotlight ? (
           <>
-            <div className="ec-spot-img-wrap">
-              <img src={spotlight.image || spotlight.imageUrl || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"} className="ec-spot-img" alt="Spotlight" />
+            <div className="ec-spot-img-wrap overflow-hidden">
+              <img 
+                src={spotlight.image || spotlight.imageUrl || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"} 
+                
+                className="ec-spot-img grayscale-0 group-hover:grayscale transition-all duration-700 ease-in-out" 
+                alt="Spotlight" 
+              />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0A0A0A, transparent)' }} />
               <div style={{ position: 'absolute', top: 16, left: 16 }}>
                  <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[#7DD4EF] border border-[#7DD4EF]/30 text-[9px] font-black uppercase tracking-widest rounded-lg">
@@ -384,7 +389,14 @@ export default function EventCalendarSection() {
                       <div className="flex overflow-x-auto gap-4 pb-4 snap-x custom-scrollbar">
                         {galleryPhotos.map((photo, idx) => (
                           <div key={idx} onClick={() => setFullscreenPhotoIndex(idx)} className="relative w-48 md:w-56 aspect-[4/3] shrink-0 snap-start rounded-xl overflow-hidden border border-white/10 bg-[#050505] group cursor-pointer">
-                            <img src={photo} alt={`Gallery ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
+                            <img 
+                              src={photo} 
+                              alt={`Gallery ${idx + 1}`} 
+                              loading="lazy" 
+                              decoding="async" 
+                              
+                              className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 ease-in-out group-hover:scale-105" 
+                            />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                <div className="bg-black/60 p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 backdrop-blur-sm border border-white/10"><Maximize size={18} className="text-white"/></div>
                             </div>

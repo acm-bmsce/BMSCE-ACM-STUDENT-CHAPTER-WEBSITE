@@ -118,10 +118,6 @@ export default function ArchivePage() {
       document.body.style.overflow = "unset";
       document.body.style.height = "auto";
     }
-    return () => {
-      document.body.style.overflow = "unset";
-      document.body.style.height = "auto";
-    };
   }, [selectedEvent, fullscreenIdx]);
 
   const filteredEvents = useMemo(() => {
@@ -201,7 +197,8 @@ export default function ArchivePage() {
                 onClick={() => setSelectedEvent(ev)}
                 className="group bg-[#0A0A0A] border border-white/10 rounded-3xl overflow-hidden hover:border-[#7DD4EF]/40 transition-all duration-500 cursor-pointer"
               >
-                <div className="h-56 overflow-hidden relative">
+                
+                <div className="h-56 overflow-hidden relative isolate" style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}>
                   <img
                     src={
                       ev.imageUrl ||
@@ -209,7 +206,7 @@ export default function ArchivePage() {
                       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"
                     }
                     loading="lazy"
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-700 group-hover:scale-105"
                     alt={ev.title}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60" />
@@ -226,7 +223,7 @@ export default function ArchivePage() {
                   <h3 className="text-3xl font-bebas-neue text-white mb-3 group-hover:text-[#7DD4EF] transition-colors">
                     {ev.title}
                   </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
+                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 font-general">
                     {ev.description}
                   </p>
                 </div>
@@ -325,15 +322,14 @@ export default function ArchivePage() {
                             {galleryPhotos.map((p, i) => (
                               <div
                                 key={i}
-                                onClick={() => {
-                                  setFullscreenIdx(i);
-                                  console.log("Clicked", i);
-                                }}
-                                className="relative w-48 h-36 shrink-0 rounded-2xl overflow-hidden border border-white/10 cursor-pointer snap-start group bg-black"
+                                onClick={() => setFullscreenIdx(i)}
+                                className="relative w-48 h-36 shrink-0 rounded-2xl overflow-hidden border border-white/10 cursor-pointer snap-start group bg-black isolate"
+                                style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
                               >
+                                
                                 <img
                                   src={p}
-                                  className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                                  className="w-full h-full object-cover grayscale-0 group-hover:grayscale transition-all duration-500 group-hover:scale-110"
                                   alt="Gallery item"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center">
@@ -356,7 +352,7 @@ export default function ArchivePage() {
                             <Users size={20} className="text-[#7DD4EF]" />{" "}
                             Speakers
                           </h4>
-                          <p className="text-[#7DD4EF] text-sm font-medium leading-relaxed">
+                          <p className="text-[#7DD4EF] text-sm font-medium leading-relaxed font-general">
                             {Array.isArray(selectedEvent.speakers)
                               ? selectedEvent.speakers.join(" • ")
                               : selectedEvent.speakers}
@@ -396,13 +392,10 @@ export default function ArchivePage() {
 
       {fullscreenIdx !== null && (
         <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black text-white">
-          {/* BACKGROUND CLICK */}
           <div
             onClick={() => setFullscreenIdx(null)}
             className="absolute inset-0"
           />
-
-          {/* TOP RIGHT CONTROLS */}
           <div className="absolute top-6 right-6 z-[20002] flex items-center gap-3">
             <span className="text-xs px-3 py-2 bg-white/10 rounded-lg backdrop-blur">
               {fullscreenIdx + 1} / {galleryPhotos.length}
@@ -414,43 +407,37 @@ export default function ArchivePage() {
               <X size={18} />
             </button>
           </div>
-
-          {/* IMAGE */}
           <div className="relative z-[20001] flex items-center justify-center w-full h-full pointer-events-none">
             <img
               src={galleryPhotos[fullscreenIdx]}
               className="max-w-[95vw] max-h-[90vh] object-contain pointer-events-auto"
             />
           </div>
-
-          {/* LEFT ARROW */}
           {galleryPhotos.length > 1 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFullscreenIdx((prev) =>
-                  prev > 0 ? prev - 1 : galleryPhotos.length - 1,
-                );
-              }}
-              className="absolute left-6 top-1/2 -translate-y-1/2 z-[20002] p-3 bg-white/10 rounded-full hover:bg-white/20"
-            >
-              <ChevronLeft size={24} />
-            </button>
-          )}
-
-          {/* RIGHT ARROW */}
-          {galleryPhotos.length > 1 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setFullscreenIdx((prev) =>
-                  prev < galleryPhotos.length - 1 ? prev + 1 : 0,
-                );
-              }}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-[20002] p-3 bg-white/10 rounded-full hover:bg-white/20"
-            >
-              <ChevronRight size={24} />
-            </button>
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFullscreenIdx((prev) =>
+                    prev > 0 ? prev - 1 : galleryPhotos.length - 1,
+                  );
+                }}
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-[20002] p-3 bg-white/10 rounded-full hover:bg-white/20"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFullscreenIdx((prev) =>
+                    prev < galleryPhotos.length - 1 ? prev + 1 : 0,
+                  );
+                }}
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-[20002] p-3 bg-white/10 rounded-full hover:bg-white/20"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
           )}
         </div>
       )}
