@@ -60,12 +60,12 @@ const buildCalendarCells = (monthAnchor, events, focusLabel, today) => {
   });
 };
 
-// Framer Motion viewport settings for smooth scroll reveals
+// 🚀 OPTIMIZED: Smoother, lighter easing curve to prevent scroll-wobble
 const scrollRevealConfig = {
-  initial: { opacity: 0, y: 40 },
+  initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-50px" },
-  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } // Custom easing for premium feel
+  transition: { type: "tween", ease: "easeOut", duration: 0.5 }
 };
 
 export default function EventPage() {
@@ -74,7 +74,7 @@ export default function EventPage() {
   const [monthOffset, setMonthOffset] = useState(0);
   const today = new Date();
 
-  // Smart Backend Polling & Body Styles
+  // 🚀 OPTIMIZED: Progressive Fetching & Body Styles
   useEffect(() => {
     let isMounted = true;
     
@@ -86,40 +86,48 @@ export default function EventPage() {
     document.documentElement.style.backgroundColor = '#000000';
     document.body.style.backgroundColor = '#000000';
 
-    const fetchAllData = async () => {
-      let attempts = 0;
-      const maxAttempts = 15;
+    const fetchProgressively = async () => {
+      try {
+        let skip = 0;
+        const limit = 20; // 🚀 Load first 20 instantly, then background sync the rest
+        let hasMore = true;
+        
+        if (isMounted) setFetchStatus("waking");
 
-      while (attempts < maxAttempts && isMounted) {
-        try {
-          if (attempts === 1) setFetchStatus("waking");
-          const response = await eventService.getEvents(100, 0); 
+        while (hasMore && isMounted) {
+          const res = await eventService.getEvents(limit, skip);
+          const data = res.data?.events || res.data?.data || res.data || [];
           
-          if (isMounted) {
-            const data = response.data?.events || response.data?.data || response.data || [];
-            setAllEvents(Array.isArray(data) ? data : []);
-            setFetchStatus("success");
+          if (data.length > 0 && isMounted) {
+            setAllEvents(prev => {
+              const combined = [...prev, ...data];
+              // Prevent duplicates if backend shifts data
+              const uniqueEvents = Array.from(new Map(combined.map(item => [item._id || item.id, item])).values());
+              return uniqueEvents;
+            });
+            
+            setFetchStatus("success"); // Instantly clears loading screen after batch 1
+            skip += limit;
           }
-          return;
-        } catch (error) {
-          attempts++;
-          if (attempts >= maxAttempts && isMounted) {
-            setFetchStatus("error");
-            return;
+
+          if (data.length < limit) {
+            hasMore = false;
           }
-          await new Promise((resolve) => setTimeout(resolve, 3000));
         }
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        if (allEvents.length === 0 && isMounted) setFetchStatus("error");
       }
     };
 
-    fetchAllData();
+    fetchProgressively();
 
     return () => { 
       isMounted = false; 
       document.documentElement.style.backgroundColor = originalHtmlBg;
       document.body.style.backgroundColor = originalBodyBg;
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const derived = useMemo(() => {
     const normalized = allEvents.map((evt, index) => ({
@@ -164,17 +172,19 @@ export default function EventPage() {
     <main className="relative min-h-screen w-full bg-[#000000] text-white selection:bg-[#7DD4EF] selection:text-black font-general overflow-x-hidden">
       <SEO title="Events | BMSCE ACM" description="View our featured events, academic calendar, and upcoming technical sessions." />
 
-      {/* 🚀 HIGH PERFORMANCE BACKGROUND (Replaces the slow blur/mix-blend-mode) */}
       <div 
         className="fixed inset-0 z-0 pointer-events-none" 
         style={{ 
           background: 'radial-gradient(circle at 20% 0%, rgba(125, 212, 239, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 100%, rgba(30, 58, 138, 0.08) 0%, transparent 40%)',
-          transform: 'translateZ(0)' // Forces Hardware Acceleration
+          transform: 'translateZ(0)' 
         }} 
       />
 
       {fetchStatus === "loading" || fetchStatus === "waking" ? (
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+        <motion.div 
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4"
+        >
           <div className="relative w-20 h-20 mb-8">
             <div className="absolute inset-0 border-4 border-white/10 rounded-full"></div>
             <div className="absolute inset-0 border-4 border-[#7DD4EF] border-t-transparent rounded-full animate-spin"></div>
@@ -190,7 +200,7 @@ export default function EventPage() {
               Establishing secure connection...
             </p>
           )}
-        </div>
+        </motion.div>
       ) : fetchStatus === "error" ? (
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
           <p className="text-5xl font-normal text-[#ff6b6b] uppercase font-bebas-neue tracking-tighter text-center">Connection Terminated</p>
@@ -208,7 +218,7 @@ export default function EventPage() {
           <motion.section 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
-            transition={{ duration: 0.8 }} 
+            transition={{ duration: 0.6 }} 
             className="relative w-full will-change-transform will-change-opacity"
           >
             <EventTitleSection featured={derived.featuredCard} />

@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 import { Terminal, Code2, Users } from "lucide-react";
 
 export default function EventTitleSection({ featured }) {
-  // Animation Variants for Minimalist Fades
+  // 🚀 FIX 1: Crisp, Professional Framer Motion Variants (Removed wobbly springs)
   const containerVars = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
+    show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
   };
   const itemVars = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 20 } }
+    hidden: { opacity: 0, y: 15 },
+    show: { opacity: 1, y: 0, transition: { type: "tween", ease: "easeOut", duration: 0.4 } }
   };
 
   // High-quality fallbacks in case the backend doesn't return enough images
@@ -26,16 +26,22 @@ export default function EventTitleSection({ featured }) {
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-[#030303] pt-20">
       
-      {/* Premium Minimalist Background: Subtle Grid & Soft Glow */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-      <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-[#7DD4EF]/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+      {/* 🚀 FIX 2: Hardware Accelerated Premium Background (Zero GPU Lag) */}
+      <div 
+        className="absolute top-0 left-0 w-full h-[800px] pointer-events-none z-0" 
+        style={{ 
+          background: 'radial-gradient(circle at 30% -10%, rgba(125, 212, 239, 0.08) 0%, transparent 50%)',
+          transform: 'translateZ(0)' 
+        }} 
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] z-0 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10 w-full flex-1 flex items-center">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
           
           {/* Left Column: Clean Typography */}
           <motion.div 
-            className="lg:col-span-7 flex flex-col items-center text-center lg:items-start lg:text-left"
+            className="lg:col-span-7 flex flex-col items-center text-center lg:items-start lg:text-left will-change-transform"
             variants={containerVars}
             initial="hidden"
             animate="show"
@@ -75,25 +81,40 @@ export default function EventTitleSection({ featured }) {
           {/* Right Column: Minimalist Static Composition */}
           <div className="lg:col-span-5 relative mt-12 lg:mt-0 w-full h-[400px] lg:h-[600px] hidden md:flex justify-center items-center">
             <motion.div 
-              initial={{ opacity: 0, filter: "blur(10px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1.2, delay: 0.4 }}
-              className="relative w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative w-full h-full will-change-opacity"
             >
               {/* Main Image */}
               <div className="absolute top-[10%] right-[10%] w-[70%] h-[60%] rounded-3xl overflow-hidden border border-white/10 shadow-2xl z-20 bg-gray-900">
-                <img src={mainImg} alt="Featured Main" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/20 mix-blend-overlay" />
+                <img 
+                  src={mainImg} 
+                  alt="Featured Main" 
+                  decoding="async" // 🚀 FIX 3: Prevents massive images from freezing the load animation
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-black/20 mix-blend-overlay pointer-events-none" />
               </div>
               
               {/* Secondary Image */}
               <div className="absolute bottom-[10%] left-[5%] w-[50%] h-[40%] rounded-3xl overflow-hidden border border-white/10 shadow-2xl z-30 bg-gray-900">
-                <img src={secondaryImg} alt="Featured Secondary" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                <img 
+                  src={secondaryImg} 
+                  alt="Featured Secondary" 
+                  decoding="async"
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
+                />
               </div>
 
               {/* Tertiary Image */}
               <div className="absolute top-[30%] left-[0%] w-[40%] h-[35%] rounded-3xl overflow-hidden border border-[#7DD4EF]/20 shadow-2xl z-10 bg-gray-900">
-                <img src={tertiaryImg} alt="Featured Tertiary" className="w-full h-full object-cover opacity-60" />
+                <img 
+                  src={tertiaryImg} 
+                  alt="Featured Tertiary" 
+                  decoding="async"
+                  className="w-full h-full object-cover opacity-60" 
+                />
               </div>
             </motion.div>
           </div>
@@ -102,7 +123,7 @@ export default function EventTitleSection({ featured }) {
       </div>
       
       {/* Bottom fade to blend into the calendar section */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#030303] to-transparent z-20" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#030303] to-transparent z-20 pointer-events-none" />
     </section>
   );
 }

@@ -19,7 +19,7 @@ const CSS = `
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 16px; /* Tighter gap on mobile */
+    gap: 16px;
     padding: 16px 12px;
     font-family: 'general', sans-serif;
   }
@@ -38,7 +38,7 @@ const CSS = `
     flex: 1;
     background: var(--panel-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 24px; /* Slightly softer radius on mobile */
+    border-radius: 24px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -50,7 +50,7 @@ const CSS = `
   }
 
   .ec-header {
-    padding: 20px 16px; /* Less padding on mobile */
+    padding: 20px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,7 +71,7 @@ const CSS = `
 
   .ec-title-group h2 {
     font-family: 'bebas-neue', sans-serif;
-    font-size: clamp(2.5rem, 8vw, 4rem); /* Scales beautifully down to mobile */
+    font-size: clamp(2.5rem, 8vw, 4rem);
     text-transform: uppercase;
     letter-spacing: 0.02em;
     margin: 0;
@@ -86,7 +86,7 @@ const CSS = `
   }
 
   .ec-nav-btn {
-    width: 36px; /* Smaller buttons on mobile */
+    width: 36px;
     height: 36px;
     border-radius: 12px;
     border: 1px solid var(--glass-border);
@@ -122,7 +122,6 @@ const CSS = `
     color: var(--text-dim);
   }
 
-  /* Perfect Grid Lines Trick */
   .ec-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -133,20 +132,20 @@ const CSS = `
 
   .ec-day {
     background: var(--panel-bg); 
-    padding: 6px; /* Crucial fix: Tiny padding on mobile so numbers fit */
+    padding: 6px;
     position: relative;
     transition: all 0.2s ease;
-    min-height: 60px; /* Crucial fix: Shorter cells on mobile */
+    min-height: 60px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally on mobile */
+    align-items: center;
   }
 
   @media (min-width: 768px) {
     .ec-day { 
       padding: 16px; 
       min-height: 100px; 
-      align-items: flex-start; /* Align left on desktop */
+      align-items: flex-start; 
     }
   }
 
@@ -161,7 +160,7 @@ const CSS = `
 
   .ec-day-num {
     font-family: 'bebas-neue', sans-serif;
-    font-size: 1.2rem; /* Smaller on mobile */
+    font-size: 1.2rem;
     color: var(--text-dim);
     line-height: 1;
   }
@@ -216,6 +215,8 @@ const CSS = `
     display: flex;
     flex-direction: column;
     position: relative;
+    /* 🚀 Added will-change to prevent flicker when swapping images */
+    will-change: transform;
   }
 
   @media (min-width: 1024px) {
@@ -223,7 +224,7 @@ const CSS = `
   }
 
   .ec-spot-img-wrap {
-    height: 200px; /* Shorter on mobile */
+    height: 200px;
     position: relative;
     flex-shrink: 0;
   }
@@ -239,7 +240,7 @@ const CSS = `
   }
 
   .ec-spot-content {
-    padding: 24px; /* Less padding on mobile */
+    padding: 24px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -257,6 +258,8 @@ const CSS = `
     margin: 8px 0 12px 0;
     text-transform: uppercase;
     font-weight: normal;
+    /* 🚀 Added break-words to prevent long titles from pushing layout */
+    word-break: break-word;
   }
 
   .ec-spot-desc {
@@ -294,6 +297,7 @@ const CSS = `
 
   .ec-meta-icon {
     color: var(--accent);
+    flex-shrink: 0; /* 🚀 Prevents icons from squishing */
   }
 
   .ec-btn-primary {
@@ -337,9 +341,14 @@ export default function EventCalendarSection() {
       while (attempts < 15 && isMounted) {
         try {
           if (attempts === 1) setFetchStatus("waking");
+          
+          // 🚀 API FIX: Ensure strict number parameters
           const res = await eventService.getEvents(100, 0);
+          
           if (isMounted) {
-            const data = res.data?.events || res.data || [];
+            const rawData = res.data?.events || res.data?.data || res.data;
+            // 🚀 CRASH SHIELD: Enforce Array output
+            const data = Array.isArray(rawData) ? rawData : [];
             setAllEvents(data);
             setFetchStatus("success");
           }
@@ -366,7 +375,7 @@ export default function EventCalendarSection() {
     
     const currentMonthEvents = allEvents.filter(ev => {
       const d = new Date(ev.date || ev.startDate);
-      return d.getFullYear() === year && d.getMonth() === month;
+      return !isNaN(d.getTime()) && d.getFullYear() === year && d.getMonth() === month;
     });
 
     const gridCells = [];
@@ -394,6 +403,7 @@ export default function EventCalendarSection() {
     return { cells: gridCells, monthEvents: currentMonthEvents };
   }, [viewDate, allEvents]);
 
+  // Priority Spotlight: Hovered Event -> First event of month -> Null
   const spotlight = hoveredEvent || monthEvents[0] || null;
 
   return (
@@ -430,6 +440,12 @@ export default function EventCalendarSection() {
               {fetchStatus === "waking" ? "Waking Servers..." : "Syncing Calendar..."}
             </p>
           </div>
+        ) : fetchStatus === "error" ? (
+          <div className="flex-1 flex flex-col items-center justify-center min-h-[300px]">
+            <p className="text-red-400 text-xs font-bold tracking-[0.2em] uppercase">
+              Calendar Sync Failed
+            </p>
+          </div>
         ) : (
           <div className="ec-grid">
             {cells.map((cell, i) => (
@@ -437,7 +453,7 @@ export default function EventCalendarSection() {
                 key={i} 
                 className={`ec-day ${cell.type === 'empty' ? 'ec-empty' : ''} ${cell.events?.length ? 'active' : ''}`}
                 onMouseEnter={() => cell.events?.length && setHoveredEvent(cell.events[0])}
-                onClick={() => cell.events?.length && setHoveredEvent(cell.events[0])} // Fix: Allows mobile users to tap the date
+                onClick={() => cell.events?.length && setHoveredEvent(cell.events[0])}
               >
                 {cell.day && <span className="ec-day-num">{cell.day}</span>}
                 {cell.isToday && <span className="ec-today-pill">Today</span>}
@@ -456,35 +472,53 @@ export default function EventCalendarSection() {
         {spotlight ? (
           <>
             <div className="ec-spot-img-wrap">
-              <img src={spotlight.image || spotlight.imageUrl || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"} className="ec-spot-img" alt="Spotlight" />
+              <img 
+                src={spotlight.image || spotlight.imageUrl || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"} 
+                className="ec-spot-img" 
+                alt="Spotlight"
+                loading="lazy"      // 🚀 Performance Fix
+                decoding="async"    // 🚀 Performance Fix
+              />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0A0A0A, transparent)' }} />
               
               <div style={{ position: 'absolute', top: 16, left: 16 }}>
                  <span className="px-3 py-1 bg-black/60 backdrop-blur-md text-[#7DD4EF] border border-[#7DD4EF]/30 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-lg">
-                   {spotlight.tag || "Featured"}
+                   {spotlight.tag || spotlight.categories?.[0] || "Featured"}
                  </span>
               </div>
             </div>
 
             <div className="ec-spot-content">
               <h3 className="ec-spot-title">{spotlight.title}</h3>
-              <p className="ec-spot-desc">{spotlight.description?.substring(0, 120)}{spotlight.description?.length > 120 ? '...' : ''}</p>
+              <p className="ec-spot-desc">
+                {spotlight.description ? 
+                  (spotlight.description.length > 120 ? `${spotlight.description.substring(0, 120)}...` : spotlight.description) 
+                  : "No description provided."}
+              </p>
               
               <div className="ec-meta-box">
                 <div className="ec-meta-item">
                   <Clock size={16} className="ec-meta-icon" /> 
-                  <span className="text-white">{spotlight.time || "TBA"}</span>
+                  <span className="text-white truncate">{spotlight.time || spotlight.duration || "TBA"}</span>
                 </div>
                 <div className="ec-meta-item">
                   <MapPin size={16} className="ec-meta-icon" /> 
-                  <span className="text-white line-clamp-1">{spotlight.location || "BMSCE Campus"}</span>
+                  <span className="text-white truncate">{spotlight.location || "BMSCE Campus"}</span>
                 </div>
                 
                 <button 
-                  onClick={() => window.open(spotlight.registrationLink || "#", "_blank")}
+                  onClick={() => {
+                    const link = spotlight.registrationLink || spotlight.recapLink;
+                    if (link && link !== "#") window.open(link, "_blank");
+                  }}
                   className="ec-btn-primary"
+                  style={{ opacity: (spotlight.registrationLink && spotlight.registrationLink !== "#") ? 1 : 0.5 }}
                 >
-                  Register Now <ArrowRight size={14} />
+                  {(spotlight.registrationLink && spotlight.registrationLink !== "#") ? (
+                    <>Register Now <ArrowRight size={14} /></>
+                  ) : (
+                    "No Link Available"
+                  )}
                 </button>
               </div>
             </div>
