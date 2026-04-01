@@ -13,15 +13,14 @@ export default function EventTitleSection() {
   };
 
   const hackathonFocusImg = "https://images.unsplash.com/photo-1731160807880-daf859b64420?q=80&w=2660&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; 
-  // Front Image: Hands-on Collaboration/Prototyping (grayscale/vibrant hover)
+  
   const workshopCollaborationImg = "https://images.unsplash.com/photo-1631350397792-8e0c2de5b637?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; 
 
   return (
-    /* 🚀 FIX: Reduced pt-44 to pt-28 to close the gap at the top. 
-       Added -mt-1 as a 'safety' to ensure it touches the element above it. */
+    
     <section className="relative w-full h-fit flex flex-col bg-[#030303] overflow-hidden pt-28 pb-12 -mt-1 font-general text-white">
       
-      {/* Background Ambience */}
+      
       <div 
         className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none z-0" 
         style={{ 
@@ -30,13 +29,13 @@ export default function EventTitleSection() {
         }} 
       />
 
-      {/* Grid Mask: Starts solid at the top now */}
+      
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] z-0 pointer-events-none" />
       
       <div className="max-w-7xl w-full mx-auto px-6 lg:px-10 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
           
-          {/* Typography */}
+          
           <motion.div 
             className="flex flex-col items-center text-center lg:items-start lg:text-left will-change-transform"
             variants={containerVars}
@@ -74,7 +73,7 @@ export default function EventTitleSection() {
             </motion.div>
           </motion.div>
 
-          {/* Image Cluster */}
+          
           <div className="hidden lg:flex justify-end items-center w-full">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
