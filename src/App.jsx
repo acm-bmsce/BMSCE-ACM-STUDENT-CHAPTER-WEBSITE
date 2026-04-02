@@ -29,6 +29,7 @@ const Team = lazy(() => import("./pages/team"));
 const Event = lazy(() => import("./pages/event"));
 const Projects = lazy(() => import("./pages/projects"));
 const PlacementPage = lazy(() => import("./pages/PlacementPage"));
+const ArchivePage = lazy(() => import("./pages/ArchivePage")); // 👈 Added Archive Page
 
 // --- ADMIN IMPORTS ---
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -251,6 +252,15 @@ function AnimatedRoutes() {
               </Suspense>
             }
           />
+          {/* 👇 Added Archive Route Here 👇 */}
+          <Route
+            path="/archive"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ArchivePage />
+              </Suspense>
+            }
+          />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -274,21 +284,11 @@ function AnimatedRoutes() {
 }
 
 function App() {
-  // We need to check location here too to hide ScrollToTopButton on admin pages
-  // But Router is inside App, so we can't use useLocation() here directly.
-  // Ideally, move ScrollToTopButton inside AnimatedRoutes or make a wrapper.
-  // For now, we will leave it, or you can wrap it in a logic component.
-  
   return (
     <Router>
       <ScrollToTop />
       <SmoothScroll />
       <AnimatedRoutes />
-      
-      {/* Note: If you want to hide this button on Admin pages too, 
-         you should move this component inside 'AnimatedRoutes' 
-         and use the 'isAdminRoute' check.
-      */}
       <ScrollToTopButton /> 
     </Router>
   );
