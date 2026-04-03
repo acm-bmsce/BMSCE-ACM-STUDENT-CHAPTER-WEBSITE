@@ -37,8 +37,7 @@ export default function EventTitleSection({ featured }) {
           <motion.div className="flex flex-col items-center text-center lg:items-start lg:text-left will-change-transform" variants={containerVars} initial="hidden" animate="show">
             
             <motion.h1 variants={itemVars} className="text-6xl sm:text-7xl md:text-8xl lg:text-[8.5rem] font-normal text-white leading-[0.9] tracking-tighter mb-8 font-bebas-neue uppercase mt-8 lg:mt-0">
-              Chapter <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-[#7DD4EF]">Events.</span>
+              Chapter Events
             </motion.h1>
 
             <motion.p variants={itemVars} className="text-gray-400 text-sm sm:text-base md:text-lg max-w-lg leading-relaxed mb-10">

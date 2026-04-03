@@ -145,10 +145,8 @@ export default function ArchivePage() {
             <ArrowLeft size={14} /> Back to Events
           </button>
           <h1 className="text-6xl md:text-9xl font-normal font-bebas-neue uppercase tracking-tighter">
-            Past{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-800">
-              Events
-            </span>
+            Past Events
+           
           </h1>
           <div className="mt-4 flex items-center gap-4 text-gray-500 text-xs uppercase tracking-widest font-bold">
             {fetchStatus === "success"

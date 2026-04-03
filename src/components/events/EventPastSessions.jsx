@@ -183,7 +183,7 @@ export default function EventPastSessions() {
               </span>
             </div>
             <h2 className="text-6xl md:text-8xl font-normal text-white uppercase font-bebas-neue tracking-tighter">
-              Past <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700">Impact</span>
+              Past Events
             </h2>
           </div>
           <p className="text-gray-500 max-w-sm text-sm md:text-right leading-relaxed uppercase tracking-widest text-[10px] font-bold">
