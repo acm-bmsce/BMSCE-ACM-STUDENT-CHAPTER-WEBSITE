@@ -29,12 +29,13 @@ const ManageEvents = () => {
     location: 'Online',
     attendees: 0,
     image: '',
+    gallery: [], // ✅ Gallery array
     registration_link: '',
     is_featured: false
   };
   const [formData, setFormData] = useState(initialFormState);
 
-  // --- NEW: Lock body scroll when modal is open ---
+  // --- Lock body scroll when modal is open ---
   useEffect(() => {
     if (isFormOpen) {
       document.body.style.overflow = 'hidden';
@@ -110,6 +111,7 @@ const ManageEvents = () => {
         location: event.location,
         attendees: event.attendees,
         image: event.image || '',
+        gallery: event.gallery || [], // ✅ Load existing gallery
         registration_link: event.registration_link || '',
         is_featured: event.is_featured || false
     });
@@ -164,7 +166,7 @@ const ManageEvents = () => {
         </div>
         <button 
           onClick={openCreateModal}
-          className="w-full sm:w-auto bg-[#2FA6B8] hover:bg-[#268A98] text-white px-5 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-[0_0_15px_rgba(47,166,184,0.3)]"
+          className="w-full sm:w-auto bg-[#2FA6B8] hover:bg-[#268A98] text-white px-5 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-[0_0_15px_rgba(47,166,184,0.3)] select-none"
         >
           <Plus size={20} />
           Add Event
@@ -178,7 +180,7 @@ const ManageEvents = () => {
              <p>Loading Events...</p>
         </div>
       ) : events.length === 0 ? (
-        <div className="text-gray-500 text-center py-20 border border-dashed border-[#1F3037] rounded-xl mx-4 sm:mx-0">
+        <div className="text-gray-500 text-center py-20 border border-dashed border-[#1F3037] rounded-xl mx-4 sm:mx-0 select-none">
             {page === 1 ? 'No events found. Click "Add Event" to create one.' : 'No more events on this page.'}
         </div>
       ) : (
@@ -187,7 +189,7 @@ const ManageEvents = () => {
             <div key={event.id || event._id} className="bg-[#0E181C] border border-[#1F3037] rounded-xl p-5 hover:border-[#2FA6B8] transition-all group relative">
                 
                 {event.is_featured && (
-                    <div className="absolute top-4 right-4 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10">
+                    <div className="absolute top-4 right-4 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10 select-none">
                         <Star size={10} fill="currentColor" /> FEATURED
                     </div>
                 )}
@@ -221,7 +223,7 @@ const ManageEvents = () => {
                           {new Date(event.date).toLocaleDateString()}
                       </span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 select-none">
                       <MapPin size={14} /> {event.location}
                   </div>
                 </div>
@@ -231,7 +233,7 @@ const ManageEvents = () => {
       )}
 
       {/* PAGINATION */}
-      <div className="flex justify-center items-center gap-4 mt-10">
+      <div className="flex justify-center items-center gap-4 mt-10 select-none">
         <button 
           onClick={handlePrevPage} 
           disabled={page === 1 || loading}
@@ -249,145 +251,204 @@ const ManageEvents = () => {
         </button>
       </div>
 
-      {/* MODAL */}
+      {/* --- FORM MODAL --- */}
       {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-[9999] flex justify-end">
+          {/* BACKDROP */}
           <div 
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setIsFormOpen(false)}
           ></div>
 
-          <div className="relative w-full sm:max-w-xl bg-[#0E181C] border-l border-[#1F3037] h-screen max-h-screen overflow-y-auto p-4 sm:p-8 shadow-2xl animate-in slide-in-from-right duration-300">
+          {/* SIDEBAR PANEL */}
+          <div className="relative w-full sm:max-w-xl bg-[#0E181C] border-l border-[#1F3037] h-[100dvh] flex flex-col shadow-[-10px_0_30px_rgba(0,0,0,0.5)] animate-in slide-in-from-right duration-300">
             
-            {/* STICKY HEADER inside the modal so it stays visible while scrolling the form */}
-            <div className="flex justify-between items-center mb-6 sm:mb-8 mt-2 sm:mt-0 sticky top-0 bg-[#0E181C] z-10 py-2">
+            {/* MODAL HEADER */}
+            <div className="flex-none flex justify-between items-center p-6 border-b border-[#1F3037] bg-[#0E181C] sticky top-0 z-20 select-none">
               <h3 className="text-2xl sm:text-3xl font-bebas-neue text-white tracking-widest">
                   {editingId ? 'Edit Event' : 'Create Event'}
               </h3>
-              <button onClick={() => setIsFormOpen(false)} className="text-[#BFC7CC] hover:text-white p-2">
+              <button 
+                onClick={() => setIsFormOpen(false)} 
+                className="text-[#BFC7CC] hover:text-white transition-all p-2 rounded-full hover:bg-[#1F3037]"
+                title="Close"
+              >
                 <X size={24} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 pb-24">
-              
-              <div className="space-y-2">
-                <label className="text-xs sm:text-sm text-[#2FA6B8] font-medium uppercase tracking-wider">Event Title</label>
-                <input 
-                  name="title" 
-                  value={formData.title} 
-                  onChange={handleInputChange}
-                  required
-                  className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none" 
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* MODAL BODY */}
+            <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-[#0E181C]">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium">Date (DD-MM-YYYY)</label>
+                  <label className="text-xs sm:text-sm text-[#2FA6B8] font-medium uppercase tracking-wider select-none">Event Title</label>
                   <input 
-                    name="date_str" 
-                    value={formData.date_str}
-                    onChange={handleInputChange} 
-                    required
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
-                    placeholder="25-12-2025"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium">Location</label>
-                  <input 
-                    name="location" 
-                    value={formData.location}
+                    name="title" 
+                    value={formData.title} 
                     onChange={handleInputChange}
                     required
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium">Short Description</label>
-                <textarea 
-                  name="description" 
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows="2"
-                  required
-                  className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none resize-none"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium">Full Content</label>
-                <textarea 
-                  name="fullDescription" 
-                  value={formData.fullDescription}
-                  onChange={handleInputChange}
-                  rows="4"
-                  required
-                  className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                  <ImageUpload 
-                    existingImage={formData.image}
-                    onUploadComplete={(url) => setFormData(prev => ({ ...prev, image: url }))}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium flex items-center gap-2"><LinkIcon size={14}/> Link</label>
-                  <input 
-                    name="registration_link" 
-                    value={formData.registration_link}
-                    onChange={handleInputChange}
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
-                  />
-                </div>
-              </div>
-
-               <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] font-medium">Attendees</label>
-                  <input 
-                    type="number"
-                    name="attendees" 
-                    value={formData.attendees}
-                    onChange={handleInputChange}
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none"
+                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] focus:ring-1 focus:ring-[#2FA6B8]/50 outline-none transition-all placeholder:text-gray-700" 
                   />
                 </div>
 
-                <div className="flex items-start sm:items-center gap-3 bg-black border border-[#1F3037] p-3 rounded-lg hover:border-[#2FA6B8] transition-colors">
-                  <input 
-                    type="checkbox" 
-                    name="is_featured"
-                    checked={formData.is_featured}
-                    onChange={handleInputChange}
-                    className="w-5 h-5 accent-[#2FA6B8] cursor-pointer mt-0.5 sm:mt-0 flex-shrink-0"
-                  />
-                  <div>
-                    <label className="text-white text-sm sm:text-base font-medium">Feature in Carousel?</label>
-                    <p className="text-xs text-[#BFC7CC] mt-1 sm:mt-0">If checked, this event appears in the main Hero section.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none">Date (DD-MM-YYYY)</label>
+                    <input 
+                      name="date_str" 
+                      value={formData.date_str}
+                      onChange={handleInputChange} 
+                      required
+                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                      placeholder="25-12-2025"
+                    />
                   </div>
-              </div>
+                  <div className="space-y-2">
+                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none">Location</label>
+                    <input 
+                      name="location" 
+                      value={formData.location}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                    />
+                  </div>
+                </div>
 
-              <div className="pt-4 sm:pt-6">
-                <button 
-                    type="submit" 
-                    disabled={submitting}
-                    className="w-full bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue text-xl tracking-widest py-3 sm:py-4 rounded-lg transition-all flex justify-center items-center gap-3 disabled:opacity-50"
-                >
-                  {submitting ? <Loader2 className="animate-spin" /> : (editingId ? "Update Event" : "Create Event")}
-                </button>
-              </div>
+                <div className="space-y-2">
+                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Short Description</label>
+                  <textarea 
+                    name="description" 
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    rows="2"
+                    required
+                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none resize-none transition-all placeholder:text-gray-700"
+                  />
+                </div>
 
-            </form>
+                <div className="space-y-2">
+                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Full Content</label>
+                  <textarea 
+                    name="fullDescription" 
+                    value={formData.fullDescription}
+                    onChange={handleInputChange}
+                    rows="6"
+                    required
+                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Event/Project Image</label>
+                    <ImageUpload 
+                      existingImage={formData.image}
+                      onUploadComplete={(url) => setFormData(prev => ({ ...prev, image: url }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none"><LinkIcon size={14}/> Link</label>
+                    <input 
+                      name="registration_link" 
+                      value={formData.registration_link}
+                      onChange={handleInputChange}
+                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                    />
+                  </div>
+                </div>
+
+                {/* EVENT GALLERY SECTION */}
+                <div className="space-y-3 pt-4 border-t border-[#1F3037]">
+                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Event Gallery</label>
+                  
+                  {/* Gallery Grid (Shows uploaded images) */}
+                  {formData.gallery && formData.gallery.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                      {formData.gallery.map((imgUrl, index) => (
+                        <div key={index} className="relative group rounded-lg overflow-hidden border border-[#1F3037] aspect-video">
+                          <img src={imgUrl} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button 
+                              type="button"
+                              onClick={() => setFormData(prev => ({...prev, gallery: prev.gallery.filter((_, i) => i !== index)}))}
+                              className="bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-full transition-colors"
+                              title="Remove Image"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Upload New Gallery Image */}
+                  <div className="w-full sm:max-w-xs">
+                    <ImageUpload 
+                      key={`gallery-upload-${formData.gallery?.length || 0}`}
+                      existingImage=""
+                      onUploadComplete={(url) => {
+                        if(url) {
+                          setFormData(prev => ({ ...prev, gallery: [...(prev.gallery || []), url] }));
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* SPECIAL CONTROLS GROUP */}
+                <div className="bg-black/40 border border-[#1F3037] p-5 rounded-xl space-y-5">
+                  <div className="space-y-2">
+                      <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Attendees</label>
+                      <input 
+                        type="number"
+                        name="attendees" 
+                        value={formData.attendees}
+                        onChange={handleInputChange}
+                        className="w-full sm:max-w-xs bg-black/80 border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                      />
+                    </div>
+
+                    <div className="flex items-start sm:items-center gap-4 border-t border-[#1F3037] pt-5">
+                      <input 
+                        type="checkbox" 
+                        name="is_featured"
+                        id="is_featured"
+                        checked={formData.is_featured}
+                        onChange={handleInputChange}
+                        className="w-6 h-6 accent-[#2FA6B8] cursor-pointer mt-1 sm:mt-0 flex-shrink-0 bg-black border-[#1F3037] rounded transition-all focus:ring-offset-black"
+                      />
+                      <label htmlFor="is_featured" className="cursor-pointer select-none">
+                        <span className="text-white text-sm sm:text-base font-medium flex items-center gap-2">
+                          Feature in Carousel?
+                        </span>
+                        <p className="text-xs text-[#BFC7CC] mt-1 sm:mt-0.5">If checked, this event appears in the main Hero section.</p>
+                      </label>
+                  </div>
+                </div>
+
+                {/* SUBMIT BUTTON */}
+                <div className="pt-6 pb-16">
+                  <button 
+                      type="submit" 
+                      disabled={submitting}
+                      className="w-full bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue text-2xl tracking-widest py-4 sm:py-5 rounded-xl transition-all flex justify-center items-center gap-3 disabled:opacity-50 shadow-[0_0_20px_rgba(47,166,184,0.4)] group select-none"
+                  >
+                    {submitting ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      editingId ? "Update Event" : "Create Event"
+                    )}
+                  </button>
+                </div>
+
+              </form>
+            </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };
