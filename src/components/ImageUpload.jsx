@@ -45,7 +45,7 @@ const ImageUpload = ({ existingImage, onUploadComplete }) => {
 
   return (
     <div className="w-full">
-      <label className="text-sm text-[#BFC7CC] font-medium mb-2 block">Event/Project Image</label>
+      <label className="text-sm text-[#BFC7CC] font-medium mb-2">Event/Project Image</label>
       
       {/* PREVIEW AREA */}
       {preview ? (
