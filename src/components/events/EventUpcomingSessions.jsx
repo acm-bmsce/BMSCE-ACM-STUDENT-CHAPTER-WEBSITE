@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // ✅ Imported useNavigate
 
 import { Clock, MapPin, Ticket, CalendarPlus, Zap, ArrowRight, X, ExternalLink, Users, ChevronDown, ChevronUp, Camera, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import eventService from "../../api/eventService"; 
@@ -56,6 +57,7 @@ const lightboxVars = {
 export default function EventUpcomingSessions({
   locationLabel = "BMSCE Campus",
 }) {
+  const navigate = useNavigate(); // ✅ Initialized navigate
   const [sessions, setSessions] = useState([]);
   const [fetchStatus, setFetchStatus] = useState("loading");
   
@@ -249,7 +251,8 @@ export default function EventUpcomingSessions({
                             <span className="flex items-center gap-2"><MapPin size={14} className="text-[#7DD4EF]" /> {session.location}</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <button onClick={(e) => { e.stopPropagation(); window.open(session.registrationLink, "_blank"); }} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-[#7DD4EF] hover:bg-white text-black font-black uppercase text-[10px] tracking-widest rounded-xl transition-all duration-300 shadow-lg shadow-[#7DD4EF]/20">Reserve Seat <ArrowRight size={14} /></button>
+                            {/* ✅ Updated: Navigate to the internal registration page */}
+                            <button onClick={(e) => { e.stopPropagation(); navigate(`/events/${session.id || session._id}/register`); }} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-[#7DD4EF] hover:bg-white text-black font-black uppercase text-[10px] tracking-widest rounded-xl transition-all duration-300 shadow-lg shadow-[#7DD4EF]/20">Reserve Seat <ArrowRight size={14} /></button>
                           </div>
                         </div>
                       </div>
@@ -349,9 +352,8 @@ export default function EventUpcomingSessions({
                     </div>
                   )}
                   <div className="mt-auto pt-8 flex flex-col sm:flex-row gap-4 shrink-0 border-t border-white/10">
-                    {selectedEvent.registrationLink && selectedEvent.registrationLink !== "#" ? (
-                      <button onClick={() => window.open(selectedEvent.registrationLink, "_blank")} className="flex-1 py-4 bg-[#7DD4EF] hover:bg-white text-black rounded-xl font-bold uppercase text-[10px] tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#7DD4EF]/20">Reserve Seat <ExternalLink size={14} /></button>
-                    ) : (<div className="flex-1 flex items-center justify-center text-gray-500 font-bold uppercase text-[10px] tracking-widest border border-white/5 rounded-xl py-4 bg-white/[0.02]">Link Unavailable</div>)}
+                    {/* ✅ Updated: Navigate to the internal registration page instead of External Link */}
+                    <button onClick={() => { closeModal(); navigate(`/events/${selectedEvent.id || selectedEvent._id}/register`); }} className="flex-1 py-4 bg-[#7DD4EF] hover:bg-white text-black rounded-xl font-bold uppercase text-[10px] tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-[#7DD4EF]/20">Reserve Seat <ArrowRight size={14} /></button>
                     <button onClick={closeModal} className="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-white/10 rounded-xl font-bold uppercase text-[10px] tracking-widest transition-colors">Close</button>
                   </div>
                 </div>
