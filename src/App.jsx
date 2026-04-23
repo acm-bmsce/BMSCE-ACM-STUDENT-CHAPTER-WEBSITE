@@ -30,6 +30,7 @@ const Event = lazy(() => import("./pages/event"));
 const Projects = lazy(() => import("./pages/projects"));
 const PlacementPage = lazy(() => import("./pages/PlacementPage"));
 const ArchivePage = lazy(() => import("./pages/ArchivePage"));
+const EventRegistration = lazy(() => import("./pages/EventRegistration"));
 
 // --- ADMIN IMPORTS ---
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -256,6 +257,14 @@ function AnimatedRoutes() {
             element={
               <Suspense fallback={<Loader />}>
                 <ArchivePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/events/:eventId/register"
+            element={
+              <Suspense fallback={<Loader />}>
+                <EventRegistration />
               </Suspense>
             }
           />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Plus, Calendar, MapPin, Trash2, Edit, X, 
-  Link as LinkIcon, Loader2, ChevronLeft, ChevronRight, Star 
+  Link as LinkIcon, Loader2, ChevronLeft, ChevronRight, Star, Download 
 } from 'lucide-react';
 import eventService from '../../api/eventService';
 import ImageUpload from '../../components/ImageUpload';
@@ -29,9 +29,13 @@ const ManageEvents = () => {
     location: 'Online',
     attendees: 0,
     image: '',
-    gallery: [], // ✅ Gallery array
+    gallery: [], 
     registration_link: '',
-    is_featured: false
+    is_featured: false,
+    // ✅ REGISTRATION CONTROLS
+    registration_open: true, 
+    registration_limit: 0, // 0 means unlimited
+    is_team_event: false // ✅ NEW: Team Event Toggle
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -42,8 +46,6 @@ const ManageEvents = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -111,9 +113,13 @@ const ManageEvents = () => {
         location: event.location,
         attendees: event.attendees,
         image: event.image || '',
-        gallery: event.gallery || [], // ✅ Load existing gallery
+        gallery: event.gallery || [],
         registration_link: event.registration_link || '',
-        is_featured: event.is_featured || false
+        is_featured: event.is_featured || false,
+        // ✅ LOAD NEW FIELDS
+        registration_open: event.registration_open !== false, 
+        registration_limit: event.registration_limit || 0,
+        is_team_event: event.is_team_event || false // ✅ Load Team Status
     });
     setIsFormOpen(true);
   };
@@ -155,6 +161,49 @@ const ManageEvents = () => {
     }
   };
 
+  const handleExportCSV = async (eventId, eventTitle) => {
+    try {
+      const response = await eventService.getEventRegistrations(eventId);
+      const registrations = response.data;
+
+      if (!registrations || registrations.length === 0) {
+        alert("No registrations found for this event yet.");
+        return;
+      }
+
+      // ✅ Reverted back to flat structure, but including Team data
+      const cleanData = registrations.map(reg => ({
+        "Registration Type": reg.is_team_event ? "Team" : "Individual",
+        "Team Name": reg.is_team_event ? (reg.team_name || "N/A") : "N/A",
+        "Captain/Name": reg.name,
+        "Email": reg.email,
+        "Phone": reg.phone,
+        "USN": reg.usn,
+        "Department": reg.department,
+        "Registration Date": new Date(reg.registered_at).toLocaleString()
+      }));
+
+      const headers = Object.keys(cleanData[0]).join(",");
+      const rows = cleanData.map(row => 
+        Object.values(row).map(val => `"${val || ''}"`).join(",") 
+      ).join("\n");
+      const csvContent = `${headers}\n${rows}`;
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `${eventTitle.replace(/\s+/g, '_')}_Registrations.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+    } catch (error) {
+      console.error("Error exporting CSV:", error);
+      alert("Failed to export registrations.");
+    }
+  };
+
   return (
     <div className="relative min-h-screen pb-20 px-4 sm:px-6 lg:px-8">
       
@@ -193,23 +242,39 @@ const ManageEvents = () => {
                         <Star size={10} fill="currentColor" /> FEATURED
                     </div>
                 )}
+                {/* Visual indicator if registration is closed */}
+                {event.registration_open === false && (
+                    <div className="absolute top-4 left-4 bg-red-500/10 text-red-500 border border-red-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10 select-none">
+                        CLOSED
+                    </div>
+                )}
 
                 <div className="flex justify-between items-start mb-4">
-                  <div className="bg-[#2FA6B8]/10 text-[#2FA6B8] p-2 rounded-lg">
+                  <div className="bg-[#2FA6B8]/10 text-[#2FA6B8] p-2 rounded-lg mt-6">
                       <Calendar size={20} />
                   </div>
-                  <div className="flex gap-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity bg-black/50 p-1 rounded-full border border-[#1F3037]">
+                      {/* ✅ CSV EXPORT BUTTON */}
+                      <button 
+                          onClick={() => handleExportCSV(event.id || event._id, event.title)}
+                          className="p-2 hover:bg-[#1F3037] rounded-full text-green-400 transition-colors" 
+                          title="Download Registrations CSV"
+                      >
+                        <Download size={14} />
+                      </button>
                       <button 
                           onClick={() => handleEdit(event)}
-                          className="p-2 bg-[#1F3037] sm:bg-transparent hover:bg-[#1F3037] rounded-full text-blue-400 transition-colors" 
+                          className="p-2 hover:bg-[#1F3037] rounded-full text-blue-400 transition-colors" 
+                          title="Edit Event"
                       >
-                        <Edit size={16} />
+                        <Edit size={14} />
                       </button>
                       <button 
                           onClick={() => handleDelete(event.id || event._id)} 
-                          className="p-2 bg-[#1F3037] sm:bg-transparent hover:bg-[#1F3037] rounded-full text-red-400 transition-colors" 
+                          className="p-2 hover:bg-[#1F3037] rounded-full text-red-400 transition-colors" 
+                          title="Delete Event"
                       >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                       </button>
                   </div>
                 </div>
@@ -226,6 +291,12 @@ const ManageEvents = () => {
                   <div className="flex items-center gap-2 select-none">
                       <MapPin size={14} /> {event.location}
                   </div>
+                  {/* ✅ Badge to show if it is a team event */}
+                  {event.is_team_event && (
+                    <div className="flex items-center gap-2 select-none text-purple-400 font-bold">
+                      Team Event
+                    </div>
+                  )}
                 </div>
             </div>
             ))}
@@ -254,16 +325,13 @@ const ManageEvents = () => {
       {/* --- FORM MODAL --- */}
       {isFormOpen && (
         <div className="fixed inset-0 z-[9999] flex justify-end">
-          {/* BACKDROP */}
           <div 
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setIsFormOpen(false)}
           ></div>
 
-          {/* SIDEBAR PANEL */}
           <div className="relative w-full sm:max-w-xl bg-[#0E181C] border-l border-[#1F3037] h-[100dvh] flex flex-col shadow-[-10px_0_30px_rgba(0,0,0,0.5)] animate-in slide-in-from-right duration-300">
             
-            {/* MODAL HEADER */}
             <div className="flex-none flex justify-between items-center p-6 border-b border-[#1F3037] bg-[#0E181C] sticky top-0 z-20 select-none">
               <h3 className="text-2xl sm:text-3xl font-bebas-neue text-white tracking-widest">
                   {editingId ? 'Edit Event' : 'Create Event'}
@@ -277,7 +345,6 @@ const ManageEvents = () => {
               </button>
             </div>
 
-            {/* MODAL BODY */}
             <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-[#0E181C]">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
@@ -359,11 +426,9 @@ const ManageEvents = () => {
                   </div>
                 </div>
 
-                {/* EVENT GALLERY SECTION */}
                 <div className="space-y-3 pt-4 border-t border-[#1F3037]">
                   <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Event Gallery</label>
                   
-                  {/* Gallery Grid (Shows uploaded images) */}
                   {formData.gallery && formData.gallery.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                       {formData.gallery.map((imgUrl, index) => (
@@ -374,7 +439,6 @@ const ManageEvents = () => {
                               type="button"
                               onClick={() => setFormData(prev => ({...prev, gallery: prev.gallery.filter((_, i) => i !== index)}))}
                               className="bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-full transition-colors"
-                              title="Remove Image"
                             >
                               <Trash2 size={16} />
                             </button>
@@ -384,7 +448,6 @@ const ManageEvents = () => {
                     </div>
                   )}
 
-                  {/* Upload New Gallery Image */}
                   <div className="w-full sm:max-w-xs">
                     <ImageUpload 
                       key={`gallery-upload-${formData.gallery?.length || 0}`}
@@ -398,34 +461,80 @@ const ManageEvents = () => {
                   </div>
                 </div>
 
-                {/* SPECIAL CONTROLS GROUP */}
-                <div className="bg-black/40 border border-[#1F3037] p-5 rounded-xl space-y-5">
-                  <div className="space-y-2">
-                      <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Attendees</label>
+                {/* ✅ REGISTRATION CONTROLS */}
+                <div className="bg-[#111C21] border border-[#1F3037] p-5 rounded-xl space-y-5">
+                  <h4 className="text-[#2FA6B8] text-xs font-bold uppercase tracking-widest border-b border-[#1F3037] pb-3 mb-4">Registration Settings</h4>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Capacity Limit</label>
+                        <input 
+                          type="number"
+                          name="registration_limit" 
+                          value={formData.registration_limit}
+                          onChange={handleInputChange}
+                          className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                        />
+                        <p className="text-[10px] text-gray-500 mt-1">Set to 0 for unlimited registrations.</p>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Expected Attendees</label>
+                        <input 
+                          type="number"
+                          name="attendees" 
+                          value={formData.attendees}
+                          onChange={handleInputChange}
+                          className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                        />
+                      </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4 border-t border-[#1F3037] pt-5">
+                    
+                    {/* ✅ TEAM EVENT TOGGLE */}
+                    <div className="flex items-center gap-3">
                       <input 
-                        type="number"
-                        name="attendees" 
-                        value={formData.attendees}
+                        type="checkbox" 
+                        name="is_team_event"
+                        id="is_team_event"
+                        checked={formData.is_team_event}
                         onChange={handleInputChange}
-                        className="w-full sm:max-w-xs bg-black/80 border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
+                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
                       />
+                      <label htmlFor="is_team_event" className="cursor-pointer select-none">
+                        <span className="text-white text-sm font-medium">Is this a Team Event?</span>
+                      </label>
                     </div>
 
-                    <div className="flex items-start sm:items-center gap-4 border-t border-[#1F3037] pt-5">
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="checkbox" 
+                        name="registration_open"
+                        id="registration_open"
+                        checked={formData.registration_open}
+                        onChange={handleInputChange}
+                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
+                      />
+                      <label htmlFor="registration_open" className="cursor-pointer select-none">
+                        <span className="text-white text-sm font-medium">Registrations Open?</span>
+                      </label>
+                    </div>
+
+                    <div className="flex items-center gap-3">
                       <input 
                         type="checkbox" 
                         name="is_featured"
                         id="is_featured"
                         checked={formData.is_featured}
                         onChange={handleInputChange}
-                        className="w-6 h-6 accent-[#2FA6B8] cursor-pointer mt-1 sm:mt-0 flex-shrink-0 bg-black border-[#1F3037] rounded transition-all focus:ring-offset-black"
+                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
                       />
                       <label htmlFor="is_featured" className="cursor-pointer select-none">
-                        <span className="text-white text-sm sm:text-base font-medium flex items-center gap-2">
-                          Feature in Carousel?
-                        </span>
-                        <p className="text-xs text-[#BFC7CC] mt-1 sm:mt-0.5">If checked, this event appears in the main Hero section.</p>
+                        <span className="text-white text-sm font-medium">Feature in Carousel?</span>
                       </label>
+                    </div>
+
                   </div>
                 </div>
 
