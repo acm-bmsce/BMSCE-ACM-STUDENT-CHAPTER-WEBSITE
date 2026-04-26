@@ -224,7 +224,10 @@ export default function EventPage() {
             <EventTitleSection featured={derived.featuredCard} />
           </motion.section>
 
-          <div className="w-full max-w-5xl mx-auto h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-4 md:my-10" />
+          <motion.section {...scrollRevealConfig} className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] will-change-transform will-change-opacity">
+            <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
+          </motion.section>
+
 
           <motion.section {...scrollRevealConfig} className="relative w-full py-16 will-change-transform will-change-opacity">
             <EventCalendarSection
@@ -239,10 +242,6 @@ export default function EventPage() {
 
           <motion.section {...scrollRevealConfig} className="relative w-full will-change-transform will-change-opacity">
             <EventFeaturedSection />
-          </motion.section>
-
-          <motion.section {...scrollRevealConfig} className="relative w-full rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] border-t border-white/5 mt-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] will-change-transform will-change-opacity">
-            <EventUpcomingSessions sessions={derived.sessionCards} locationLabel="BMSCE Campus" />
           </motion.section>
 
           <motion.section {...scrollRevealConfig} className="relative w-full bg-[#0A0A0A] will-change-transform will-change-opacity">
