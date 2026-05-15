@@ -2,10 +2,30 @@ import React, { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedTitle from "./AnimatedTitle";
-//import "./PreviousCoreTeam_Card.jsx"; // Import the CSS for flip animation
 import Card from "./PreviousCoreTeam_Card.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const previousTeamMembers2025 = [
+  { label: "1. Fazal M A", role: "Chair" },
+  { label: "2. Naysha", role: "Vice Chair" },
+  { label: "3. Devanand", role: "Secretary" },
+  { label: "4. Praneeth", role: "Treasurer" },
+  { label: "5. Aprameya", role: "Webmaster and Technical Head" },
+  { label: "6. Aravind", role: "Membership Chair" },
+  { label: "7. Subodh", role: "Senior Coordinator" },
+  { label: "8. Anish", role: "Senior Coordinator" },
+  { label: "9. Sanskar", role: "Media Head" }
+];
+
+const previousTeamMembers2024 = [
+  { label: "1. G Sri Sai Meghana", role: "Chair" },
+  { label: "2. Srujana A Rao", role: "Vice Chair" },
+  { label: "3. Harshavardhan S", role: "Secretary" },
+  { label: "4. Bhuvan Kumar SG", role: "Treasurer" },
+  { label: "5. Manvendra Singh", role: "Membership Chair" },
+  { label: "6. Sudeep S", role: "Web Master" }
+];
 
 const PreviousCoreTeamSection = () => {
     const sectionRef = useRef(null);
@@ -61,41 +81,23 @@ const PreviousCoreTeamSection = () => {
                 </div>
                 <div ref={descriptionRef}>
                     <p className="text-gray-300 text-lg md:text-xl lg:text-5xl max-w-2xl mx-auto font-semibold">
-                        2024
+                        2025
                     </p>
                 </div>
             </div>
 
-            {/* Flip Card */}
-            <div className="flex justify-center" ref={cardRef}>
-                <Card />
-                {/* <div className="flip-card">
-                    <div className="flip-card-inner">
-                        <div className="flip-card-front">
-                            <img
-                                src="./img/previous_core.jpeg"
-                                alt="Previous Core Team"
-                                className="w-full h-full object-cover rounded-xl"
-                            />
-                        </div>
-                        <div className="flip-card-back flex flex-col items-center justify-center px-12 py-10 gap-8 bg-gradient-to-br from-blue-900/60 via-indigo-800/60 to-sky-700/60 backdrop-blur-md rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] border border-white/20">
-                            <h2 className="text-5xl font-extrabold text-white tracking-wide drop-shadow-xl underline underline-offset-8 decoration-sky-400">
-                                Team Members
-                            </h2>
+            {/* Flip Cards */}
+            <div className="flex flex-col items-center gap-16" ref={cardRef}>
+                <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
+                    <Card title="Team Members" members={previousTeamMembers2025} />
+                </div>
 
-                            <ul className="text-white text-2xl font-medium leading-relaxed space-y-4">
-                                <li>1. G Sri Sai Meghana – Ex Chair</li>
-                                <li>2. Srujana A Roa – Ex Vice Chair</li>
-                                <li>3. Harshavardhan S – Ex Secretary</li>
-                                <li>4. Bhuvan Kumar SG – Ex Treasurer</li>
-                                <li>5. Manvendra Singh – Ex Membership Chair</li>
-                                <li>6. Sudeep S – Ex Web Master</li>
-                            </ul>
-                        </div>
-
-
-                    </div>
-                </div> */}
+                <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
+                    <p className="text-gray-300 text-lg md:text-xl lg:text-5xl font-semibold">
+                        2024
+                    </p>
+                    <Card title="2024" members={previousTeamMembers2024} />
+                </div>
             </div>
         </div>
     );

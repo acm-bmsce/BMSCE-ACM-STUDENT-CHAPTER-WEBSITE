@@ -1,20 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Card = () => {
+const Card = ({ title = 'Team Members', members = [], image = './img/previous_core.webp' }) => {
   return (
     <StyledWrapper>
       <div className="card">
-        <img className="img" src="./img/previous_core.webp" alt="Team Members" />
+        <img className="img" src={image} alt={title} />
         <div className="textBox">
-          <h2 className="title">Team Members</h2>
+          <h2 className="title">{title}</h2>
           <ul className="memberList">
-            <li>1. G Sri Sai Meghana – Chair</li>
-            <li>2. Srujana A Rao – Vice Chair</li>
-            <li>3. Harshavardhan S – Secretary</li>
-            <li>4. Bhuvan Kumar SG – Treasurer</li>
-            <li>5. Manvendra Singh – Membership Chair</li>
-            <li>6. Sudeep S – Web Master</li>
+            {members.map((member, idx) => (
+              <li key={idx}>{member.label} – {member.role}</li>
+            ))}
           </ul>
         </div>
       </div>
