@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TeamsHero = () => {
   const heroRef = useRef(null);
   const descriptionRef = useRef(null);
-  const [bgImage, setBgImage] = useState("img/18.webp"); // default desktop
+  const [bgImage, setBgImage] = useState("img/core2026.webp"); // default desktop
 
   // Detect screen size and set image
   useEffect(() => {
@@ -17,7 +17,7 @@ const TeamsHero = () => {
       if (window.innerWidth <= 768) {
         setBgImage("img/team_mobile.webp"); // mobile version
       } else {
-        setBgImage("img/18.webp"); // desktop version
+        setBgImage("img/core2026.webp"); // desktop version
       }
     };
     updateImage();

@@ -7,6 +7,16 @@ import Card from "./PreviousCoreTeam_Card.jsx";
 gsap.registerPlugin(ScrollTrigger);
 
 const previousTeamMembers2025 = [
+  { label: "1. H S Adwi", role: "Chair" },
+  { label: "2. Indraneel M", role: "Vice Chair" },
+  { label: "3. Roshini B", role: "Secretary" },
+  { label: "4. Dhruva G S", role: "Treasurer" },
+  { label: "5. Hrithik M", role: "Webmaster and Technical Head" },
+  { label: "6. Kanishka S", role: "Membership Chair" },
+  { label: "7. Srikanth M", role: "Senior Coordinator" }
+];
+
+const currentTeamMembers2025 = [
   { label: "1. Fazal M A", role: "Chair" },
   { label: "2. Naysha", role: "Vice Chair" },
   { label: "3. Devanand", role: "Secretary" },
@@ -87,18 +97,26 @@ const PreviousCoreTeamSection = () => {
             </div>
 
             {/* Flip Cards */}
-            <div className="flex flex-col items-center gap-16" ref={cardRef}>
-                <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
-                    <Card title="Team Members" members={previousTeamMembers2025} />
-                </div>
+<div className="flex flex-col items-center gap-16" ref={cardRef}>
+    <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
+        <Card 
+            title="Team Members" 
+            members={previousTeamMembers2025} 
+            image="./img/previous_core2025.webp" /* Add your 2025 image path here */
+        />
+    </div>
 
-                <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
-                    <p className="text-gray-300 text-lg md:text-xl lg:text-5xl font-semibold">
-                        2024
-                    </p>
-                    <Card title="2024" members={previousTeamMembers2024} />
-                </div>
-            </div>
+    <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
+        <p className="text-gray-300 text-lg md:text-xl lg:text-5xl font-semibold">
+            2024
+        </p>
+        <Card 
+            title="2024" 
+            members={previousTeamMembers2024} 
+            image="./img/previous_core2024.webp" /* Add your 2024 image path here */
+        />
+    </div>
+</div>
         </div>
     );
 };
