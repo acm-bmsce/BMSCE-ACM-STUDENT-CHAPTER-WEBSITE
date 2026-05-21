@@ -29,6 +29,8 @@ const Team = lazy(() => import("./pages/team"));
 const Event = lazy(() => import("./pages/event"));
 const Projects = lazy(() => import("./pages/projects"));
 const PlacementPage = lazy(() => import("./pages/PlacementPage"));
+const ArchivePage = lazy(() => import("./pages/ArchivePage"));
+const EventRegistration = lazy(() => import("./pages/EventRegistration"));
 
 // --- ADMIN IMPORTS ---
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -58,7 +60,6 @@ function AnimatedRoutes() {
 
   // Audio Effect
   useEffect(() => {
-    // Skip sound for admin routes
     if (isAdminRoute) return;
 
     audioRef.current = new Audio(transitionSound);
@@ -67,7 +68,6 @@ function AnimatedRoutes() {
 
   // Transition Animation Effect
   useEffect(() => {
-    // If Admin route, skip animations and update location immediately
     if (isAdminRoute) {
       setDisplayLocation(location);
       setIsTransitioning(false);
@@ -165,7 +165,10 @@ function AnimatedRoutes() {
 
   return (
     <>
-      {/* Page transition overlay - Hidden on Admin routes */}
+      {/* Disable SmoothScroll on Admin Routes */}
+      {!isAdminRoute && <SmoothScroll />}
+
+      {/* Page transition overlay */}
       {!isAdminRoute && (
         <div
           ref={transitionRef}
@@ -197,11 +200,9 @@ function AnimatedRoutes() {
       {/* Main content */}
       <div key={displayLocation.key || displayLocation.pathname}>
         
-        {/* Navbar: Only show if NOT transitioning AND NOT in admin panel */}
         {!isTransitioning && !isAdminRoute && <NavBar />}
         
         <Routes location={displayLocation}>
-          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route
             path="/join-us"
@@ -251,22 +252,34 @@ function AnimatedRoutes() {
               </Suspense>
             }
           />
+          <Route
+            path="/archive"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ArchivePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/events/:eventId/register"
+            element={
+              <Suspense fallback={<Loader />}>
+                <EventRegistration />
+              </Suspense>
+            }
+          />
 
-          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           
           <Route path="/admin" element={<AdminLayout />}>
              <Route path="users" element={<ManageUsers />} />
              <Route path="dashboard" element={<DashboardHome />} />
-             {/* Placeholders for future pages */}
              <Route path="events" element={<ManageEvents />} />
              <Route path="projects" element={<ManageProjects />} />
              <Route path="placements" element={<ManagePlacements />} />
           </Route>
-
         </Routes>
 
-        {/* Footer: Only show if NOT transitioning AND NOT in admin panel */}
         {!isTransitioning && !isAdminRoute && <Footer />}
       </div>
     </>
@@ -274,21 +287,11 @@ function AnimatedRoutes() {
 }
 
 function App() {
-  // We need to check location here too to hide ScrollToTopButton on admin pages
-  // But Router is inside App, so we can't use useLocation() here directly.
-  // Ideally, move ScrollToTopButton inside AnimatedRoutes or make a wrapper.
-  // For now, we will leave it, or you can wrap it in a logic component.
-  
   return (
     <Router>
       <ScrollToTop />
-      <SmoothScroll />
+      {/* Removed SmoothScroll from here, it is now handled inside AnimatedRoutes */}
       <AnimatedRoutes />
-      
-      {/* Note: If you want to hide this button on Admin pages too, 
-         you should move this component inside 'AnimatedRoutes' 
-         and use the 'isAdminRoute' check.
-      */}
       <ScrollToTopButton /> 
     </Router>
   );

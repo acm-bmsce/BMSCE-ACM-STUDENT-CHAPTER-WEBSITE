@@ -380,7 +380,7 @@ const NavBar = () => {
         className="fixed inset-x-3 top-4 z-50 h-16 border-none bg-black/20 backdrop-blur-md transition-all duration-700 sm:inset-x-5 rounded-lg"
       >
         <header className="absolute top-1/2 w-full -translate-y-1/2">
-          <nav className="flex size-full items-center justify-between p-4">
+          <nav className="flex size-full items-center justify-between p-4 fixed top-0 left-0 w-full z-50">
             <div className="flex items-center gap-7">
               <Link to="/">
                 <img src="/img/logo.png" alt="logo" className="w-[5rem]" />

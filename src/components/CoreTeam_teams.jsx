@@ -60,7 +60,7 @@ const Coreteam = ({ members }) => {
       <div className="text-center">
         <div ref={headingRef}>
           <AnimatedTitle
-            title="CORE  2025-2026"
+            title="CORE  2026-2027"
             containerClass="!text-blue-100 text-center text-3xl md:text-4xl lg:text-8xl"
           />
         </div>
@@ -76,7 +76,7 @@ const Coreteam = ({ members }) => {
       <div
         className="
     team-grid
-    flex flex-wrap justify-center gap-x-20 gap-y-12 px-4 w-full mx-auto
+    flex flex-wrap justify-center items-start gap-x-20 gap-y-12 px-4 w-full mx-auto
     max-[400px]:grid max-[400px]:grid-cols-1 max-[400px]:place-items-center max-[400px]:gap-x-4 max-[400px]:gap-y-8
   "
       >
@@ -85,7 +85,7 @@ const Coreteam = ({ members }) => {
             key={idx}
             ref={(el) => (cardsRef.current[idx] = el)}
             className="
-    w-full max-w-[350px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-20px)]
+    self-start w-full max-w-[350px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-20px)]
     max-[400px]:w-auto
     aspect-[1/1] sm:aspect-[4/5]
   "
