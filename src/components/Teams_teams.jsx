@@ -38,8 +38,8 @@ const teamData = {
     role2: "Chair",
     image: "img/Fazal.webp",
     socials: {
-      linkedin: "https://www.linkedin.com/in/adwi-h-s-31b96928b/",
-      email: "hsadwi.ai23@bmsce.ac.in"
+      linkedin: "",
+      email: "fazalmohammad.ai24@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -49,8 +49,8 @@ const teamData = {
     role2: "Vice Chair",
     image: "/img/Naysha.webp",
     socials: {
-      linkedin: "https://www.linkedin.com/in/indraneel-mulpuru-219a332bb/",
-      email: "indraneel.ec23@bmsce.ac.in"
+      linkedin: "",
+      email: "nayshanavin.cs24@bmsce.ac.in"
     },
     funFact: "Enjoys hiking."
   },
@@ -134,13 +134,13 @@ const teamData = {
   ],
   studentAdvisor: [
     {
-      name: "Adwi H S",
+      name: "H S Adwi",
       role1: "Student Advisor",
       role2: "Student Advisor",
       image: "./img/Adwi _HS.webp",
       socials: {
-        linkedin: "https://www.linkedin.com/in/bhuvan-kumar-sg-52ba3a295/",
-        email: "bhuvan.cd22@bmsce.ac.in"
+        linkedin: "https://www.linkedin.com/in/adwi-h-s-31b96928b/",
+        email: "hsadwi.ai23@bmsce.ac.in"
       },
       funFact: "Enjoys hiking."
     },
@@ -150,8 +150,8 @@ const teamData = {
       role2: "Student Advisor",
       image: "./img/Hrithik.webp",
       socials: {
-        linkedin: "https://www.linkedin.com/in/srujana-a-rao/",
-        email: "srujana.cd22@bmsce.ac.in"
+        linkedin: "https://www.linkedin.com/in/hrithik-m-897581307/",
+        email: "hrithikm.ai23@bmsce.ac.in"
       },
       funFact: "Enjoys hiking."
     }
