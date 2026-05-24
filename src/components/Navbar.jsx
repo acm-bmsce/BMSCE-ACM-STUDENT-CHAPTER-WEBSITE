@@ -379,15 +379,20 @@ const NavBar = () => {
         ref={navContainerRef}
         className="fixed inset-x-3 top-4 z-50 h-16 border-none bg-black/20 backdrop-blur-md transition-all duration-700 sm:inset-x-5 rounded-lg"
       >
-        <header className="absolute top-1/2 w-full -translate-y-1/2">
-          <nav className="flex size-full items-center justify-between p-4 fixed top-0 left-0 w-full z-50">
-            <div className="flex items-center gap-7">
+        {/* 1. Ensure header takes full height of the h-16 wrapper */}
+        <header className="h-full w-full">
+          
+          {/* 2. Use simple Flexbox (h-full + items-center) to vertically center everything. Removed the rogue "fixed top-0" */}
+          <nav className="flex h-full w-full items-center justify-between px-6">
+            
+            <div className="flex items-center">
               <Link to="/">
                 <img src="/img/logo.png" alt="logo" className="w-[5rem]" />
               </Link>
             </div>
 
-            <div className="hidden md:flex h-full items-center gap-3">
+            {/* 3. This container pushes to the right (via justify-between on parent) and centers its contents vertically */}
+            <div className="hidden md:flex items-center gap-6">
               {/* Desktop Navigation Items */}
               {navItems.map((item, index) => renderNavItem(item, index))}
 
