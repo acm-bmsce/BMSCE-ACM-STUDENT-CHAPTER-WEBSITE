@@ -22,6 +22,7 @@ export function InsightsGrid({ insights, onViewProfile }) {
             <InsightProfileCard
               image={insight.image}
               name={insight.name}
+              classOf={insight.classOf}
               job={insight.job}
               company={insight.company}
               link={insight.link}

@@ -26,6 +26,7 @@ export default function PlacementPage() {
           // Higher quality for mobile carousel (400) vs grid (200)
           image: getOptimizedImageUrl(item.image, 400),
           name: item.personName,
+          classOf: item.classOf || null,
           job: item.description.split(",")[0],
           company: item.description.split(",")[1] || "",
           link: item.insta_link,

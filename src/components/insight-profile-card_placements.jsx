@@ -10,6 +10,7 @@ const PlusIcon = () => (
 export function InsightProfileCard({ 
   image, 
   name, 
+  classOf,
   job, 
   company, 
   link, 
@@ -27,6 +28,7 @@ export function InsightProfileCard({
       onViewProfile({
         image,
         name,
+        classOf,
         job,
         company,
         link,
@@ -62,9 +64,14 @@ export function InsightProfileCard({
       </div>
 
       {/* Person Info - Responsive text sizes */}
-      <h3 className="text-lg sm:text-xl font-bold text-white bebas-neue tracking-wider sm:tracking-widest mb-2 sm:mb-3 line-clamp-1">
+      <h3 className="text-lg sm:text-xl font-bold text-white bebas-neue tracking-wider sm:tracking-widest mb-1 line-clamp-1">
         {name}
       </h3>
+      {classOf && (
+        <p className="text-xs text-[#2FA6B8] font-semibold tracking-widest uppercase mb-2">
+          Class of {classOf}
+        </p>
+      )}
       <p className="text-sm sm:text-base text-white/60 mb-1 line-clamp-1">{job}</p>
       <p className="text-xs sm:text-sm text-white/50 line-clamp-1">{company}</p>
     </div>

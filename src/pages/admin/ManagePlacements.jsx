@@ -21,7 +21,7 @@ const ManagePlacements = () => {
   const [editingId, setEditingId] = useState(null);
 
   const initialForm = {
-    personName: '', description: '', image: '', insta_link: ''
+    personName: '', classOf: '', description: '', image: '', insta_link: ''
   };
   const [formData, setFormData] = useState(initialForm);
 
@@ -68,6 +68,7 @@ const ManagePlacements = () => {
     setEditingId(item.id || item._id);
     setFormData({
         personName: item.personName,
+        classOf: item.classOf || '',
         description: item.description,
         image: item.image || '',
         insta_link: item.insta_link || ''
@@ -168,6 +169,9 @@ const ManagePlacements = () => {
                 </div>
                 <div>
                     <h3 className="text-white font-bold text-lg leading-tight">{item.personName}</h3>
+                    {item.classOf && (
+                      <p className="text-[#BFC7CC] text-xs font-medium mt-0.5">Class of {item.classOf}</p>
+                    )}
                     <p className="text-[#2FA6B8] text-sm">{item.description}</p>
                 </div>
                 </div>
@@ -222,6 +226,21 @@ const ManagePlacements = () => {
                <div className="space-y-2">
                  <label className="text-xs text-[#BFC7CC]">Full Name</label>
                  <input name="personName" value={formData.personName} onChange={handleInputChange} className="w-full bg-black border border-[#1F3037] rounded p-3 text-white focus:border-[#2FA6B8] outline-none" placeholder="e.g. John Doe" required />
+               </div>
+
+               <div className="space-y-2">
+                 <label className="text-xs text-[#BFC7CC]">Class Of <span className="text-[#2FA6B8]">*</span></label>
+                 <input
+                   name="classOf"
+                   value={formData.classOf}
+                   onChange={handleInputChange}
+                   className="w-full bg-black border border-[#1F3037] rounded p-3 text-white focus:border-[#2FA6B8] outline-none"
+                   placeholder="e.g. 2026"
+                   maxLength={4}
+                   pattern="[0-9]{4}"
+                   title="Enter a 4-digit graduation year"
+                   required
+                 />
                </div>
                
                <div className="space-y-2">

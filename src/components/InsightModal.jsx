@@ -56,18 +56,25 @@ export default function InsightModal({ profile, onClose }) {
               
               <div className="text-center md:text-left">
                 <p className="text-xs uppercase tracking-wider text-blue-400 font-semibold mb-1">
-                  Year
+                  Graduation Batch
                 </p>
-                <p className="text-sm text-white/80 font-medium">{profile.year}</p>
+                <p className="text-sm text-white/80 font-medium">
+                  {profile.classOf ? `Class of ${profile.classOf}` : (profile.year || '—')}
+                </p>
               </div>
             </div>
 
             {/* Right Column - Info */}
             <div className="flex-1 md:w-2/3">
               <div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 sm:mb-3 leading-tight">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2 leading-tight">
                   {profile.name}
                 </h3>
+                {profile.classOf && (
+                  <p className="text-xs font-bold text-[#2FA6B8] tracking-widest uppercase mb-2 sm:mb-3">
+                    Class of {profile.classOf}
+                  </p>
+                )}
                 <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
                   <p className="text-base sm:text-lg font-semibold text-blue-400">
                     {profile.job}

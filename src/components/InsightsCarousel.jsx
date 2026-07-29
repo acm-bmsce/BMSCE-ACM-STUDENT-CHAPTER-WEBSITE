@@ -22,6 +22,11 @@ const InsightCard = ({ data, onViewProfile }) => {
         <h3 className="text-3xl font-bold text-white group-hover:text-blue-400 transition-colors truncate bebas-neue tracking-wide">
           {data.name}
         </h3>
+        {data.classOf && (
+          <p className="text-[10px] font-semibold text-[#2FA6B8] tracking-widest uppercase -mt-0.5">
+            Class of {data.classOf}
+          </p>
+        )}
         
         <div className="flex flex-col gap-1 mt-1">
           <div className="flex items-center gap-2">
