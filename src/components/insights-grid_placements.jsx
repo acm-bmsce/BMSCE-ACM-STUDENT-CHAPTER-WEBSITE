@@ -14,7 +14,7 @@ export function InsightsGrid({ insights, onViewProfile }) {
             className={`
               ${displayedInsights.length > 6 &&
                 displayedInsights.indexOf(insight) === 6
-                ? "sm:col-span-2 lg:col-span-1 lg:col-start-2"
+                ? "sm:col-span-2 lg:col-span-1"
                 : ""
               }
             `}
