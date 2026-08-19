@@ -33,8 +33,13 @@ export default function PlacementPage() {
           year: item.year ? item.year : "Alumni",
           description: "Check the Instagram Post For More Details",
         })).sort((first, second) => {
-          if (!first.createdAt || !second.createdAt) return 0;
-          return new Date(second.createdAt) - new Date(first.createdAt);
+          const firstDate = first.createdAt ? new Date(first.createdAt).getTime() : NaN;
+          const secondDate = second.createdAt ? new Date(second.createdAt).getTime() : NaN;
+
+          if (Number.isNaN(firstDate) && Number.isNaN(secondDate)) return 0;
+          if (Number.isNaN(firstDate)) return 1;
+          if (Number.isNaN(secondDate)) return -1;
+          return secondDate - firstDate;
         });
         setInsights(mappedData);
       } catch (error) {

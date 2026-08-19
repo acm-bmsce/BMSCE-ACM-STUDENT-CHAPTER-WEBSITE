@@ -9,16 +9,7 @@ export function InsightsGrid({ insights, onViewProfile }) {
       {/* Responsive grid layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 max-w-7xl mx-auto">
         {displayedInsights.map((insight) => (
-          <div
-            key={insight.id}
-            className={`
-              ${displayedInsights.length > 6 &&
-                displayedInsights.indexOf(insight) === 6
-                ? "sm:col-span-2 lg:col-span-1 lg:col-start-2"
-                : ""
-              }
-            `}
-          >
+          <div key={insight.id}>
             <InsightProfileCard
               image={insight.image}
               name={insight.name}
