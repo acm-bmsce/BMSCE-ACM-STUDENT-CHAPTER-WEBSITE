@@ -2,7 +2,7 @@ import React from "react";
 import { InsightProfileCard } from "./insight-profile-card_placements";
 
 export function InsightsGrid({ insights, onViewProfile }) {
-  const displayedInsights = insights.slice(0, 7);
+  const displayedInsights = insights.slice(0, 50);
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 ">
