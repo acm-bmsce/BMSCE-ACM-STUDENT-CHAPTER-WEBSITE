@@ -23,6 +23,7 @@ export default function PlacementPage() {
         const response = await placementService.getInsights();
         const mappedData = response.data.map((item) => ({
           id: item.id || item._id,
+          createdAt: item.createdAt || item.created_at,
           // Higher quality for mobile carousel (400) vs grid (200)
           image: getOptimizedImageUrl(item.image, 400),
           name: item.personName,
@@ -31,7 +32,10 @@ export default function PlacementPage() {
           link: item.insta_link,
           year: item.year ? item.year : "Alumni",
           description: "Check the Instagram Post For More Details",
-        }));
+        })).sort((first, second) => {
+          if (!first.createdAt || !second.createdAt) return 0;
+          return new Date(second.createdAt) - new Date(first.createdAt);
+        });
         setInsights(mappedData);
       } catch (error) {
         console.error("Error fetching insights", error);

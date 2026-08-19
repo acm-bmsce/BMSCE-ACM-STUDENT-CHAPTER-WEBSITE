@@ -1,6 +1,6 @@
 import axiosClient from './axiosClient';
 
-const getInsights = (limit = 20, skip = 0) => 
+const getInsights = (limit = 50, skip = 0) => 
   axiosClient.get(`/insights/?limit=${limit}&skip=${skip}`);
 
 const createInsight = (data) => axiosClient.post('/insights/', data);
