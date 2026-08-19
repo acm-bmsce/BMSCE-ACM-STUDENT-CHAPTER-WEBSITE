@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DaysCard } from "../components/days-card_placements";
 import { ImageCarousel } from "../components/image-carousel_placements";
 import { InsightsGrid } from "../components/insights-grid_placements"; // Desktop Grid
@@ -13,6 +13,7 @@ import InsightModal from "../components/InsightModal"; // The shared modal compo
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [insightsError, setInsightsError] = useState(false);
   
   // State to manage which profile is currently shown in the Modal
   const [selectedInsight, setSelectedInsight] = useState(null);
@@ -21,7 +22,10 @@ export default function PlacementPage() {
     const fetchInsights = async () => {
       try {
         const response = await placementService.getInsights();
-        const mappedData = response.data.map((item) => ({
+        const insightData = Array.isArray(response.data)
+          ? response.data
+          : response.data?.data || response.data?.items || [];
+        const mappedData = insightData.map((item) => ({
           id: item.id || item._id,
           // Higher quality for mobile carousel (400) vs grid (200)
           image: getOptimizedImageUrl(item.image, 400),
@@ -33,8 +37,10 @@ export default function PlacementPage() {
           description: "Check the Instagram Post For More Details",
         }));
         setInsights(mappedData);
+        setInsightsError(false);
       } catch (error) {
         console.error("Error fetching insights", error);
+        setInsightsError(true);
       } finally {
         setLoading(false);
       }
@@ -94,6 +100,12 @@ export default function PlacementPage() {
 
           {loading ? (
             <div className="text-center text-[#2FA6B8] animate-pulse">Loading Insights...</div>
+          ) : insightsError ? (
+            <div className="mx-auto max-w-2xl text-center text-white/60">
+              Insights are currently unavailable. Please try again later.
+            </div>
+          ) : insights.length === 0 ? (
+            <div className="text-center text-white/60">No placement insights available.</div>
           ) : (
             <>
               {/* --- MOBILE VIEW: CAROUSEL --- */}
