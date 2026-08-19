@@ -12,10 +12,10 @@ export function InsightsGrid({ insights, onViewProfile }) {
           <div
             key={insight.id}
             className={`
-              ${displayedInsights.length > 6 &&
-                displayedInsights.indexOf(insight) === 6
+              ${displayedInsights.length % 3 === 1 &&
+                displayedInsights.indexOf(insight) === displayedInsights.length - 1
                 ? "sm:col-span-2 lg:col-span-1 lg:col-start-2"
-                : ""
+                : "sm:col-span-2 lg:col-span-1"
               }
             `}
           >

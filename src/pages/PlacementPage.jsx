@@ -13,7 +13,7 @@ import InsightModal from "../components/InsightModal"; // The shared modal compo
 export default function PlacementPage() {
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // State to manage which profile is currently shown in the Modal
   const [selectedInsight, setSelectedInsight] = useState(null);
 
@@ -35,7 +35,7 @@ export default function PlacementPage() {
         })).sort((first, second) => {
           if (!first.createdAt || !second.createdAt) return 0;
           return new Date(second.createdAt) - new Date(first.createdAt);
-        });
+        }).reverse();
         setInsights(mappedData);
       } catch (error) {
         console.error("Error fetching insights", error);
@@ -73,14 +73,14 @@ export default function PlacementPage() {
 
       {/* GLOBAL MODAL: Renders when a profile is selected */}
       {selectedInsight && (
-        <InsightModal 
-          profile={selectedInsight} 
-          onClose={handleCloseModal} 
+        <InsightModal
+          profile={selectedInsight}
+          onClose={handleCloseModal}
         />
       )}
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-20">
-        
+
         {/* INSIGHT SERIES SECTION */}
         <section className="mb-16 md:mb-32 mt-4 md:mt-10">
           <AnimatedTitle
@@ -102,16 +102,16 @@ export default function PlacementPage() {
             <>
               {/* --- MOBILE VIEW: CAROUSEL --- */}
               <div className="md:hidden">
-                <InsightsCarousel 
-                  insights={insights} 
-                  onViewProfile={handleOpenProfile} 
+                <InsightsCarousel
+                  insights={insights}
+                  onViewProfile={handleOpenProfile}
                 />
               </div>
 
               {/* --- DESKTOP VIEW: GRID --- */}
               <div className="hidden md:block">
-                <InsightsGrid 
-                  insights={insights} 
+                <InsightsGrid
+                  insights={insights}
                   onViewProfile={handleOpenProfile}
                 />
               </div>
@@ -131,7 +131,7 @@ export default function PlacementPage() {
             containerClass="text-center !text-white !mb-0"
           />
 
-           {/* --- MOBILE LAYOUT (Stacked) --- */}
+          {/* --- MOBILE LAYOUT (Stacked) --- */}
           <div className="lg:hidden space-y-6 max-w-4xl mx-auto mt-8">
             <div className="w-full">
               <DaysCard
@@ -164,7 +164,7 @@ export default function PlacementPage() {
             </div>
 
             {/* SPACE BETWEEN IMAGE CAROUSEL AND LOGIN CARD */}
-            <div className="h-10"></div> 
+            <div className="h-10"></div>
 
             {/* LOGIN ACTION CARD */}
             <div className="w-full">
