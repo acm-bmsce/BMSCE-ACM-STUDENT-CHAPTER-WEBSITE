@@ -10,7 +10,7 @@ const socialLinks = [
   },
   {
     icon: <FaLinkedin />,
-    href: "https://www.linkedin.com/company/bmsce-acm-student-chapter/",
+    href: "https://www.linkedin.com/in/bmsce-acm-student-chapter-5b7220281/",
     hoverColor: "hover:text-blue-500",
   },
   {
