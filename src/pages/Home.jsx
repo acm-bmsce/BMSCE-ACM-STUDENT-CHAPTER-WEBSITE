@@ -6,6 +6,7 @@ import { eventPath } from "../lib/eventLinks";
 import { useSiteContent } from "../lib/content";
 import { Count, prefersReducedMotion } from "../lib/motion";
 import EventModal from "../components/EventModal";
+import Celebrate from "../components/Celebrate";
 import DriftWall from "../components/reactbits/DriftWall";
 import ScrollStack, { ScrollStackItem } from "../components/reactbits/ScrollStack";
 import { whenSettled } from "../lib/ready";
@@ -623,26 +624,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="sec dark fit hof">
-        <div className="wrap">
-          <SectionHead title={<>Past events</>} lede={<>{events.length} events and counting. Hackathons, research talks, coding marathons and games. Tap one to relive it.</>} />
-          <div className="g6 hof-grid">
-            {posters.map((e, n) => (
-              <PosterCard key={e.id} image={e.image} title={e.title} meta={e.year} href={eventPath(e)} onOpen={() => setOpen(e)} width={420} index={n % 6} />
-            ))}
-          </div>
-          <div className="hof-foot">
-            <p className="d3">See every event, talk and competition from the chapter archive</p>
-            <Link className="btn" to="/events">
-              View all events <span className="ar">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* The flagship events stack up as you scroll: each rises as a card and settles on the last (React Bits ScrollStack). */}
       {HIGHLIGHTS.length > 0 && (
-        <section className="flagships" aria-label="Flagship events">
+        <section className="flagships" aria-label="Highlighted events">
+          <div className="wrap flag-head">
+            <SectionHead title={<>Highlighted <span className="hl">events</span></>} lede={<>The national events the chapter has hosted with ACM India, from the 2024 Chapter Summit to the SIGMOD+PODS workshop.</>} />
+          </div>
           <ScrollStack useWindowScroll smoothScroll={false} itemDistance={140} itemStackDistance={26} stackPosition="11%" itemScale={0.04} baseScale={0.88} dimAmount={0.4} holdDistance={120}>
             {HIGHLIGHTS.map((h, n) => (
               <ScrollStackItem key={h.title} itemClassName="flag-card">
@@ -675,9 +662,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link className="btn w" to="/about" style={{ marginTop: 32 }}>
-                Our journey <span className="ar">→</span>
-              </Link>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 32 }}>
+                <Celebrate />
+                <Link className="btn w" to="/about">
+                  Our journey <span className="ar">→</span>
+                </Link>
+              </div>
             </div>
             <div style={{ display: "grid", gap: 20 }}>
               <img src="/img/entrance.webp" {...rs("/img/entrance.webp")} alt="Chapter members receiving the Emerging Chapter Award" className="ph4 rv-img award-feature" loading="lazy" />
@@ -685,6 +675,23 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <section className="sec dark fit hof">
+        <div className="wrap">
+          <SectionHead title={<>Past events</>} lede={<>{events.length} events and counting. Hackathons, research talks, coding marathons and games. Tap one to relive it.</>} />
+          <div className="g6 hof-grid">
+            {posters.map((e, n) => (
+              <PosterCard key={e.id} image={e.image} title={e.title} meta={e.year} href={eventPath(e)} onOpen={() => setOpen(e)} width={420} index={n % 6} />
+            ))}
+          </div>
+          <div className="hof-foot">
+            <p className="d3">See every event, talk and competition from the chapter archive</p>
+            <Link className="btn" to="/events">
+              View all events <span className="ar">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {memories.length > 0 && <Memories items={memories} />}
 

@@ -1174,3 +1174,19 @@ html{scrollbar-color:#2a2a2a #000;scrollbar-width:thin}
 .site .cells.g4 > .stat-key{grid-column:span 2}
 .site .cells.g4 > .stat-key b{font-size:clamp(30px,min(4.6vw,9.5cqi),72px)}
 }
+
+/* Highlighted events: the heading sits above the stacking cards, in line with the other sections. */
+.site .flagships .flag-head{padding-top:clamp(24px,6vh,80px);margin-bottom:clamp(8px,2vh,24px)}
+
+/* Celebrate button: the label rolls up and a fresh copy rises in on hover (as on the old site). */
+.site .btn.roll{cursor:pointer}
+.site .roll-in{position:relative;display:inline-flex;overflow:hidden;line-height:1.2}
+.site .roll-in > span{display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.site .roll-in > span + span{position:absolute;left:0;top:0;transform:translateY(160%) skewY(12deg)}
+@media (hover:hover){
+ .site .btn.roll:hover .roll-in > span:first-child{transform:translateY(-160%) skewY(12deg)}
+ .site .btn.roll:hover .roll-in > span + span{transform:none}
+}
+.site .btn.roll:focus-visible .roll-in > span:first-child{transform:translateY(-160%) skewY(12deg)}
+.site .btn.roll:focus-visible .roll-in > span + span{transform:none}
+@media (prefers-reduced-motion:reduce){.site .roll-in > span{transition:none}}
