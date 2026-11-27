@@ -1,0 +1,16 @@
+# BMSCE ACM Security Policy
+# Last updated: 2026-10-27
+
+## Reporting Security Vulnerabilities
+Please report security vulnerabilities to: security@bmsce.acm.org
+
+## Response Time
+We aim to respond within 48 hours and resolve critical issues within 7 days.
+
+## Scope
+This policy covers the bmsce.acm.org website and all associated services.
+
+## PGP Key
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+[Add your PGP public key here for encrypted reporting]
+-----END PGP PUBLIC KEY BLOCK-----

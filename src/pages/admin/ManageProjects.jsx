@@ -1,325 +1,405 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Plus, FolderGit, Github, CheckCircle, Trash2, 
-  Loader2, Edit, X, ChevronLeft, ChevronRight 
-} from 'lucide-react';
-import projectService from '../../api/projectService';
-import ImageUpload from '../../components/ImageUpload'; // ✅ Import Uploader
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChipInput, ImageField, PageHead } from "./ui";
+import { adminApi, previewSrc, publishNote } from "../../lib/adminApi";
+import { cdn } from "../../lib/data";
+import { IconClose, IconGlobe, IconPlus, IconTrash } from "./AdminIcons";
+import { safeHref } from "../../lib/safeUrl";
 
-const ManageProjects = () => {
-  const [projects, setProjects] = useState([]);
-  const [filter, setFilter] = useState('ALL'); // ALL, PENDING, APPROVED
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  
-  // Pagination State
-  const [page, setPage] = useState(1);
-  const LIMIT = 9;
-  const [hasMore, setHasMore] = useState(true);
+const PROJECT_STATUSES = ["APPROVED", "PENDING", "HIDDEN"];
 
-  // Track Editing State
-  const [editingId, setEditingId] = useState(null);
-
-  const initialFormState = {
-    title: '', description: '', author: '',
-    githubUrl: '', imageUrl: '', categories: '', techStack: ''   
+function emptyForm() {
+  return {
+    title: "",
+    author: "",
+    description: "",
+    githubUrl: "",
+    imageUrl: "",
+    categoriesInput: "Web, AI",
+    techStackInput: "React, Node.js",
+    status: "APPROVED",
   };
-  const [formData, setFormData] = useState(initialFormState);
+}
 
-  // --- 1. FETCH PROJECTS (With Pagination) ---
-  const fetchProjects = async (currentPage = 1) => {
+function fromProject(p) {
+  return {
+    title: p.title || "",
+    author: p.author || "",
+    description: p.description || "",
+    githubUrl: p.githubUrl || "",
+    imageUrl: p.imageUrl || "",
+    categoriesInput: Array.isArray(p.categories) ? p.categories.join(", ") : "",
+    techStackInput: Array.isArray(p.techStack) ? p.techStack.join(", ") : "",
+    status: p.status || "APPROVED",
+  };
+}
+
+function splitTags(raw) {
+  return [
+    ...new Set(
+      String(raw || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    ),
+  ];
+}
+
+function toPayload(form) {
+  return {
+    title: form.title.trim(),
+    author: form.author.trim(),
+    description: form.description.trim(),
+    githubUrl: form.githubUrl.trim(),
+    imageUrl: form.imageUrl.trim(),
+    categories: splitTags(form.categoriesInput),
+    techStack: splitTags(form.techStackInput),
+    status: form.status || "APPROVED",
+  };
+}
+
+
+export default function ManageProjects() {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [listError, setListError] = useState("");
+  const [notice, setNotice] = useState("");
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState(emptyForm);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setListError("");
     try {
-      setLoading(true);
-      const skip = (currentPage - 1) * LIMIT;
-      
-      const response = await projectService.getAllProjects(LIMIT, skip);
-      const newProjects = response.data;
-      
-      setProjects(newProjects);
-      
-      if (newProjects.length < LIMIT) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
-    } catch (error) {
-      console.error("Error fetching projects:", error);
+      const res = await adminApi.listProjects();
+      setProjects(res.data || []);
+    } catch (err) {
+      setListError(err.message || "Failed to load projects.");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchProjects(page);
-  }, [page]);
+    load();
+  }, [load]);
 
-  // --- PAGINATION HANDLERS ---
-  const handleNextPage = () => { if (hasMore) setPage(prev => prev + 1); };
-  const handlePrevPage = () => { if (page > 1) setPage(prev => prev - 1); };
 
-  // --- 2. OPEN CREATE MODAL ---
-  const openCreateModal = () => {
-    setEditingId(null);
-    setFormData(initialFormState);
-    setIsFormOpen(true);
-  };
+  const allCategories = useMemo(
+    () => [...new Set(projects.flatMap((p) => p.categories || []).filter(Boolean))],
+    [projects]
+  );
 
-  // --- 3. OPEN EDIT MODAL ---
-  const handleEdit = (project) => {
-    setEditingId(project.id || project._id);
-    const cats = project.categories ? project.categories.join(', ') : '';
-    const tech = project.techStack ? project.techStack.join(', ') : '';
-
-    setFormData({
-        title: project.title,
-        description: project.description,
-        author: project.author,
-        githubUrl: project.githubUrl || '',
-        imageUrl: project.imageUrl || '',
-        categories: cats,
-        techStack: tech
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return projects.filter((p) => {
+      const pStatus = p.status || "APPROVED";
+      if (statusFilter && pStatus !== statusFilter) return false;
+      if (categoryFilter && !(p.categories || []).includes(categoryFilter)) return false;
+      if (!q) return true;
+      const hay = [
+        p.title,
+        p.author,
+        p.description,
+        ...(p.categories || []),
+        ...(p.techStack || []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
     });
-    setIsFormOpen(true);
+  }, [projects, search, statusFilter, categoryFilter]);
+
+  const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));
+
+  const openCreate = () => {
+    setEditingId(null);
+    setForm(emptyForm());
+    setFormError("");
+    setDrawerOpen(true);
   };
 
-  // --- 4. SUBMIT (CREATE OR UPDATE) ---
-  const handleSubmit = async (e) => {
+  const openEdit = (project) => {
+    setEditingId(project._id || project.id);
+    setForm(fromProject(project));
+    setFormError("");
+    setDrawerOpen(true);
+  };
+
+  const submit = async (e) => {
     e.preventDefault();
+    setFormError("");
+
+    if (form.title.trim().length < 2) return setFormError("Title must be at least 2 characters.");
+    if (form.author.trim().length < 2) return setFormError("Author name is required.");
+    if (form.description.trim().length < 10) return setFormError("Description must be at least 10 characters.");
+    if (form.githubUrl.trim() && !/^https?:\/\//i.test(form.githubUrl.trim())) {
+      return setFormError("Valid GitHub URL is required.");
+    }
+    if (
+      form.imageUrl.trim() &&
+      !/^https?:\/\//i.test(form.imageUrl.trim()) &&
+      !form.imageUrl.trim().startsWith("/")
+    ) {
+      return setFormError("Image must be a full URL or a site path starting with /.");
+    }
+
     setSubmitting(true);
     try {
-      const payload = {
-        ...formData,
-        categories: formData.categories.split(',').map(s => s.trim()).filter(s => s),
-        techStack: formData.techStack.split(',').map(s => s.trim()).filter(s => s)
-      };
-
+      const payload = toPayload(form);
       if (editingId) {
-        await projectService.updateProject(editingId, payload);
-        alert("Project Updated Successfully!");
+        await adminApi.updateProject(editingId, payload);
+        setNotice(`Project updated and saved. ${publishNote()}`);
       } else {
-        await projectService.submitProject(payload);
-        alert("Project Added Successfully!");
+        await adminApi.createProject(payload);
+        setNotice(`Project added to the showcase. ${publishNote()}`);
       }
-      
-      setIsFormOpen(false);
-      setFormData(initialFormState);
-      setEditingId(null);
-      fetchProjects(page);
-
-    } catch (error) {
-      console.error("Error saving project:", error);
-      alert("Failed to save project.");
+      setDrawerOpen(false);
+      await load();
+    } catch (err) {
+      const detail = err.details?.map((d) => d.message).filter(Boolean).join(" ");
+      setFormError(detail || err.message || "Failed to save project.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  // --- 5. APPROVE PROJECT ---
-  const handleApprove = async (id) => {
+  const toggleApproval = async (project) => {
+    const id = project._id || project.id;
+    const nextStatus = (project.status || "APPROVED") === "APPROVED" ? "HIDDEN" : "APPROVED";
     try {
-      await projectService.approveProject(id);
-      setProjects(prev => prev.map(p => 
-        (p.id || p._id) === id ? { ...p, status: 'APPROVED' } : p
-      ));
-    } catch (error) {
-      alert("Failed to approve project.");
+      await adminApi.updateProject(id, { status: nextStatus });
+      setNotice(`${nextStatus === "APPROVED" ? "Project approved for showcase." : "Project hidden from public showcase."} ${publishNote()}`);
+      await load();
+    } catch (err) {
+      setListError(err.message || "Failed to update project status.");
     }
   };
 
-  // --- 6. DELETE PROJECT ---
-  const handleDelete = async (id) => {
-     if(!window.confirm("Delete this project?")) return;
-     try {
-         await projectService.deleteProject(id); 
-         setProjects(prev => prev.filter(p => (p.id || p._id) !== id));
-     } catch(err) { console.error(err); }
+  const remove = async (project) => {
+    const id = project._id || project.id;
+    if (!window.confirm(`Permanently delete project "${project.title}"? This cannot be undone.`)) return;
+    try {
+      await adminApi.deleteProject(id);
+      setProjects((curr) => curr.filter((item) => (item._id || item.id) !== id));
+      setNotice(`Project deleted. ${publishNote()}`);
+      if (id === editingId) setDrawerOpen(false);
+    } catch (err) {
+      setListError(err.message || "Failed to delete project.");
+    }
   };
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const filteredProjects = projects.filter(p => {
-    if (filter === 'ALL') return true;
-    return p.status === filter;
-  });
+  const editing = editingId ? projects.find((p) => (p._id || p.id) === editingId) : null;
+  const live = projects.filter((p) => (p.status || "APPROVED") === "APPROVED").length;
+  const waiting = projects.filter((p) => p.status === "PENDING").length;
 
   return (
-    <div className="relative min-h-screen pb-20">
-      
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-[#1F3037] pb-6 gap-4">
-        <div>
-          <h2 className="text-4xl font-bebas-neue text-white tracking-widest">Project Approvals</h2>
-          <p className="text-[#BFC7CC] text-sm mt-1">Page {page}</p>
+    <>
+      <PageHead
+        title="Projects"
+        sub={`${live} project${live === 1 ? "" : "s"} live on the website. ${waiting ? `${waiting} waiting for review.` : "None waiting for review."}`}
+      >
+        <button type="button" className="b p" onClick={openCreate}>
+          <IconPlus /> Add project
+        </button>
+      </PageHead>
+
+      {notice && (
+        <div className="admin-alert success" style={{ marginBottom: 16 }} role="status">
+          {notice}
         </div>
-        
-        <div className="flex gap-3">
-           <div className="flex bg-[#0E181C] border border-[#1F3037] rounded-lg p-1">
-              {['ALL', 'PENDING', 'APPROVED'].map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`px-4 py-1 text-xs font-bold rounded-md transition-all ${
-                    filter === f ? 'bg-[#2FA6B8] text-white' : 'text-[#BFC7CC] hover:text-white'
-                  }`}
-                >
-                  {f}
-                </button>
+      )}
+      {listError && (
+        <div className="admin-alert error" style={{ marginBottom: 16 }} role="alert">
+          {listError}
+        </div>
+      )}
+
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+        <div className="seg" role="group" aria-label="Filter by status">
+          {[["", "All", projects.length], ...PROJECT_STATUSES.map((st) => [st, st.charAt(0) + st.slice(1).toLowerCase(), projects.filter((p) => (p.status || "APPROVED") === st).length])].map(([k, l, c]) => (
+            <button key={l} type="button" className={statusFilter === k ? "on" : ""} aria-pressed={statusFilter === k} onClick={() => setStatusFilter(k)}>
+              {l} <span className="c">{c}</span>
+            </button>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {allCategories.length > 1 && (
+            <select className="admin-filter" aria-label="Filter by category" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+              <option value="">All categories</option>
+              {allCategories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
               ))}
-           </div>
-
-           <button 
-            onClick={openCreateModal}
-            className="bg-[#2FA6B8] hover:bg-[#268A98] text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium text-sm"
-          >
-            <Plus size={18} /> Add Manual
-          </button>
+            </select>
+          )}
+          <label className="srch">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m20 20-4.2-4.2" />
+            </svg>
+            <input type="search" placeholder="Search title, author, stack" aria-label="Search projects" value={search} onChange={(e) => setSearch(e.target.value)} />
+          </label>
         </div>
       </div>
 
-      {/* PROJECTS LIST */}
-      {loading ? (
-        <div className="text-center text-white py-20"><Loader2 className="animate-spin inline mr-2"/> Loading Projects...</div>
-      ) : filteredProjects.length === 0 ? (
-        <div className="text-center text-gray-500 py-20 border border-dashed border-[#1F3037] rounded-xl">
-           {page === 1 ? 'No projects found.' : 'No more projects on this page.'}
-        </div>
-      ) : (
-        <div className="space-y-4">
-            {filteredProjects.map((project) => (
-            <div key={project.id || project._id} className="bg-[#0E181C] border border-[#1F3037] rounded-xl p-5 flex flex-col md:flex-row gap-6 hover:border-[#2FA6B8] transition-all group">
-                
-                <div className="w-full md:w-32 h-24 bg-[#141F23] rounded-lg flex items-center justify-center border border-[#1F3037] overflow-hidden">
-                {project.imageUrl ? <img src={project.imageUrl} alt="" className="w-full h-full object-cover" /> : <FolderGit className="text-[#BFC7CC]" />}
+      <div className="grid c-ed">
+        <section className="pn">
+          {loading ? (
+            <div className="admin-loading">
+              <span className="admin-spinner light" />
+              Loading projects…
+            </div>
+          ) : (
+            <div className="tw">
+              <div className="dt" role="table" aria-label="Projects" style={{ "--cols": "minmax(200px,1.6fr) minmax(100px,1fr) 56px 96px 210px" }}>
+                <div className="dh" role="row">
+                  <span role="columnheader">Project</span>
+                  <span role="columnheader">Categories</span>
+                  <span role="columnheader" className="num">Stack</span>
+                  <span role="columnheader">Status</span>
+                  <span role="columnheader">
+                    <span className="sr">Actions</span>
+                  </span>
                 </div>
-
-                <div className="flex-1">
-                <div className="flex justify-between items-start">
-                    <div>
-                    <h3 className="text-xl font-bebas-neue text-white tracking-wide">{project.title}</h3>
-                    <p className="text-[#BFC7CC] text-xs font-mono uppercase mb-2">By: {project.author}</p>
+                {filtered.length === 0 ? (
+                  <div className="dr" role="row" style={{ display: "block", padding: "28px 20px" }}>
+                    <div role="cell" className="empty">
+                      <p>{projects.length === 0 ? "No projects yet. Add one to feature student work on the Projects page." : "No projects match your filters."}</p>
                     </div>
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold tracking-wider border ${
-                    project.status === 'APPROVED' 
-                        ? 'bg-green-500/10 text-green-400 border-green-500/30' 
-                        : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30'
-                    }`}>
-                    {project.status}
-                    </span>
-                </div>
-                
-                <p className="text-[#BFC7CC] text-sm mb-3 line-clamp-2">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2">
-                    {project.categories?.map((c, i) => (
-                    <span key={i} className="text-[10px] px-2 py-1 bg-[#1F3037] rounded-full text-white">{c}</span>
-                    ))}
-                </div>
-                </div>
-
-                <div className="flex md:flex-col justify-between items-end gap-2 border-t md:border-t-0 md:border-l border-[#1F3037] pt-4 md:pt-0 md:pl-4">
-                  <div className="flex gap-2">
-                      {project.status === 'PENDING' && (
-                      <button onClick={() => handleApprove(project.id || project._id)} className="flex items-center gap-2 px-3 py-2 bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 rounded-lg text-xs font-bold transition-all">
-                          <CheckCircle size={14} /> APPROVE
-                      </button>
-                      )}
-                      {project.githubUrl && (
-                          <a href={project.githubUrl} target="_blank" rel="noreferrer" className="p-2 bg-[#1F3037] hover:bg-white hover:text-black rounded-lg text-white transition-all">
-                          <Github size={16} />
-                          </a>
-                      )}
                   </div>
-                  
-                  <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => handleEdit(project)} className="text-blue-400 hover:text-blue-300 p-1">
-                        <Edit size={16} />
-                      </button>
-                      <button onClick={() => handleDelete(project.id || project._id)} className="text-red-400 hover:text-red-300 p-1">
-                        <Trash2 size={16} />
-                      </button>
-                  </div>
-                </div>
-
-            </div>
-            ))}
-        </div>
-      )}
-
-      {/* PAGINATION CONTROLS */}
-      <div className="flex justify-center items-center gap-4 mt-10">
-        <button 
-          onClick={handlePrevPage} 
-          disabled={page === 1 || loading}
-          className="flex items-center gap-2 px-4 py-2 bg-[#1F3037] text-white rounded-lg disabled:opacity-50 hover:bg-[#2FA6B8] transition-colors"
-        >
-          <ChevronLeft size={16} /> Previous
-        </button>
-        
-        <span className="text-[#BFC7CC] text-sm font-mono">Page {page}</span>
-        
-        <button 
-          onClick={handleNextPage} 
-          disabled={!hasMore || loading}
-          className="flex items-center gap-2 px-4 py-2 bg-[#1F3037] text-white rounded-lg disabled:opacity-50 hover:bg-[#2FA6B8] transition-colors"
-        >
-          Next <ChevronRight size={16} />
-        </button>
-      </div>
-
-      {/* FORM MODAL */}
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsFormOpen(false)}></div>
-          <div className="relative w-full max-w-lg bg-[#0E181C] border-l border-[#1F3037] h-full overflow-y-auto p-8 shadow-2xl animate-in slide-in-from-right">
-            <div className="flex justify-between items-center mb-6">
-                <h3 className="text-3xl font-bebas-neue text-white">
-                    {editingId ? 'Edit Project' : 'Add Project'}
-                </h3>
-                <button onClick={() => setIsFormOpen(false)}><X className="text-white" /></button>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" className="admin-input" required />
-              <input name="author" value={formData.author} onChange={handleInputChange} placeholder="Author(s)" className="admin-input" required />
-              <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Description" rows="3" className="admin-input" required />
-              
-              {/* ✅ UPDATED: Image Upload Component */}
-              <div className="space-y-2">
-                 <ImageUpload 
-                   existingImage={formData.imageUrl}
-                   onUploadComplete={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
-                 />
+                ) : (
+                  filtered.map((project) => {
+                    const id = project._id || project.id;
+                    const status = project.status || "APPROVED";
+                    return (
+                      <div className={`dr${id === editingId ? " sel" : ""}`} role="row" key={id}>
+                        <div role="cell" className="idc">
+                          {project.imageUrl ? <img className="sq" src={previewSrc(cdn(project.imageUrl, 120))} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span className="ph" aria-hidden="true" />}
+                          <div style={{ minWidth: 0 }}>
+                            <b>{project.title}</b>
+                            <span>{project.author}</span>
+                          </div>
+                        </div>
+                        <span role="cell" style={{ color: "var(--muted)" }}>
+                          {(project.categories || []).join(" · ") || "-"}
+                        </span>
+                        <span role="cell" className="num">
+                          {(project.techStack || []).length}
+                        </span>
+                        <span role="cell">
+                          <span className={`pl ${status === "APPROVED" ? "ok" : status === "PENDING" ? "wait" : "off"}`}>{status.charAt(0) + status.slice(1).toLowerCase()}</span>
+                        </span>
+                        <div role="cell" className="rowacts">
+                          <button type="button" className="b sm q" onClick={() => openEdit(project)} aria-label={`Edit ${project.title}`}>
+                            Edit
+                          </button>
+                          <button type="button" className="b sm q" onClick={() => toggleApproval(project)}>
+                            {status === "APPROVED" ? "Hide" : "Approve"}
+                          </button>
+                          {project.githubUrl && (
+                            <a className="b sm q" href={safeHref(project.githubUrl)} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`}>
+                              <IconGlobe />
+                            </a>
+                          )}
+                          <button type="button" className="b sm q danger" onClick={() => remove(project)} aria-label={`Delete ${project.title}`}>
+                            <IconTrash />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
-
-              <input name="githubUrl" value={formData.githubUrl} onChange={handleInputChange} placeholder="GitHub URL" className="admin-input" />
-              <input name="categories" value={formData.categories} onChange={handleInputChange} placeholder="Categories (comma separated)" className="admin-input" />
-              <input name="techStack" value={formData.techStack} onChange={handleInputChange} placeholder="Tech Stack (comma separated)" className="admin-input" />
-              
-              <button type="submit" disabled={submitting} className="w-full bg-[#2FA6B8] text-white font-bebas-neue text-xl py-3 rounded-lg mt-4 flex justify-center items-center gap-2">
-                 {submitting ? <Loader2 className="animate-spin" /> : (editingId ? "Update Project" : "Save Project")}
-              </button>
-            </form>
+            </div>
+          )}
+          <div className="pn-f">
+            <span>Approved projects are shown on the Projects page.</span>
           </div>
-        </div>
-      )}
-      
-      <style>{`
-        .admin-input {
-          width: 100%;
-          background: #000;
-          border: 1px solid #1F3037;
-          border-radius: 0.5rem;
-          padding: 0.75rem;
-          color: white;
-          outline: none;
-        }
-        .admin-input:focus { border-color: #2FA6B8; }
-      `}</style>
-    </div>
-  );
-};
+        </section>
 
-export default ManageProjects;
+        {drawerOpen ? (
+          <form className="drawer" onSubmit={submit} noValidate aria-label={editingId ? "Edit project" : "Add project"}>
+            <div className="pn-h">
+              <h2>{editingId ? form.title || "Edit project" : "New project"}</h2>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                {editing && <span className={`pl ${form.status === "APPROVED" ? "ok" : form.status === "PENDING" ? "wait" : "off"}`}>{form.status.charAt(0) + form.status.slice(1).toLowerCase()}</span>}
+                <button className="b sm q" type="button" onClick={() => setDrawerOpen(false)} aria-label="Close editor">
+                  <IconClose />
+                </button>
+              </div>
+            </div>
+            <div className="pn-b" style={{ display: "grid", gap: 16 }}>
+              {formError && (
+                <div className="admin-alert error" role="alert">
+                  {formError}
+                </div>
+              )}
+              <ImageField id="proj-image" label="Cover image" value={form.imageUrl} onChange={(v) => set("imageUrl", v)} square />
+              <div className="fld">
+                <label htmlFor="proj-title">Title</label>
+                <input id="proj-title" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="e.g. SkillScanner" required />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-author">Author or team</label>
+                <input id="proj-author" value={form.author} onChange={(e) => set("author", e.target.value)} placeholder="e.g. K Karthik" required />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-desc">Description</label>
+                <textarea id="proj-desc" rows={4} value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="What it does, how it is built, and why it matters." required />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-cats">Categories</label>
+                <ChipInput id="proj-cats" label="Categories" value={splitTags(form.categoriesInput)} onChange={(v) => set("categoriesInput", v.join(", "))} placeholder="Web, AI, Backend…" />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-stack">Tech stack</label>
+                <ChipInput id="proj-stack" label="Tech stack" value={splitTags(form.techStackInput)} onChange={(v) => set("techStackInput", v.join(", "))} placeholder="React, Python…" />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-github">GitHub link</label>
+                <input id="proj-github" type="url" value={form.githubUrl} onChange={(e) => set("githubUrl", e.target.value)} placeholder="https://github.com/user/repository" />
+              </div>
+              <div className="fld">
+                <label htmlFor="proj-status">Status</label>
+                <select id="proj-status" value={form.status} onChange={(e) => set("status", e.target.value)}>
+                  {PROJECT_STATUSES.map((st) => (
+                    <option key={st} value={st}>
+                      {st.charAt(0) + st.slice(1).toLowerCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="acts" style={{ justifyContent: "flex-end" }}>
+                <button type="button" className="b" onClick={() => setDrawerOpen(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="b p" disabled={submitting}>
+                  {submitting ? <span className="admin-spinner" /> : editingId ? "Save" : "Add project"}
+                </button>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <aside className="drawer" aria-label="Project editor">
+            <div className="pn-b empty" style={{ padding: "40px 24px" }}>
+              <p>Pick a project to edit it here, or add a new one.</p>
+              <button type="button" className="b p sm" onClick={openCreate}>
+                <IconPlus /> Add project
+              </button>
+            </div>
+          </aside>
+        )}
+      </div>
+    </>
+  );
+}

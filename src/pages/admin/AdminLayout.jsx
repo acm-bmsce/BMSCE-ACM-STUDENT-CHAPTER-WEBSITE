@@ -1,120 +1,109 @@
-import React, { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, Calendar, FolderGit, Users, LogOut, 
-  Briefcase, Menu, X 
-} from 'lucide-react';
-import authService from '../../api/authService';
-import NavBar from '../../components/Navbar';
+import { Navigate, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { clearSession, getStoredUser, isAuthenticated, isMaster, LIVE } from "../../lib/adminApi";
+import { Icon } from "./ui";
+import "../../styles/admin.css";
 
-const AdminLayout = () => {
+const MANAGE = [
+  { to: "/admin/dashboard", label: "Overview", icon: "home" },
+  { to: "/admin/events", label: "Events", icon: "calendar" },
+];
+const WEBSITE = [
+  { to: "/admin/projects", label: "Projects", icon: "folder" },
+  { to: "/admin/insights", label: "Insight Series", icon: "book" },
+  { to: "/admin/content", label: "Pages & team", icon: "layout" },
+];
+// Accounts live on the chapter's backend; only master admins manage them.
+const ACCOUNTS = { to: "/admin/users", label: "Accounts", icon: "users" };
+
+const initials = (name = "") =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join("") || "A";
+
+export default function AdminLayout() {
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { pathname } = useLocation();
+  const user = getStoredUser();
 
-  const handleLogout = () => {
-    authService.logout();
-    navigate('/admin/login');
+  useEffect(() => {
+    document.title = "Chapter admin · BMSCE ACM";
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  // The API clears the token on a 401; send the admin back to sign in.
+  useEffect(() => {
+    const check = () => !isAuthenticated() && navigate("/admin/login", { replace: true });
+    window.addEventListener("focus", check);
+    return () => window.removeEventListener("focus", check);
+  }, [navigate]);
+
+  if (!isAuthenticated()) return <Navigate to="/admin/login" replace />;
+
+  const logout = () => {
+    clearSession();
+    navigate("/admin/login", { replace: true });
   };
 
-  const navItems = [
-    { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={20} />, exact: true },
-    { name: 'Events', path: '/admin/events', icon: <Calendar size={20} /> },
-    { name: 'Projects', path: '/admin/projects', icon: <FolderGit size={20} /> },
-    { name: 'Placements', path: '/admin/placements', icon: <Briefcase size={20} /> },
-    { name: 'Users', path: '/admin/users', icon: <Users size={20} /> },
-  ];
+  const link = (item) => (
+    <NavLink key={item.to} to={item.to} className={({ isActive }) => `ni${isActive ? " on" : ""}`}>
+      <Icon name={item.icon} />
+      <span>{item.label}</span>
+    </NavLink>
+  );
 
   return (
-    <div className="flex min-h-screen bg-black text-white font-sans">
-      
-      {/* 1. FIXED NAVBAR */}
-      <div className="fixed top-0 w-full z-40">
-        <NavBar/>
+    <div className="admin">
+      <div className="adm">
+        <aside className="side">
+          <NavLink className="brand" to="/admin/dashboard">
+            <img src="/img/logo-mark.webp" alt="" />
+            <span>
+              <b>Chapter admin</b>
+              <span>BMSCE ACM Student Chapter</span>
+            </span>
+          </NavLink>
+          <nav className="grp" aria-label="Manage">
+            <p>Manage</p>
+            {MANAGE.map(link)}
+          </nav>
+          <nav className="grp" aria-label="Website">
+            <p>Website</p>
+            {WEBSITE.filter((item) => isMaster() || item.to === "/admin/insights").map(link)}
+          </nav>
+          {LIVE && isMaster() && (
+            <nav className="grp" aria-label="People">
+              <p>People</p>
+              {link(ACCOUNTS)}
+            </nav>
+          )}
+          <nav className="grp" aria-label="Elsewhere">
+            <a className="ni" href="/" target="_blank" rel="noopener noreferrer">
+              <Icon name="ext" />
+              <span>View the website</span>
+            </a>
+          </nav>
+          <div className="me">
+            <span className="av">{initials(user?.name)}</span>
+            <p style={{ flex: 1 }}>
+              {user?.name || "Admin"}
+              <br />
+              <span>{LIVE ? (user?.role === "master" ? "Master admin" : "Coordinator") : "Admin"}</span>
+            </p>
+            <button type="button" className="b q sm" onClick={logout} aria-label="Sign out" title="Sign out">
+              <Icon name="out" />
+            </button>
+          </div>
+        </aside>
+        <main className="main">
+          <div className="page" key={pathname}>
+            <Outlet />
+          </div>
+        </main>
       </div>
-
-      {/* 2. MOBILE TOGGLE BUTTON (Visible only on Mobile) 
-         - Places a button just below the navbar to open sidebar
-      */}
-      <div className="fixed top-24 left-4 z-50 md:hidden">
-        <button 
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="bg-[#2FA6B8] p-2 rounded-md shadow-[0_0_15px_rgba(47,166,184,0.5)] text-white"
-        >
-          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* 3. SIDEBAR (Responsive) 
-         - Default: Hidden off-screen (-translate-x-full)
-         - Desktop (md:): Always visible (translate-x-0)
-         - Open State: visible (translate-x-0)
-      */}
-      <aside className={`
-        fixed top-20 left-0 h-[calc(100vh-5rem)] w-64 
-        bg-[#0E181C] border-r border-[#1F3037] 
-        flex flex-col z-40 overflow-y-auto transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-      `}>
-        
-        <div className="p-6 border-b border-[#1F3037]">
-          <h1 className="text-3xl font-bebas-neue tracking-widest text-white">
-            ACM <span className="text-[#2FA6B8]">ADMIN</span>
-          </h1>
-          <p className="text-xs text-[#BFC7CC] mt-1 tracking-wider opacity-70">CONTROL PANEL</p>
-        </div>
-
-        <nav className="flex-1 p-4 flex flex-col gap-2">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              end={item.exact}
-              onClick={() => setIsSidebarOpen(false)} // Close sidebar on mobile click
-              className={({ isActive }) => 
-                `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                  isActive 
-                    ? 'bg-[#2FA6B8]/10 text-[#2FA6B8] border border-[#2FA6B8]/50' 
-                    : 'text-[#BFC7CC] hover:bg-[#1F3037] hover:text-white'
-                }`
-              }
-            >
-              {item.icon}
-              <span className="font-medium">{item.name}</span>
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="p-4 border-t border-[#1F3037]">
-          <button 
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 w-full text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-          >
-            <LogOut size={20} />
-            <span className="font-medium">Logout</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* 4. OVERLAY (Mobile Only) 
-         - Darkens background when sidebar is open
-      */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-30 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* 5. MAIN CONTENT AREA 
-         - Mobile: ml-0 (Full width)
-         - Desktop: ml-64 (Pushed by sidebar)
-      */}
-      <main className="flex-1 ml-0 md:ml-64 p-4 md:p-8 pt-36 md:pt-32 bg-black min-h-screen transition-all duration-300">
-        <Outlet />
-      </main>
-
     </div>
   );
-};
-
-export default AdminLayout;
+}

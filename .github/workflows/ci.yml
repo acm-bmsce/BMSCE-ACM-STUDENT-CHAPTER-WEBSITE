@@ -1,0 +1,30 @@
+# Lint, test, build and audit every pull request. Uses no secrets.
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+    # Admin saves commit content and images; they don't change code.
+    paths-ignore:
+      - "content/**"
+      - "public/img/uploads/**"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: ci-only-not-a-real-secret-0123456789abcdef
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --audit-level=high

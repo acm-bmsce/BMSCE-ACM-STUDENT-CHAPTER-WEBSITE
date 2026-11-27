@@ -1,565 +1,601 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Plus, Calendar, MapPin, Trash2, Edit, X, 
-  Link as LinkIcon, Loader2, ChevronLeft, ChevronRight, Star, Download 
-} from 'lucide-react';
-import eventService from '../../api/eventService';
-import ImageUpload from '../../components/ImageUpload';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { adminApi, LIVE, previewSrc, publishNote } from "../../lib/adminApi";
+import { cdn } from "../../lib/data";
+import { slugify } from "../../lib/eventLinks";
+import { ImageField, PageHead, shortDate } from "./ui";
+import { IconClose, IconEdit, IconPlus, IconTrash } from "./AdminIcons";
 
-const ManageEvents = () => {
-  // --- STATE ---
-  const [events, setEvents] = useState([]);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+/**
+ * Events on the website's calendar and archive. Published events are saved to the chapter's
+ * backend; drafts and website-only details to content/events.json (see lib/adminApi.js).
+ * Sign-ups happen elsewhere; prices, "ACM members only", seats and team size are shown on the
+ * event as information only.
+ */
 
-  // Pagination State
-  const [page, setPage] = useState(1);
-  const LIMIT = 9;
-  const [hasMore, setHasMore] = useState(true);
+const TYPES = ["Workshop", "Hackathon", "Talk", "Coding challenge", "Seminar", "Competition", "Gaming", "Summit", "Other"];
 
-  // Track which ID we are editing (null = Create Mode)
-  const [editingId, setEditingId] = useState(null);
+const pad = (n) => String(n).padStart(2, "0");
+const toLocalInput = (iso) => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+const fromLocalInput = (v) => (v ? new Date(v).toISOString() : "");
+const numOrNull = (v) => (v === "" || v === null || v === undefined ? null : Number(v));
+const newId = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now().toString(16)}${Math.random().toString(16).slice(2, 10)}`);
 
-  const initialFormState = {
-    title: '',
-    date_str: '', 
-    description: '',
-    fullDescription: '',
-    location: 'Online',
-    attendees: 0,
-    image: '',
-    gallery: [], 
-    registration_link: '',
+function emptyForm() {
+  const start = new Date(Date.now() + 7 * 86400000);
+  start.setHours(10, 0, 0, 0);
+  return {
+    _id: "",
+    title: "",
+    slug: "",
+    slugEdited: false,
+    status: "draft",
+    type: "Workshop",
+    description: "",
+    fullDescription: "",
+    date: toLocalInput(start.toISOString()),
+    endDate: "",
+    location: "",
+    image: "",
+    gallery: [],
+    outcomes: "",
+    attendees: "",
     is_featured: false,
-    // ✅ REGISTRATION CONTROLS
-    registration_open: true, 
-    registration_limit: 0, // 0 means unlimited
-    is_team_event: false // ✅ NEW: Team Event Toggle
+    is_team_event: false,
+    teamMin: "",
+    teamMax: "",
+    acmExclusive: false,
+    memberPrice: "",
+    nonMemberPrice: "",
+    capacity: "",
   };
-  const [formData, setFormData] = useState(initialFormState);
+}
 
-  // --- Lock body scroll when modal is open ---
-  useEffect(() => {
-    if (isFormOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isFormOpen]);
-
-  // --- HELPER: Convert ISO Date to DD-MM-YYYY ---
-  const formatDateForInput = (isoString) => {
-    if (!isoString) return '';
-    const date = new Date(isoString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+function fromEvent(e) {
+  return {
+    ...emptyForm(),
+    ...e,
+    slugEdited: true,
+    status: e.status === "draft" ? "draft" : "published",
+    type: e.type || "",
+    fullDescription: e.fullDescription || "",
+    date: toLocalInput(e.date),
+    endDate: toLocalInput(e.endDate),
+    location: e.location || "",
+    image: e.image || "",
+    gallery: Array.isArray(e.gallery) ? e.gallery : [],
+    outcomes: Array.isArray(e.outcomes) ? e.outcomes.join("\n") : e.outcomes || "",
+    attendees: e.attendees ?? "",
+    teamMin: e.teamMin ?? "",
+    teamMax: e.teamMax ?? "",
+    memberPrice: e.memberPrice ?? "",
+    nonMemberPrice: e.nonMemberPrice ?? "",
+    capacity: e.capacity ?? "",
   };
+}
 
-  // --- 1. FETCH EVENTS ---
-  const fetchEvents = async (currentPage = 1) => {
+/** The form back into the stored shape; empty optional fields are left out. */
+function toEvent(form, original) {
+  const out = {
+    ...(original || {}),
+    _id: form._id || newId(),
+    slug: form.slug,
+    status: form.status,
+    title: form.title.trim(),
+    type: form.type,
+    description: form.description.trim(),
+    fullDescription: form.fullDescription.trim(),
+    date: fromLocalInput(form.date),
+    endDate: fromLocalInput(form.endDate) || null,
+    location: form.location.trim(),
+    image: form.image.trim(),
+    gallery: form.gallery.map((g) => g.trim()).filter(Boolean),
+    outcomes: form.outcomes.split("\n").map((o) => o.trim()).filter(Boolean),
+    attendees: numOrNull(form.attendees),
+    is_featured: Boolean(form.is_featured),
+    is_team_event: Boolean(form.is_team_event),
+    teamMin: form.is_team_event ? numOrNull(form.teamMin) : null,
+    teamMax: form.is_team_event ? numOrNull(form.teamMax) : null,
+    acmExclusive: Boolean(form.acmExclusive),
+    memberPrice: numOrNull(form.memberPrice),
+    nonMemberPrice: numOrNull(form.nonMemberPrice),
+    capacity: numOrNull(form.capacity),
+  };
+  delete out.slugEdited;
+  return out;
+}
+
+const uniqueSlug = (base, events, id) => {
+  let slug = base || "event";
+  for (let n = 2; events.some((e) => e.slug === slug && e._id !== id); n++) slug = `${base}-${n}`;
+  return slug;
+};
+
+export default function ManageEvents() {
+  const [params, setParams] = useSearchParams();
+  const [events, setEvents] = useState([]);
+  const [sha, setSha] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [listError, setListError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [limit, setLimit] = useState(25);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [form, setForm] = useState(emptyForm);
+  const [editing, setEditing] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState([]);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setListError("");
     try {
-      setLoading(true);
-      const skip = (currentPage - 1) * LIMIT;
-      const response = await eventService.getEvents(LIMIT, skip);
-      const newEvents = response.data;
-      
-      setEvents(newEvents);
-      setHasMore(newEvents.length === LIMIT);
-    } catch (error) {
-      console.error("Error fetching events:", error);
+      const res = await adminApi.loadEvents();
+      setEvents(res.data);
+      setSha(res.sha);
+    } catch (err) {
+      setListError(err.message || "Could not load events.");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchEvents(page);
-  }, [page]);
+    load();
+  }, [load]);
 
-  // --- HANDLERS ---
-  const handleNextPage = () => hasMore && setPage(prev => prev + 1);
-  const handlePrevPage = () => page > 1 && setPage(prev => prev - 1);
+  const openCreate = useCallback(() => {
+    setEditing(null);
+    setForm(emptyForm());
+    setFormError("");
+    setFieldErrors([]);
+    setDrawerOpen(true);
+  }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
-    }));
-  };
+  // Overview's "New event" button links here with ?new=1.
+  useEffect(() => {
+    if (params.get("new") === "1") {
+      openCreate();
+      setParams((p) => {
+        p.delete("new");
+        return p;
+      }, { replace: true });
+    }
+  }, [params, setParams, openCreate]);
 
-  // --- 2. OPEN CREATE MODAL ---
-  const openCreateModal = () => {
-    setEditingId(null);
-    setFormData(initialFormState);
-    setIsFormOpen(true);
-  };
+  useEffect(() => {
+    document.body.style.overflow = drawerOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [drawerOpen]);
 
-  // --- 3. OPEN EDIT MODAL ---
-  const handleEdit = (event) => {
-    const id = event.id || event._id;
-    setEditingId(id);
-    setFormData({
-        title: event.title,
-        date_str: formatDateForInput(event.date),
-        description: event.description,
-        fullDescription: event.fullDescription,
-        location: event.location,
-        attendees: event.attendees,
-        image: event.image || '',
-        gallery: event.gallery || [],
-        registration_link: event.registration_link || '',
-        is_featured: event.is_featured || false,
-        // ✅ LOAD NEW FIELDS
-        registration_open: event.registration_open !== false, 
-        registration_limit: event.registration_limit || 0,
-        is_team_event: event.is_team_event || false // ✅ Load Team Status
+  const set = (key, value) =>
+    setForm((f) => {
+      const next = { ...f, [key]: value };
+      // The link name follows the title and year until someone edits it by hand.
+      if ((key === "title" || key === "date") && !f.slugEdited) {
+        const year = next.date ? new Date(next.date).getFullYear() : "";
+        next.slug = slugify(`${next.title}${year ? ` ${year}` : ""}`);
+      }
+      return next;
     });
-    setIsFormOpen(true);
+
+  const openEdit = (e) => {
+    setEditing(e);
+    setForm(fromEvent(e));
+    setFormError("");
+    setFieldErrors([]);
+    setDrawerOpen(true);
   };
 
-  // --- 4. SUBMIT ---
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
+  /** Saves a change to the list; the server refuses if someone else saved first. */
+  const commit = async (next, message) => {
     try {
-      if (editingId) {
-        await eventService.updateEvent(editingId, formData);
-        alert("Event Updated Successfully!");
-      } else {
-        await eventService.createEvent(formData);
-        alert("Event Created Successfully!");
+      const res = await adminApi.saveEvents(events, next, sha);
+      setEvents(res.data);
+      setSha(res.sha);
+      setNotice(`${message} ${publishNote()}`);
+    } catch (err) {
+      // The backend took the change but the website-only details couldn't be saved.
+      if (err.partial) {
+        setEvents(err.data);
+        load();
       }
-      setIsFormOpen(false);
-      setFormData(initialFormState);
-      setEditingId(null);
-      fetchEvents(page);
-    } catch (error) {
-      console.error("Error saving event:", error);
-      alert("Failed to save event.");
+      throw err;
+    }
+  };
+
+  const submit = async (ev) => {
+    ev.preventDefault();
+    setFormError("");
+    setFieldErrors([]);
+    if (form.title.trim().length < 2) return setFormError("Give the event a title.");
+    if (form.description.trim().length < 2) return setFormError("Add a short description (shown on the event card).");
+    if (!form.date) return setFormError("Pick the date and time the event starts.");
+    if (form.endDate && new Date(form.endDate) < new Date(form.date)) return setFormError("The end can't be before the start.");
+    if (form.is_team_event && form.teamMin && form.teamMax && Number(form.teamMin) > Number(form.teamMax)) return setFormError("Smallest team size can't be more than the largest.");
+    const record = toEvent({ ...form, slug: uniqueSlug(slugify(form.slug) || "event", events, form._id) }, editing);
+    const next = editing ? events.map((e) => (e._id === editing._id ? record : e)) : [record, ...events];
+    setSaving(true);
+    try {
+      await commit(next, editing ? `“${record.title}” saved.` : `“${record.title}” added${record.status === "draft" ? " as a draft" : ""}.`);
+      setDrawerOpen(false);
+    } catch (err) {
+      setFormError(err.message);
+      setFieldErrors(err.details || []);
+      if (err.code === "CONTENT_CONFLICT") load();
     } finally {
-      setSubmitting(false);
+      setSaving(false);
     }
   };
 
-  // --- 5. DELETE EVENT ---
-  const handleDelete = async (id) => {
-    if(window.confirm("Are you sure you want to delete this event?")) {
-      try {
-        await eventService.deleteEvent(id);
-        setEvents(prev => prev.filter(event => (event.id || event._id) !== id));
-      } catch (error) {
-        console.error("Error deleting event:", error);
-        alert("Failed to delete event.");
-      }
-    }
-  };
-
-  const handleExportCSV = async (eventId, eventTitle) => {
+  const togglePublish = async (e) => {
+    const status = e.status === "draft" ? "published" : "draft";
     try {
-      const response = await eventService.getEventRegistrations(eventId);
-      const registrations = response.data;
-
-      if (!registrations || registrations.length === 0) {
-        alert("No registrations found for this event yet.");
-        return;
-      }
-
-      // ✅ Reverted back to flat structure, but including Team data
-      const cleanData = registrations.map(reg => ({
-        "Registration Type": reg.is_team_event ? "Team" : "Individual",
-        "Team Name": reg.is_team_event ? (reg.team_name || "N/A") : "N/A",
-        "Captain/Name": reg.name,
-        "Email": reg.email,
-        "Phone": reg.phone,
-        "USN": reg.usn,
-        "Department": reg.department,
-        "Registration Date": new Date(reg.registered_at).toLocaleString()
-      }));
-
-      const headers = Object.keys(cleanData[0]).join(",");
-      const rows = cleanData.map(row => 
-        Object.values(row).map(val => `"${val || ''}"`).join(",") 
-      ).join("\n");
-      const csvContent = `${headers}\n${rows}`;
-
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", `${eventTitle.replace(/\s+/g, '_')}_Registrations.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-    } catch (error) {
-      console.error("Error exporting CSV:", error);
-      alert("Failed to export registrations.");
+      await commit(events.map((x) => (x._id === e._id ? { ...x, status } : x)), status === "published" ? `“${e.title}” published.` : `“${e.title}” moved to drafts.`);
+    } catch (err) {
+      setListError(err.message);
+      if (err.code === "CONTENT_CONFLICT") load();
     }
   };
+
+  const remove = async (e) => {
+    if (!window.confirm(LIVE && e.status !== "draft" ? `Delete “${e.title}”? It's removed from the website and the chapter's database. This can't be undone.` : `Delete “${e.title}”? It disappears from the website. (It stays in the repository's history.)`)) return;
+    try {
+      await commit(events.filter((x) => x._id !== e._id), `“${e.title}” deleted.`);
+    } catch (err) {
+      setListError(err.message);
+      if (err.code === "CONTENT_CONFLICT") load();
+    }
+  };
+
+  const [now] = useState(() => Date.now());
+  const sorted = useMemo(() => [...events].sort((a, b) => new Date(b.date) - new Date(a.date)), [events]);
+  const counts = useMemo(
+    () => ({
+      published: events.filter((e) => e.status !== "draft").length,
+      draft: events.filter((e) => e.status === "draft").length,
+      upcoming: events.filter((e) => e.status !== "draft" && new Date(e.date).getTime() >= now - 86400000).length,
+    }),
+    [events, now]
+  );
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    return sorted.filter((e) => {
+      if (filter === "draft" && e.status !== "draft") return false;
+      if (filter === "published" && e.status === "draft") return false;
+      if (filter === "upcoming" && (e.status === "draft" || new Date(e.date).getTime() < now - 86400000)) return false;
+      return !term || `${e.title} ${e.location || ""} ${e.type || ""}`.toLowerCase().includes(term);
+    });
+  }, [sorted, filter, search, now]);
 
   return (
-    <div className="relative min-h-screen pb-20 px-4 sm:px-6 lg:px-8">
-      
-      {/* HEADER */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 border-b border-[#1F3037] pb-6 pt-6">
-        <div>
-          <h2 className="text-3xl sm:text-4xl font-bebas-neue text-white tracking-widest">Manage Events</h2>
-          <p className="text-[#BFC7CC] text-sm mt-1">Page {page}</p>
-        </div>
-        <button 
-          onClick={openCreateModal}
-          className="w-full sm:w-auto bg-[#2FA6B8] hover:bg-[#268A98] text-white px-5 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-[0_0_15px_rgba(47,166,184,0.3)] select-none"
-        >
-          <Plus size={20} />
-          Add Event
+    <>
+      <PageHead title="Events" sub="Everything on the website's calendar and archive. Drafts stay hidden until you publish them.">
+        <button className="b p" onClick={openCreate} type="button">
+          <IconPlus /> New event
         </button>
+      </PageHead>
+
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+        <div className="seg" role="group" aria-label="Filter events">
+          {[["", "All", events.length], ["upcoming", "Upcoming", counts.upcoming], ["published", "Published", counts.published], ["draft", "Drafts", counts.draft]].map(([k, label, c]) => (
+            <button key={label} type="button" className={filter === k ? "on" : ""} aria-pressed={filter === k} onClick={() => setFilter(k)}>
+              {label} <span className="c">{c || 0}</span>
+            </button>
+          ))}
+        </div>
+        <label className="srch">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="m20 20-4.2-4.2" />
+          </svg>
+          <input type="search" placeholder="Search events" aria-label="Search events" value={search} onChange={(e) => setSearch(e.target.value)} />
+        </label>
       </div>
 
-      {/* EVENTS GRID */}
-      {loading ? (
-        <div className="text-white text-center py-20 flex flex-col items-center">
-             <Loader2 className="animate-spin mb-4 text-[#2FA6B8]" size={40} />
-             <p>Loading Events...</p>
+      {notice && (
+        <div className="admin-alert success" style={{ marginBottom: 16 }} role="status">
+          {notice}
         </div>
-      ) : events.length === 0 ? (
-        <div className="text-gray-500 text-center py-20 border border-dashed border-[#1F3037] rounded-xl mx-4 sm:mx-0 select-none">
-            {page === 1 ? 'No events found. Click "Add Event" to create one.' : 'No more events on this page.'}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {events.map((event) => (
-            <div key={event.id || event._id} className="bg-[#0E181C] border border-[#1F3037] rounded-xl p-5 hover:border-[#2FA6B8] transition-all group relative">
-                
-                {event.is_featured && (
-                    <div className="absolute top-4 right-4 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10 select-none">
-                        <Star size={10} fill="currentColor" /> FEATURED
-                    </div>
-                )}
-                {/* Visual indicator if registration is closed */}
-                {event.registration_open === false && (
-                    <div className="absolute top-4 left-4 bg-red-500/10 text-red-500 border border-red-500/30 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 z-10 select-none">
-                        CLOSED
-                    </div>
-                )}
-
-                <div className="flex justify-between items-start mb-4">
-                  <div className="bg-[#2FA6B8]/10 text-[#2FA6B8] p-2 rounded-lg mt-6">
-                      <Calendar size={20} />
-                  </div>
-                  <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity bg-black/50 p-1 rounded-full border border-[#1F3037]">
-                      {/* ✅ CSV EXPORT BUTTON */}
-                      <button 
-                          onClick={() => handleExportCSV(event.id || event._id, event.title)}
-                          className="p-2 hover:bg-[#1F3037] rounded-full text-green-400 transition-colors" 
-                          title="Download Registrations CSV"
-                      >
-                        <Download size={14} />
-                      </button>
-                      <button 
-                          onClick={() => handleEdit(event)}
-                          className="p-2 hover:bg-[#1F3037] rounded-full text-blue-400 transition-colors" 
-                          title="Edit Event"
-                      >
-                        <Edit size={14} />
-                      </button>
-                      <button 
-                          onClick={() => handleDelete(event.id || event._id)} 
-                          className="p-2 hover:bg-[#1F3037] rounded-full text-red-400 transition-colors" 
-                          title="Delete Event"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bebas-neue text-white tracking-wide mb-2 line-clamp-1">{event.title}</h3>
-                <p className="text-[#BFC7CC] text-sm mb-4 line-clamp-2 min-h-[40px]">{event.description}</p>
-
-                <div className="flex flex-col gap-2 text-xs text-[#BFC7CC]/70 border-t border-[#1F3037] pt-4">
-                  <div className="flex items-center gap-2">
-                      <span className="text-[#2FA6B8] font-bold">
-                          {new Date(event.date).toLocaleDateString()}
-                      </span>
-                  </div>
-                  <div className="flex items-center gap-2 select-none">
-                      <MapPin size={14} /> {event.location}
-                  </div>
-                  {/* ✅ Badge to show if it is a team event */}
-                  {event.is_team_event && (
-                    <div className="flex items-center gap-2 select-none text-purple-400 font-bold">
-                      Team Event
-                    </div>
-                  )}
-                </div>
-            </div>
-            ))}
+      )}
+      {listError && (
+        <div className="admin-alert error" style={{ marginBottom: 16 }} role="alert">
+          {listError}
         </div>
       )}
 
-      {/* PAGINATION */}
-      <div className="flex justify-center items-center gap-4 mt-10 select-none">
-        <button 
-          onClick={handlePrevPage} 
-          disabled={page === 1 || loading}
-          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#1F3037] text-white rounded-lg disabled:opacity-50 hover:bg-[#2FA6B8] transition-colors text-sm sm:text-base"
-        >
-          <ChevronLeft size={16} /> Prev
-        </button>
-        <span className="text-[#BFC7CC] text-sm font-mono">Page {page}</span>
-        <button 
-          onClick={handleNextPage} 
-          disabled={!hasMore || loading}
-          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#1F3037] text-white rounded-lg disabled:opacity-50 hover:bg-[#2FA6B8] transition-colors text-sm sm:text-base"
-        >
-          Next <ChevronRight size={16} />
-        </button>
-      </div>
+      <section className="pn">
+        {loading ? (
+          <div className="admin-loading">
+            <span className="admin-spinner light" />
+            Loading events…
+          </div>
+        ) : (
+          <div className="tw">
+            <div className="dt" role="table" aria-label="Events" style={{ "--cols": "minmax(220px,1.6fr) 110px minmax(120px,1fr) 100px minmax(330px,auto)" }}>
+              <div className="dh" role="row">
+                <span role="columnheader">Event</span>
+                <span role="columnheader">Date</span>
+                <span role="columnheader">Venue</span>
+                <span role="columnheader">Status</span>
+                <span role="columnheader">
+                  <span className="sr">Actions</span>
+                </span>
+              </div>
+              {filtered.length === 0 ? (
+                <div className="dr" role="row" style={{ display: "block", padding: "28px 20px" }}>
+                  <div role="cell" className="empty">
+                    <p>{events.length === 0 ? "No events yet." : filter === "upcoming" ? "Nothing upcoming, so the website shows “Coming soon”." : "No events match."}</p>
+                    <button className="b p sm" type="button" onClick={openCreate}>
+                      <IconPlus /> New event
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                filtered.slice(0, limit).map((e) => (
+                  <div className="dr" role="row" key={e._id}>
+                    <div role="cell" className="idc">
+                      {e.image ? <img src={previewSrc(cdn(e.image, 120))} alt="" width="36" height="36" loading="lazy" decoding="async" /> : <span className="ph" aria-hidden="true" />}
+                      <div style={{ minWidth: 0 }}>
+                        <b>{e.title}</b>
+                        <span>{[e.type, e.is_team_event && "Team", e.acmExclusive && "ACM only", e.is_featured && "Featured"].filter(Boolean).join(" · ") || "-"}</span>
+                      </div>
+                    </div>
+                    <span role="cell" className="num" style={{ textAlign: "left" }}>
+                      {shortDate(e.date)}
+                    </span>
+                    <span role="cell" style={{ color: "var(--muted)" }}>
+                      {e.location || "-"}
+                    </span>
+                    <span role="cell">{e.status === "draft" ? <span className="pl off">Draft</span> : new Date(e.date).getTime() >= now - 86400000 ? <span className="pl live">Upcoming</span> : <span className="pl ok">Published</span>}</span>
+                    <div role="cell" className="rowacts">
+                      <button className="b sm q" type="button" onClick={() => openEdit(e)} aria-label={`Edit ${e.title}`}>
+                        <IconEdit /> Edit
+                      </button>
+                      <button className="b sm q" type="button" onClick={() => togglePublish(e)}>
+                        {e.status === "draft" ? "Publish" : "Unpublish"}
+                      </button>
+                      {e.status !== "draft" && <CopyLink slug={e.slug} title={e.title} />}
+                      <button className="b sm q danger" type="button" onClick={() => remove(e)} aria-label={`Delete ${e.title}`}>
+                        <IconTrash />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            {filtered.length > limit && (
+              <div className="acts">
+                <button type="button" className="b sm" onClick={() => setLimit((l) => l + 25)}>
+                  Show more
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
 
-      {/* --- FORM MODAL --- */}
-      {isFormOpen && (
-        <div className="fixed inset-0 z-[9999] flex justify-end">
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onClick={() => setIsFormOpen(false)}
-          ></div>
-
-          <div className="relative w-full sm:max-w-xl bg-[#0E181C] border-l border-[#1F3037] h-[100dvh] flex flex-col shadow-[-10px_0_30px_rgba(0,0,0,0.5)] animate-in slide-in-from-right duration-300">
-            
-            <div className="flex-none flex justify-between items-center p-6 border-b border-[#1F3037] bg-[#0E181C] sticky top-0 z-20 select-none">
-              <h3 className="text-2xl sm:text-3xl font-bebas-neue text-white tracking-widest">
-                  {editingId ? 'Edit Event' : 'Create Event'}
-              </h3>
-              <button 
-                onClick={() => setIsFormOpen(false)} 
-                className="text-[#BFC7CC] hover:text-white transition-all p-2 rounded-full hover:bg-[#1F3037]"
-                title="Close"
-              >
-                <X size={24} />
+      {drawerOpen && (
+        <div className="admin-drawer">
+          <div className="admin-drawer-scrim" onClick={() => setDrawerOpen(false)} />
+          <div className="admin-drawer-panel" role="dialog" aria-modal="true" aria-label="Event form">
+            <div className="admin-drawer-head">
+              <h3>{editing ? "Edit event" : "New event"}</h3>
+              <button className="admin-close" type="button" onClick={() => setDrawerOpen(false)} aria-label="Close">
+                <IconClose />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-[#0E181C]">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                
-                <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#2FA6B8] font-medium uppercase tracking-wider select-none">Event Title</label>
-                  <input 
-                    name="title" 
-                    value={formData.title} 
-                    onChange={handleInputChange}
-                    required
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] focus:ring-1 focus:ring-[#2FA6B8]/50 outline-none transition-all placeholder:text-gray-700" 
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none">Date (DD-MM-YYYY)</label>
-                    <input 
-                      name="date_str" 
-                      value={formData.date_str}
-                      onChange={handleInputChange} 
-                      required
-                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                      placeholder="25-12-2025"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none">Location</label>
-                    <input 
-                      name="location" 
-                      value={formData.location}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Short Description</label>
-                  <textarea 
-                    name="description" 
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    rows="2"
-                    required
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none resize-none transition-all placeholder:text-gray-700"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Full Content</label>
-                  <textarea 
-                    name="fullDescription" 
-                    value={formData.fullDescription}
-                    onChange={handleInputChange}
-                    rows="6"
-                    required
-                    className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Event/Project Image</label>
-                    <ImageUpload 
-                      existingImage={formData.image}
-                      onUploadComplete={(url) => setFormData(prev => ({ ...prev, image: url }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium flex items-center gap-2 select-none"><LinkIcon size={14}/> Link</label>
-                    <input 
-                      name="registration_link" 
-                      value={formData.registration_link}
-                      onChange={handleInputChange}
-                      className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-3 pt-4 border-t border-[#1F3037]">
-                  <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Event Gallery</label>
-                  
-                  {formData.gallery && formData.gallery.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                      {formData.gallery.map((imgUrl, index) => (
-                        <div key={index} className="relative group rounded-lg overflow-hidden border border-[#1F3037] aspect-video">
-                          <img src={imgUrl} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button 
-                              type="button"
-                              onClick={() => setFormData(prev => ({...prev, gallery: prev.gallery.filter((_, i) => i !== index)}))}
-                              className="bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-full transition-colors"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </div>
+            <div className="admin-drawer-body">
+              {formError && (
+                <div className="admin-alert error" style={{ marginBottom: 16 }} role="alert">
+                  {formError}
+                  {fieldErrors.length > 0 && (
+                    <ul style={{ marginTop: 6 }}>
+                      {fieldErrors.slice(0, 6).map((f, i) => (
+                        <li key={i}>{f.message}</li>
                       ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+
+              <form onSubmit={submit} noValidate>
+                <div className="admin-form-grid">
+                  <div className="admin-field">
+                    <label htmlFor="ev-title">Event title *</label>
+                    <input id="ev-title" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="e.g. ACM ROCS 2026" maxLength={200} />
+                  </div>
+                  <div className="admin-form-grid two">
+                    <div className="admin-field">
+                      <label htmlFor="ev-type">Event type</label>
+                      <select id="ev-type" value={form.type} onChange={(e) => set("type", e.target.value)}>
+                        <option value="">None</option>
+                        {[...new Set([...TYPES, form.type].filter(Boolean))].map((t) => (
+                          <option key={t} value={t}>
+                            {t}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="admin-field">
+                      <label htmlFor="ev-status">Visibility</label>
+                      <select id="ev-status" value={form.status} onChange={(e) => set("status", e.target.value)}>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft (hidden)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="admin-field">
+                    <label htmlFor="ev-short">Short description *</label>
+                    <textarea id="ev-short" value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Shown on the event card and in the archive" maxLength={4000} style={{ minHeight: 80 }} />
+                  </div>
+                  <div className="admin-field">
+                    <label htmlFor="ev-full">Full description</label>
+                    <textarea id="ev-full" value={form.fullDescription} onChange={(e) => set("fullDescription", e.target.value)} placeholder="Shown in the event window; leave empty to reuse the short description" maxLength={20000} />
+                  </div>
+                </div>
+
+                <div className="admin-form-section">
+                  <h4>When and where</h4>
+                  <div className="admin-form-grid two">
+                    <div className="admin-field">
+                      <label htmlFor="ev-start">Starts *</label>
+                      <input id="ev-start" type="datetime-local" value={form.date} onChange={(e) => set("date", e.target.value)} />
+                    </div>
+                    <div className="admin-field">
+                      <label htmlFor="ev-end">Ends</label>
+                      <input id="ev-end" type="datetime-local" min={form.date || undefined} value={form.endDate} onChange={(e) => set("endDate", e.target.value)} />
+                    </div>
+                  </div>
+                  <div className="admin-field" style={{ marginTop: 14 }}>
+                    <label htmlFor="ev-loc">Venue</label>
+                    <input id="ev-loc" value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="e.g. Seminar Hall, PJA Block" maxLength={200} />
+                  </div>
+                  <div className="admin-field" style={{ marginTop: 14 }}>
+                    <label htmlFor="ev-slug">Link</label>
+                    <input
+                      id="ev-slug"
+                      value={form.slug}
+                      onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"), slugEdited: true }))}
+                      maxLength={80}
+                      aria-describedby="ev-slug-h"
+                    />
+                    <span className="hint" id="ev-slug-h">
+                      Shareable address: {window.location.origin}/events/{form.slug || "…"}
+                      {editing && editing.slug !== form.slug ? " · Changing it breaks links people already shared." : ""}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="admin-form-section">
+                  <h4>Poster and photos</h4>
+                  <ImageField id="ev-image" label="Poster" value={form.image} onChange={(v) => set("image", v)} hint="Shown on the calendar, the archive card and the event window." />
+                  <div className="admin-field" style={{ marginTop: 14 }}>
+                    <span style={{ fontSize: 14, fontWeight: 500 }}>Gallery</span>
+                    {form.gallery.map((g, i) => (
+                      <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <ImageField id={`ev-gal-${i}`} label={`Photo ${i + 1}`} value={g} onChange={(v) => set("gallery", form.gallery.map((x, j) => (j === i ? v : x)))} size={48} square />
+                        </div>
+                        <button type="button" className="b sm q danger" onClick={() => set("gallery", form.gallery.filter((_, j) => j !== i))} aria-label={`Remove photo ${i + 1}`}>
+                          <IconTrash />
+                        </button>
+                      </div>
+                    ))}
+                    <button type="button" className="b sm" style={{ justifySelf: "start", marginTop: 8 }} disabled={form.gallery.length >= 40} onClick={() => set("gallery", [...form.gallery, ""])}>
+                      <IconPlus /> Add photo
+                    </button>
+                  </div>
+                </div>
+
+                <div className="admin-form-section">
+                  <h4>After the event</h4>
+                  <div className="admin-form-grid two">
+                    <div className="admin-field">
+                      <label htmlFor="ev-att">People attended</label>
+                      <input id="ev-att" type="number" min="0" value={form.attendees} onChange={(e) => set("attendees", e.target.value)} placeholder="e.g. 52" />
+                    </div>
+                    <label className="admin-check" style={{ alignSelf: "end", paddingBottom: 10 }}>
+                      <input type="checkbox" checked={form.is_featured} onChange={(e) => set("is_featured", e.target.checked)} /> Featured (Home “Hall of fame”)
+                    </label>
+                  </div>
+                  <div className="admin-field" style={{ marginTop: 14 }}>
+                    <label htmlFor="ev-out">Highlights</label>
+                    <textarea id="ev-out" value={form.outcomes} onChange={(e) => set("outcomes", e.target.value)} placeholder="One per line" style={{ minHeight: 80 }} />
+                  </div>
+                </div>
+
+                <div className="admin-form-section">
+                  <h4>Shown as information</h4>
+                  <p className="hint" style={{ marginBottom: 12 }}>
+                    Sign-ups don't happen on this website; these just appear on the event.
+                  </p>
+                  <div className="admin-form-grid three">
+                    <div className="admin-field">
+                      <label htmlFor="ev-mp">Member price (₹)</label>
+                      <input id="ev-mp" type="number" min="0" value={form.memberPrice} onChange={(e) => set("memberPrice", e.target.value)} placeholder="Free" />
+                    </div>
+                    <div className="admin-field">
+                      <label htmlFor="ev-np">Non-member price (₹)</label>
+                      <input id="ev-np" type="number" min="0" value={form.nonMemberPrice} onChange={(e) => set("nonMemberPrice", e.target.value)} placeholder="Free" disabled={form.acmExclusive} />
+                    </div>
+                    <div className="admin-field">
+                      <label htmlFor="ev-cap">{form.is_team_event ? "Teams" : "Seats"}</label>
+                      <input id="ev-cap" type="number" min="1" value={form.capacity} onChange={(e) => set("capacity", e.target.value)} placeholder="Not shown" />
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginTop: 14 }}>
+                    <label className="admin-check">
+                      <input type="checkbox" checked={form.acmExclusive} onChange={(e) => set("acmExclusive", e.target.checked)} /> ACM members only
+                    </label>
+                    <label className="admin-check">
+                      <input type="checkbox" checked={form.is_team_event} onChange={(e) => set("is_team_event", e.target.checked)} /> Team event
+                    </label>
+                  </div>
+                  {form.is_team_event && (
+                    <div className="admin-form-grid two" style={{ marginTop: 14 }}>
+                      <div className="admin-field">
+                        <label htmlFor="ev-tmin">Smallest team</label>
+                        <input id="ev-tmin" type="number" min="1" value={form.teamMin} onChange={(e) => set("teamMin", e.target.value)} placeholder="e.g. 2" />
+                      </div>
+                      <div className="admin-field">
+                        <label htmlFor="ev-tmax">Largest team</label>
+                        <input id="ev-tmax" type="number" min="1" value={form.teamMax} onChange={(e) => set("teamMax", e.target.value)} placeholder="e.g. 4" />
+                      </div>
                     </div>
                   )}
-
-                  <div className="w-full sm:max-w-xs">
-                    <ImageUpload 
-                      key={`gallery-upload-${formData.gallery?.length || 0}`}
-                      existingImage=""
-                      onUploadComplete={(url) => {
-                        if(url) {
-                          setFormData(prev => ({ ...prev, gallery: [...(prev.gallery || []), url] }));
-                        }
-                      }}
-                    />
-                  </div>
                 </div>
 
-                {/* ✅ REGISTRATION CONTROLS */}
-                <div className="bg-[#111C21] border border-[#1F3037] p-5 rounded-xl space-y-5">
-                  <h4 className="text-[#2FA6B8] text-xs font-bold uppercase tracking-widest border-b border-[#1F3037] pb-3 mb-4">Registration Settings</h4>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Capacity Limit</label>
-                        <input 
-                          type="number"
-                          name="registration_limit" 
-                          value={formData.registration_limit}
-                          onChange={handleInputChange}
-                          className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                        />
-                        <p className="text-[10px] text-gray-500 mt-1">Set to 0 for unlimited registrations.</p>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label className="text-xs sm:text-sm text-[#BFC7CC] uppercase tracking-wider font-medium select-none">Expected Attendees</label>
-                        <input 
-                          type="number"
-                          name="attendees" 
-                          value={formData.attendees}
-                          onChange={handleInputChange}
-                          className="w-full bg-black border border-[#1F3037] rounded-lg p-3 text-white focus:border-[#2FA6B8] outline-none transition-all placeholder:text-gray-700"
-                        />
-                      </div>
-                  </div>
-
-                  <div className="flex flex-col gap-4 border-t border-[#1F3037] pt-5">
-                    
-                    {/* ✅ TEAM EVENT TOGGLE */}
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="checkbox" 
-                        name="is_team_event"
-                        id="is_team_event"
-                        checked={formData.is_team_event}
-                        onChange={handleInputChange}
-                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
-                      />
-                      <label htmlFor="is_team_event" className="cursor-pointer select-none">
-                        <span className="text-white text-sm font-medium">Is this a Team Event?</span>
-                      </label>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="checkbox" 
-                        name="registration_open"
-                        id="registration_open"
-                        checked={formData.registration_open}
-                        onChange={handleInputChange}
-                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
-                      />
-                      <label htmlFor="registration_open" className="cursor-pointer select-none">
-                        <span className="text-white text-sm font-medium">Registrations Open?</span>
-                      </label>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="checkbox" 
-                        name="is_featured"
-                        id="is_featured"
-                        checked={formData.is_featured}
-                        onChange={handleInputChange}
-                        className="w-5 h-5 accent-[#2FA6B8] cursor-pointer bg-black border-[#1F3037] rounded"
-                      />
-                      <label htmlFor="is_featured" className="cursor-pointer select-none">
-                        <span className="text-white text-sm font-medium">Feature in Carousel?</span>
-                      </label>
-                    </div>
-
-                  </div>
-                </div>
-
-                {/* SUBMIT BUTTON */}
-                <div className="pt-6 pb-16">
-                  <button 
-                      type="submit" 
-                      disabled={submitting}
-                      className="w-full bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue text-2xl tracking-widest py-4 sm:py-5 rounded-xl transition-all flex justify-center items-center gap-3 disabled:opacity-50 shadow-[0_0_20px_rgba(47,166,184,0.4)] group select-none"
-                  >
-                    {submitting ? (
-                      <Loader2 className="animate-spin" />
-                    ) : (
-                      editingId ? "Update Event" : "Create Event"
-                    )}
+                <div className="admin-form-actions">
+                  <button className="admin-btn ghost" type="button" onClick={() => setDrawerOpen(false)}>
+                    Cancel
+                  </button>
+                  <button className="admin-btn" type="submit" disabled={saving}>
+                    {saving && <span className="spin" aria-hidden="true" />}
+                    {editing ? "Save event" : form.status === "draft" ? "Save draft" : "Publish event"}
                   </button>
                 </div>
-
               </form>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
-};
+}
 
-export default ManageEvents;
+/** Copies the event's public, shareable address (/events/<slug>). */
+function CopyLink({ slug, title }) {
+  const [copied, setCopied] = useState(false);
+  const url = `${window.location.origin}/events/${encodeURIComponent(slug)}`;
+  return (
+    <button
+      className="b sm q"
+      type="button"
+      title={url}
+      aria-label={`Copy the public link to ${title}`}
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        } catch {
+          window.prompt("Copy this link", url);
+        }
+      }}
+    >
+      {copied ? "Copied" : "Copy link"}
+    </button>
+  );
+}

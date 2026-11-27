@@ -1,300 +1,165 @@
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-  useNavigationType,
-} from "react-router-dom";
-import gsap from "gsap";
-
-// Components
-import ScrollToTop from "./components/ScrollToTop";
-import NavBar from "./components/Navbar";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
+import GradualBlur from "./components/reactbits/GradualBlur";
+import { pageOf } from "./lib/eventLinks";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
+import SmoothScroll, { scrollToTop } from "./components/SmoothScroll";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SmoothScroll from "./components/SmoothScroll";
-import ScrollToTopButton from "./components/ScrollToTopButton";
-import Loader from "./components/Loader";
-
-// Sound
-import transitionSound from "./assets/sounds/transition.mp3";
-
-// Eager-loaded Home
+import Preloader from "./components/Preloader";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { useRevealRoot, useScrollFX } from "./lib/motion";
+import PageTransition from "./components/PageTransition";
 import Home from "./pages/Home";
 
-// Lazy-loaded Pages
-const JoinUs = lazy(() => import("./pages/join-us"));
-const AboutUs = lazy(() => import("./pages/about-us"));
-const Team = lazy(() => import("./pages/team"));
-const Event = lazy(() => import("./pages/event"));
-const Projects = lazy(() => import("./pages/projects"));
-const PlacementPage = lazy(() => import("./pages/PlacementPage"));
-const ArchivePage = lazy(() => import("./pages/ArchivePage"));
-const EventRegistration = lazy(() => import("./pages/EventRegistration"));
+const About = lazy(() => import("./pages/About"));
+const Events = lazy(() => import("./pages/Events"));
+const Team = lazy(() => import("./pages/Team"));
+const Join = lazy(() => import("./pages/Join"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Placements = lazy(() => import("./pages/Placements"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// --- ADMIN IMPORTS ---
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminLayout from "./pages/admin/AdminLayout";
-import DashboardHome from "./pages/admin/DashboardHome";
-import ManageEvents from "./pages/admin/ManageEvents";
-import ManageProjects from "./pages/admin/ManageProjects";
-import ManagePlacements from "./pages/admin/ManagePlacements";
-import ManageUsers from "./pages/admin/ManageUsers";
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const ManageEvents = lazy(() => import("./pages/admin/ManageEvents"));
+const ManageProjects = lazy(() => import("./pages/admin/ManageProjects"));
+const ManageInsights = lazy(() => import("./pages/admin/ManageInsights"));
+const SiteContent = lazy(() => import("./pages/admin/SiteContent"));
+const ManageUsers = lazy(() => import("./pages/admin/ManageUsers"));
 
-const ease = "power4.inOut";
+// Warm every public page once the browser is idle, so page changes never wait on a download.
+const prefetch = () =>
+  [
+    () => import("./pages/Events"),
+    () => import("./pages/About"),
+    () => import("./pages/Team"),
+    () => import("./pages/Join"),
+    () => import("./pages/Projects"),
+    () => import("./pages/Placements"),
+  ].forEach((load) => load().catch(() => {}));
 
-function AnimatedRoutes() {
+function Routed() {
   const location = useLocation();
-  const navigationType = useNavigationType();
+  const navType = useNavigationType();
 
-  const transitionRef = useRef();
-  const audioRef = useRef(null);
-  const prevPathRef = useRef(location.pathname);
+  // Layout effect: a new page starts at the top before it is painted. Only a change of page
+  // counts: opening or closing an event window (a ?query change) must keep your place.
+  const lastPath = useRef(null);
+  useLayoutEffect(() => {
+    const first = lastPath.current === null;
+    const page = pageOf(location.pathname);
+    const moved = lastPath.current !== page;
+    lastPath.current = page;
+    if (!moved) return;
+    if (first && location.hash) return;
+    if (navType !== "POP" || !location.hash) scrollToTop();
+  }, [location.pathname, navType, location.hash]);
 
-  const [displayLocation, setDisplayLocation] = useState(location);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
-
-  // Check if current path is part of the Admin panel
-  const isAdminRoute = location.pathname.startsWith("/admin");
-
-  // Audio Effect
   useEffect(() => {
-    if (isAdminRoute) return;
-
-    audioRef.current = new Audio(transitionSound);
-    audioRef.current.volume = 0.6;
-  }, [isAdminRoute]);
-
-  // Transition Animation Effect
-  useEffect(() => {
-    if (isAdminRoute) {
-      setDisplayLocation(location);
-      setIsTransitioning(false);
-      return;
-    }
-
-    const fromPath = prevPathRef.current;
-    const toPath = location.pathname;
-    const isSameRoute = fromPath === toPath;
-    const isPageReload = navigationType === "POP";
-
-    if (firstLoad || isPageReload) {
-      prevPathRef.current = location.pathname;
-      setDisplayLocation(location);
-      setIsTransitioning(false);
-      setFirstLoad(false);
-
-      const blocks = transitionRef.current?.querySelectorAll(".block") || [];
-      blocks.forEach((block) => {
-        gsap.set(block, { scaleY: 0, visibility: "hidden" });
-      });
-      return;
-    }
-
-    if (isSameRoute) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    const animateTransition = () => {
-      return new Promise((resolve) => {
-        if (!transitionRef.current) return resolve();
-
-        if (audioRef.current) {
-          audioRef.current.currentTime = 0;
-          audioRef.current.play().catch((err) => {
-            console.warn("Audio play failed:", err);
-          });
-        }
-
-        const blocks = transitionRef.current.querySelectorAll(".block");
-        gsap.set(blocks, { scaleY: 0, visibility: "visible" });
-
-        gsap.to(blocks, {
-          scaleY: 1,
-          duration: 0.7,
-          stagger: {
-            each: 0.1,
-            from: "start",
-            grid: [2, 5],
-            axis: "x",
-          },
-          ease,
-          onStart: () => setIsTransitioning(true),
-          onComplete: resolve,
-        });
-      });
-    };
-
-    const revealTransition = () => {
-      return new Promise((resolve) => {
-        if (!transitionRef.current) return resolve();
-
-        const blocks = transitionRef.current.querySelectorAll(".block");
-        gsap.to(blocks, {
-          scaleY: 0,
-          duration: 0.7,
-          stagger: {
-            each: 0.1,
-            from: "start",
-            grid: "auto",
-            axis: "x",
-          },
-          ease,
-          onComplete: () => {
-            gsap.set(blocks, { visibility: "hidden" });
-            setIsTransitioning(false);
-
-            setTimeout(() => {
-              window.scrollTo({ top: 0, behavior: "auto" });
-            }, 0);
-
-            resolve();
-          },
-        });
-      });
-    };
-
-    animateTransition().then(() => {
-      setDisplayLocation(location);
-      prevPathRef.current = location.pathname;
-      revealTransition();
-    });
-  }, [location, navigationType, firstLoad, isAdminRoute]);
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1500));
+    idle(prefetch);
+  }, []);
 
   return (
-    <>
-      {/* Disable SmoothScroll on Admin Routes */}
-      {!isAdminRoute && <SmoothScroll />}
-
-      {/* Page transition overlay */}
-      {!isAdminRoute && (
-        <div
-          ref={transitionRef}
-          className="transition fixed top-0 left-0 w-screen h-screen flex flex-col z-50 pointer-events-none"
-        >
-          <div className="transition-row row-1 flex">
-            {Array(5)
-              .fill(0)
-              .map((_, i) => (
-                <div
-                  key={`top-${i}`}
-                  className="block flex-1 bg-cyan-400 origin-top scale-y-0 invisible"
-                />
-              ))}
-          </div>
-          <div className="transition-row row-2 flex">
-            {Array(5)
-              .fill(0)
-              .map((_, i) => (
-                <div
-                  key={`bottom-${i}`}
-                  className="block flex-1 bg-cyan-400 origin-bottom scale-y-0 invisible"
-                />
-              ))}
-          </div>
-        </div>
-      )}
-
-      {/* Main content */}
-      <div key={displayLocation.key || displayLocation.pathname}>
-        
-        {!isTransitioning && !isAdminRoute && <NavBar />}
-        
-        <Routes location={displayLocation}>
+    <main id="main" key={pageOf(location.pathname)} className="page-in">
+      <Suspense fallback={<div className="route-fallback" style={{ minHeight: "100vh" }} />}>
+        <Routes location={location}>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/join-us"
-            element={
-              <Suspense fallback={<Loader />}>
-                <JoinUs />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/about-us"
-            element={
-              <Suspense fallback={<Loader />}>
-                <AboutUs />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/team"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Team />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/event"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Event />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Projects />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/placements"
-            element={
-              <Suspense fallback={<Loader />}>
-                <PlacementPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/archive"
-            element={
-              <Suspense fallback={<Loader />}>
-                <ArchivePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/events/:eventId/register"
-            element={
-              <Suspense fallback={<Loader />}>
-                <EventRegistration />
-              </Suspense>
-            }
-          />
-
-          <Route path="/admin/login" element={<AdminLogin />} />
-          
-          <Route path="/admin" element={<AdminLayout />}>
-             <Route path="users" element={<ManageUsers />} />
-             <Route path="dashboard" element={<DashboardHome />} />
-             <Route path="events" element={<ManageEvents />} />
-             <Route path="projects" element={<ManageProjects />} />
-             <Route path="placements" element={<ManagePlacements />} />
-          </Route>
+          <Route path="/about" element={<About />} />
+          <Route path="/about-us" element={<Navigate to="/about" replace />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:slug" element={<Events />} />
+          {/* The previous site's registration pages; sign-ups now use each event's own link. */}
+          <Route path="/events/:slug/register" element={<Navigate to="/events" replace />} />
+          <Route path="/event" element={<Navigate to="/events" replace />} />
+          <Route path="/archive" element={<Navigate to="/events" replace />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/join-us" element={<Navigate to="/join" replace />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/placements" element={<Placements />} />
+          {/* My ACM, accounts and certificate checks were removed; old links land on Home. */}
+          <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/account/*" element={<Navigate to="/" replace />} />
+          <Route path="/verify" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-
-        {!isTransitioning && !isAdminRoute && <Footer />}
-      </div>
-    </>
+      </Suspense>
+    </main>
   );
 }
 
-function App() {
+function AdminRoutes() {
   return (
-    <Router>
-      <ScrollToTop />
-      {/* Removed SmoothScroll from here, it is now handled inside AnimatedRoutes */}
-      <AnimatedRoutes />
-      <ScrollToTopButton /> 
-    </Router>
+    <Suspense fallback={<div className="adm" style={{ minHeight: "100vh" }} />}>
+      <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="events" element={<ManageEvents />} />
+          <Route path="projects" element={<ManageProjects />} />
+          <Route path="insights" element={<ManageInsights />} />
+          <Route path="content" element={<SiteContent />} />
+          <Route path="users" element={<ManageUsers />} />
+          {/* The previous site's admin address for Insight Series stories. */}
+          <Route path="placements" element={<Navigate to="/admin/insights" replace />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 }
 
-export default App;
+/** Dev only (?grid=1): the 12-column grid over the page, for alignment checks. */
+function GridOverlay() {
+  return (
+    <div className="grid-ov" aria-hidden="true">
+      <div className="wrap">
+        {Array.from({ length: 12 }, (_, i) => (
+          <span key={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Site() {
+  const root = useRef(null);
+  useRevealRoot(root);
+  useScrollFX(root);
+  return (
+    <SmoothScroll>
+      <div className="site" ref={root}>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <Preloader />
+        <Header />
+        <Routed />
+        <div className="scroll-bar" aria-hidden="true" />
+        {/* Content softens into the bottom edge of the screen; gone once the page's end is reached. */}
+        <GradualBlur target="page" position="bottom" height="4.5rem" strength={1.2} layers={6} curve="bezier" tint="rgba(0, 0, 0, 0.45)" autoHide zIndex={25} />
+        <PageTransition />
+        {import.meta.env.DEV && new URLSearchParams(window.location.search).has("grid") && <GridOverlay />}
+        <Footer />
+      </div>
+    </SmoothScroll>
+  );
+}
+
+function Shell() {
+  const location = useLocation();
+  return location.pathname.startsWith("/admin") ? <AdminRoutes /> : <Site />;
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ErrorBoundary>
+        <Shell />
+      </ErrorBoundary>
+    </BrowserRouter>
+  );
+}

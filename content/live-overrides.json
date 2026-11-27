@@ -1,0 +1,11 @@
+{
+  "_about": "Fixes applied on top of the live backend data. hideImages: photos never shown (matched by file name, so any upload version). events: per-event field replacements, keyed by the event id.",
+  "hideImages": [
+    "y9pdmrur8eqcth3dbt8h"
+  ],
+  "events": {
+    "6ac338ed1c0ec0d3c42bbdfb": {
+      "fullDescription": "DevDuel is a structured competitive coding event designed to provide students with regular coding practice in a competitive yet beginner-friendly environment. The event focuses on improving programming fundamentals, logical thinking, problem-solving ability, coding speed, and accuracy while preparing students for technical placements, hackathons, and competitive programming.\nThe event consists of six rounds, beginning on 29 August 2026 and progressing through a combination of normal and elimination rounds. Rounds 1, 2, 3 and 5 are normal rounds, Round 4 is an elimination round, and Round 6 is the final elimination round scheduled for 3 October 2026.\nEach normal round contains two coding challenges. The first challenge is conducted every Saturday at 8:00 PM, followed by evaluation on Sunday. The second challenge is conducted every Monday at 8:00 PM, followed by evaluation on Tuesday. On Wednesday, the scores from both challenges are verified and the official leaderboard is released."
+    }
+  }
+}
