@@ -1,252 +1,143 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Lock, User, AlertCircle, Loader2, Mail, ArrowLeft } from 'lucide-react';
-import authService from '../../api/authService';
-import NavBar from '../../components/Navbar';
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { adminApi, isAuthenticated, LIVE, setSession } from "../../lib/adminApi";
+import "../../styles/admin.css";
 
-const AdminLogin = () => {
+// With the chapter's backend connected, people can also ask for an account or a password reset
+// here; a master admin approves both under Accounts.
+const TITLES = { signin: "Sign in", access: "Request access", reset: "Reset your password" };
+
+export default function AdminLogin() {
   const navigate = useNavigate();
-  
-  // --- GLOBAL STATE ---
-  const [mode, setMode] = useState('LOGIN'); // Options: 'LOGIN', 'REGISTER', 'RESET'
+  const [mode, setMode] = useState("signin");
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  const [error, setError] = useState("");
+  const [done, setDone] = useState("");
 
-  // --- FORM DATA STATE ---
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [regData, setRegData] = useState({ username: '', email: '', password: '' });
-  const [resetUsername, setResetUsername] = useState('');
+  useEffect(() => {
+    document.title = "Sign in · Chapter admin";
+  }, []);
 
-  // --- HELPERS ---
-  const clearState = () => {
-    setError('');
-    setSuccessMsg('');
+  if (isAuthenticated()) return <Navigate to="/admin/dashboard" replace />;
+
+  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+  const go = (next) => {
+    setMode(next);
+    setError("");
+    setDone("");
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const username = form.username.trim();
+    setError("");
+    setDone("");
+    if (!username) return setError("Enter your username.");
+    if (mode === "signin" && !form.password) return setError("Enter your username and password.");
+    if (mode === "access") {
+      if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) return setError("Enter a valid email address.");
+      if (form.password.length < 8) return setError("Choose a password of at least 8 characters.");
+    }
+    setLoading(true);
+    try {
+      if (mode === "signin") {
+        const res = await adminApi.login(username, form.password);
+        setSession(res.data.token, res.data.user);
+        navigate("/admin/dashboard", { replace: true });
+        return;
+      }
+      if (mode === "access") {
+        await adminApi.requestAccess({ username, email: form.email.trim(), password: form.password });
+        setDone("Request sent. You can sign in once a master admin approves your account.");
+      } else {
+        await adminApi.requestReset(username);
+        setDone("Request sent. A master admin will set a new password and tell you what it is.");
+      }
+      setForm((f) => ({ ...f, password: "" }));
+    } catch (err) {
+      setError(err.message || "Something went wrong. Try again.");
+    }
     setLoading(false);
   };
 
-  const switchMode = (newMode) => {
-    clearState();
-    setMode(newMode);
-  };
-
-  // --- HANDLERS ---
-
-  // 1. LOGIN
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      await authService.login(credentials.username, credentials.password);
-      navigate('/admin/dashboard');
-    } catch (err) {
-      console.error("Login Error:", err);
-      setError('Invalid username or password.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 2. REGISTER
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      await authService.register(regData);
-      setSuccessMsg("Registration successful! Your account is pending approval by the Master Admin.");
-      // Optional: Clear form
-      setRegData({ username: '', email: '', password: '' });
-    } catch (err) {
-      console.error("Registration Error:", err);
-      setError("Registration failed. Username or Email might already represent an account.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 3. RESET PASSWORD REQUEST
-  const handleResetRequest = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      await authService.requestPasswordReset(resetUsername);
-      setSuccessMsg("Request sent! Please contact the Master Admin to approve your reset.");
-    } catch (err) {
-      console.error("Reset Error:", err);
-      setError("Failed to send request. Ensure the username is correct.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#0E181C] border border-[#1F3037] p-8 rounded-xl shadow-2xl relative overflow-hidden">
-        <NavBar/>
-        {/* Top Glow Line */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#2FA6B8] to-transparent"></div>
-
-        {/* --- HEADER --- */}
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bebas-neue text-white tracking-widest mb-2">
-            {mode === 'LOGIN' && 'Admin Portal'}
-            {mode === 'REGISTER' && 'Request Access'}
-            {mode === 'RESET' && 'Reset Password'}
-          </h2>
-          <p className="text-[#BFC7CC] text-sm">
-            {mode === 'LOGIN' && 'Authorized Personnel Only'}
-            {mode === 'REGISTER' && 'Create a Coordinator Account'}
-            {mode === 'RESET' && 'Enter your username to request a reset'}
-          </p>
-        </div>
-
-        {/* --- FEEDBACK MESSAGES --- */}
-        {error && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg flex items-start gap-2 text-sm">
-            <AlertCircle size={18} className="mt-0.5 shrink-0" />
-            <span>{error}</span>
+    <div className="admin">
+      <div className="auth" style={{ minHeight: "100dvh" }}>
+        <section className="auth-l">
+          <img src="/img/logo-mark.webp" alt="BMSCE ACM Student Chapter" style={{ height: 44, width: "auto", alignSelf: "flex-start" }} />
+          <div>
+            <p style={{ fontSize: 13, color: "#949494" }}>BMSCE ACM Student Chapter</p>
+            <h1 style={{ fontFamily: "'Bebas Neue', Impact, sans-serif", fontWeight: 400, fontSize: "clamp(44px, 7vw, 104px)", lineHeight: 0.9, letterSpacing: ".01em", textTransform: "uppercase", marginTop: 14 }}>
+              Chapter
+              <br />
+              <span style={{ color: "#3ddcff" }}>admin</span>
+            </h1>
+            <p style={{ fontSize: 17, color: "#b4b4b4", marginTop: 22, maxWidth: "40ch" }}>
+              Events, projects, Insight Series stories and every page of the website, managed from one place.
+            </p>
           </div>
-        )}
-        
-        {successMsg && (
-          <div className="mb-6 bg-green-500/10 border border-green-500/50 text-green-400 px-4 py-3 rounded-lg text-sm text-center">
-            {successMsg}
-          </div>
-        )}
-
-        {/* --- MODE 1: LOGIN FORM --- */}
-        {mode === 'LOGIN' && (
-          <form onSubmit={handleLogin} className="flex flex-col gap-5">
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                type="text" 
-                placeholder="Username"
-                value={credentials.username}
-                onChange={e => setCredentials({...credentials, username: e.target.value})}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none transition-colors"
-                required
-              />
+          <p style={{ fontSize: 13, color: "#949494" }}>For chapter office-bearers only.</p>
+        </section>
+        <section className="auth-r">
+          <form className="auth-f" onSubmit={submit} noValidate aria-labelledby="adm-t">
+            <h2 id="adm-t" style={{ fontSize: 28, fontWeight: 600, margin: 0 }}>
+              {TITLES[mode]}
+            </h2>
+            {error && (
+              <p className="note bad" role="alert">
+                {error}
+              </p>
+            )}
+            {done && (
+              <p className="note ok" role="status">
+                {done}
+              </p>
+            )}
+            <div className="fld">
+              <label htmlFor="a-user">Username</label>
+              <input id="a-user" type="text" autoComplete="username" autoCapitalize="none" spellCheck="false" value={form.username} onChange={set("username")} autoFocus />
             </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                type="password" 
-                placeholder="Password"
-                value={credentials.password}
-                onChange={e => setCredentials({...credentials, password: e.target.value})}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none transition-colors"
-                required
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="mt-2 bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue tracking-widest text-xl py-3 rounded-lg transition-all flex justify-center items-center gap-2 disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="animate-spin" /> : "Access Dashboard"}
+            {mode === "access" && (
+              <div className="fld">
+                <label htmlFor="a-mail">Email</label>
+                <input id="a-mail" type="email" autoComplete="email" value={form.email} onChange={set("email")} />
+              </div>
+            )}
+            {mode !== "reset" && (
+              <div className="fld">
+                <label htmlFor="a-pw">{mode === "access" ? "Choose a password" : "Password"}</label>
+                <input id="a-pw" type="password" autoComplete={mode === "access" ? "new-password" : "current-password"} value={form.password} onChange={set("password")} />
+              </div>
+            )}
+            <button className="b p" type="submit" style={{ height: 44 }} disabled={loading}>
+              {loading && <span className="spin" aria-hidden="true" />}
+              {mode === "signin" ? "Sign in" : "Send request"}
             </button>
-
-            <div className="flex justify-between mt-4 text-sm">
-              <button type="button" onClick={() => switchMode('RESET')} className="text-[#BFC7CC] hover:text-[#2FA6B8] underline">
-                Forgot Password?
-              </button>
-              <button type="button" onClick={() => switchMode('REGISTER')} className="text-[#BFC7CC] hover:text-[#2FA6B8] underline">
-                New User? Sign Up
-              </button>
-            </div>
+            {LIVE ? (
+              <p style={{ fontSize: 13, color: "#949494", display: "flex", gap: 16, flexWrap: "wrap" }}>
+                {mode !== "signin" && (
+                  <button type="button" className="lnk-b" onClick={() => go("signin")}>
+                    Back to sign in
+                  </button>
+                )}
+                {mode !== "reset" && (
+                  <button type="button" className="lnk-b" onClick={() => go("reset")}>
+                    Forgot your password?
+                  </button>
+                )}
+                {mode !== "access" && (
+                  <button type="button" className="lnk-b" onClick={() => go("access")}>
+                    Request access
+                  </button>
+                )}
+              </p>
+            ) : (
+              <p style={{ fontSize: 13, color: "#949494" }}>Forgot your password? Ask the chapter’s superadmin to reset it.</p>
+            )}
           </form>
-        )}
-
-        {/* --- MODE 2: REGISTER FORM --- */}
-        {mode === 'REGISTER' && (
-          <form onSubmit={handleRegister} className="flex flex-col gap-5">
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                name="username" 
-                placeholder="Choose Username"
-                value={regData.username}
-                onChange={e => setRegData({...regData, username: e.target.value})}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none"
-                required
-              />
-            </div>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                name="email" 
-                type="email"
-                placeholder="Email Address"
-                value={regData.email}
-                onChange={e => setRegData({...regData, email: e.target.value})}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none"
-                required
-              />
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                name="password" 
-                type="password"
-                placeholder="Choose Password"
-                value={regData.password}
-                onChange={e => setRegData({...regData, password: e.target.value})}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none"
-                required
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="mt-2 bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue tracking-widest text-xl py-3 rounded-lg transition-all flex justify-center items-center gap-2 disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="animate-spin" /> : "Request Access"}
-            </button>
-
-            <button type="button" onClick={() => switchMode('LOGIN')} className="flex items-center justify-center gap-2 text-[#BFC7CC] hover:text-white mt-2 text-sm">
-              <ArrowLeft size={14} /> Back to Login
-            </button>
-          </form>
-        )}
-
-        {/* --- MODE 3: RESET PASSWORD FORM --- */}
-        {mode === 'RESET' && (
-          <form onSubmit={handleResetRequest} className="flex flex-col gap-5">
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2FA6B8] w-5 h-5" />
-              <input 
-                type="text" 
-                placeholder="Enter your Username"
-                value={resetUsername}
-                onChange={e => setResetUsername(e.target.value)}
-                className="w-full bg-black border border-[#1F3037] text-white pl-10 pr-4 py-3 rounded-lg focus:border-[#2FA6B8] outline-none"
-                required
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="mt-2 bg-[#2FA6B8] hover:bg-[#268A98] text-white font-bebas-neue tracking-widest text-xl py-3 rounded-lg transition-all flex justify-center items-center gap-2 disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="animate-spin" /> : "Send Request"}
-            </button>
-
-            <button type="button" onClick={() => switchMode('LOGIN')} className="flex items-center justify-center gap-2 text-[#BFC7CC] hover:text-white mt-2 text-sm">
-              <ArrowLeft size={14} /> Back to Login
-            </button>
-          </form>
-        )}
-
+        </section>
       </div>
     </div>
   );
-};
-
-export default AdminLogin;
+}

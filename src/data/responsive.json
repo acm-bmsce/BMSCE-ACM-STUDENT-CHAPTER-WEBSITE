@@ -1,0 +1,516 @@
+{
+ "/img/10.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/13.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/15.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/18.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/36.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/40.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/42.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/56.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1600
+ },
+ "/img/9.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/Adwi.webp": {
+  "variants": [
+   640
+  ],
+  "w": 960
+ },
+ "/img/BMSCE-BLUE.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1080
+ },
+ "/img/Devanand.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1122
+ },
+ "/img/Hrithik.webp": {
+  "variants": [
+   640
+  ],
+  "w": 853
+ },
+ "/img/Naysha.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1024
+ },
+ "/img/Srujana.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1287
+ },
+ "/img/Subodh.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1122
+ },
+ "/img/about.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/carousel3.webp": {
+  "variants": [
+   640,
+   1280,
+   1920
+  ],
+  "w": 2000
+ },
+ "/img/carousel4.webp": {
+  "variants": [
+   640,
+   1280,
+   1920
+  ],
+  "w": 2000
+ },
+ "/img/coding-session.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/community.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/core2026.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1575
+ },
+ "/img/entrance.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1200
+ },
+ "/img/events-bg.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/events-collage.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1800
+ },
+ "/img/excellence.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/globalnet.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/innovation.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/internships.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/logo.webp": {
+  "variants": [
+   640,
+   1280,
+   1920
+  ],
+  "w": 2000
+ },
+ "/img/members.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-band.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-camera.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-crowd.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-friends.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-guitar.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/orient-hands.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-singers.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-steps.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/orient-team.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/poster.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1775
+ },
+ "/img/previous_core2024.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1080
+ },
+ "/img/previous_core2025.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/rocs-audience.webp": {
+  "variants": [
+   640
+  ],
+  "w": 760
+ },
+ "/img/rocs-podium.webp": {
+  "variants": [
+   640
+  ],
+  "w": 650
+ },
+ "/img/rocs-speakers.webp": {
+  "variants": [
+   640
+  ],
+  "w": 648
+ },
+ "/img/roshini.webp": {
+  "variants": [
+   640
+  ],
+  "w": 705
+ },
+ "/img/sh-1.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1600
+ },
+ "/img/sh-10.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1599
+ },
+ "/img/sh-11.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1500
+ },
+ "/img/sh-13.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/sh-3.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/sh-4.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/sh-5.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1500
+ },
+ "/img/sh-6.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/sh-7.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/sh-8.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1500
+ },
+ "/img/sh-9.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1599
+ },
+ "/img/sigmod-board.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/sigmod-group.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1600
+ },
+ "/img/sigmod-speakers.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/sigmod-team.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/speaker-1.webp": {
+  "variants": [
+   640
+  ],
+  "w": 739
+ },
+ "/img/speaker-2.webp": {
+  "variants": [
+   640
+  ],
+  "w": 853
+ },
+ "/img/speaker-4.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1333
+ },
+ "/img/speaker-5.webp": {
+  "variants": [
+   640
+  ],
+  "w": 920
+ },
+ "/img/speaker-6.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1066
+ },
+ "/img/speaker-7.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1066
+ },
+ "/img/speaker-8.webp": {
+  "variants": [
+   640
+  ],
+  "w": 924
+ },
+ "/img/summerschools.webp": {
+  "variants": [
+   640,
+   1280,
+   1920
+  ],
+  "w": 2560
+ },
+ "/img/summit-logo.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/talk-hall.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1920
+ },
+ "/img/team-acm-letters.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1280
+ },
+ "/img/team_mobile.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1080
+ },
+ "/img/technical.webp": {
+  "variants": [
+   640,
+   1280
+  ],
+  "w": 1376
+ },
+ "/img/theme.webp": {
+  "variants": [
+   640
+  ],
+  "w": 959
+ },
+ "/img/townhall.webp": {
+  "variants": [
+   640
+  ],
+  "w": 1080
+ }
+}

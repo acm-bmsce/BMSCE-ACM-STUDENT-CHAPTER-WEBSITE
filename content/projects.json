@@ -1,0 +1,95 @@
+[
+  {
+    "_id": "6949625f18c33f2aeca0bd3f",
+    "title": "Designated Driver Booking System",
+    "description": "A robust backend platform for booking professional drivers, featuring ride tracking, emergency contact management, and a containerized microservices architecture.",
+    "author": "Meghana Gorentla",
+    "githubUrl": "https://github.com/Meghana-Gorentla/Designated-Drivers-System/tree/main",
+    "imageUrl": "https://res.cloudinary.com/dzccr1oot/image/upload/v1766416974/wgoz8mlfohcs6vrayka8.webp",
+    "categories": [
+      "Backend",
+      "DevOps"
+    ],
+    "techStack": [
+      "FastAPI",
+      "Python",
+      "Docker",
+      "Docker Compose",
+      "Kubernetes",
+      "SQL"
+    ],
+    "status": "APPROVED",
+    "submission_date": "2025-12-22T15:23:11.348000"
+  },
+  {
+    "_id": "69495f8818c33f2aeca0bd3e",
+    "title": "SkillScanner",
+    "description": "SkillScanner is an AI-Powered web application that analyses resumes and predicts the most suitable job categories. It combines Machine Learning with a full-stack architecture to help students and professionals understand how their resume aligns with various job roles.",
+    "author": "K Karthik",
+    "githubUrl": "https://github.com/karthik-2605/SkillScanner",
+    "imageUrl": "https://res.cloudinary.com/dzccr1oot/image/upload/v1766416233/xqmf8mfbpizaqoe6abtn.png",
+    "categories": [
+      "Web",
+      "AI"
+    ],
+    "techStack": [
+      "React",
+      "Node.js",
+      "Express",
+      "Python",
+      "Flask",
+      "MySQL",
+      "scikit-learn",
+      "Pandas",
+      "Naive Bayes"
+    ],
+    "status": "APPROVED",
+    "submission_date": "2025-12-22T15:11:04.892000"
+  },
+  {
+    "_id": "69399811e050682696341d6a",
+    "title": "Colourizer App",
+    "description": "A minimalist mobile application that transforms black-and-white images into vibrant, colorized visuals using deep learning techniques.",
+    "author": "Srujana A Rao",
+    "githubUrl": "https://github.com/Pavithra-Ganta/colourizer-app",
+    "imageUrl": "https://res.cloudinary.com/dzccr1oot/image/upload/v1765381500/legacy_imports/gdmgvjevza6xegoc4fhz.webp",
+    "categories": [
+      "Mobile",
+      "AI"
+    ],
+    "techStack": [
+      "Java",
+      "Kotlin",
+      "Python",
+      "Flask",
+      "PyTorch",
+      "DeOldify",
+      "Torchvision",
+      "Firebase",
+      "ImgurAPI"
+    ],
+    "status": "APPROVED",
+    "submission_date": "2025-12-10T21:26:01.180000"
+  },
+  {
+    "_id": "69399811e050682696341d69",
+    "title": "AI_Screen_chat",
+    "description": "My script creates a floating AI chatbox overlay on your Windows screen using Tkinter, keyboard listener, MSS screen capture, and Gemini API.",
+    "author": "Sampath S Naik",
+    "githubUrl": "https://github.com/Sampat369/ai_chatbox",
+    "imageUrl": "https://res.cloudinary.com/dzccr1oot/image/upload/v1765381501/legacy_imports/bqjo3hh4sm9jclxqwmvy.webp",
+    "categories": [
+      "AI"
+    ],
+    "techStack": [
+      "Python",
+      "TKinter",
+      "MSS",
+      "PIL",
+      "PyAutoGUI",
+      "Google Gemini API"
+    ],
+    "status": "APPROVED",
+    "submission_date": "2025-12-10T21:26:01.121000"
+  }
+]

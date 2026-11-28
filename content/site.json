@@ -1,0 +1,392 @@
+{
+  "chapter": {
+    "email": "acm@bmsce.ac.in",
+    "forms": {
+      "chapter": "https://docs.google.com/forms/d/e/1FAIpQLSd2rcNBx1NElsA4_WguxsPNU2P3cFC4PteHAe_N3Hq8gVqCbQ/viewform",
+      "global": "https://docs.google.com/forms/d/e/1FAIpQLSf4-WJTP66erng0gjfTmSrnwUaiGpQ1oBIF_v1G8JMoQoYkzw/viewform"
+    }
+  },
+  "socials": [
+    {
+      "label": "Instagram",
+      "href": "https://instagram.com/bmsce_acm"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/bmsce-acm-student-chapter-5b7220281/"
+    },
+    {
+      "label": "YouTube",
+      "href": "http://www.youtube.com/@BMSCEACM"
+    },
+    {
+      "label": "GitHub",
+      "href": "https://github.com/acm-bmsce"
+    }
+  ],
+  "stats": [
+    {
+      "value": 600,
+      "suffix": "+",
+      "label": "Active members"
+    },
+    {
+      "value": 45,
+      "suffix": "+",
+      "label": "Events conducted"
+    },
+    {
+      "value": 3330,
+      "suffix": "",
+      "label": "Total participants"
+    },
+    {
+      "value": 28,
+      "suffix": "",
+      "label": "Technical events"
+    },
+    {
+      "value": 18,
+      "suffix": "",
+      "label": "Non-technical & other events"
+    },
+    {
+      "value": 3.2,
+      "suffix": "k+",
+      "decimals": 1,
+      "label": "Followers · Instagram + LinkedIn"
+    }
+  ],
+  "recognition": [
+    {
+      "year": "2024",
+      "title": "Emerging Chapter Award",
+      "text": "Received at the ACM India Annual Event 2025, presented by ACM President Yannis Ioannidis and Jury Chair Mini Ulanat."
+    },
+    {
+      "year": "2025 →",
+      "title": "ACM India Regional Coordination",
+      "text": "The ACM India Council entrusted the chapter with managing regional events across India."
+    }
+  ],
+  "team": {
+    "faculty": [
+      {
+        "name": "Dr. Gowrishankar",
+        "role": "Faculty Advisor",
+        "detail": "Dean Academics",
+        "img": "/img/gowrishankar.webp",
+        "email": "gowrishankar.cse@bmsce.ac.in"
+      },
+      {
+        "name": "Dr. Seemanthini K Gowda",
+        "role": "Faculty Sponsor",
+        "detail": "Associate Professor & HOD, Dept. of Artificial Intelligence and Data Science",
+        "img": "/img/Seemanthini.webp",
+        "linkedin": "https://www.linkedin.com/in/dr-seemanthini-k-87115466/",
+        "email": "seemanthinik.mel@bmsce.ac.in"
+      }
+    ],
+    "core": [
+      {
+        "name": "Fazal M A",
+        "role": "Chair",
+        "img": "/img/Fazal.webp",
+        "linkedin": "https://www.linkedin.com/in/fazal-mohd-ali-962331282/"
+      },
+      {
+        "name": "Naysha",
+        "role": "Vice Chair",
+        "img": "/img/Naysha.webp",
+        "linkedin": "https://www.linkedin.com/in/naysha-shrivastava-29b203341/"
+      },
+      {
+        "name": "Devanand K Pathange",
+        "role": "Secretary",
+        "img": "/img/Devanand.webp",
+        "linkedin": "https://www.linkedin.com/in/devanand-k-pathange-b6175432b"
+      },
+      {
+        "name": "Aprameya A Rao",
+        "role": "Webmaster & Technical Head",
+        "img": "/img/Aprameya.webp",
+        "linkedin": "https://www.linkedin.com/in/aprameya-a-rao/"
+      },
+      {
+        "name": "Praneeth Nandan R",
+        "role": "Treasurer",
+        "img": "/img/Praneeth.webp",
+        "linkedin": "https://www.linkedin.com/in/praneeth-nandan-r-22430b333"
+      },
+      {
+        "name": "Aravind B N",
+        "role": "Membership Chair",
+        "img": "/img/Aravind.webp",
+        "linkedin": "https://www.linkedin.com/in/aravind-b-n-9464aa32b/"
+      },
+      {
+        "name": "Subhodh K Raj",
+        "role": "Senior Coordinator",
+        "img": "/img/Subodh.webp",
+        "linkedin": "https://www.linkedin.com/in/subhodh-k-raj-0b3a67332"
+      },
+      {
+        "name": "Anish Saranath",
+        "role": "Senior Coordinator",
+        "img": "/img/Anish.webp",
+        "linkedin": "https://www.linkedin.com/in/anish-s-0a96843a3/"
+      },
+      {
+        "name": "Sanskar Raut",
+        "role": "Media Head",
+        "img": "/img/Sanskar.webp",
+        "linkedin": "https://www.linkedin.com/in/sanskarraut1734/"
+      }
+    ],
+    "advisors": [
+      {
+        "name": "H S Adwi",
+        "role": "Student Advisor",
+        "img": "/img/Adwi.webp",
+        "linkedin": "https://www.linkedin.com/in/adwi-h-s-31b96928b/"
+      },
+      {
+        "name": "Hrithik M",
+        "role": "Student Advisor",
+        "img": "/img/Hrithik.webp",
+        "linkedin": "https://www.linkedin.com/in/hrithik-m-897581307/"
+      }
+    ]
+  },
+  "teamPhoto": {
+    "img": "/img/core2026.webp",
+    "caption": "Core team · 2026–27",
+    "alt": "The BMSCE ACM core team 2026–27"
+  },
+  "previousCore": [
+    {
+      "year": "2025",
+      "img": "/img/previous_core2025.webp",
+      "w": 800,
+      "h": 533,
+      "members": [
+        [
+          "H S Adwi",
+          "Chair"
+        ],
+        [
+          "Indraneel M",
+          "Vice Chair"
+        ],
+        [
+          "Roshini B",
+          "Secretary"
+        ],
+        [
+          "Dhruva G S",
+          "Treasurer"
+        ],
+        [
+          "Hrithik M",
+          "Webmaster & Technical Head"
+        ],
+        [
+          "Kanishka S",
+          "Membership Chair"
+        ],
+        [
+          "Srikanth M",
+          "Senior Coordinator"
+        ]
+      ]
+    },
+    {
+      "year": "2024",
+      "img": "/img/previous_core2024.webp",
+      "w": 800,
+      "h": 644,
+      "members": [
+        [
+          "G Sri Sai Meghana",
+          "Chair"
+        ],
+        [
+          "Srujana A Rao",
+          "Vice Chair"
+        ],
+        [
+          "Harshavardhan S",
+          "Secretary"
+        ],
+        [
+          "Bhuvan Kumar SG",
+          "Treasurer"
+        ],
+        [
+          "Manvendra Singh",
+          "Membership Chair"
+        ],
+        [
+          "Sudeep S",
+          "Webmaster"
+        ]
+      ]
+    }
+  ],
+  "highlights": [
+    {
+      "year": "2026",
+      "title": "ACM SIGMOD+PODS 2026",
+      "when": "Pre-Conference Workshop · 30 May 2026 · BMSCE, with ACM India",
+      "text": "A day of talks and a panel on rethinking relational databases in the age of GenAI, ahead of SIGMOD+PODS 2026 in Bengaluru.",
+      "stats": [],
+      "photos": [
+        {
+          "src": "/img/sigmod-group.webp",
+          "alt": "Speakers, faculty and students together at the ACM SIGMOD+PODS 2026 Pre-Conference Workshop"
+        },
+        {
+          "src": "/img/sigmod-team.webp",
+          "alt": "The BMSCE ACM team in front of the workshop banner"
+        },
+        {
+          "src": "/img/sigmod-speakers.webp",
+          "alt": "The speakers on stage under the talk title Rethinking Relational Databases in the Age of GenAI"
+        }
+      ],
+      "link": ""
+    },
+    {
+      "year": "2025",
+      "title": "ACM ROCS 2025",
+      "when": "26 & 27 September 2025 · BMSCE, with ACM India",
+      "text": "Research Opportunities in Computer Science: nine speakers from Google, IBM, IISc and TCS on AI, generative modelling, cryptography and more.",
+      "stats": [
+        {
+          "value": "298",
+          "label": "Attendees"
+        },
+        {
+          "value": "9",
+          "label": "Speakers"
+        },
+        {
+          "value": "2",
+          "label": "Days"
+        }
+      ],
+      "photos": [
+        {
+          "src": "/img/rocs-podium.webp",
+          "alt": "A speaker at the ACM ROCS 2025 podium, BMSCE ACM Student Chapter with ACM India"
+        },
+        {
+          "src": "/img/rocs-audience.webp",
+          "alt": "Students in the audience at ACM ROCS 2025"
+        },
+        {
+          "src": "/img/rocs-speakers.webp",
+          "alt": "ACM ROCS 2025 speakers and organisers together"
+        }
+      ],
+      "link": "/events/acm-rocs-2025-2025"
+    },
+    {
+      "year": "2024",
+      "title": "ACM India Chapter Summit 2024",
+      "when": "20 & 21 December 2024 · BMSCE (anchor) and RVCE (co-host), Bengaluru",
+      "text": "Sustainable Computing: technology for a greener future. Two days, seventy chapters, one idea.",
+      "stats": [
+        {
+          "value": "180+",
+          "label": "Attendees"
+        },
+        {
+          "value": "70+",
+          "label": "ACM chapters"
+        },
+        {
+          "value": "2",
+          "label": "Days"
+        }
+      ],
+      "photos": [
+        {
+          "src": "/img/sh-5.webp",
+          "alt": "Organisers and guests at the ACM India Chapter Summit 2024 welcome stage"
+        },
+        {
+          "src": "/img/sh-8.webp",
+          "alt": "A full hall at the ACM India Chapter Summit 2024"
+        },
+        {
+          "src": "/img/sh-7.webp",
+          "alt": "A cultural performance at the ACM India Chapter Summit 2024"
+        }
+      ],
+      "link": "/events/acm-india-chapter-summit-2024-2024"
+    }
+  ],
+  "journey": [
+    {
+      "year": "2022",
+      "title": "Inauguration of BMSCE ACM Student Chapter",
+      "text": "February 22: Officially launched with over 250 attendees, laying the foundation for innovation and collaboration."
+    },
+    {
+      "year": "2022",
+      "title": "First Technical Event",
+      "text": "July 16: A talk on \"AI/ML in Cognitive Science Applications\" by Dr. G R Sinha marked our academic debut."
+    },
+    {
+      "year": "2023",
+      "title": "Hack for Good",
+      "text": "August: A week-long national hackathon in collaboration with TechGig. 98 participants, ₹10,000 prize pool, and free Google Cloud access."
+    },
+    {
+      "year": "2024",
+      "title": "DSA Mastery Program",
+      "text": "January–February: A month-long course on Data Structures and Algorithms with 33 learners, concluding with an Amazon guest lecture."
+    },
+    {
+      "year": "2023–25",
+      "title": "Duo's Dash Series",
+      "text": "Three editions across three years, each with 100+ participants. Creative, AI-powered mini-games testing teamwork and logic."
+    },
+    {
+      "year": "2024",
+      "title": "ACM India Chapter Summit 2024",
+      "text": "December: Co-hosted with RVCE, BMSCE led this national summit on Sustainable Computing with 350+ attendees."
+    },
+    {
+      "year": "2024",
+      "title": "National Recognition: Emerging Chapter Award",
+      "text": "Recognized by ACM India for excellence, impact, and engagement across the country."
+    },
+    {
+      "year": "2025",
+      "title": "ACM India Regional Coordination",
+      "text": "January to present: The ACM India Council entrusted the chapter with managing regional events across India."
+    },
+    {
+      "year": "2025",
+      "title": "ACM Student Town Hall",
+      "text": "April: Hosted with ACM India, the first Town Hall spotlighted awards, funding, research, and student chapter achievements."
+    },
+    {
+      "year": "2025",
+      "title": "15 Days of Code",
+      "text": "April–May: Highest participation with 285 students solving coding problems daily in a leaderboard-based challenge."
+    },
+    {
+      "year": "2025",
+      "title": "Hosted ACM ROCS 2025",
+      "text": "September: The first two-day edition of ACM India's Research Opportunities in Computer Science, with speakers from IISc, IBM, Google DeepMind, and TCS."
+    },
+    {
+      "year": "2026",
+      "title": "Hosted the SIGMOD+PODS 2026 Workshop",
+      "text": "May: A pre-conference workshop with ACM India ahead of SIGMOD+PODS 2026 in Bengaluru, with talks and a panel on rethinking relational databases in the age of GenAI."
+    }
+  ]
+}

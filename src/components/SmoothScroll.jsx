@@ -1,28 +1,36 @@
-import { ReactLenis } from "lenis/dist/lenis-react";
+import { useEffect } from "react";
+import Lenis from "lenis";
+import { prefersReducedMotion } from "../lib/motion";
 
-const SmoothScroll = () => {
-  const isMobile = typeof window !== "undefined" &&
-    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+/** Eased wheel scrolling on desktop. Touch devices keep native momentum scrolling. */
+export default function SmoothScroll({ children }) {
+  useEffect(() => {
+    if (prefersReducedMotion() || window.matchMedia("(pointer: coarse)").matches) return undefined;
+    const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1 });
+    window.__lenis = lenis;
+    let raf = requestAnimationFrame(function loop(t) {
+      lenis.raf(t);
+      raf = requestAnimationFrame(loop);
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      lenis.destroy();
+      window.__lenis = null;
+    };
+  }, []);
+  return children;
+}
 
-  return (
-    <div className="bg-zinc-950">
-      {!isMobile ? (
-        <ReactLenis
-          root
-          options={{
-            lerp: 0.05,
-          }}
-        >
-          
-        </ReactLenis>
-      ) : (
-        // Fallback for mobile — native scroll
-        <div>
-         
-        </div>
-      )}
-    </div>
-  );
-};
+export function scrollToTop(immediate = true) {
+  if (window.__lenis) window.__lenis.scrollTo(0, { immediate, force: true });
+  else window.scrollTo({ top: 0, behavior: immediate ? "auto" : "smooth" });
+}
 
-export default SmoothScroll;
+// Counted, so two overlays (a dialog and the passes window) can't unlock each other early.
+let locks = 0;
+export function lockScroll(lock) {
+  locks = Math.max(0, locks + (lock ? 1 : -1));
+  const on = locks > 0;
+  document.body.classList.toggle("is-locked", on);
+  if (window.__lenis) (on ? window.__lenis.stop() : window.__lenis.start());
+}
